@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             teamId: {
                 allowNull: false,
                 primaryKey: true,
+                //autoIncrement: true,
                 type: DataTypes.INTEGER,
             },
             teamName: {
