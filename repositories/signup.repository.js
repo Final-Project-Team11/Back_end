@@ -1,6 +1,17 @@
 const { Companys, Users, Teams} = require("../models/index.js");
+const { sequelize } = require("../models/index.js");
+const { Transaction } = require("sequelize");
+
 class SignupRepository {
-    constructor() {}
+    constructor() {
+        this.t = null;
+    }
+    async startTransaction() {
+        this.t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+        });
+    }
+
     findCompanyById = async ({ companyId }) => {
         return await Companys.findOne({
             where: { companyId: companyId },
@@ -26,13 +37,13 @@ class SignupRepository {
             address,
             ceoName,
             ceoNum,
-        },{ transaction: t });
+        },{ transaction: this.t });
     };
     createTeam = async ({ teamName, companyId }) => {
         return await Teams.create({
             teamName,
             companyId,
-        },{ transaction: t });
+        },{ transaction: this.t });
     };
     createUser = async ({
         companyId,
@@ -53,7 +64,7 @@ class SignupRepository {
             remainDay,
             authLevel,
             job,
-        },{ transaction: t });
+        },{ transaction: this.t });
     };
 }
 

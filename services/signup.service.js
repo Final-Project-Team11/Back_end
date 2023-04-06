@@ -53,54 +53,47 @@ class SignupService {
         authLevel,
         job,
     }) => {
-        const t = await sequelize.transaction({
-            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
-        });
-        await sequelize.transaction(async (t) => {
-            try {
-                //회사 생성
-                await this.SignupRepository.createCompany(
-                    {
-                        companyId,
-                        companyName,
-                        companyNum,
-                        address,
-                        ceoName,
-                        ceoNum,
-                    },
-                    { transaction: t }
-                );
-                //팀생성
-                const team = await this.SignupRepository.createTeam(
-                    {
-                        teamName,
-                        companyId,
-                    },
-                    { transaction: t }
-                );
-                //유저생성
-                await this.SignupRepository.createUser(
-                    {
-                        companyId,
-                        teamId: team.teamId,
-                        userId,
-                        userName,
-                        password,
-                        remainDay,
-                        authLevel,
-                        job,
-                    },
-                    { transaction: t }
-                );
-            } catch (err) {
-                if (err) {
-                    // rollback()을 호출하여 트랜잭션 전체를 롤백
-                    await t.rollback();
-                    console.log("트랜잭션 롤백");
-                    throw new CustomError("에러제발좀", 400);
-                }
+        await this.startTransaction()
+        try {
+            //회사 생성
+            await this.SignupRepository.createCompany(
+                {
+                    companyId,
+                    companyName,
+                    companyNum,
+                    address,
+                    ceoName,
+                    ceoNum,
+                },{ transaction: this.t }
+            );
+            //팀생성
+            const team = await this.SignupRepository.createTeam(
+                {
+                    teamName,
+                    companyId,
+                },{ transaction: this.t }
+            );
+            //유저생성
+            await this.SignupRepository.createUser(
+                {
+                    companyId,
+                    teamId: team.teamId,
+                    userId,
+                    userName,
+                    password,
+                    remainDay,
+                    authLevel,
+                    job,
+                },{ transaction: this.t }
+            );
+            await this.commitTransaction();
+        } catch (err) {
+            if (err) {
+                // rollback()을 호출하여 트랜잭션 전체를 롤백
+                await this.rollbackTransaction()
+                throw new CustomError(err.message, 400);
             }
-        });
+        }
     };
 }
 

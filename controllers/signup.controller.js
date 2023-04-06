@@ -28,7 +28,7 @@ class SignupController {
                 ceoName,
                 companyNum,
                 ceoNum,
-                // teamName: "CEO",
+                teamName: "CEO",
                 companyId,
                 userId : companyId,
                 userName : ceoName,
