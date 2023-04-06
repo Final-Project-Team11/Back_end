@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             todoId: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },

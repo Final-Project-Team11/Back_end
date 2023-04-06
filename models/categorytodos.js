@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             categoryId: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
