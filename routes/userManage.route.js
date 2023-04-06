@@ -5,7 +5,10 @@ const managermiddleware = require("../middlewares/managerMiddleware");
 const userManageController = new UserManageController();
 
 // 유저 생성
-// 미들웨어 추가해야함.
 router.post("/", managermiddleware, userManageController.createUser);
+// 전체 유저 조회
+router.get("/", managermiddleware, userManageController.usersList);
+// 유저 검색
+router.get("/:userName", managermiddleware, userManageController.searchUser);
 
 module.exports = router;

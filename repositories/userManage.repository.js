@@ -1,6 +1,59 @@
-const { Users, Companys, Teams } = require("../models");
+const { Users, Companys, Teams, Sequelize } = require("../models");
+const { Op } = require("sequelize");
 
 class UserManageRepository {
+    // 유저 검색
+    findUserByName = async ({ userName, companyId }) => {
+        console.log("레포", userName);
+        const users = await Users.findAll({
+            attributes: [
+                "userId",
+                "userName",
+                "rank",
+                "joinDay",
+                "job",
+                [Sequelize.col("Team.teamName"), "team"],
+            ],
+            where: {
+                companyId,
+                userName: {
+                    [Op.like]: `%${userName}%`,
+                },
+            },
+            include: [
+                {
+                    model: Teams,
+                    attributes: [],
+                },
+            ],
+        });
+        return users;
+    };
+    // 회사 전체 유저 리스트
+    findAllCompanyUser = async ({ companyId }) => {
+        const companyUserList = await Users.findAll({
+            raw: true,
+            attributes: [
+                "userId",
+                "userName",
+                "rank",
+                "joinDay",
+                "job",
+                [Sequelize.col("Team.teamName"), "team"],
+            ],
+            where: {
+                companyId,
+            },
+            include: [
+                {
+                    model: Teams,
+                    attributes: [],
+                },
+            ],
+        });
+        return companyUserList;
+    };
+
     // 아이디 중복 체크
     duplicateCheck = async (userId) => {
         const existUser = await Users.findOne({
@@ -14,7 +67,7 @@ class UserManageRepository {
             teamName: team,
             companyId,
         });
-        return newTeam.dataValues;
+        return newTeam;
     };
     // 팀 아이디 찾기
     findTeamId = async ({ team, companyId }) => {
@@ -36,6 +89,7 @@ class UserManageRepository {
         joinDay,
         job,
         companyId,
+        encryptPwd,
     }) => {
         await Users.create({
             teamId,
@@ -43,7 +97,7 @@ class UserManageRepository {
             rank,
             userName,
             userId,
-            password: userId,
+            password: encryptPwd,
             joinDay,
             job,
             companyId,
