@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Final-Project-Team11/Meer_catlender_BE#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dcrypt": "^0.0.2",
     "dotenv": "^16.0.3",

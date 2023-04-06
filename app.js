@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
@@ -24,6 +25,7 @@ sequelize
     });
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()) //배포전에 삭제하기
 app.use(express.json());
 
 app.use("/", indexRouter);
