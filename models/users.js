@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             joinDay: {
-                allowNull: false,
+                allowNull: true,
                 type: DataTypes.DATE,
             },
             job: {
