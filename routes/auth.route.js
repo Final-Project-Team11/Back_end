@@ -1,6 +1,7 @@
 const express = require("express");
 const { Users, Teams, Companys } = require("../models");
 const CustomError = require("../middlewares/errorhandler.js")
+const jwt = require("jsonwebtoken");
 const env = process.env
 const router = express.Router();
 
@@ -9,8 +10,9 @@ const router = express.Router();
 router.post("/adminlogin", async (req, res, next) => {
     try {
         const { companyId, password } = req.body;
-        const user = Users.findOne({ where: { companyId } })
-        const team = Teams.findOne({ where: { teamId: user.teamId } })
+        const user = await Users.findOne({ where: { companyId } })
+        console.log(user)
+        const team = await Teams.findOne({ where: { teamId: user.teamId } })
         if (user.userId !== companyId || user.password !== password) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401)
         }
@@ -20,7 +22,7 @@ router.post("/adminlogin", async (req, res, next) => {
             authLevel: user.authLevel
         }, env.SECRET_KEY);
 
-        res.status(200).json({ "message": "회원가입에 성공했습니다", "token": `Bearer ${token}` })
+        res.status(200).json({ "message": "로그인에 성공했습니다", "token": `Bearer ${token}` })
     } catch (err) {
         next(err)
     }
@@ -31,9 +33,9 @@ router.post("/adminlogin", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const { companyId, userId, password } = req.body;
-        const user = Users.findOne({ where: { userId } })
-        const team = Teams.findOne({ where: { teamId: user.teamId } })
-        const company = Companys.findOne({ where: { companyId: companyId } })
+        const user = await Users.findOne({ where: { userId } })
+        const team = await Teams.findOne({ where: { teamId: user.teamId } })
+        const company = await Companys.findOne({ where: { companyId: companyId } })
 
         if (user.userId !== userId || user.password !== password) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401)
@@ -47,7 +49,7 @@ router.post("/login", async (req, res, next) => {
             authLevel: user.authLevel
         }, env.SECRET_KEY);
 
-        res.status(200).json({ "message": "회원가입에 성공했습니다", "token": `Bearer ${token}` })
+        res.status(200).json({ "message": "로그인에 성공했습니다", "token": `Bearer ${token}` })
 
     } catch (err) {
         next(err)
