@@ -41,8 +41,7 @@ router.post('/signUp', async (req, res, next) => {
             companyId: companyId,
             teamId: "CEO",
             remainDay: 15,
-            authLevel: "leader",
-            joinDay: "first day",
+            authLevel: 1,
             job: "CEO"
         },
             { transaction: t })
