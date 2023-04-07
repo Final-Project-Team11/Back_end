@@ -5,6 +5,18 @@ class ScheduleManageController {
     constructor() {
         this.scheduleManageService = new ScheduleManageService();
     }
+    // 출장 상세 조회
+    scheduleDetail = async (req, res, next) => {
+        try {
+            const { eventId } = req.params;
+            const scheduleDetail =
+                await this.scheduleManageService.scheduleDetail({ eventId });
+            res.status(200).json(scheduleDetail);
+        } catch (err) {
+            next(err);
+        }
+    };
+    // 팀 출장 요청 전체 조회
     scheduleList = async (req, res, next) => {
         try {
             const userInfo = res.locals.user;
