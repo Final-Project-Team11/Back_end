@@ -5,6 +5,9 @@ class AuthRepository {
     findByCompanyId = async ({ companyId }) => {
         return await Users.findOne({ where: { companyId } })
     }
+    findByUserId = async ({ userId }) => {
+        return await Users.findOne({ where: { userId } })
+    }
 
     findTeamById = async ({user}) => {
         
