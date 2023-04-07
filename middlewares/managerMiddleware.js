@@ -11,10 +11,13 @@ module.exports = async (req, res, next) => {
         const [authType, authToken] = (authorization ?? "").split(" ");
 
         if (authType !== "Bearer" || !authToken) {
-            throw new CustomError("로그인 후에 사용하세요.", 401);
+            throw new CustomError("로그인이 필요한 기능입니다.", 401);
         }
 
-        const { userId, authLevel, teamId } = jwt.verify(authToken, "tempKey");
+        const { userId, authLevel, teamName } = jwt.verify(
+            authToken,
+            "tempKey"
+        );
         if (authLevel > 2) {
             throw new CustomError("해당 권한이 존재하지 않습니다.", 401);
         }
@@ -24,6 +27,10 @@ module.exports = async (req, res, next) => {
         next();
     } catch (err) {
         console.error(err);
+        (err.message = !err.expect
+            ? err.message
+            : "전달된 쿠키에서 오류가 발생하였습니다."),
+            (err.status = !err.expect ? err.status : 403);
         next(err);
     }
 };

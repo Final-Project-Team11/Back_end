@@ -2,6 +2,24 @@ const { Users, Companys, Teams, Sequelize } = require("../models");
 const { Op } = require("sequelize");
 
 class UserManageRepository {
+    //유저 수정
+    updateUser = async ({ userId, team, authLevel, rank }) => {
+        await Users.update(
+            {
+                team,
+                authLevel,
+                rank,
+            },
+            {
+                where: { userId },
+            }
+        );
+    };
+    // 유저 삭제
+    deleteUser = async (existUser) => {
+        console.log(existUser);
+        await existUser.destroy();
+    };
     // 유저 검색
     findUserByName = async ({ userName, companyId }) => {
         console.log("레포", userName);
@@ -29,6 +47,18 @@ class UserManageRepository {
         });
         return users;
     };
+    // 회사 팀 리스트
+    findTeamsByCompanyId = async ({ companyId, team }) => {
+        console.log("레포", companyId);
+        const teams = await Teams.findOne({
+            where: {
+                companyId,
+                teamName: team,
+            },
+            attributes: ["teamId", ["teamName", "team"]],
+        });
+        return teams;
+    };
     // 회사 전체 유저 리스트
     findAllCompanyUser = async ({ companyId }) => {
         const companyUserList = await Users.findAll({
@@ -55,7 +85,7 @@ class UserManageRepository {
     };
 
     // 아이디 중복 체크
-    duplicateCheck = async (userId) => {
+    findUserById = async (userId) => {
         const existUser = await Users.findOne({
             where: { userId },
         });
