@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
                 sourceKey: "companyId",
                 foreignKey: "companyId",
             });
+            this.hasMany(models.Users, {
+                sourceKey: "companyId",
+                foreignKey: "companyId",
+            });
         }
     }
     Companys.init(
