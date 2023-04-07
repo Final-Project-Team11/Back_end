@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             mentionId: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },

@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             commentId: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
