@@ -30,16 +30,31 @@ class SignupController {
                 ceoNum,
                 teamName: "CEO",
                 companyId,
-                userId : companyId,
-                userName : ceoName,
+                userId: companyId,
+                userName: ceoName,
                 password,
                 remainDay: 15,
                 authLevel: 1,
                 job: "CEO",
-            })
+            });
             return res
                 .status(200)
                 .json({ message: "회원가입에 성공하였습니다." });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    checkId = async (req, res, next) => {
+        try {
+            const { companyId } = req.body;
+            await this.SignupService.existCompanyId({
+                companyId,
+            });
+
+            return res
+                .status(200)
+                .json({ message: "아이디 중복 검사에 성공했습니다" });
         } catch (err) {
             next(err);
         }
