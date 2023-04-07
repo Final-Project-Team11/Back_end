@@ -12,12 +12,12 @@ class AuthController {
             companyId: Joi.string().required().messages({
                 "string.base": "companyId 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "아이디을 입력해 주세요.",
-                "any.required": "아이디 필드는 비어 있을 수 없습니다.",
+                "any.required": "필수입력값을 입력해주세요",
             }),
             password: Joi.string().required().messages({
                 "string.base": "password 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "비밀번호을 입력해 주세요.",
-                "any.required": "비밀번호 필드는 비어 있을 수 없습니다.",
+                "any.required": "필수입력값을 입력해주세요",
             }),
         });
         try {
@@ -55,17 +55,17 @@ class AuthController {
             companyId: Joi.string().required().messages({
                 "string.base": "companyId 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "회사 아이디를 입력해 주세요.",
-                "any.required": "회사아이디는 비어 있을 수 없습니다.",
+                "any.required": "필수입력값을 입력해주세요",
             }),
             userId: Joi.string().required().messages({
                 "string.base": "userId 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "아이디를 입력해 주세요.",
-                "any.required": "아이디는 비어 있을 수 없습니다.",
+                "any.required": "필수입력값을 입력해주세요",
             }),
             password: Joi.string().required().messages({
                 "string.base": "pasword 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "비밀번호를 입력해 주세요.",
-                "any.required": "비밀번호는 비어 있을 수 없습니다.",
+                "any.required": "필수입력값을 입력해주세요",
             }),
         });
         try {
@@ -103,14 +103,14 @@ class AuthController {
         const { userId } = res.locals.user;
         const { password } = req.body;
         //Joi
-        const regex = /^[a-zA-Z0-9]$/;
+        const regex = /^[a-zA-Z0-9]{5,}$/;
         const schema = Joi.object({
             password: Joi.string().min(5).pattern(regex).required().messages({
                 "string.base": "pasword 필드는 문자열로 이루어져야 합니다.",
                 "string.pattern.base": "비밀번호는 영문 대/소문자와 숫자만 포함 가능합니다.",
                 "string.min": "비밀번호는 최소 5글자여야 합니다.",
                 "string.empty": "비밀번호를 입력해 주세요.",
-                "any.required": "비밀번호는 비어 있을 수 없습니다.",
+                "any.required": "필수입력값을 입력해주세요",
             }),
         });
         try {
