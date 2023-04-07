@@ -68,6 +68,11 @@ module.exports = (sequelize, DataTypes) => {
                 targetKey: "teamId",
                 foreignKey: "teamId",
             });
+
+            this.belongsTo(models.Companys, {
+                targetKey: "companyId",
+                foreignKey: "companyId",
+            });
         }
     }
     Users.init(

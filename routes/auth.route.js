@@ -3,8 +3,6 @@ const AuthController = require("../controllers/auth.controller.js")
 const authcontroller = new AuthController();
 const authMiddleware = require("../middlewares/auth-middleware.js")
 
-
-
 const router = express.Router();
 
 //대표자 로그인
