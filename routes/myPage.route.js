@@ -105,4 +105,7 @@ router.delete("/feed/todo/:todoId", authmiddleware, async (req, res, next) => {
         next(err);
     }
 });
+
+//투두리스트 체크
+//localhost:3003/feed/todo/{todoId}
 module.exports = router;
