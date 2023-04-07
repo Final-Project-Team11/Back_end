@@ -1,5 +1,5 @@
 const AuthRepository = require("../repositories/auth.repository.js");
-const CustomError = require("../middlewares/errorhandler.js");
+const CustomError = require("../middlewares/errorHandler.js");
 const jwt = require("jsonwebtoken");
 const env = process.env;
 class AuthService {
