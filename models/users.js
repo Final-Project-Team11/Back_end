@@ -103,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             rank: {
                 allowNull: true,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
             },
             authLevel: {
                 allowNull: false,
