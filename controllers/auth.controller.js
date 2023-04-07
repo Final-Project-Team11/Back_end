@@ -81,8 +81,8 @@ class AuthController {
                 console.log("Valid input!");
             }
             //아이디 비밀번호 확인
-            const user = await this.AuthService.checkIdPassword({
-                companyId: userId,
+            const user = await this.AuthService.checkUserIdPassword({
+                userId,
                 password,
             });
             //회사코드 확인
