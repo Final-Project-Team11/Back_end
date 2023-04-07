@@ -9,6 +9,6 @@ router.post("/signUp", usercontroller.companySignup);
 
 //사업자아이디 중복 검사
 //localhost:3003/idCheck
-router.post("/idCheck",usercontroller.checkId );
+router.post("/idCheck", usercontroller.checkId);
 
 module.exports = router;

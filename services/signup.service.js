@@ -53,7 +53,7 @@ class SignupService {
         authLevel,
         job,
     }) => {
-        await this.startTransaction()
+        await this.startTransaction();
         try {
             //회사 생성
             await this.SignupRepository.createCompany(
@@ -64,14 +64,16 @@ class SignupService {
                     address,
                     ceoName,
                     ceoNum,
-                },{ transaction: this.t }
+                },
+                { transaction: this.t }
             );
             //팀생성
             const team = await this.SignupRepository.createTeam(
                 {
                     teamName,
                     companyId,
-                },{ transaction: this.t }
+                },
+                { transaction: this.t }
             );
             //유저생성
             await this.SignupRepository.createUser(
@@ -84,13 +86,14 @@ class SignupService {
                     remainDay,
                     authLevel,
                     job,
-                },{ transaction: this.t }
+                },
+                { transaction: this.t }
             );
             await this.commitTransaction();
         } catch (err) {
             if (err) {
                 // rollback()을 호출하여 트랜잭션 전체를 롤백
-                await this.rollbackTransaction()
+                await this.rollbackTransaction();
                 throw new CustomError(err.message, 400);
             }
         }

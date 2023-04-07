@@ -50,7 +50,7 @@ class AuthController {
         const { userId } = res.locals.user;
         const { password } = req.body;
         try {
-            await this.AuthService.updateUser({userId,password})
+            await this.AuthService.updateUser({ userId, password });
             res.status(200).json({ message: "비밀번호 변경에 성공했습니다" });
         } catch (err) {
             next(err);

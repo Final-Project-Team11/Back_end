@@ -14,14 +14,18 @@ module.exports = async (req, res, next) => {
             throw new CustomError("로그인이 필요한 기능입니다.", 401);
         }
 
-        const { userId, authLevel, teamName } = jwt.verify(
+        const { userId, authLevel, teamName, companyId } = jwt.verify(
             authToken,
-            "tempKey"
+            process.env.SECRET_KEY
         );
         if (authLevel > 2) {
             throw new CustomError("해당 권한이 존재하지 않습니다.", 401);
         }
-        const user = await Users.findOne({ where: { userId } });
+        const user = await Users.findOne({ where: { userId, companyId } });
+        if (!user) {
+            console.log(userId, companyId);
+            throw new CustomError("해당 유저가 존재하지 않습니다", 401);
+        }
         console.log(user);
         res.locals.user = user;
         next();

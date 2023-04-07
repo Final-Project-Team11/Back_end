@@ -1,8 +1,17 @@
-const {Users, Schedules} = require('../models')
+const { Users, Schedules } = require("../models");
 
 class SubmitRepository {
     // 출장 신청
-    scheduleSubmit = async(userId, startDay, endDay, title, ref, location, content, file) => {
+    scheduleSubmit = async (
+        userId,
+        startDay,
+        endDay,
+        title,
+        ref,
+        location,
+        content,
+        file
+    ) => {
         const createScheduleSubmit = await Schedules.create({
             userId,
             startDay,
@@ -11,17 +20,19 @@ class SubmitRepository {
             ref,
             location,
             content,
-            file
-        })
+            file,
+        });
 
-        return createScheduleSubmit
-    }
+        return createScheduleSubmit;
+    };
 
-    findRef = async(teamName) => {
-        const findRef = await Users.findALl({where : {teamName, authLevel:2}})
+    findRef = async (teamName) => {
+        const findRef = await Users.findALl({
+            where: { teamName, authLevel: 2 },
+        });
 
-        return findRef
-    }
+        return findRef;
+    };
 }
 
 module.exports = SubmitRepository;
