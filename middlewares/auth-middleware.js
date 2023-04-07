@@ -6,9 +6,9 @@ module.exports = async (req, res,next) => {
   try {
     // const token = req.headers.authorization;
     const {authorization} = req.cookies; //개발단계에서 확인용
-    console.log("!!!!authorization!!!! : ", authorization);
+    // console.log("!!!!authorization!!!! : ", authorization);
     const [tokenType, tokendata] = (authorization ?? "").split(" ");
-    console.log("!!!!tokendata!!!! : ", tokendata);
+    // console.log("!!!!tokendata!!!! : ", tokendata);
 
     if (tokenType !== "Bearer" || !tokendata) {
       return res

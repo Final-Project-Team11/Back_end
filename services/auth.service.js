@@ -18,6 +18,7 @@ class AuthService {
         const token = jwt.sign(
             {
                 userId: user.userId,
+                companyId :user.companyId ,
                 teamName: team.teamName,
                 authLevel: user.authLevel,
             },
@@ -39,6 +40,7 @@ class AuthService {
         const token = jwt.sign(
             {
                 userId,
+                companyId : user.companyId,
                 teamName: team.teamName,
                 authLevel: user.authLevel,
             },
