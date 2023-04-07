@@ -5,9 +5,13 @@ class ScheduleManageService {
     constructor() {
         this.scheduleManageRepository = new ScheduleManageRepository();
     }
-    scheduleList = async ({ teamId }) => {
+    scheduleList = async ({ size, page, teamId }) => {
         const scheduleList =
-            await this.scheduleManageRepository.findTeamSchedule({ teamId });
+            await this.scheduleManageRepository.findTeamSchedule({
+                size,
+                page,
+                teamId,
+            });
         return scheduleList;
     };
 }

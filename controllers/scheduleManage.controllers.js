@@ -8,8 +8,11 @@ class ScheduleManageController {
     scheduleList = async (req, res, next) => {
         try {
             const userInfo = res.locals.user;
+            const { size, page } = req.query;
             const { teamId } = userInfo;
             const scheduleList = await this.scheduleManageService.scheduleList({
+                size: Number(size),
+                page: Number(page),
                 teamId,
             });
 
