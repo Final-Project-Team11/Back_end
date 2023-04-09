@@ -25,6 +25,19 @@ class SubmitService {
 
         return createVacationSubmit
     }
+
+    // 기타 신청
+    otherSubmit = async(userId, teamId, startDay, endDay, title, ref, content, file) => {
+        const isRef = await this.submitRepository.findRef(teamId)
+        const REF = ref + isRef;
+        if(!isRef) {
+            throw new CustomError('유저가 존재하지 않습니다', 401)
+        }
+
+        const createOtherSubmit = await this.submitRepository.otherSubmit({userId, startDay, endDay, title, ref:REF, content, file})
+
+        return createOtherSubmit
+    }
 }
 
 module.exports = SubmitService;

@@ -13,7 +13,7 @@ router.post("/schedule", authMiddleware, upload.single('file'), submitController
 router.post('/vacation', authMiddleware, upload.single('file'), submitController.vacationSubmit )
 
 // 기타 신청
-router.post('')
+router.post('/other', authMiddleware, upload.single('file'), submitController.otherSubmit)
 
 // 회의 신청
 router.post('')
