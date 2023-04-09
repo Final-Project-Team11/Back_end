@@ -1,4 +1,5 @@
 const MypageRepository = require("../repositories/myPage.repository.js");
+const CustomError = require("../middlewares/errorHandler");
 class MypageService {
     constructor() {
         this.MypageRepository = new MypageRepository();

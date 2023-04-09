@@ -1,4 +1,6 @@
 const MypageService = require("../services/myPage.service.js");
+const Joi = require("joi");
+const CustomError = require("../middlewares/errorHandler");
 class MypageController {
     constructor() {
         this.MypageService = new MypageService();
@@ -17,7 +19,24 @@ class MypageController {
     createCategory = async (req, res, next) => {
         const { userId } = res.locals.user;
         const { category } = req.body;
+        //Joi
+        const schema = Joi.object({
+            category: Joi.string().required().messages({
+                "string.base": "category 필드는 문자열로 이루어져야 합니다.",
+                "string.empty": "카테고리를 입력해 주세요.",
+                "any.required": "필수입력값을 입력해주세요",
+            }),
+        });
         try {
+            const validate = schema.validate({
+                category,
+            });
+
+            if (validate.error) {
+                throw new CustomError(validate.error.message, 401);
+            } else {
+                console.log("Valid input!");
+            }
             //카테고리 생성
             await this.MypageService.createCategory({ userId, category });
             res.status(200).json({ message: "카테고리가 추가되었습니다." });
@@ -30,7 +49,30 @@ class MypageController {
         const { categoryId } = req.params;
         const { userId } = res.locals.user;
         const { content, isDone } = req.body;
+        //Joi
+        const schema = Joi.object({
+            content: Joi.string().required().messages({
+                "string.base": "content 필드는 문자열로 이루어져야 합니다.",
+                "string.empty": "투드리스트를 입력해 주세요.",
+                "any.required": "필수입력값을 입력해주세요",
+            }),
+            isDone: Joi.boolean().required().messages({
+                "string.base": "isDone 필드는 Boolean로 이루어져야 합니다.",
+                "string.empty": "isDone 값을 입력해 주세요.",
+                "any.required": "필수입력값을 입력해주세요",
+            }),
+        });
         try {
+            const validate = schema.validate({
+                content,
+                isDone
+            });
+
+            if (validate.error) {
+                throw new CustomError(validate.error.message, 401);
+            } else {
+                console.log("Valid input!");
+            }
             //카테고리에 대한 권한 체크
             await this.MypageService.checkCategory({ categoryId, userId });
             //투두리스트 생성
