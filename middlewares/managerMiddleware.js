@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
 
         const { userId, authLevel, teamName } = jwt.verify(
             authToken,
-            "tempKey"
+            process.env.SECRET_KEY
         );
         if (authLevel > 2) {
             throw new CustomError("해당 권한이 존재하지 않습니다.", 401);
