@@ -144,7 +144,7 @@ class SubmitController {
     otherSubmit = async(req, res, next) => {
         const {startDay, endDay, title, content, ref} = req.body
         const {userId, teamId} = res.locals.user
-
+        console.log('파일 객체',req.file)
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         const file = await req.file.location;
@@ -184,7 +184,6 @@ class SubmitController {
                 endDay : endDay,
                 title : title,
                 ref : ref,
-                location : location,
                 content : content,
                 file : file,
             },
