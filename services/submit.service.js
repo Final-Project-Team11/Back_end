@@ -1,6 +1,5 @@
 const SubmitRepository = require("../repositories/submit.repository");
 const CustomError = require("../middlewares/errorHandler");
-const { ConfigurationServicePlaceholders } = require("aws-sdk/lib/config_service_placeholders");
 
 class SubmitService {
     submitRepository = new SubmitRepository();
