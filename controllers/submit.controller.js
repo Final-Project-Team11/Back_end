@@ -144,7 +144,7 @@ class SubmitController {
     otherSubmit = async(req, res, next) => {
         const {startDay, endDay, title, content, ref, file} = req.body
         const {userId, teamId} = res.locals.user
-
+        console.log('파일 객체',req.file)
         const schema = Joi.object({
             startDay: Joi.string().required().messages({
                 'string.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
@@ -180,7 +180,6 @@ class SubmitController {
                 endDay : endDay,
                 title : title,
                 ref : ref,
-                location : location,
                 content : content,
                 file : file,
             },
