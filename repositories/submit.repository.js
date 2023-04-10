@@ -1,4 +1,4 @@
-const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings} = require('../models')
+const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings, Reports} = require('../models')
 const CustomError = require('../middlewares/errorHandler')
 const {Transaction} = require('sequelize')
 
@@ -174,6 +174,50 @@ class SubmitRepository {
         }catch(transactionError) {
             await t.rollback()
             throw new CustomError('회의 신청서 생성에 실패하였습니다.', 400)
+        }
+    }
+
+    // 보고서 등록
+    reportSubmit = async({userId, title, ref, content, file}) => {
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            let hasFile = (file) ? true : false;
+            const event = await Events.create({
+                userId,
+                eventType: 'Meeting',
+                hasFile : hasFile,
+            }, {transaction : t})
+            
+            const {eventId} = event;
+            
+            const createReportSubmit = await Reports.create({
+                eventId: eventId,
+                userId,
+                title,
+                content,
+                file,
+                enrollDate : Reports.createdAt
+            }, {transaction : t})
+
+            const isRef = ref.split(',')
+            console.log(isRef)
+            isRef.forEach(async(item) => {
+                const {userId} = await Users.findOne({where : {userName : item}})
+                
+                await Mentions.create({
+                    eventId : eventId,
+                    userId : userId,
+                    isChecked : false
+                })
+            }, {transaction : t})
+
+            await t.commit()
+            return createReportSubmit
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('보고서 등록에 실패하였습니다.', 400)
         }
     }
 

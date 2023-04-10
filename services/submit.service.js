@@ -52,6 +52,19 @@ class SubmitService {
 
         return createMeetingSubmit
     }
+
+    // 보고서 등록
+    reportSubmit = async(userId, teamId, title, content, ref, file) => {
+        const isRef = await this.submitRepository.findRef(teamId)
+        const REF = ref + isRef;
+        if(!isRef) {
+            throw new CustomError('유저가 존재하지 않습니다', 401)
+        }
+
+        const createReportSubmit = await this.submitRepository.reportSubmit({userId, title, content, ref:REF, file})
+
+        return createReportSubmit
+    }
 }
 
 module.exports = SubmitService;
