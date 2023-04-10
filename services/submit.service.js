@@ -48,6 +48,20 @@ class SubmitService {
 
         return createOtherSubmit
     }
+
+    // 회의 신청
+    meetingSubmit = async(userId, teamId, startDay, endDay, title, ref, location, content, file) => {
+        // console.log("service",typeof userId)
+        const isRef = await this.submitRepository.findRef(teamId)
+        const REF = ref + isRef;
+        if(!isRef) {
+            throw new CustomError('유저가 존재하지 않습니다', 401)
+        }
+
+        const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, startDay, endDay, title, ref:REF, location, content, file})
+
+        return createMeetingSubmit
+    }
 }
 
 module.exports = SubmitService;

@@ -1,5 +1,4 @@
-const {Users, Schedules, Events, Mentions, sequelize, Vacations} = require('../models')
-
+const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings} = require('../models')
 const CustomError = require('../middlewares/errorHandler')
 const {Transaction} = require('sequelize')
 
@@ -145,6 +144,53 @@ class SubmitRepository {
         }catch(transactionError) {
             await t.rollback()
             throw new CustomError('기타 신청서 생성에 실패하였습니다.', 400)
+        }
+    }
+
+    // 회의 신청
+    meetingSubmit = async({userId, startDay, endDay, title, ref, location, content, file}) => {
+        // console.log(typeof userId)
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            let hasFile = (file) ? true : false;
+            const event = await Events.create({
+                userId,
+                eventType: 'Meeting',
+                hasFile : hasFile,
+            }, {transaction : t})
+            
+            const {eventId} = event;
+            
+            const createMeetingSubmit = await Meetings.create({
+                eventId: eventId,
+                userId,
+                startDay,
+                endDay,
+                title,
+                location,
+                content,
+                file
+            }, {transaction : t})
+
+            const isRef = ref.split(',')
+            console.log(isRef)
+            isRef.forEach(async(item) => {
+                const {userId} = await Users.findOne({where : {userName : item}})
+                
+                await Mentions.create({
+                    eventId : eventId,
+                    userId : userId,
+                    isChecked : false
+                })
+            }, {transaction : t})
+
+            await t.commit()
+            return createMeetingSubmit
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('회의 신청서 생성에 실패하였습니다.', 400)
         }
     }
 
