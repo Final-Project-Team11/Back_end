@@ -1,27 +1,204 @@
-const {Users, Schedules} = require('../models')
+const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings} = require('../models')
+const CustomError = require('../middlewares/errorHandler')
+const {Transaction} = require('sequelize')
 
 class SubmitRepository {
+
     // 출장 신청
-    scheduleSubmit = async(userId, startDay, endDay, title, ref, location, content, file) => {
-        const createScheduleSubmit = await Schedules.create({
-            userId,
-            startDay,
-            endDay,
-            title,
-            ref,
-            location,
-            content,
-            file
+    scheduleSubmit = async (
+        {userId,
+        startDay,
+        endDay,
+        title,
+        ref,
+        location,
+        content,
+        file
+    }) => {
+        // console.log(typeof userId)
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
+        try {
+            let hasFile = (file) ? true : false;
+            const event = await Events.create({
+                userId,
+                eventType: 'Scehdules',
+                hasFile : hasFile,
+            }, {transaction : t})
+            
+            const {eventId} = event;
+            // console.log("aaaaaaaaaaaaaa",event)
 
-        return createScheduleSubmit
-    }
+            const createScheduleSubmit = await Schedules.create({
+                eventId: eventId,
+                userId,
+                startDay,
+                endDay,
+                title,
+                location,
+                content,
+                file,
+            }, {transaction : t})
 
-    findRef = async(teamName) => {
-        const findRef = await Users.findALl({where : {teamName, authLevel:2}})
+            const isRef = ref.split(',')
+            console.log(isRef)
+            isRef.forEach(async(item) => {
+                const {userId} = await Users.findOne({where : {userName : item}})
+                // console.log('aaaaaaaaaaaaaaa',userId)
+
+                await Mentions.create({
+                    eventId : eventId,
+                    userId : userId,
+                    isChecked : false
+                });
+            }, {transaction : t})
+
+            await t.commit()
+            return createScheduleSubmit;
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('출장 신청서 생성에 실패하였습니다.', 400)
+        }
+        
+    };
+
+    findRef = async (teamId) => {
+        const findRef = await Users.findAll({
+            where: { teamId, authLevel: 2 },
+        });
 
         return findRef
     }
+
+    // 휴가 신청
+    vacationSubmit = async(userId, startDay, endDay, typeDetail) => {
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            const event = await Events.create({
+                userId,
+                eventType: 'Vacations',
+                hasFile : false,
+            }, {transaction : t})
+
+            const {eventId} = event
+
+            const createVacationSubmit = await Vacations.create({
+                userId,
+                eventId,
+                startDay,
+                endDay,
+                typeDetail
+            }, {transaction : t})
+
+            await t.commit()
+            return createVacationSubmit
+
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('휴가 신청서 생성에 실패하였습니다.', 400)
+        }
+    }
+
+    // 기타 신청
+    otherSubmit = async({userId, startDay, endDay, title, ref, content, file}) => {
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            let hasFile = (file) ? true : false;
+            const event = await Events.create({
+                userId,
+                eventType: 'Others',
+                hasFile : hasFile,
+            }, {transaction : t})
+            
+            const {eventId} = event;
+            
+            const createOtherSubmit = await Schedules.create({
+                eventId: eventId,
+                userId,
+                startDay,
+                endDay,
+                title,
+                content,
+                file
+            }, {transaction : t})
+
+            const isRef = ref.split(',')
+            console.log(isRef)
+            isRef.forEach(async(item) => {
+                const {userId} = await Users.findOne({where : {userName : item}})
+                
+                await Mentions.create({
+                    eventId : eventId,
+                    userId : userId,
+                    isChecked : false
+                })
+            }, {transaction : t})
+
+            await t.commit()
+            return createOtherSubmit
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('기타 신청서 생성에 실패하였습니다.', 400)
+        }
+    }
+
+    // 회의 신청
+    meetingSubmit = async({userId, startDay, endDay, title, ref, location, content, file}) => {
+        // console.log(typeof userId)
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            let hasFile = (file) ? true : false;
+            const event = await Events.create({
+                userId,
+                eventType: 'Meeting',
+                hasFile : hasFile,
+            }, {transaction : t})
+            
+            const {eventId} = event;
+            
+            const createMeetingSubmit = await Meetings.create({
+                eventId: eventId,
+                userId,
+                startDay,
+                endDay,
+                title,
+                location,
+                content,
+                file
+            }, {transaction : t})
+
+            const isRef = ref.split(',')
+            console.log(isRef)
+            isRef.forEach(async(item) => {
+                const {userId} = await Users.findOne({where : {userName : item}})
+                
+                await Mentions.create({
+                    eventId : eventId,
+                    userId : userId,
+                    isChecked : false
+                })
+            }, {transaction : t})
+
+            await t.commit()
+            return createMeetingSubmit
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('회의 신청서 생성에 실패하였습니다.', 400)
+        }
+    }
+
+    findRef = async(teamId) => {
+        const findRef = await Users.findAll({where : {teamId, authLevel:2}})
+
+        return findRef
+    };
 }
 
 module.exports = SubmitRepository;

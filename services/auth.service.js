@@ -11,8 +11,19 @@ class AuthService {
     checkIdPassword = async ({ companyId, password }) => {
         const user = await this.AuthRepository.findByCompanyId({ companyId });
         const checkpassword = await bcrypt.compare(password, user.password);
-
+        console.log(user.userId , companyId)
         if (user.userId !== companyId) {
+            throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
+        } else if (!checkpassword) {
+            throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
+        }
+        return user;
+    };
+    checkUserIdPassword = async ({ userId, password }) => {
+        const user = await this.AuthRepository.findByUserId({ userId });
+        const checkpassword = await bcrypt.compare(password, user.password);
+
+        if (user.userId !== userId) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
         } else if (!checkpassword) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);

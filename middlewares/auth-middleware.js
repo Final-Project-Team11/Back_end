@@ -17,10 +17,9 @@ module.exports = async (req, res,next) => {
     }
     const decodedToken = jwt.verify(tokendata, env.SECRET_KEY);
     // console.log(decodedToken);
-
     const userId = decodedToken.userId;
     const user = await Users.findOne({ where: { userId } });
-
+        
     res.locals.user = user;
     next();
   } catch (err) {
