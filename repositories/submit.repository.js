@@ -42,9 +42,7 @@ class SubmitRepository {
                 file,
             }, {transaction : t})
 
-            const isRef = ref.split(',')
-            console.log(isRef)
-            isRef.forEach(async(item) => {
+            ref.forEach(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',userId)
 
@@ -128,9 +126,7 @@ class SubmitRepository {
                 file
             }, {transaction : t})
 
-            const isRef = ref.split(',')
-            console.log(isRef)
-            isRef.forEach(async(item) => {
+            ref.forEach(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
@@ -149,7 +145,7 @@ class SubmitRepository {
     }
 
     // 회의 신청
-    meetingSubmit = async({userId, startDay, endDay, title, ref, location, content, file}) => {
+    meetingSubmit = async({userId, startDay, startTime, title, ref, location, content, file}) => {
         // console.log(typeof userId)
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
@@ -168,16 +164,14 @@ class SubmitRepository {
                 eventId: eventId,
                 userId,
                 startDay,
-                endDay,
+                startTime,
                 title,
                 location,
                 content,
                 file
             }, {transaction : t})
 
-            const isRef = ref.split(',')
-            console.log(isRef)
-            isRef.forEach(async(item) => {
+            ref.forEach(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
@@ -188,7 +182,6 @@ class SubmitRepository {
             }, {transaction : t})
 
             await t.commit()
-            return createMeetingSubmit
         }catch(transactionError) {
             await t.rollback()
             throw new CustomError('회의 신청서 생성에 실패하였습니다.', 400)
@@ -221,13 +214,11 @@ class SubmitRepository {
 
             console.log()
 
-            const isRef = ref.split(',')
-            console.log(isRef)
-            isRef.forEach(async(item) => {
+            ref.forEach(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
-                console.log("---------------------------")
-                console.log(await Users.findOne({where : {userName : item}}))
-                console.log("---------------------------")
+                // console.log("---------------------------")
+                // console.log(await Users.findOne({where : {userName : item}}))
+                // console.log("---------------------------")
                 
                 await Mentions.create({
                     eventId : eventId,
@@ -244,7 +235,7 @@ class SubmitRepository {
     }
 
     findRef = async(teamId) => {
-        const findRef = await Users.findAll({where : {teamId, authLevel:2}})
+        const findRef = await Users.findAll({where : {teamId, authLevel: 2}})
 
         return findRef
     };

@@ -30,7 +30,7 @@ class SubmitController {
                 "string.empty": "제목을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
             }),
-            ref: Joi.string().required().messages({
+            ref: Joi.array().required().messages({
                 "string.base": "ref 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "멘션을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
@@ -69,17 +69,17 @@ class SubmitController {
         }
 
         try {
-            const ScheduleSubmit = await this.submitService.scheduleSubmit(
+            const ScheduleSubmit = await this.submitService.scheduleSubmit({
                 userId,
-                teamId,
+                teamId: teamId,
                 startDay,
                 endDay,
                 title,
-                ref,
+                ref: ref,
                 location,
                 content,
                 file
-            );
+            });
 
             return res.status(200).send({ message : '출장 신청이 성공적으로 완료되었습니다.'})
         }catch(error) {
@@ -165,7 +165,7 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.string().required().messages({
+            ref: Joi.array().required().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '멘션을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
@@ -198,16 +198,16 @@ class SubmitController {
         }
 
         try{
-            const OtherSubmit = await this.submitService.otherSubmit(
+            const OtherSubmit = await this.submitService.otherSubmit({
                 userId,
-                teamId,
+                teamId: teamId,
                 startDay,
                 endDay,
                 title,
-                ref,
+                ref: ref,
                 content,
                 file
-            )
+            })
 
             return res.status(200).send({ message : '기타 신청이 성공적으로 완료되었습니다.'})
         }catch(err) {
@@ -217,7 +217,7 @@ class SubmitController {
 
     // 회의 신청
     meetingSubmit = async(req, res, next) => {
-        const {startDay, endDay, title, location, ref, content} = req.body
+        const {startDay, startTime, title, location, ref, content} = req.body
         const {userId, teamId} = res.locals.user
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
@@ -230,7 +230,7 @@ class SubmitController {
                 'string.empty' : '일정을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            endDay: Joi.string().required().messages({
+            startTime: Joi.string().required().messages({
                 'string.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
                 'string.empty' : '일정을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
@@ -240,7 +240,7 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.string().required().messages({
+            ref: Joi.array().required().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '멘션을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
@@ -261,7 +261,7 @@ class SubmitController {
         const validate = schema.validate(
             {
                 startDay : startDay,
-                endDay : endDay,
+                startTime : startTime,
                 title : title,
                 ref : ref,
                 location : location,
@@ -279,17 +279,17 @@ class SubmitController {
         }
 
         try{
-            const MeetingSubmit = await this.submitService.meetingSubmit(
+            const MeetingSubmit = await this.submitService.meetingSubmit({
                 userId,
-                teamId,
+                teamId: teamId,
                 startDay,
-                endDay,
+                startTime,
                 title,
-                ref,
+                ref: ref,
                 location,
                 content,
                 file
-            )
+            })
 
             return res.status(200).send({ message : '회의 신청이 성공적으로 완료되었습니다.'})
         }catch(error) {
@@ -301,9 +301,8 @@ class SubmitController {
     reportSubmit = async(req, res, next) => {
         const {title, content, ref} = req.body
         const {userId, teamId} = res.locals.user
-        console.log("-------------------------------")
+
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
-        console.log("-------------------------------")
         const file = await req.file.location;
 
         const schema = Joi.object({
@@ -312,7 +311,7 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.string().required().messages({
+            ref: Joi.array().required().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '멘션을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
@@ -342,14 +341,14 @@ class SubmitController {
             console.log('Valid input!')
         }
         try{
-            await this.submitService.reportSubmit(
+            await this.submitService.reportSubmit({
                 userId,
-                teamId,
+                teamId : teamId,
                 title,
-                ref,
+                ref : ref,
                 content,
                 file
-            )
+            })
 
             return res.status(200).send({ message : '보고서 등록이 성공적으로 완료되었습니다.'})
         }catch(error) {
