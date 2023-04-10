@@ -94,27 +94,28 @@ class MypageService {
         return user;
     };
     getUserInfo = async ({ user }) => {
-        const userSalaryDay = 4;
+        const userSalaryDay = user.salaryDay;
         const date = moment();
+        let month, year;
+        month = moment().format("MM");
+        year = moment().format("YYYY");
 
-        const month = moment().add(1, 'month').format("MM");
-        const year = moment().format("YYYY")
-        // console.log(year, month)
-        // if (month == 13){
-        //     month = 1
-        //     year = year + 1
-        //     console.log("여기 들어오니",year)
-        // }
-        const Dday = `${year}-${month}-${userSalaryDay}`
-        const Ddate = moment(Dday)
-        console.log(date, Ddate)
+        if (Number(date.format("MM")) === 12) {
+            year = moment().add(1, 'year').format("YYYY");
+        }
+        if (Number(date.format("DD")) > userSalaryDay) {
+            month = moment().add(1, "month").format("MM");
+        } 
 
-        console.log("Difference is ", Ddate.diff(date, "days"), "days"); //날짜 차이
+        const Dday = `${year}-${month}-${userSalaryDay}`;
+        const Ddate = moment(Dday);
+
+        const payDay = Ddate.diff(date, "days")
 
         const userInfo = {
             userName: user.userName,
             remainDay: user.remainDay,
-            salaryDay: userSalaryDay,
+            salaryDay: payDay,
         };
         return userInfo;
     };
