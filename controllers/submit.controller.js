@@ -5,16 +5,10 @@ const Joi = require("joi");
 class SubmitController {
     submitService = new SubmitService();
 
-    // 유저 목록
-    findTeamUsers = async (req, res, next) => {
-        try {
-        } catch (error) {}
-    };
-
     // 출장 신청
     scheduleSubmit = async (req, res, next) => {
-        const { startDay, endDay, title, location, ref, content } = req.body;
-        const { userId, authLevel, teamName } = res.locals.user;
+        const {startDay, endDay, title, location, ref, content} = req.body
+        const {userId, teamId} = res.locals.user
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
@@ -77,8 +71,7 @@ class SubmitController {
         try {
             const ScheduleSubmit = await this.submitService.scheduleSubmit(
                 userId,
-                teamName,
-                authLevel,
+                teamId,
                 startDay,
                 endDay,
                 title,
@@ -88,15 +81,9 @@ class SubmitController {
                 file
             );
 
-            return res
-                .status(200)
-                .send({ message: "출장 신청이 성공적으로 완료되었습니다." });
-        } catch (error) {
-            throw new CustomError(
-                { errorMessage: "예상치 못한 에러가 발생했습니다." },
-                400,
-                false
-            );
+            return res.status(200).send({ message : '출장 신청이 성공적으로 완료되었습니다.'})
+        }catch(error) {
+            next(error)
         }
     };
 }

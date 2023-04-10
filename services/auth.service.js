@@ -1,14 +1,31 @@
 const AuthRepository = require("../repositories/auth.repository.js");
-const CustomError = require("../middlewares/errorhandler.js");
+const CustomError = require("../middlewares/errorHandler.js");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const env = process.env;
+
 class AuthService {
     constructor() {
         this.AuthRepository = new AuthRepository();
     }
     checkIdPassword = async ({ companyId, password }) => {
         const user = await this.AuthRepository.findByCompanyId({ companyId });
-        if (user.userId !== companyId || user.password !== password) {
+        const checkpassword = await bcrypt.compare(password, user.password);
+        console.log(user.userId , companyId)
+        if (user.userId !== companyId) {
+            throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
+        } else if (!checkpassword) {
+            throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
+        }
+        return user;
+    };
+    checkUserIdPassword = async ({ userId, password }) => {
+        const user = await this.AuthRepository.findByUserId({ userId });
+        const checkpassword = await bcrypt.compare(password, user.password);
+
+        if (user.userId !== userId) {
+            throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
+        } else if (!checkpassword) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
         }
         return user;
@@ -19,6 +36,7 @@ class AuthService {
             {
                 userId: user.userId,
                 companyId: user.companyId,
+                teamId : user.teamId,
                 teamName: team.teamName,
                 authLevel: user.authLevel,
             },
@@ -42,6 +60,7 @@ class AuthService {
                 userId,
                 companyId: user.companyId,
                 teamName: team.teamName,
+                teamId : user.teamId,
                 authLevel: user.authLevel,
             },
             env.SECRET_KEY
@@ -49,7 +68,16 @@ class AuthService {
         return token;
     };
     updateUser = async ({ userId, password }) => {
-        await this.AuthRepository.updateUser({ userId, password });
+        bcrypt.hash(password, 10, async (err, encryptedPW) => {
+            if (err) {
+                throw new CustomError("회원가입이 실패했습니다.", 412);
+            } else {
+                await this.AuthRepository.updateUser({
+                    userId,
+                    password: encryptedPW,
+                });
+            }
+        });
     };
 }
 module.exports = AuthService;

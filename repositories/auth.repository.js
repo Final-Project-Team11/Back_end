@@ -2,7 +2,15 @@ const { Users, Teams, Companys } = require("../models");
 class AuthRepository {
     constructor() {}
     findByCompanyId = async ({ companyId }) => {
-        return await Users.findOne({ where: { companyId } });
+        return await Users.findOne({
+            where: {
+                companyId,
+                authLevel: 1,
+            },
+        });
+    };
+    findByUserId = async ({ userId }) => {
+        return await Users.findOne({ where: { userId } });
     };
 
     findTeamById = async ({ user }) => {

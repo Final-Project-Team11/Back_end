@@ -15,6 +15,6 @@ router.post("/login", authcontroller.userLogin);
 
 //초기 비밀번호 변경
 //localhost:3003/login/rePassword
-router.post("/login/rePassword", authMiddleware, authcontroller.modifyPassword);
+router.patch("/login/rePassword", authMiddleware, authcontroller.modifyPassword);
 
 module.exports = router;
