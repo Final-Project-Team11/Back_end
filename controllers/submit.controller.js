@@ -12,7 +12,8 @@ class SubmitController {
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
-        const file = await req.file.location;
+        // 파일이 있을때와 없을때
+        const file = req.file ? await req.file.location : "Null"
 
         const schema = Joi.object({
             startDay: Joi.string().required().messages({
@@ -147,7 +148,8 @@ class SubmitController {
         console.log('파일 객체',req.file)
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
-        const file = await req.file.location;
+        // 파일이 있을때와 없을때
+        const file = req.file ? await req.file.location : "Null"
 
         const schema = Joi.object({
             startDay: Joi.string().required().messages({
@@ -222,7 +224,8 @@ class SubmitController {
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
-        const file = await req.file.location;
+        // 파일이 있을때와 없을때
+        const file = req.file ? await req.file.location : "Null"
 
         const schema = Joi.object({
             startDay: Joi.string().required().messages({
@@ -303,7 +306,8 @@ class SubmitController {
         const {userId, teamId} = res.locals.user
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
-        const file = await req.file.location;
+        // 파일이 있을때와 없을때
+        const file = req.file ? await req.file.location : "Null"
 
         const schema = Joi.object({
             title: Joi.string().required().messages({
@@ -361,12 +365,10 @@ class SubmitController {
         const {title, content, ref} = req.body
         const {userId, teamId} = res.locals.user
         const {eventId} = req.params
-        // console.log("-----------------")
-        // console.log(eventId)
-        // console.log("-----------------")
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
-        const file = await req.file.location;
+        // 파일이 있을때와 없을때
+        const file = req.file ? await req.file.location : "Null"
 
         const schema = Joi.object({
             title: Joi.string().required().messages({

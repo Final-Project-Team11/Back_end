@@ -247,10 +247,6 @@ class SubmitRepository {
             
             const {eventId} = event;
 
-            console.log("-----------------")
-            console.log(meetingId)
-            console.log("-----------------")
-            
             const createReportSubmit = await MeetingReports.create({
                 eventId: eventId,
                 meetingId,

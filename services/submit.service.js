@@ -91,9 +91,7 @@ class SubmitService {
 
     // 회의록 등록
     meetingReportSubmit = async({userId, meetingId, teamId, title, ref, content, file}) => {
-        // console.log("-----------------")
-        // console.log(mentionId)
-        // console.log("-----------------")
+        
         const isRef = await this.submitRepository.findRef(teamId)
         
         // 팀장 참조
