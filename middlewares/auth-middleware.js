@@ -4,8 +4,8 @@ const env = process.env;
 
 module.exports = async (req, res, next) => {
     try {
-        const authorization = req.headers.authorization;
-        // const {authorization} = req.cookies; //개발단계에서 확인용
+        // const authorization = req.headers.authorization;
+        const {authorization} = req.cookies; //개발단계에서 확인용
         // console.log("!!!!authorization!!!! : ", authorization);
         const [tokenType, tokendata] = (authorization ?? "").split(" ");
         // console.log("!!!!tokendata!!!! : ", tokendata);
