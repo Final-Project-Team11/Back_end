@@ -355,6 +355,70 @@ class SubmitController {
             next(error)
         }
     }
+
+    // 회의록 등록
+    meetingReportSubmit = async(req, res, next) => {
+        const {title, content, ref} = req.body
+        const {userId, teamId} = res.locals.user
+        const {eventId} = req.params
+        // console.log("-----------------")
+        // console.log(eventId)
+        // console.log("-----------------")
+
+        console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
+        const file = await req.file.location;
+
+        const schema = Joi.object({
+            title: Joi.string().required().messages({
+                'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
+                'string.empty' : '제목을 입력해 주세요.',
+                'any.required' : '이 필드는 필수입니다.'
+            }),
+            ref: Joi.array().required().messages({
+                'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
+                'string.empty' : '멘션을 입력해 주세요.',
+                'any.required' : '이 필드는 필수입니다.'
+            }),
+            content: Joi.string().required().messages({
+                'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
+            }),
+            file: Joi.string().required().messages({
+                'string.base' : 'file 필드는 문자열로 이루어져야 합니다.',
+            })
+        })
+
+        const validate = schema.validate(
+            {
+                title : title,
+                ref : ref,
+                content : content,
+                file : file,
+            },
+            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
+            { abortEarly: false }
+        )
+
+        if (validate.error) {
+            throw new CustomError(validate.error.message, 401)
+        }else {
+            console.log('Valid input!')
+        }
+        try{
+            await this.submitService.meetingReportSubmit({
+                userId,
+                meetingId : eventId,
+                teamId : teamId,
+                title,
+                ref : ref,
+                content,
+                file
+            })
+
+            return res.status(200).send({ message : '회의록 등록이 성공적으로 완료되었습니다.'})
+        }catch(error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = SubmitController;
