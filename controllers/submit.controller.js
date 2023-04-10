@@ -342,7 +342,7 @@ class SubmitController {
             console.log('Valid input!')
         }
         try{
-            const reportSubmit = await this.submitService.reportSubmit(
+            await this.submitService.reportSubmit(
                 userId,
                 teamId,
                 title,

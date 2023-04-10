@@ -1,6 +1,7 @@
-const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings, Reports} = require('../models')
+const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings, Reports, Others} = require('../models')
 const CustomError = require('../middlewares/errorHandler')
-const {Transaction} = require('sequelize')
+const {Transaction} = require('sequelize');
+const { date } = require('joi');
 
 class SubmitRepository {
 
@@ -117,7 +118,7 @@ class SubmitRepository {
             
             const {eventId} = event;
             
-            const createOtherSubmit = await Schedules.create({
+            const createOtherSubmit = await Others.create({
                 eventId: eventId,
                 userId,
                 startDay,
@@ -215,13 +216,18 @@ class SubmitRepository {
                 title,
                 content,
                 file,
-                enrollDate : Reports.createdAt
+                enrollDay : event.createdAt
             }, {transaction : t})
+
+            console.log()
 
             const isRef = ref.split(',')
             console.log(isRef)
             isRef.forEach(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
+                console.log("---------------------------")
+                console.log(await Users.findOne({where : {userName : item}}))
+                console.log("---------------------------")
                 
                 await Mentions.create({
                     eventId : eventId,
@@ -231,7 +237,6 @@ class SubmitRepository {
             }, {transaction : t})
 
             await t.commit()
-            return createReportSubmit
         }catch(transactionError) {
             await t.rollback()
             throw new CustomError('보고서 등록에 실패하였습니다.', 400)

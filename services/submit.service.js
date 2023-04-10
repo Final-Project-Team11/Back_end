@@ -1,5 +1,6 @@
 const SubmitRepository = require("../repositories/submit.repository");
 const CustomError = require("../middlewares/errorHandler");
+const { ConfigurationServicePlaceholders } = require("aws-sdk/lib/config_service_placeholders");
 
 class SubmitService {
     submitRepository = new SubmitRepository();
@@ -66,14 +67,14 @@ class SubmitService {
     // 보고서 등록
     reportSubmit = async(userId, teamId, title, content, ref, file) => {
         const isRef = await this.submitRepository.findRef(teamId)
+        console.log("---------0-----------------",isRef)
         const REF = ref + isRef;
         if(!isRef) {
             throw new CustomError('유저가 존재하지 않습니다', 401)
         }
 
-        const createReportSubmit = await this.submitRepository.reportSubmit({userId, title, content, ref:REF, file})
+        await this.submitRepository.reportSubmit({userId, title, content, ref:REF, file})
 
-        return createReportSubmit
     }
 }
 
