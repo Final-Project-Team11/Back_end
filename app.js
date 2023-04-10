@@ -33,7 +33,7 @@ app.use("/", indexRouter);
 app.use((err, req, res, next) => {
     console.log(err);
     return res.status(err.status || 400).json({
-        success: err.expect,
+        success: false,
         errorMessage: err.message || "예상치 못한 에러가 발생했습니다.",
     });
 });

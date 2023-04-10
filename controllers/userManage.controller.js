@@ -7,7 +7,7 @@ const userIdSchema = Joi.string()
     .required()
     .messages({
         "string.pattern.base":
-            "문자열은 영문 대/소문자와 숫자만 포함 가능합니다.",
+        "문자열은 영문 대/소문자와 숫자만 포함 가능합니다.",
         "string.empty": "이 필드는 비어 있을 수 없습니다.",
         "string.min": "문자열은 최소 5글자 이상이어야 합니다.",
         "any.required": "이 필드는 필수입니다.",
@@ -17,7 +17,7 @@ const options = {
     abortEarly: false,
     messages: {
         "string.pattern.base":
-            "문자열은 영문 대/소문자와 숫자만 포함 가능합니다.",
+        "문자열은 영문 대/소문자와 숫자만 포함 가능합니다.",
         "string.empty": "이 필드는 비어 있을 수 없습니다.",
         "string.min": "문자열은 최소 5글자 이상이어야 합니다.",
         "any.required": "이 필드는 필수입니다.",
