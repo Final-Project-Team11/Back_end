@@ -5,6 +5,17 @@ class ScheduleManageController {
     constructor() {
         this.scheduleManageService = new ScheduleManageService();
     }
+    // 출장 수락
+    scheduleAccept = async (req, res, next) => {
+        try{
+            const userInfo = res.locals.user;
+            const { eventId } = req.params;
+            await this.scheduleManageService.scheduleAccept({ eventId, userInfo })
+            res.status(200).json({ message: '일정 결제 수락했습니다.' })    
+        } catch (err) {
+            next(err)
+    }
+    }
     // 출장 상세 조회
     scheduleDetail = async (req, res, next) => {
         try {
