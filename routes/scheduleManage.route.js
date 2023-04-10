@@ -19,4 +19,10 @@ router.put(
     managerMiddleware,
     scheduleManageController.scheduleAccept
 );
+// 출장 반려
+router.put(
+    "/:eventId/deny",
+    managerMiddleware,
+    scheduleManageController.scheduleDeny
+);
 module.exports = router;
