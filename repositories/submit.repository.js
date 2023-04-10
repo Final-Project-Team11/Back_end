@@ -59,7 +59,7 @@ class SubmitRepository {
             return createScheduleSubmit;
         }catch(transactionError) {
             await t.rollback()
-            throw new CustomError('유저생성에 실패하였습니다.', 400)
+            throw new CustomError('출장 신청서 생성에 실패하였습니다.', 400)
         }
         
     };
@@ -99,7 +99,52 @@ class SubmitRepository {
 
         }catch(transactionError) {
             await t.rollback()
-            throw new CustomError('유저생성에 실패하였습니다.', 400)
+            throw new CustomError('휴가 신청서 생성에 실패하였습니다.', 400)
+        }
+    }
+
+    // 기타 신청
+    otherSubmit = async({userId, startDay, endDay, title, ref, content, file}) => {
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            let hasFile = (file) ? true : false;
+            const event = await Events.create({
+                userId,
+                eventType: 'Others',
+                hasFile : hasFile,
+            }, {transaction : t})
+            
+            const {eventId} = event;
+            
+            const createOtherSubmit = await Schedules.create({
+                eventId: eventId,
+                userId,
+                startDay,
+                endDay,
+                title,
+                content,
+                file
+            }, {transaction : t})
+
+            const isRef = ref.split(',')
+            console.log(isRef)
+            isRef.forEach(async(item) => {
+                const {userId} = await Users.findOne({where : {userName : item}})
+                
+                await Mentions.create({
+                    eventId : eventId,
+                    userId : userId,
+                    isChecked : false
+                })
+            }, {transaction : t})
+
+            await t.commit()
+            return createOtherSubmit
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('기타 신청서 생성에 실패하였습니다.', 400)
         }
     }
 
