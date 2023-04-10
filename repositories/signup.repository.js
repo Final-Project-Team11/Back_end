@@ -1,4 +1,4 @@
-const { Companys, Users, Teams} = require("../models/index.js");
+const { Companys, Users, Teams } = require("../models/index.js");
 const { sequelize } = require("../models/index.js");
 const { Transaction } = require("sequelize");
 
@@ -30,20 +30,26 @@ class SignupRepository {
         ceoName,
         ceoNum,
     }) => {
-        await Companys.create({
-            companyId,
-            companyName,
-            companyNum,
-            address,
-            ceoName,
-            ceoNum,
-        },{ transaction: this.t });
+        await Companys.create(
+            {
+                companyId,
+                companyName,
+                companyNum,
+                address,
+                ceoName,
+                ceoNum,
+            },
+            { transaction: this.t }
+        );
     };
     createTeam = async ({ teamName, companyId }) => {
-        return await Teams.create({
-            teamName,
-            companyId,
-        },{ transaction: this.t });
+        return await Teams.create(
+            {
+                teamName,
+                companyId,
+            },
+            { transaction: this.t }
+        );
     };
     createUser = async ({
         companyId,
@@ -55,16 +61,19 @@ class SignupRepository {
         authLevel,
         job,
     }) => {
-        await Users.create({
-            userId,
-            teamId,
-            userName,
-            password,
-            companyId,
-            remainDay,
-            authLevel,
-            job,
-        },{ transaction: this.t });
+        await Users.create(
+            {
+                userId,
+                teamId,
+                userName,
+                password,
+                companyId,
+                remainDay,
+                authLevel,
+                job,
+            },
+            { transaction: this.t }
+        );
     };
 }
 

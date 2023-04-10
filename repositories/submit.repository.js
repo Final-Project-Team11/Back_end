@@ -1,11 +1,20 @@
-const {Users, Schedules, Events, Mentions, sequelize} = require('../models')
+const { Users, Schedules , Events, Mentions, sequelize} = require("../models");
 const CustomError = require('../middlewares/errorHandler')
 const {Transaction} = require('sequelize')
 
 class SubmitRepository {
 
     // 출장 신청
-    scheduleSubmit = async({userId, startDay, endDay, title, ref, location, content, file}) => {
+    scheduleSubmit = async (
+        {userId,
+        startDay,
+        endDay,
+        title,
+        ref,
+        location,
+        content,
+        file
+    }) => {
         // console.log(typeof userId)
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
@@ -29,7 +38,7 @@ class SubmitRepository {
                 title,
                 location,
                 content,
-                file
+                file,
             }, {transaction : t})
 
             const isRef = ref.split(',')
@@ -42,23 +51,31 @@ class SubmitRepository {
                     eventId : eventId,
                     userId : userId,
                     isChecked : false
-                })
+                });
             }, {transaction : t})
 
             await t.commit()
-            return createScheduleSubmit
+            return createScheduleSubmit;
         }catch(transactionError) {
             await t.rollback()
             throw new CustomError('유저생성에 실패하였습니다.', 400)
         }
         
+    };
+
+    findRef = async (teamId) => {
+        const findRef = await Users.findAll({
+            where: { teamId, authLevel: 2 },
+        });
+
+        return findRef
     }
 
     findRef = async(teamId) => {
         const findRef = await Users.findAll({where : {teamId, authLevel:2}})
 
         return findRef
-    }
+    };
 }
 
 module.exports = SubmitRepository;
