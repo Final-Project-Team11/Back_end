@@ -25,9 +25,16 @@ class SubmitService {
                 file,
             }
         );
+        return createScheduleSubmit
+    }
 
-        return createScheduleSubmit;
-    };
+    // 휴가 신청
+    vacationSubmit = async(userId, startDay, endDay, typeDetail) => {
+
+        const createVacationSubmit = await this.submitRepository.vacationSubmit(userId, startDay, endDay, typeDetail)
+
+        return createVacationSubmit
+    }
 }
 
 module.exports = SubmitService;

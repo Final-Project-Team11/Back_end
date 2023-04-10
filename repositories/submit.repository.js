@@ -1,4 +1,5 @@
-const { Users, Schedules , Events, Mentions, sequelize} = require("../models");
+const {Users, Schedules, Events, Mentions, sequelize, Vacations} = require('../models')
+
 const CustomError = require('../middlewares/errorHandler')
 const {Transaction} = require('sequelize')
 
@@ -69,6 +70,37 @@ class SubmitRepository {
         });
 
         return findRef
+    }
+
+    // 휴가 신청
+    vacationSubmit = async(userId, startDay, endDay, typeDetail) => {
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            const event = await Events.create({
+                userId,
+                eventType: 'Vacations',
+                hasFile : false,
+            }, {transaction : t})
+
+            const {eventId} = event
+
+            const createVacationSubmit = await Vacations.create({
+                userId,
+                eventId,
+                startDay,
+                endDay,
+                typeDetail
+            }, {transaction : t})
+
+            await t.commit()
+            return createVacationSubmit
+
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('유저생성에 실패하였습니다.', 400)
+        }
     }
 
     findRef = async(teamId) => {
