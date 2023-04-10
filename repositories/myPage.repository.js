@@ -1,4 +1,4 @@
-const { CategoryTodos, Todos } = require("../models");
+const { CategoryTodos, Todos, Users } = require("../models");
 class MypageRepository {
     constructor(){}
 
@@ -58,6 +58,9 @@ class MypageRepository {
                 where: { userId, todoId },
             }
         );
+    }
+    findUserById = async ({ userId }) => {
+        return await Users.findOne({ where: { userId } });
     }
 }
 

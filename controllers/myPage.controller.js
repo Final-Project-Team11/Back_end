@@ -65,7 +65,7 @@ class MypageController {
         try {
             const validate = schema.validate({
                 content,
-                isDone
+                isDone,
             });
 
             if (validate.error) {
@@ -132,6 +132,17 @@ class MypageController {
                 existTodos,
             });
             res.status(200).json({ message: message });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    getUserInfo = async (req, res, next) => {
+        const { userId } = res.locals.user;
+        try {
+            const user = await this.MypageService.checkUserById({ userId })
+            const userInfo = await this.MypageService.getUserInfo({user})
+            res.status(200).json({ user: userInfo });
         } catch (err) {
             next(err);
         }

@@ -39,6 +39,14 @@ router.delete(
 
 //투두리스트 체크
 //localhost:3003/feed/todo/{todoId}
-router.patch("/feed/todo/:todoId", authmiddleware, mypagecontroller.completeTodo);
+router.patch(
+    "/feed/todo/:todoId",
+    authmiddleware,
+    mypagecontroller.completeTodo
+);
+
+//유저정보조회
+//localhost:3003/usersInfo
+router.get("/usersInfo", authmiddleware, mypagecontroller.getUserInfo);
 
 module.exports = router;
