@@ -49,4 +49,6 @@ router.patch(
 //localhost:3003/usersInfo
 router.get("/usersInfo", authmiddleware, mypagecontroller.getUserInfo);
 
+//출장 조회
+
 module.exports = router;

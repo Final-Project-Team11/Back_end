@@ -10,6 +10,7 @@ class MypageRepository {
 
     findAlltodos = async({ userId, categoryId }) => {
         return await Todos.findAll({
+            attributes:["todoId", "todo", "isDone"],
             where: { userId, categoryId },
         });
     }
