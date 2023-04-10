@@ -141,6 +141,12 @@ class MypageController {
             next(err);
         }
     };
+
+    getSchedules = async (req,res,next) => {
+        const { userId } = res.locals.user;
+        const schedule = await this.MypageService.getUserSchedule({ userId })
+        res.status(200).json({schedule})
+    }
 }
 
 module.exports = MypageController;

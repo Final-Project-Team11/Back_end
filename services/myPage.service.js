@@ -119,6 +119,10 @@ class MypageService {
         };
         return userInfo;
     };
+
+    getUserSchedule = async ({ userId }) => {
+        return await this.MypageRepository.getUserSchedule({ userId })
+    }
 }
 
 module.exports = MypageService;

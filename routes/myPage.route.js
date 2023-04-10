@@ -50,5 +50,7 @@ router.patch(
 router.get("/usersInfo", authmiddleware, mypagecontroller.getUserInfo);
 
 //출장 조회
+//localhost:3003/mySchedule
+router.get("/mySchedule",authmiddleware,mypagecontroller.getSchedules)
 
 module.exports = router;
