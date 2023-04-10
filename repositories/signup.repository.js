@@ -1,6 +1,8 @@
-const { Companys, Users, Teams} = require("../models/index.js");
+const { Companys, Users, Teams } = require("../models/index.js");
 const { sequelize } = require("../models/index.js");
 const { Transaction } = require("sequelize");
+const CustomError = require("../middlewares/errorHandler");
+
 
 class SignupRepository {
     constructor() {
@@ -22,32 +24,14 @@ class SignupRepository {
             where: { companyName: companyName },
         });
     };
-    createCompany = async ({
+    companySignup = async ({
         companyId,
         companyName,
         companyNum,
         address,
         ceoName,
         ceoNum,
-    }) => {
-        await Companys.create({
-            companyId,
-            companyName,
-            companyNum,
-            address,
-            ceoName,
-            ceoNum,
-        },{ transaction: this.t });
-    };
-    createTeam = async ({ teamName, companyId }) => {
-        return await Teams.create({
-            teamName,
-            companyId,
-        },{ transaction: this.t });
-    };
-    createUser = async ({
-        companyId,
-        teamId,
+        teamName,
         userId,
         userName,
         password,
@@ -55,16 +39,54 @@ class SignupRepository {
         authLevel,
         job,
     }) => {
-        await Users.create({
-            userId,
-            teamId,
-            userName,
-            password,
-            companyId,
-            remainDay,
-            authLevel,
-            job,
-        },{ transaction: this.t });
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED, // 트랜잭션 격리 수준을 설정합니다.
+        });
+
+        try {
+            //회사생성
+            await Companys.create(
+                {
+                    companyId,
+                    companyName,
+                    companyNum,
+                    address,
+                    ceoName,
+                    ceoNum,
+                },
+                { transaction: t }
+            );
+
+            //팀생성
+            const team = await Teams.create(
+                {
+                    teamName,
+                    companyId,
+                },
+                { transaction: t }
+            );
+            //유저생성
+            await Users.create(
+                {
+                    userId,
+                    teamId: team.teamId,
+                    userName,
+                    password,
+                    companyId,
+                    remainDay,
+                    authLevel,
+                    job,
+                },
+                { transaction: t }
+            );
+            await t.commit();
+        } catch (err) {
+            if (err) {
+                // rollback()을 호출하여 트랜잭션 전체를 롤백
+                await t.rollback();
+                throw new CustomError(err.message, 400);
+            }
+        }
     };
 }
 

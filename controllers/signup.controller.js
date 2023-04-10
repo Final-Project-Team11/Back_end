@@ -64,13 +64,13 @@ class SignupController {
 
         try {
             const validate = schema.validate({
-                companyName: companyName,
-                address: address,
-                ceoName: ceoName,
-                companyNum: companyNum,
-                ceoNum: ceoNum,
-                companyId: companyId,
-                password: password,
+                companyName,
+                address,
+                ceoName,
+                companyNum,
+                ceoNum,
+                companyId,
+                password,
             });
     
             if (validate.error) {
