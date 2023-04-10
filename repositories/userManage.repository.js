@@ -1,5 +1,6 @@
 const { Users, Companys, Teams, Sequelize } = require("../models");
 const { Op } = require("sequelize");
+const { boolean } = require("joi");
 
 class UserManageRepository {
     //유저 수정
@@ -48,13 +49,14 @@ class UserManageRepository {
         return users;
     };
     // 회사 팀 리스트
+    // 들어오는 인자에 따라 다른값 리턴
     findTeamsByCompanyId = async ({ companyId, team }) => {
-        console.log("레포", companyId);
-        const teams = await Teams.findOne({
-            where: {
-                companyId,
-                teamName: team,
-            },
+        const where = { companyId };
+        if (team) {
+            where.teamName = team;
+        }
+        const teams = await Teams.findAll({
+            where: where,
             attributes: ["teamId", ["teamName", "team"]],
         });
         return teams;
