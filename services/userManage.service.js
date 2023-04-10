@@ -6,6 +6,13 @@ class UserManageService {
     constructor() {
         this.userManageRepository = new UserManageRepository();
     }
+    findTeamsList = async ({ companyId }) => {
+        const teams = await this.userManageRepository.findTeamsByCompanyId({
+            companyId,
+        });
+        return teams;
+    };
+
     // 유저 수정
     updateUser = async ({ userId, team, authLevel, rank, companyId }) => {
         console.log(companyId);
@@ -20,7 +27,8 @@ class UserManageService {
             companyId,
             team,
         });
-        if (!teams) {
+        // teams 가 빈배열일때
+        if (!teams.length) {
             throw new CustomError("해당 부서가 존재하지 않습니다", 401);
         }
         const authToNum =
