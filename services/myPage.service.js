@@ -115,14 +115,31 @@ class MypageService {
             })
         );
     };
+    getMentionedMeetingReports = async ({userId}) => {
+        //멘션테이블에서 내 아이디가 들어있는 값 가져오기
+        const meeting = await this.MypageRepository.getMention({
+            userId,
+            type: "meetingreports",
+        });
+        //내가 언급된 미팅 가져오기
+        return await Promise.all(
+            meeting.map(async (event) => {
+                return await this.MypageRepository.getMeetingReportsById({
+                    eventId: event,
+                    userId,
+                });
+            })
+        );
+    };
 
     filterIssue = async ({
         schedule,
         meeting,
         report,
+        meetingReport,
         other,
     }) => {
-        const issue = schedule.concat(meeting, report, other);
+        const issue = schedule.concat(meeting, report,meetingReport,other);
         const isCheck = issue.filter(issue => issue.isChecked == true).sort((a, b) => b.eventId - a.eventId);
         const notCheck = issue.filter(issue => issue.isChecked == false).sort((a, b) => b.eventId - a.eventId);
         return {isCheck,notCheck}

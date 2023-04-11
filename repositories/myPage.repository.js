@@ -1,4 +1,4 @@
-const { Users, Schedules, Mentions, Events,Meetings,Reports,Others } = require("../models");
+const { Users, Schedules, Mentions, Events,Meetings,Reports,Others,MeetingReports } = require("../models");
 class MypageRepository {
     constructor() {}
 
@@ -178,6 +178,38 @@ class MypageRepository {
             attributes: ["mentionId","isChecked"],
         });
         return Object.assign({}, other, mention);
+    };
+
+    getMeetingReportsById = async ({ eventId, userId }) => {
+        //meeting 테이블과 mention 테이블 합치기
+        const meetingReports = await MeetingReports.findOne({
+            raw: true,
+            where: { eventId },
+            attributes: [
+                "eventId",
+                "enrollDay",
+                "User.userName",
+                "title",
+                "file",
+                "Event.eventType"
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                },
+                {
+                    model: Events,
+                    attributes: [],
+                },
+            ],
+        });
+        const mention = await Mentions.findOne({
+            raw: true,
+            where: { eventId, userId },
+            attributes: ["mentionId","isChecked"],
+        });
+        return Object.assign({}, meetingReports, mention);
     };
 
     findMention = async ({mentionId}) => {

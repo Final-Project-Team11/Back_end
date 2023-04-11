@@ -37,7 +37,7 @@ class MypageController {
         //reports
         const report = await this.MypageService.getMentionedReport({ userId });
         //meeting reports
-
+        const meetingReport = await this.MypageService.getMentionedMeetingReports({userId})
         //others
         const other = await this.MypageService.getMentionedOther({ userId });
         //하나로 합쳐서 필터링하기
@@ -45,6 +45,7 @@ class MypageController {
             schedule,
             meeting,
             report,
+            meetingReport,
             other,
         });
 
