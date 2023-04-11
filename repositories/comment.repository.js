@@ -3,8 +3,7 @@ const {Comments} = require('../models')
 class CommentRepository{
 
     // 댓글 작성
-    createComments = async(userId, eventId, comment) => {
-
+    createComments = async({userId, eventId, comment}) => {
         await Comments.create({
             userId,
             eventId,

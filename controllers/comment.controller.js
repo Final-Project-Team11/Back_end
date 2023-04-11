@@ -11,7 +11,6 @@ class CommentController{
         const {comment} = req.body
         const {userId} = res.locals.user
 
-
         const schema = Joi.object({
             comment: Joi.string().required().messages({
                 "string.base": "comment 필드는 날짜로 이루어져야 합니다.",
@@ -35,11 +34,11 @@ class CommentController{
         }
 
         try {
-            await this.commentService.createComments(
-                eventId,
+            await this.commentService.createComments({
+                eventId: Number(eventId),
                 comment,
                 userId
-            )
+            })
 
             res.status(200).send({ message : "댓글 작성이 성공적을 완료되었습니다."})
         }catch(err) {

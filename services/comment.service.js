@@ -5,13 +5,12 @@ class CommentService {
     commentRepository = new CommentRepository()
 
     // 댓글 작성
-    createComments = async(userId, eventId, comment) => {
-
-        await this.commentRepository.createComments(
+    createComments = async({userId, eventId, comment}) => {
+        await this.commentRepository.createComments({
             eventId,
             userId,
             comment
-        )
+        })
     }
 
     // 댓글 조회
