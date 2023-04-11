@@ -19,9 +19,9 @@ router.post('/other', authMiddleware, upload.single('file'), submitController.ot
 router.post('/meeting', authMiddleware, upload.single('file'), submitController.meetingSubmit)
 
 // 보고서 등록
-router.post('')
+router.post('/report', authMiddleware, upload.single('file'), submitController.reportSubmit)
 
 // 회의록 등록
-router.post('')
+router.post('/meeting/:eventId', authMiddleware, upload.single('file'), submitController.meetingReportSubmit)
 
 module.exports = router;

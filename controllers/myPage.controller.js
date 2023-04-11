@@ -48,7 +48,7 @@ class MypageController {
     createTodo = async (req, res, next) => {
         const { categoryId } = req.params;
         const { userId } = res.locals.user;
-        const { content, isDone } = req.body;
+        const { content } = req.body;
         //Joi
         const schema = Joi.object({
             content: Joi.string().required().messages({
@@ -56,16 +56,10 @@ class MypageController {
                 "string.empty": "투드리스트를 입력해 주세요.",
                 "any.required": "필수입력값을 입력해주세요",
             }),
-            isDone: Joi.boolean().required().messages({
-                "string.base": "isDone 필드는 Boolean로 이루어져야 합니다.",
-                "string.empty": "isDone 값을 입력해 주세요.",
-                "any.required": "필수입력값을 입력해주세요",
-            }),
         });
         try {
             const validate = schema.validate({
                 content,
-                isDone
             });
 
             if (validate.error) {
@@ -80,7 +74,7 @@ class MypageController {
                 userId,
                 categoryId,
                 content,
-                isDone,
+                isDone : false,
             });
             res.status(200).json({ message: "투두리스트가 추가되었습니다." });
         } catch (err) {
@@ -136,6 +130,23 @@ class MypageController {
             next(err);
         }
     };
+
+    getUserInfo = async (req, res, next) => {
+        const { userId } = res.locals.user;
+        try {
+            const user = await this.MypageService.checkUserById({ userId });
+            const userInfo = await this.MypageService.getUserInfo({ user });
+            res.status(200).json({ user: userInfo });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    getSchedules = async (req,res,next) => {
+        const { userId } = res.locals.user;
+        const schedule = await this.MypageService.getUserSchedule({ userId })
+        res.status(200).json({schedule})
+    }
 }
 
 module.exports = MypageController;

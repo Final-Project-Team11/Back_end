@@ -1,4 +1,4 @@
-const { CategoryTodos, Todos } = require("../models");
+const { CategoryTodos, Todos, Users, Schedules } = require("../models");
 class MypageRepository {
     constructor(){}
 
@@ -10,6 +10,7 @@ class MypageRepository {
 
     findAlltodos = async({ userId, categoryId }) => {
         return await Todos.findAll({
+            attributes:["todoId", "todo", "isDone"],
             where: { userId, categoryId },
         });
     }
@@ -58,6 +59,21 @@ class MypageRepository {
                 where: { userId, todoId },
             }
         );
+    }
+    findUserById = async ({ userId }) => {
+        return await Users.findOne({ where: { userId } });
+    }
+    getUserSchedule = async ({ userId }) => {
+        return await Schedules.findAll({
+            raw: true,
+            where : {userId},
+            attributes: ['eventId',"User.userName", "title", "file", "startDay", "endDay","status"],
+            order: [['createdAt', 'DESC']],
+            include: [{
+                model: Users,
+                attributes: []
+            }]
+        })
     }
 }
 
