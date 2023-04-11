@@ -85,8 +85,26 @@ class SubmitService {
         // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
         REF = ref.concat(REF)
 
-        await this.submitRepository.reportSubmit({userId, title, content, ref: REF, isRef, file})
+        await this.submitRepository.reportSubmit({userId, title, content, ref: REF, file})
 
+    }
+
+    // 회의록 등록
+    meetingReportSubmit = async({userId, meetingId, teamId, title, ref, content, file}) => {
+        // console.log("-----------------")
+        // console.log(mentionId)
+        // console.log("-----------------")
+        const isRef = await this.submitRepository.findRef(teamId)
+        
+        // 팀장 참조
+        let REF = isRef.map((item) => {
+            return item.userName
+        })
+
+        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
+        REF = ref.concat(REF)
+
+        await this.submitRepository.meetingReportSubmit({userId, meetingId, title, content, ref: REF, file})
     }
 }
 

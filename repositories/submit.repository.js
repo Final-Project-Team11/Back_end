@@ -1,4 +1,4 @@
-const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings, Reports, Others} = require('../models')
+const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings, Reports, Others, MeetingReports} = require('../models')
 const CustomError = require('../middlewares/errorHandler')
 const {Transaction} = require('sequelize');
 const { date } = require('joi');
@@ -203,7 +203,7 @@ class SubmitRepository {
             
             const {eventId} = event;
             
-            const createReportSubmit = await Reports.create({
+            await Reports.create({
                 eventId: eventId,
                 userId,
                 title,
@@ -211,8 +211,6 @@ class SubmitRepository {
                 file,
                 enrollDay : event.createdAt
             }, {transaction : t})
-
-            console.log()
 
             ref.forEach(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
@@ -231,6 +229,52 @@ class SubmitRepository {
         }catch(transactionError) {
             await t.rollback()
             throw new CustomError('보고서 등록에 실패하였습니다.', 400)
+        }
+    }
+
+    // 회의록 등록
+    meetingReportSubmit = async({userId, meetingId, title, ref, content, file}) => {
+        const t = await sequelize.transaction({
+            isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
+        })
+        try {
+            let hasFile = (file) ? true : false;
+            const event = await Events.create({
+                userId,
+                eventType: 'MeetingReports',
+                hasFile : hasFile,
+            }, {transaction : t})
+            
+            const {eventId} = event;
+
+            console.log("-----------------")
+            console.log(meetingId)
+            console.log("-----------------")
+            
+            const createReportSubmit = await MeetingReports.create({
+                eventId: eventId,
+                meetingId,
+                userId,
+                title,
+                content,
+                file,
+                enrollDay : event.createdAt
+            }, {transaction : t})
+
+            ref.forEach(async(item) => {
+                const {userId} = await Users.findOne({where : {userName : item}})
+
+                await Mentions.create({
+                    eventId : eventId,
+                    userId : userId,
+                    isChecked : false
+                })
+            }, {transaction : t})
+
+            await t.commit()
+        }catch(transactionError) {
+            await t.rollback()
+            throw new CustomError('회의록 등록에 실패하였습니다.', 400)
         }
     }
 
