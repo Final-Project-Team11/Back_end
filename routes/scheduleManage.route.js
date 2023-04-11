@@ -13,4 +13,16 @@ router.get(
     authMiddleware,
     scheduleManageController.scheduleDetail
 );
+// 출장 승인
+router.put(
+    "/:eventId/accept",
+    managerMiddleware,
+    scheduleManageController.scheduleAccept
+);
+// 출장 반려
+router.put(
+    "/:eventId/deny",
+    managerMiddleware,
+    scheduleManageController.scheduleDeny
+);
 module.exports = router;

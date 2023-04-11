@@ -31,10 +31,10 @@ module.exports = async (req, res, next) => {
         next();
     } catch (err) {
         console.error(err);
-        (err.message = !err.expect
+        err.message = err.expect
             ? err.message
-            : "전달된 쿠키에서 오류가 발생하였습니다."),
-            (err.status = !err.expect ? err.status : 403);
+            : "전달된 토큰에서 오류가 발생하였습니다."
+        err.status = err.expect ? err.status : 403
         next(err);
     }
 };

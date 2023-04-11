@@ -1,5 +1,17 @@
 const { Users, Schedules, Mentions, Events, Sequelize } = require("../models");
 class ScheduleManageRepository {
+
+    // 출장 승인/반려
+    updateScheduleStaus = async ({ eventId, status }) => {
+        const result = await Schedules.update(
+            {
+            status: status,
+            },
+            {
+            where: { eventId },  
+            })
+        return result
+    }
     // 출장 상세 조회
     findScheduleById = async ({ eventId }) => {
         const schedule = await Events.findOne({
@@ -36,7 +48,8 @@ class ScheduleManageRepository {
                 },
             ],
         });
-        return schedule.dataValues;
+        // console.log(schedule)
+        return schedule
     };
 
     // 팀 유저 스케줄 ( 출장만 ) , 기능 확장 가능성 있음
