@@ -7,8 +7,9 @@ const AuthRouter = require("../routes/auth.route.js");
 const UserRouter = require("../routes/signup.route.js");
 const submitRouter = require("./submit.route");
 const myPageRputer = require("./myPage.route.js")
+const commentRouter = require('./comment.route')
 
-router.use("/", [UserRouter,AuthRouter,submitRouter,myPageRputer]);
+router.use("/", [UserRouter,AuthRouter,submitRouter,myPageRputer,commentRouter]);
 router.use("/users", userManageRouter);
 router.use("/schedule", scheduleManageRouter);
 router.use('/vacation', vacationManageRouter)
