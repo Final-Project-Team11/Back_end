@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
                 targetKey: "eventId",
                 foreignKey: "eventId",
             });
+            this.belongsTo(models.Users, {
+                targetKey: "userId",
+                foreignKey: "userId",
+            });
 
             this.hasOne(models.MeetingReports, {
                 sourceKey: "eventId",
