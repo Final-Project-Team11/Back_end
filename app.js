@@ -33,7 +33,7 @@ app.use("/", indexRouter);
 app.use((err, req, res, next) => {
     console.log(err);
     return res.status(err.status || 400).json({
-        success: err.expect,
+        success: false,
         errorMessage: err.message || "예상치 못한 에러가 발생했습니다.",
     });
 });
@@ -41,3 +41,5 @@ app.use((err, req, res, next) => {
 app.listen(3003, () => {
     console.log(3003, "포트로 서버가 열렸어요!");
 });
+
+

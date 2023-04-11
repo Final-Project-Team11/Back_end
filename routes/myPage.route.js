@@ -39,6 +39,18 @@ router.delete(
 
 //투두리스트 체크
 //localhost:3003/feed/todo/{todoId}
-router.patch("/feed/todo/:todoId", authmiddleware, mypagecontroller.completeTodo);
+router.patch(
+    "/feed/todo/:todoId",
+    authmiddleware,
+    mypagecontroller.completeTodo
+);
+
+//유저정보조회
+//localhost:3003/usersInfo
+router.get("/usersInfo", authmiddleware, mypagecontroller.getUserInfo);
+
+//출장 조회
+//localhost:3003/mySchedule
+router.get("/mySchedule",authmiddleware,mypagecontroller.getSchedules)
 
 module.exports = router;
