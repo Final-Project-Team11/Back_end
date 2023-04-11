@@ -125,8 +125,27 @@ class MypageService {
         const issue = schedule.concat(meeting, report, other);
         const check = issue.filter(issue => issue.isChecked == true);
         const noncheck = issue.filter(issue => issue.isChecked == false);
+        //최신순 정렬
         return {check,noncheck}
     }
+
+    checkMention = async ({mentionId,userId}) => {
+        const existMention = await this.MypageRepository.findMention({mentionId})
+        if (!existMention){
+            throw new CustomError("존재하지 않는 일정입니다.",401)
+        }else if (existMention.userId !== userId){
+            throw new CustomError("해당 일정에 권한이 존재하지 않습니다.",401)
+        }
+        return existMention;
+    }
+    completeMentioned = async({existMention,mentionId}) => {
+        if (existMention.isChecked === false) {
+            const check = true;
+            await this.MypageRepository.updateMention({mentionId,check})
+        } 
+    }
+
+
 }
 
 module.exports = MypageService;

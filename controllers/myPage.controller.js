@@ -36,6 +36,8 @@ class MypageController {
         });
         //reports
         const report = await this.MypageService.getMentionedReport({ userId });
+        //meeting reports
+
         //others
         const other = await this.MypageService.getMentionedOther({ userId });
         //하나로 합쳐서 필터링하기
@@ -47,6 +49,16 @@ class MypageController {
         });
 
         res.status(200).json({ issue });
+    };
+
+    completeMentioned = async (req, res, next) => {
+        const { mentionId } = req.params;
+        const { userId } = res.locals.user;
+        //멘션에 대한 권한체크
+        const existMention = await this.MypageService.checkMention({mentionId,userId})
+        //check 값 바꾸기
+        await this.MypageService.completeMentioned({existMention,mentionId})
+        res.status(200).json({message : "멘션된 해당 일정을 확인하였습니다."});
     };
 }
 

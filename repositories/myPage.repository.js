@@ -180,6 +180,21 @@ class MypageRepository {
         return Object.assign({}, other, mention);
     };
 
+    findMention = async ({mentionId}) => {
+        return await Mentions.findOne({where : {mentionId}})
+    }
+
+    updateMention = async ({mentionId,check}) => {
+        await Mentions.update(
+            {
+                isChecked: check,
+            },
+            {
+                where: { mentionId },
+            }
+        )
+    }
+ 
 }
 
 module.exports = MypageRepository;

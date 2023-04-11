@@ -18,5 +18,7 @@ router.get("/mySchedule",authmiddleware,mypagecontroller.getSchedules)
 router.get("/mentionedSchedule",authmiddleware,mypagecontroller.getMentionedSchedules)
 
 //언급된 일정 확인후 상태 변경 
+//localhost:3003/mentionedSchedule/:mentionId
+router.patch("/mentionedSchedule/:mentionId",authmiddleware,mypagecontroller.completeMentioned)
 
 module.exports = router;
