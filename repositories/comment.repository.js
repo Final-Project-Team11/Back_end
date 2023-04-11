@@ -1,4 +1,4 @@
-const {Comments} = require('../models')
+const {Comments, Users} = require('../models')
 
 class CommentRepository{
 
@@ -14,9 +14,20 @@ class CommentRepository{
     // 댓글 조회
     findCommentAll = async(eventId) => {
         const findCommentAll = await Comments.findAll({
-            where : {eventId}
+            raw: true,
+            where: {eventId},
+            attributes: [
+                "comment",
+                "User.userName"
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes : []
+                }
+            ]
         })
-
+        
         return findCommentAll
     }
 

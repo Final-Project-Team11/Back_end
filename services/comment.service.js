@@ -1,5 +1,6 @@
 const CustomError = require('../middlewares/errorHandler')
 const CommentRepository = require('../repositories/comment.repository')
+const {Users} = require('../models')
 
 class CommentService {
     commentRepository = new CommentRepository()
@@ -16,7 +17,7 @@ class CommentService {
     // 댓글 조회
     findCommentAll = async(eventId) => {
         const findCommentAll = await this.commentRepository.findCommentAll(eventId)
-
+        
         return findCommentAll
     }
 
