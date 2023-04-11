@@ -123,10 +123,9 @@ class MypageService {
         other,
     }) => {
         const issue = schedule.concat(meeting, report, other);
-        const check = issue.filter(issue => issue.isChecked == true);
-        const noncheck = issue.filter(issue => issue.isChecked == false);
-        //최신순 정렬
-        return {check,noncheck}
+        const isCheck = issue.filter(issue => issue.isChecked == true).sort((a, b) => b.eventId - a.eventId);
+        const notCheck = issue.filter(issue => issue.isChecked == false).sort((a, b) => b.eventId - a.eventId);
+        return {isCheck,notCheck}
     }
 
     checkMention = async ({mentionId,userId}) => {
