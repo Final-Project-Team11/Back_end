@@ -83,7 +83,7 @@ class MypageService {
         );
     };
 
-    getMentionedReport = async ({userId}) => {
+    getMentionedReport = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
@@ -99,7 +99,7 @@ class MypageService {
             })
         );
     };
-    getMentionedOther = async ({userId}) => {
+    getMentionedOther = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
@@ -115,7 +115,7 @@ class MypageService {
             })
         );
     };
-    getMentionedMeetingReports = async ({userId}) => {
+    getMentionedMeetingReports = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
@@ -139,32 +139,47 @@ class MypageService {
         meetingReport,
         other,
     }) => {
-        const issue = schedule.concat(meeting, report,meetingReport,other);
-        const isCheck = issue.filter(issue => issue.isChecked == true).sort((a, b) => b.eventId - a.eventId);
-        const notCheck = issue.filter(issue => issue.isChecked == false).sort((a, b) => b.eventId - a.eventId);
-        return {isCheck,notCheck}
-    }
+        const issue = schedule.concat(meeting, report, meetingReport, other);
+        const isCheck = issue
+            .filter((issue) => issue.isChecked == true)
+            .sort((a, b) => b.eventId - a.eventId);
+        const notCheck = issue
+            .filter((issue) => issue.isChecked == false)
+            .sort((a, b) => b.eventId - a.eventId);
+        return { isCheck, notCheck };
+    };
 
-    checkMention = async ({mentionId,userId}) => {
-        const existMention = await this.MypageRepository.findMention({mentionId})
-        if (!existMention){
-            throw new CustomError("존재하지 않는 일정입니다.",401)
-        }else if (existMention.userId !== userId){
-            throw new CustomError("해당 일정에 권한이 존재하지 않습니다.",401)
+    checkMention = async ({ mentionId, userId }) => {
+        const existMention = await this.MypageRepository.findMention({
+            mentionId,
+        });
+        if (!existMention) {
+            throw new CustomError("존재하지 않는 일정입니다.", 401);
+        } else if (existMention.userId !== userId) {
+            throw new CustomError("해당 일정에 권한이 존재하지 않습니다.", 401);
         }
         return existMention;
-    }
-    completeMentioned = async({existMention,mentionId}) => {
+    };
+    completeMentioned = async ({ existMention, mentionId }) => {
         if (existMention.isChecked === false) {
             const check = true;
-            await this.MypageRepository.updateMention({mentionId,check})
-        } 
-    }
+            await this.MypageRepository.updateMention({ mentionId, check });
+        }
+    };
 
-    getMyfile = async ({userId}) => {
-        
-    }
-
+    getMyfile = async ({ userId }) => {
+        return await this.MypageRepository.findMyfile({ userId });
+    };
+    TeamMeetingReport = async ({ userId }) => {
+        //팀원의 배열
+        const team = await this.MypageRepository.findTeam({ userId });
+        return await this.MypageRepository.findTeamMeetingFile({ team });
+    };
+    TeamReport = async ({ userId }) => {
+        //팀원의 배열
+        const team = await this.MypageRepository.findTeam({ userId });
+        return await this.MypageRepository.findTeamReportFile({ team });
+    };
 }
 
 module.exports = MypageService;
