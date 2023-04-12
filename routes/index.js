@@ -12,5 +12,7 @@ const commentRouter = require('./comment.route')
 router.use("/", [UserRouter,AuthRouter,submitRouter,myPageRputer,commentRouter]);
 router.use("/users", userManageRouter);
 router.use("/schedule", scheduleManageRouter);
-router.use('/vacation', vacationManageRouter)
+router.use("/vacation", vacationManageRouter);
+router.use("/feed", todoRouter);
+
 module.exports = router;
