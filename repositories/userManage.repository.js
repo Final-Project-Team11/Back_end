@@ -121,6 +121,7 @@ class UserManageRepository {
         joinDay,
         job,
         companyId,
+        salaryDay,
         encryptPwd,
     }) => {
         await Users.create({
@@ -133,7 +134,7 @@ class UserManageRepository {
             joinDay,
             job,
             companyId,
-            salaryDay: 23,
+            salaryDay,
         });
     };
 }
