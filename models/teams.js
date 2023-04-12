@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Companys, {
                 targetKey: "companyId",
                 foreignKey: "companyId",
+                onDelete : "CASCADE"
             });
         }
     }

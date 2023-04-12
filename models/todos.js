@@ -12,11 +12,13 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.CategoryTodos, {
                 targetKey: "categoryId",
                 foreignKey: "categoryId",
+                onDelete : "CASCADE"
             });
 
             this.belongsTo(models.Users, {
                 targetKey: "userId",
                 foreignKey: "userId",
+                onDelete : "CASCADE"
             });
         }
     }
