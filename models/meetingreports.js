@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
                 targetKey: "eventId",
                 foreignKey: "meetingId",
             });
+            this.belongsTo(models.Users, {
+                targetKey: "userId",
+                foreignKey: "userId",
+            });
         }
     }
     MeetingReports.init(
