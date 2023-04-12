@@ -15,7 +15,7 @@ class MypageRepository {
         return await Users.findOne({ where: { userId } });
     };
     getUserSchedule = async ({ userId }) => {
-        return await Schedules.findAll({
+        const schedule = await Schedules.findAll({
             raw: true,
             where: { userId },
             attributes: [
@@ -35,6 +35,10 @@ class MypageRepository {
                 },
             ],
         });
+        schedule.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+        })
+        return schedule;
     };
 
     getMention = async ({ userId, type }) => {
@@ -83,6 +87,9 @@ class MypageRepository {
                 },
             ],
         });
+        schedule.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+        })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -116,6 +123,9 @@ class MypageRepository {
                 },
             ],
         });
+        meeting.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+        })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -148,6 +158,9 @@ class MypageRepository {
                 },
             ],
         });
+        report.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+        })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -181,6 +194,9 @@ class MypageRepository {
                 },
             ],
         });
+        other.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+        })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -213,6 +229,9 @@ class MypageRepository {
                 },
             ],
         });
+        meetingReports.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+        })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -256,7 +275,7 @@ class MypageRepository {
                         attributes: ["title", "file"],
                         where: { userId, eventId: event.eventId },
                     });
-                    schedule.file = schedule.file.split("/")[3];
+                    schedule.fileName = schedule.file.split("/")[3];
                     return Object.assign(event, schedule);
                 } else if (event.eventType === "Meetings") {
                     const meeting = await Meetings.findOne({
@@ -264,7 +283,7 @@ class MypageRepository {
                         attributes: ["title", "file"],
                         where: { userId, eventId: event.eventId },
                     });
-                    meeting.file = meeting.file.split("/")[3];
+                    meeting.fileName = meeting.file.split("/")[3];
                     return Object.assign(event, meeting);
                 } else if (event.eventType === "Reports") {
                     const report = await Reports.findOne({
@@ -272,7 +291,7 @@ class MypageRepository {
                         attributes: ["title", "file"],
                         where: { userId, eventId: event.eventId },
                     });
-                    report.file = report.file.split("/")[3];
+                    report.fileName = report.file.split("/")[3];
                     return Object.assign(event, report);
                 } else if (event.eventType === "Others") {
                     const other = await Others.findOne({
@@ -280,7 +299,7 @@ class MypageRepository {
                         attributes: ["title", "file"],
                         where: { userId, eventId: event.eventId },
                     });
-                    other.file = other.file.split("/")[3];
+                    other.fileName = other.file.split("/")[3];
                     return Object.assign(event, other);
                 } else if (event.eventType === "MeetingReports") {
                     const MeetingReport = await MeetingReports.findOne({
@@ -288,7 +307,7 @@ class MypageRepository {
                         attributes: ["title", "file"],
                         where: { userId, eventId: event.eventId },
                     });
-                    MeetingReport.file = MeetingReport.file.split("/")[3];
+                    MeetingReport.fileName = MeetingReport.file.split("/")[3];
                     return Object.assign(event, MeetingReport);
                 }
             })
@@ -329,7 +348,7 @@ class MypageRepository {
             })
         )
         return list.flat().map((event) => {
-            event.file = (event.file ?? "").split("/")[3];
+            event.fileName = (event.file ?? "").split("/")[3];
             return event
         })
     };
@@ -364,7 +383,7 @@ class MypageRepository {
             })
         )
         return list.flat().map((event) => {
-            event.file = (event.file ?? "").split("/")[3];
+            event.fileName = (event.file ?? "").split("/")[3];
             return event
         })
     }
