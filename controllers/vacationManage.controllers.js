@@ -5,6 +5,30 @@ class VacationManageController {
     constructor() {
         this.vacationManageService = new VacationManageService();
     }
+     // 휴가 반려
+    vacationDeny = async (req, res, next) => {
+        try{
+            const userInfo = res.locals.user;
+            const { eventId } = req.params;
+            await this.vacationManageService.vacationDeny({ eventId, userInfo })
+            res.status(200).json({ message: '휴가 승인 거절되었습니다.' })    
+        } catch (err) {
+            next(err)
+    }
+    }
+    
+    // 휴가 수락
+    vacationAccept = async (req, res, next) => {
+        try{
+            const userInfo = res.locals.user;
+            const { eventId } = req.params;
+            await this.vacationManageService.vacationAccept({ eventId, userInfo })
+            res.status(200).json({ message: '휴가가 등록되었습니다.' })    
+        } catch (err) {
+            next(err)
+    }
+    }
+    
     // 휴가 상세 조회
     vacationDetail = async (req, res, next) => {
         try {

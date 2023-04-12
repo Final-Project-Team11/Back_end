@@ -1,5 +1,8 @@
 const SubmitRepository = require("../repositories/submit.repository");
 const CustomError = require("../middlewares/errorHandler");
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
+require('dotenv').config()
 
 class SubmitService {
     submitRepository = new SubmitRepository();
@@ -20,6 +23,61 @@ class SubmitService {
         const createScheduleSubmit = await this.submitRepository.scheduleSubmit(
             {
                 userId,
+                startDay,
+                endDay,
+                title,
+                ref: REF,
+                location,
+                content,
+                file,
+            }
+        );
+        return createScheduleSubmit
+    }
+
+    // 일정 수정
+    scheduleModify = async({userId, eventId, teamId, startDay, endDay, title, ref, location, content, file}) => {
+        const schedule = await this.submitRepository.findOneSchedule(eventId)
+        // console.log("aaaaaaaaaa", schedule)
+        if(!schedule) {
+            throw new CustomError("해당 일정이 존재하지 않습니다.", 401)
+        }
+        if(schedule.userId != userId) {
+            throw new CustomError("수정 권한이 존재하지 않습니다.", 401)
+        }
+        const bucketName = process.env.BUCKET_NAME
+        const fileKey = schedule.file.split('/')[3]
+
+        // 단일 파일 삭제
+        const objectParams_del = {
+            Bucket: bucketName,
+            Key: `${fileKey}`
+        }
+
+        await s3
+        .deleteObject(objectParams_del)
+        .promise()
+        .then((data) => {
+            console.log('Delete Success! : ', data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        const isRef = await this.submitRepository.findRef(teamId)
+        
+        // 팀장 참조
+        let REF = isRef.map((item) => {
+            return item.userName
+        })
+
+        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
+        REF = ref.concat(REF)
+
+        const createScheduleSubmit = await this.submitRepository.scheduleModify(
+            {
+                userId,
+                eventId,
                 startDay,
                 endDay,
                 title,
@@ -86,7 +144,41 @@ class SubmitService {
         REF = ref.concat(REF)
 
         await this.submitRepository.reportSubmit({userId, title, content, ref: REF, file})
+    }
 
+    // 보고서 수정
+    reportModify = async({userId, eventId, teamId, title, content, ref, file}) => {
+        const report = await this.submitRepository.findOneReport(eventId)
+
+        const bucketName = process.env.BUCKET_NAME
+        const fileKey = report.file.split('/')[3]
+
+        // 단일 파일 삭제
+        const objectParams_del = {
+            Bucket: bucketName,
+            Key: `${fileKey}`
+        }
+
+        await s3
+        .deleteObject(objectParams_del)
+        .promise()
+        .then((data) => {
+            console.log('Delete Success! : ', data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        const isRef = await this.submitRepository.findRef(teamId)
+        // 팀장 참조
+        let REF = isRef.map((item) => {
+            return item.userName
+        })
+
+        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
+        REF = ref.concat(REF)
+
+        await this.submitRepository.reportModify({userId, eventId, title, content, ref: REF, file})
     }
 
     // 회의록 등록
@@ -103,6 +195,42 @@ class SubmitService {
         REF = ref.concat(REF)
 
         await this.submitRepository.meetingReportSubmit({userId, meetingId, title, content, ref: REF, file})
+    }
+
+    // 회의록 수정
+    meetingReportModify = async({userId, meetingId, teamId, title, ref, content, file}) => {
+        const meetingReport = await this.submitRepository.findOneMeetingReport(meetingId)
+
+        const bucketName = process.env.BUCKET_NAME
+        const fileKey = meetingReport.file.split('/')[3]
+
+        // 단일 파일 삭제
+        const objectParams_del = {
+            Bucket: bucketName,
+            Key: `${fileKey}`
+        }
+
+        await s3
+        .deleteObject(objectParams_del)
+        .promise()
+        .then((data) => {
+            console.log('Delete Success! : ', data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        const isRef = await this.submitRepository.findRef(teamId)
+        
+        // 팀장 참조
+        let REF = isRef.map((item) => {
+            return item.userName
+        })
+
+        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
+        REF = ref.concat(REF)
+
+        await this.submitRepository.meetingReportModify({userId, eventId: meetingReport.eventId, meetingId, title, content, ref: REF, file})
     }
 }
 

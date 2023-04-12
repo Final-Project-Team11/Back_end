@@ -67,11 +67,13 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Teams, {
                 targetKey: "teamId",
                 foreignKey: "teamId",
+                onDelete : "CASCADE"
             });
 
             this.belongsTo(models.Companys, {
                 targetKey: "companyId",
                 foreignKey: "companyId",
+                onDelete : "CASCADE"
             });
         }
     }

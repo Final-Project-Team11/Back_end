@@ -6,10 +6,10 @@ const userManageRouter = require("./userManage.route");
 const AuthRouter = require("../routes/auth.route.js");
 const UserRouter = require("../routes/signup.route.js");
 const submitRouter = require("./submit.route");
-const myPageRouter = require("./myPage.route.js");
-const todoRouter = require("../routes/todo.route.js");
+const myPageRputer = require("./myPage.route.js")
+const commentRouter = require('./comment.route')
 
-router.use("/", [UserRouter, AuthRouter, submitRouter, myPageRouter]);
+router.use("/", [UserRouter,AuthRouter,submitRouter,myPageRputer,commentRouter]);
 router.use("/users", userManageRouter);
 router.use("/schedule", scheduleManageRouter);
 router.use("/vacation", vacationManageRouter);
