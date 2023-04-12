@@ -91,9 +91,17 @@ class MypageController {
 
     getMyFiles = async (req, res, next) => {
         const { userId } = res.locals.user;
+        const pageInfo = req.query;
+        const pageNum = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410)
+        }
+
         try {
             const myfile = await this.MypageService.getMyfile({ userId });
-            res.status(200).json({ myfile });
+            const myfiles = myfile.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ myfiles });
         } catch (err) {
             next(err);
         }
@@ -101,11 +109,18 @@ class MypageController {
 
     getMeetingFiles = async (req, res, next) => {
         const { userId } = res.locals.user;
+        const pageInfo = req.query;
+        const pageNum = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410)
+        }
         try {
             const meeting = await this.MypageService.TeamMeetingReport({
                 userId,
             });
-            res.status(200).json({ meeting });
+            const meetings = meeting.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ meetings });
         } catch (err) {
             next(err);
         }
@@ -113,11 +128,18 @@ class MypageController {
 
     getReportFiles = async (req, res, next) => {
         const { userId } = res.locals.user;
+        const pageInfo = req.query;
+        const pageNum = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410)
+        }
         try {
             const report = await this.MypageService.TeamReport({
                 userId,
             });
-            res.status(200).json({ report });
+            const reports = report.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ reports });
         } catch (err) {
             next(err);
         }
