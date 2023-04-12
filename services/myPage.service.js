@@ -45,8 +45,12 @@ class MypageService {
         return userInfo;
     };
 
-    getUserSchedule = async ({ userId }) => {
-        return await this.MypageRepository.getUserSchedule({ userId });
+    getUserSchedule = async ({ userId, start, pageSize }) => {
+        return await this.MypageRepository.getUserSchedule({
+            userId,
+            start,
+            pageSize,
+        });
     };
 
     getMentionedSchedules = async ({ userId }) => {
@@ -146,8 +150,6 @@ class MypageService {
         return issue
             .filter((event) => event.isChecked == false)
             .concat(issue.filter((event) => event.isChecked == true).reverse());
-
-        
     };
 
     checkMention = async ({ mentionId, userId }) => {

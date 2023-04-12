@@ -1,13 +1,24 @@
-const { Users, Schedules, Mentions, Events,Meetings,Reports,Others,MeetingReports } = require("../models");
+const {
+    Users,
+    Schedules,
+    Mentions,
+    Events,
+    Meetings,
+    Reports,
+    Others,
+    MeetingReports,
+} = require("../models");
 class MypageRepository {
     constructor() {}
 
     findUserById = async ({ userId }) => {
         return await Users.findOne({ where: { userId } });
     };
-    getUserSchedule = async ({ userId }) => {
+    getUserSchedule = async ({ userId, start, pageSize }) => {
         return await Schedules.findAll({
             raw: true,
+            limit: pageSize,
+            offset: start,
             where: { userId },
             attributes: [
                 "eventId",
@@ -61,7 +72,7 @@ class MypageRepository {
                 "User.userName",
                 "title",
                 "file",
-                "Event.eventType"
+                "Event.eventType",
             ],
             include: [
                 {
@@ -77,7 +88,7 @@ class MypageRepository {
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
-            attributes: ["mentionId","isChecked"],
+            attributes: ["mentionId", "isChecked"],
         });
         return Object.assign({}, schedule, mention);
     };
@@ -94,7 +105,7 @@ class MypageRepository {
                 "User.userName",
                 "title",
                 "file",
-                "Event.eventType"
+                "Event.eventType",
             ],
             include: [
                 {
@@ -110,7 +121,7 @@ class MypageRepository {
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
-            attributes: ["mentionId","isChecked"],
+            attributes: ["mentionId", "isChecked"],
         });
         return Object.assign({}, meeting, mention);
     };
@@ -126,7 +137,7 @@ class MypageRepository {
                 "User.userName",
                 "title",
                 "file",
-                "Event.eventType"
+                "Event.eventType",
             ],
             include: [
                 {
@@ -142,7 +153,7 @@ class MypageRepository {
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
-            attributes: ["mentionId","isChecked"],
+            attributes: ["mentionId", "isChecked"],
         });
         return Object.assign({}, report, mention);
     };
@@ -159,7 +170,7 @@ class MypageRepository {
                 "User.userName",
                 "title",
                 "file",
-                "Event.eventType"
+                "Event.eventType",
             ],
             include: [
                 {
@@ -175,7 +186,7 @@ class MypageRepository {
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
-            attributes: ["mentionId","isChecked"],
+            attributes: ["mentionId", "isChecked"],
         });
         return Object.assign({}, other, mention);
     };
@@ -191,7 +202,7 @@ class MypageRepository {
                 "User.userName",
                 "title",
                 "file",
-                "Event.eventType"
+                "Event.eventType",
             ],
             include: [
                 {
@@ -207,16 +218,16 @@ class MypageRepository {
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
-            attributes: ["mentionId","isChecked"],
+            attributes: ["mentionId", "isChecked"],
         });
         return Object.assign({}, meetingReports, mention);
     };
 
-    findMention = async ({mentionId}) => {
-        return await Mentions.findOne({where : {mentionId}})
-    }
+    findMention = async ({ mentionId }) => {
+        return await Mentions.findOne({ where: { mentionId } });
+    };
 
-    updateMention = async ({mentionId,check}) => {
+    updateMention = async ({ mentionId, check }) => {
         await Mentions.update(
             {
                 isChecked: check,
@@ -224,9 +235,8 @@ class MypageRepository {
             {
                 where: { mentionId },
             }
-        )
-    }
- 
+        );
+    };
 }
 
 module.exports = MypageRepository;
