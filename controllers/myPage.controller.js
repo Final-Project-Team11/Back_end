@@ -54,9 +54,7 @@ class MypageController {
             meetingReport,
             other,
         });
-        console.log(issue)
         const pagination = issue.slice(pageSize * (page - 1), pageSize * page);
-
         res.status(200).json({ pagination });
     };
 
