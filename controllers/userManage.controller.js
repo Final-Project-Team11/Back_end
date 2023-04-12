@@ -14,6 +14,7 @@ const userIdSchema = Joi.string()
     });
 
 const options = {
+    // 삭제할 부분
     abortEarly: false,
     messages: {
         "string.pattern.base":
@@ -27,6 +28,7 @@ class UserManageController {
     constructor() {
         this.userManageService = new UserManageService();
     }
+    // 팀 목록
     teamsList = async (req, res, next) => {
         try {
             const userInfo = res.locals.user;
