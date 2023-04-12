@@ -25,7 +25,13 @@ class MypageController {
 
     getMentionedSchedules = async (req, res, next) => {
         const { userId } = res.locals.user;
-        //해당 일정이 없을 때는 빈 객체
+        const pageInfo = req.query;
+        const page = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize || !page) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410)
+        }
+
         //schedule
         const schedule = await this.MypageService.getMentionedSchedules({
             userId,
@@ -48,8 +54,10 @@ class MypageController {
             meetingReport,
             other,
         });
+        console.log(issue)
+        const pagination = issue.slice(pageSize * (page - 1), pageSize * page);
 
-        res.status(200).json({ issue });
+        res.status(200).json({ pagination });
     };
 
     completeMentioned = async (req, res, next) => {
