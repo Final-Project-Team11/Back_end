@@ -3,7 +3,6 @@ const { sequelize } = require("../models/index.js");
 const { Transaction } = require("sequelize");
 const CustomError = require("../middlewares/errorHandler");
 
-
 class SignupRepository {
     constructor() {
         this.t = null;
@@ -80,12 +79,11 @@ class SignupRepository {
                 { transaction: t }
             );
             await t.commit();
-        } catch (err) {
-            if (err) {
-                // rollback()을 호출하여 트랜잭션 전체를 롤백
-                await t.rollback();
-                throw new CustomError(err.message, 400);
-            }
+        } catch (transactionError) {
+            // rollback()을 호출하여 트랜잭션 전체를 롤백
+            console.log(transactionError)
+            await t.rollback();
+            throw new CustomError("회원가입 중 예상치 못한 에러가 발생했습니다.", 400);
         }
     };
 }
