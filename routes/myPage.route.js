@@ -21,4 +21,7 @@ router.get("/mentionedSchedule",authmiddleware,mypagecontroller.getMentionedSche
 //localhost:3003/mentionedSchedule/:mentionId
 router.patch("/mentionedSchedule/:mentionId",authmiddleware,mypagecontroller.completeMentioned)
 
+//파일 목록 조회
+//localhost:3003/files
+router.get("/files",authmiddleware,mypagecontroller.getFiles)
 module.exports = router;

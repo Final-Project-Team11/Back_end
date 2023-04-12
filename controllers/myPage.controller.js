@@ -61,6 +61,12 @@ class MypageController {
         await this.MypageService.completeMentioned({existMention,mentionId})
         res.status(200).json({message : "멘션된 해당 일정을 확인하였습니다."});
     };
+
+    getFiles = async (req,res,next) => {
+        const {userId} = res.locals.user;
+        const myfile = await this.MypageService.getMyfile({userId})
+        res.status(200).json({issue})
+    }
 }
 
 module.exports = MypageController;
