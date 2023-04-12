@@ -6,6 +6,7 @@ class UserManageService {
     constructor() {
         this.userManageRepository = new UserManageRepository();
     }
+    // 팀 목록
     findTeamsList = async ({ companyId }) => {
         const teams = await this.userManageRepository.findTeamsByCompanyId({
             companyId,

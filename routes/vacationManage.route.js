@@ -14,5 +14,16 @@ router.get(
     authMiddleware,
     vacationManageController.vacationDetail
 );
-
+// 휴가 승인
+router.put(
+    "/:eventId/accept",
+    managerMiddleware,
+    vacationManageController.vacationAccept
+);
+// 휴가 반려
+router.put(
+    "/:eventId/deny",
+    managerMiddleware,
+    vacationManageController.vacationDeny
+);
 module.exports = router;
