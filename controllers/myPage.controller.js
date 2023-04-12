@@ -54,8 +54,8 @@ class MypageController {
             meetingReport,
             other,
         });
-        const pagination = issue.slice(pageSize * (page - 1), pageSize * page);
-        res.status(200).json({ pagination });
+        const mention = issue.slice(pageSize * (page - 1), pageSize * page);
+        res.status(200).json({ mention });
     };
 
     completeMentioned = async (req, res, next) => {
