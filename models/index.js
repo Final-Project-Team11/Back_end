@@ -11,14 +11,28 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-    sequelize = new Sequelize(process.env[config.use_env_variable], config);
+    sequelize = new Sequelize(process.env[config.use_env_variable],
+        {
+            ...config,
+            timezone: "+09:00", // DB에 저장할 때 시간 설정
+            dialectOptions: {
+                timezone: "+09:00", // DB에서 가져올 때 시간 설정
+            }
+    });
+    
 } else {
     sequelize = new Sequelize(
         config.database,
         config.username,
         config.password,
-        config
-    );
+        {
+            ...config,
+            timezone: "+09:00", // DB에 저장할 때 시간 설정
+            dialectOptions: {
+            timezone: "+09:00", // DB에서 가져올 때 시간 설정
+            }}
+        
+    )
 }
 
 fs.readdirSync(__dirname)

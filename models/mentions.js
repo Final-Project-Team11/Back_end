@@ -12,16 +12,19 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Events, {
                 targetKey: "eventId",
                 foreignKey: "eventId",
+                onDelete : "CASCADE"
             });
 
             this.belongsTo(models.Meetings, {
                 targetKey: "eventId",
                 foreignKey: "eventId",
+                onDelete : "CASCADE"
             });
 
             this.belongsTo(models.Users, {
                 targetKey: "userId",
                 foreignKey: "userId",
+                onDelete : "CASCADE"
             });
         }
     }
@@ -29,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             mentionId: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
@@ -39,6 +43,11 @@ module.exports = (sequelize, DataTypes) => {
             eventId: {
                 allowNull: false,
                 type: DataTypes.INTEGER,
+            },
+            isChecked: {
+                allowNull: false,
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
             },
             createdAt: {
                 allowNull: false,

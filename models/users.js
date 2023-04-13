@@ -67,6 +67,13 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Teams, {
                 targetKey: "teamId",
                 foreignKey: "teamId",
+                onDelete : "CASCADE"
+            });
+
+            this.belongsTo(models.Companys, {
+                targetKey: "companyId",
+                foreignKey: "companyId",
+                onDelete : "CASCADE"
             });
         }
     }
@@ -95,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             remainDay: {
                 allowNull: false,
-                type: DataTypes.INTEGER,
+                type: DataTypes.FLOAT,
                 defaultValue: 15,
             },
             salaryDay: {
@@ -103,14 +110,14 @@ module.exports = (sequelize, DataTypes) => {
             },
             rank: {
                 allowNull: true,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
             },
             authLevel: {
                 allowNull: false,
                 type: DataTypes.INTEGER,
             },
             joinDay: {
-                allowNull: false,
+                allowNull: true,
                 type: DataTypes.DATE,
             },
             job: {

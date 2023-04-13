@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Companys, {
                 targetKey: "companyId",
                 foreignKey: "companyId",
+                onDelete : "CASCADE"
             });
         }
     }
@@ -24,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             teamId: {
                 allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
