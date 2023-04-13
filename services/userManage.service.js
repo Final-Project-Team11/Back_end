@@ -32,22 +32,17 @@ class UserManageService {
         if (!teams.length) {
             throw new CustomError("해당 부서가 존재하지 않습니다", 401);
         }
-        const authToNum =
-            authLevel === "leader"
-                ? 2
-                : authLevel === "member"
-                ? 3
-                : (() => {
-                      throw new CustomError(
-                          "해당 권한이 존재하지 않습니다",
-                          401
-                      );
-                  })();
+        if (authLevel !== 2 && authLevel !== 3) {
+            throw new CustomError(
+                "존재하지 않는 권한입니다.",
+                401
+            );
+        }
 
         await this.userManageRepository.updateUser({
             userId,
             team,
-            authLevel: authToNum,
+            authLevel,
             rank,
         });
     };
@@ -86,9 +81,10 @@ class UserManageService {
         userId,
         joinDay,
         job,
+        salaryDay,
         userInfo,
     }) => {
-        if (!team | !authLevel | !rank | !userName | !userId | !job) {
+        if (!team | !authLevel | !rank | !userName | !userId | !job | !salaryDay) {
             throw new CustomError("입력 형식을 채워주세요");
         }
         // 아이디 중복체크
@@ -123,6 +119,7 @@ class UserManageService {
             userId,
             joinDay,
             job,
+            salaryDay,
             companyId,
             encryptPwd,
         });
