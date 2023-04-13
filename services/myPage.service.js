@@ -45,15 +45,19 @@ class MypageService {
         return userInfo;
     };
 
-    getUserSchedule = async ({ userId }) => {
-        return await this.MypageRepository.getUserSchedule({ userId });
+    getUserSchedule = async ({ userId, start, pageSize }) => {
+        return await this.MypageRepository.getUserSchedule({
+            userId,
+            start,
+            pageSize,
+        });
     };
 
     getMentionedSchedules = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const schedule = await this.MypageRepository.getMention({
             userId,
-            type: "schedule",
+            type: "Schedules",
         });
         //내가 언급된 스케줄 가져오기
         return await Promise.all(
@@ -70,7 +74,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "meeting",
+            type: "Meetings",
         });
         //내가 언급된 미팅 가져오기
         return await Promise.all(
@@ -87,7 +91,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "report",
+            type: "Reports",
         });
         //내가 언급된 미팅 가져오기
         return await Promise.all(
@@ -103,7 +107,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "other",
+            type: "Others",
         });
         //내가 언급된 미팅 가져오기
         return await Promise.all(
@@ -119,7 +123,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "meetingreports",
+            type: "MeetingReports",
         });
         //내가 언급된 미팅 가져오기
         return await Promise.all(
@@ -139,14 +143,13 @@ class MypageService {
         meetingReport,
         other,
     }) => {
-        const issue = schedule.concat(meeting, report, meetingReport, other);
-        const isCheck = issue
-            .filter((issue) => issue.isChecked == true)
+        const issue = schedule
+            .concat(meeting, report, meetingReport, other)
             .sort((a, b) => b.eventId - a.eventId);
-        const notCheck = issue
-            .filter((issue) => issue.isChecked == false)
-            .sort((a, b) => b.eventId - a.eventId);
-        return { isCheck, notCheck };
+
+        return issue
+            .filter((event) => event.isChecked == false)
+            .concat(issue.filter((event) => event.isChecked == true).reverse());
     };
 
     checkMention = async ({ mentionId, userId }) => {

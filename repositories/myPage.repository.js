@@ -14,9 +14,14 @@ class MypageRepository {
     findUserById = async ({ userId }) => {
         return await Users.findOne({ where: { userId } });
     };
+
+    getUserSchedule = async ({ userId, start, pageSize }) => {
+        return await Schedules.findAll({
     getUserSchedule = async ({ userId }) => {
         const schedule = await Schedules.findAll({
             raw: true,
+            limit: pageSize,
+            offset: start,
             where: { userId },
             attributes: [
                 "eventId",

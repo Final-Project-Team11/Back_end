@@ -19,9 +19,25 @@ class MypageController {
 
     getSchedules = async (req, res, next) => {
         const { userId } = res.locals.user;
+        const pageInfo = req.query;
         try {
+            const pageNum = parseInt(pageInfo.pageNum);
+            const pageSize = parseInt(pageInfo.pageSize);
+            if (!pageInfo || !pageSize || !pageNum) {
+                throw new CustomError("pagenation 정보를 입력해주세요", 410);
+            }
+            let start = 0;
+
+            if (pageNum <= 0) {
+                pageNum = 1;
+            } else {
+                start = (pageNum - 1) * pageSize;
+            }
             const schedule = await this.MypageService.getUserSchedule({
                 userId,
+                start,
+                pageSize
+
             });
             res.status(200).json({ schedule });
         } catch (err) {
@@ -31,40 +47,38 @@ class MypageController {
 
     getMentionedSchedules = async (req, res, next) => {
         const { userId } = res.locals.user;
-        //해당 일정이 없을 때는 빈 객체
-        try {
-            //schedule
-            const schedule = await this.MypageService.getMentionedSchedules({
-                userId,
-            });
-            //meeting
-            const meeting = await this.MypageService.getMentionedMeeting({
-                userId,
-            });
-            //reports
-            const report = await this.MypageService.getMentionedReport({
-                userId,
-            });
-            //meeting reports
-            const meetingReport =
-                await this.MypageService.getMentionedMeetingReports({ userId });
-            //others
-            const other = await this.MypageService.getMentionedOther({
-                userId,
-            });
-            //하나로 합쳐서 필터링하기
-            const issue = await this.MypageService.filterIssue({
-                schedule,
-                meeting,
-                report,
-                meetingReport,
-                other,
-            });
-
-            res.status(200).json({ issue });
-        } catch (err) {
-            next(err);
+        const pageInfo = req.query;
+        const page = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize || !page) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410);
         }
+
+        //schedule
+        const schedule = await this.MypageService.getMentionedSchedules({
+            userId,
+        });
+        //meeting
+        const meeting = await this.MypageService.getMentionedMeeting({
+            userId,
+        });
+        //reports
+        const report = await this.MypageService.getMentionedReport({ userId });
+        //meeting reports
+        const meetingReport =
+            await this.MypageService.getMentionedMeetingReports({ userId });
+        //others
+        const other = await this.MypageService.getMentionedOther({ userId });
+        //하나로 합쳐서 필터링하기
+        const issue = await this.MypageService.filterIssue({
+            schedule,
+            meeting,
+            report,
+            meetingReport,
+            other,
+        });
+        const mention = issue.slice(pageSize * (page - 1), pageSize * page);
+        res.status(200).json({ mention });
     };
 
     completeMentioned = async (req, res, next) => {
