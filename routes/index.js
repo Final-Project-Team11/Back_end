@@ -3,11 +3,12 @@ const router = express.Router();
 const scheduleManageRouter = require("./scheduleManage.route");
 const vacationManageRouter = require("./vacationManage.route");
 const userManageRouter = require("./userManage.route");
-const AuthRouter = require("../routes/auth.route.js");
-const UserRouter = require("../routes/signup.route.js");
+const AuthRouter = require("../routes/auth.route");
+const UserRouter = require("../routes/signup.route");
 const submitRouter = require("./submit.route");
-const myPageRputer = require("./myPage.route.js")
+const myPageRputer = require("./myPage.route")
 const commentRouter = require('./comment.route')
+const todoRouter = require("./todo.route")
 
 router.use("/", [UserRouter,AuthRouter,submitRouter,myPageRputer,commentRouter]);
 router.use("/users", userManageRouter);
