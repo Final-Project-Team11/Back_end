@@ -44,7 +44,7 @@ class SubmitRepository {
 
             await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
-                // console.log('aaaaaaaaaaaaaaa',userId)
+                // console.log('aaaaaaaaaaaaaaa',item)
 
                 await Mentions.create({
                     eventId : eventId,
@@ -56,6 +56,7 @@ class SubmitRepository {
             await t.commit()
             return createScheduleSubmit;
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('출장 신청서 생성에 실패하였습니다.', 400)
         }

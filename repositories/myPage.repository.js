@@ -15,9 +15,7 @@ class MypageRepository {
         return await Users.findOne({ where: { userId } });
     };
 
-    getUserSchedule = async ({ userId, start, pageSize }) => {
-        return await Schedules.findAll({
-    getUserSchedule = async ({ userId }) => {
+    getUserSchedule = async ({ userId , start, pageSize}) => {
         const schedule = await Schedules.findAll({
             raw: true,
             limit: pageSize,
@@ -92,9 +90,9 @@ class MypageRepository {
                 },
             ],
         });
-        schedule.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
-        })
+        // schedule.map((event) => {
+        //     event.fileName = (event.file ?? "").split("/")[3];
+        // })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -128,9 +126,9 @@ class MypageRepository {
                 },
             ],
         });
-        meeting.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
-        })
+        // meeting.map((event) => {
+        //     event.fileName = (event.file ?? "").split("/")[3];
+        // })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -163,9 +161,9 @@ class MypageRepository {
                 },
             ],
         });
-        report.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
-        })
+        // report.map((event) => {
+        //     event.fileName = (event.file ?? "").split("/")[3];
+        // })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -199,9 +197,9 @@ class MypageRepository {
                 },
             ],
         });
-        other.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
-        })
+        // other.map((event) => {
+        //     event.fileName = (event.file ?? "").split("/")[3];
+        // })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -234,9 +232,9 @@ class MypageRepository {
                 },
             ],
         });
-        meetingReports.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
-        })
+        // meetingReports.map((event) => {
+        //     event.fileName = (event.file ?? "").split("/")[3];
+        // })
         const mention = await Mentions.findOne({
             raw: true,
             where: { eventId, userId },
@@ -250,6 +248,7 @@ class MypageRepository {
     };
 
     updateMention = async ({ mentionId, check }) => {
+        console.log("aaaaaaaaaaaaaaa",check)
         await Mentions.update(
             {
                 isChecked: check,

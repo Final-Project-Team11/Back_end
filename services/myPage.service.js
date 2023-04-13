@@ -164,9 +164,10 @@ class MypageService {
         return existMention;
     };
     completeMentioned = async ({ existMention, mentionId }) => {
-        if (existMention.isChecked === false) {
+        console.log(existMention.isChecked)
+        if (existMention.isChecked == false) {
             const check = true;
-            await this.MypageRepository.updateMention({ mentionId, check });
+            return await this.MypageRepository.updateMention({ mentionId, check });
         }
     };
 

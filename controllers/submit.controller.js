@@ -96,30 +96,25 @@ class SubmitController {
         const file = req.file ? await req.file.location : null
 
         const schema = Joi.object({
-            startDay: Joi.string().required().messages({
+            startDay: Joi.string().messages({
                 "string.base": "startDay 필드는 날짜로 이루어져야 합니다.",
                 "string.empty": "일정을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
             }),
-            endDay: Joi.string().required().messages({
+            endDay: Joi.string().messages({
                 "string.base": "endDay 필드는 날짜로 이루어져야 합니다.",
                 "string.empty": "일정을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
             }),
-            title: Joi.string().required().messages({
+            title: Joi.string().messages({
                 "string.base": "title 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "제목을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 "string.base": "ref 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "멘션을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
             }),
-            location: Joi.string().required().messages({
+            location: Joi.string().messages({
                 "string.base": "location 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "장소를 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
             }),
             content: Joi.string().required().messages({
                 "string.base": "content 필드는 문자열로 이루어져야 합니다.",
@@ -436,17 +431,15 @@ class SubmitController {
         const file = req.file ? await req.file.location : null
 
         const schema = Joi.object({
-            title: Joi.string().required().messages({
+            title: Joi.string().messages({
                 'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '제목을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })
@@ -552,17 +545,15 @@ class SubmitController {
         const file = req.file ? await req.file.location : null
 
         const schema = Joi.object({
-            title: Joi.string().required().messages({
+            title: Joi.string().messages({
                 'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '제목을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })
