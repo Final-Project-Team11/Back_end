@@ -11,6 +11,7 @@ const myPageRouter = require("./myPage.route");
 const commentRouter = require("./comment.route");
 
 
+
 router.use("/", [
     UserRouter,
     AuthRouter,

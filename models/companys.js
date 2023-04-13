@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             companyNum: {
                 allowNull: false,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
             },
             address: {
                 allowNull: false,
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             ceoNum: {
                 allowNull: false,
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
             },
             createdAt: {
                 allowNull: false,
