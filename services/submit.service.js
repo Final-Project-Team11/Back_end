@@ -93,7 +93,7 @@ class SubmitService {
     // 휴가 신청
     vacationSubmit = async({userId, startDay, endDay, typeDetail}) => {
 
-        const createVacationSubmit = await this.submitRepository.vacationSubmit(userId, startDay, endDay, typeDetail)
+        const createVacationSubmit = await this.submitRepository.vacationSubmit({userId, startDay, endDay, typeDetail})
 
         return createVacationSubmit
     }
@@ -231,6 +231,18 @@ class SubmitService {
         REF = ref.concat(REF)
 
         await this.submitRepository.meetingReportModify({userId, eventId: meetingReport.eventId, meetingId, title, content, ref: REF, file})
+    } 
+
+    // 팀원 목록 조회
+    teamUsersList = async(teamId) => {
+        const findTeamUsers = await this.submitRepository.teamUsersList(teamId)
+        console.log("-----------------",findTeamUsers)
+        const findTeamUsersName = findTeamUsers.map((item) => {
+            return item.userName
+        })
+
+
+        return findTeamUsersName
     }
 }
 

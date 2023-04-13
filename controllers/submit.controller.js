@@ -205,12 +205,12 @@ class SubmitController {
         }
 
         try {
-            const vacationSubmit = await this.submitService.vacationSubmit(
+            const vacationSubmit = await this.submitService.vacationSubmit({
                 userId,
                 startDay,
                 endDay,
                 typeDetail,
-            )
+            })
 
             return res.status(200).send({ message : '휴가 신청이 성공적으로 완료되었습니다.'})
         }catch(error) {
@@ -597,6 +597,20 @@ class SubmitController {
         }catch(error) {
             next(error)
         }
+    }
+
+    // 팀원 목록 조회
+    teamUsersList = async(req, res, next) => {
+        try {
+            const {teamId} = res.locals.user
+
+            const findTeamUsers = await this.submitService.teamUsersList(teamId)
+
+            return res.status(200).json(findTeamUsers)
+        } catch (error) {
+            next(error)
+        }
+        
     }
 }
 
