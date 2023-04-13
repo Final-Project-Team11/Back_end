@@ -7,14 +7,15 @@ const AuthRouter = require("../routes/auth.route");
 const UserRouter = require("../routes/signup.route");
 const submitRouter = require("./submit.route");
 const todoRouter = require("../routes/todo.route");
-const myPageRputer = require("./myPage.route");
+const myPageRouter = require("./myPage.route");
 const commentRouter = require("./comment.route");
+
 
 router.use("/", [
     UserRouter,
     AuthRouter,
     submitRouter,
-    myPageRputer,
+    myPageRouter,
     commentRouter,
 ]);
 router.use("/users", userManageRouter);

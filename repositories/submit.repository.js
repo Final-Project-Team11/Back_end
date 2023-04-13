@@ -42,7 +42,7 @@ class SubmitRepository {
                 file,
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',userId)
 
@@ -51,7 +51,7 @@ class SubmitRepository {
                     userId : userId,
                     isChecked : false
                 }, {transaction : t});
-            })
+            }))
 
             await t.commit()
             return createScheduleSubmit;
@@ -98,7 +98,7 @@ class SubmitRepository {
                 where: {eventId}
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',userId)
 
@@ -108,7 +108,7 @@ class SubmitRepository {
                 }, {
                     where : {eventId}
                 }, {transaction : t});
-            })
+            }))
 
             await t.commit()
             return createScheduleSubmit;
@@ -119,7 +119,7 @@ class SubmitRepository {
     };
     
     // 휴가 신청
-    vacationSubmit = async(userId, startDay, endDay, typeDetail) => {
+    vacationSubmit = async({userId, startDay, endDay, typeDetail}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
@@ -174,7 +174,7 @@ class SubmitRepository {
                 file
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
@@ -182,7 +182,7 @@ class SubmitRepository {
                     userId : userId,
                     isChecked : false
                 }, {transaction : t})
-            })
+            }))
 
             await t.commit()
             return createOtherSubmit
@@ -219,7 +219,7 @@ class SubmitRepository {
                 file
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
@@ -227,7 +227,7 @@ class SubmitRepository {
                     userId : userId,
                     isChecked : false
                 }, {transaction : t})
-            })
+            }))
 
             await t.commit()
         }catch(transactionError) {
@@ -260,7 +260,7 @@ class SubmitRepository {
                 enrollDay : event.createdAt
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log("---------------------------")
                 // console.log(await Users.findOne({where : {userName : item}}))
@@ -271,7 +271,7 @@ class SubmitRepository {
                     userId : userId,
                     isChecked : false
                 }, {transaction : t})
-            })
+            }))
 
             await t.commit()
         }catch(transactionError) {
@@ -304,7 +304,7 @@ class SubmitRepository {
                 where: {eventId}
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.update({
@@ -313,7 +313,7 @@ class SubmitRepository {
                 }, {
                     where: {eventId}
                 }, {transaction : t})
-            })
+            }))
 
             await t.commit()
         }catch(transactionError) {
@@ -347,7 +347,7 @@ class SubmitRepository {
                 enrollDay : event.createdAt
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
@@ -355,7 +355,7 @@ class SubmitRepository {
                     userId : userId,
                     isChecked : false
                 }, {transaction : t})
-            })
+            }))
 
             await t.commit()
         }catch(transactionError) {
@@ -388,7 +388,7 @@ class SubmitRepository {
                 where: {eventId, meetingId}
             }, {transaction : t})
 
-            ref.forEach(async(item) => {
+            await Promise.all(ref.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
 
                 await Mentions.update({
@@ -397,7 +397,7 @@ class SubmitRepository {
                 }, {
                     where: {eventId}
                 }, {transaction : t})
-            })
+            }))
 
             await t.commit()
         }catch(transactionError) {
@@ -406,6 +406,17 @@ class SubmitRepository {
         }
     }
 
+    // 팀원 목록 조회
+    teamUsersList = async(teamId) => {
+        const findTeamUsers = await Users.findAll({
+            raw: true,
+            where: {teamId, authLevel: 3}
+        })
+
+        return findTeamUsers
+    }
+
+    // 관리자 조회
     findRef = async(teamId) => {
         const findRef = await Users.findAll({where : {teamId, authLevel: 2}})
 

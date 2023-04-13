@@ -37,6 +37,7 @@ class MypageController {
                 userId,
                 start,
                 pageSize
+
             });
             res.status(200).json({ schedule });
         } catch (err) {
@@ -83,14 +84,79 @@ class MypageController {
     completeMentioned = async (req, res, next) => {
         const { mentionId } = req.params;
         const { userId } = res.locals.user;
-        //멘션에 대한 권한체크
-        const existMention = await this.MypageService.checkMention({
-            mentionId,
-            userId,
-        });
-        //check 값 바꾸기
-        await this.MypageService.completeMentioned({ existMention, mentionId });
-        res.status(200).json({ message: "멘션된 해당 일정을 확인하였습니다." });
+        try {
+            //멘션에 대한 권한체크
+            const existMention = await this.MypageService.checkMention({
+                mentionId,
+                userId,
+            });
+            //check 값 바꾸기
+            await this.MypageService.completeMentioned({
+                existMention,
+                mentionId,
+            });
+            res.status(200).json({
+                message: "멘션된 해당 일정을 확인하였습니다.",
+            });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    getMyFiles = async (req, res, next) => {
+        const { userId } = res.locals.user;
+        const pageInfo = req.query;
+        const pageNum = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410)
+        }
+
+        try {
+            const myfile = await this.MypageService.getMyfile({ userId });
+            const myfiles = myfile.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ myfiles });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    getMeetingFiles = async (req, res, next) => {
+        const { userId } = res.locals.user;
+        const pageInfo = req.query;
+        const pageNum = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410)
+        }
+        try {
+            const meeting = await this.MypageService.TeamMeetingReport({
+                userId,
+            });
+            const meetings = meeting.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ meetings });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    getReportFiles = async (req, res, next) => {
+        const { userId } = res.locals.user;
+        const pageInfo = req.query;
+        const pageNum = parseInt(pageInfo.pageNum);
+        const pageSize = parseInt(pageInfo.pageSize);
+        if (!pageInfo || !pageSize) {
+            throw new CustomError("pagenation 정보를 입력해주세요", 410)
+        }
+        try {
+            const report = await this.MypageService.TeamReport({
+                userId,
+            });
+            const reports = report.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ reports });
+        } catch (err) {
+            next(err);
+        }
     };
 }
 

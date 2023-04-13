@@ -169,6 +169,20 @@ class MypageService {
             await this.MypageRepository.updateMention({ mentionId, check });
         }
     };
+
+    getMyfile = async ({ userId }) => {
+        return await this.MypageRepository.findMyfile({ userId });
+    };
+    TeamMeetingReport = async ({ userId }) => {
+        //팀원의 배열
+        const team = await this.MypageRepository.findTeam({ userId });
+        return await this.MypageRepository.findTeamMeetingFile({ team });
+    };
+    TeamReport = async ({ userId }) => {
+        //팀원의 배열
+        const team = await this.MypageRepository.findTeam({ userId });
+        return await this.MypageRepository.findTeamReportFile({ team });
+    };
 }
 
 module.exports = MypageService;
