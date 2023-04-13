@@ -33,4 +33,7 @@ router.post('/meeting/:eventId', authMiddleware, upload.single('file'), submitCo
 // 회의록 수정
 router.patch('/report/:meetingReport', authMiddleware, upload.single('file'), submitController.meetingReportModify)
 
+// 팀원 목록 조회
+router.get('/teamUsers', authMiddleware, submitController.teamUsersList)
+
 module.exports = router;
