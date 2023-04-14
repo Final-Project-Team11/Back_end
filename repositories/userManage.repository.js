@@ -4,10 +4,10 @@ const { boolean } = require("joi");
 
 class UserManageRepository {
     //유저 수정
-    updateUser = async ({ userId, team, authLevel, rank }) => {
+    updateUser = async ({ userId, teamId, authLevel, rank }) => {
         await Users.update(
             {
-                team,
+                teamId,
                 authLevel,
                 rank,
             },
@@ -56,6 +56,7 @@ class UserManageRepository {
             where.teamName = team;
         }
         const teams = await Teams.findAll({
+            raw:true,
             where: where,
             attributes: ["teamId", ["teamName", "team"]],
         });
