@@ -66,10 +66,11 @@ class UserManageService {
         return users;
     };
 
-    // 회사 전체 유저 조회
-    companyUserList = async ({ companyId }) => {
+    // 회사 전체 유저 조회, 드롭다운 부서별 유저 조회
+    // teamId 넘어올시 팀유저 조회
+    companyUserList = async ({ companyId, teamId }) => {
         const companyUserList =
-            await this.userManageRepository.findAllCompanyUser({ companyId });
+            await this.userManageRepository.findAllCompanyUser({ companyId, teamId });
 
         return companyUserList;
     };
