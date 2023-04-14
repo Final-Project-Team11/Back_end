@@ -62,6 +62,10 @@ class MypageController {
         const meeting = await this.MypageService.getMentionedMeeting({
             userId,
         });
+        //issue
+        const issues = await this.MypageService.getMentionedIssue({
+            userId,
+        });
         //reports
         const report = await this.MypageService.getMentionedReport({ userId });
         //meeting reports
@@ -73,6 +77,7 @@ class MypageController {
         const issue = await this.MypageService.filterIssue({
             schedule,
             meeting,
+            issues,
             report,
             meetingReport,
             other,
