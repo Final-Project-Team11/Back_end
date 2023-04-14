@@ -32,16 +32,17 @@ class UserManageService {
         if (!teams.length) {
             throw new CustomError("해당 부서가 존재하지 않습니다", 401);
         }
-        if (authLevel !== 2 && authLevel !== 3) {
+        if (authLevel !== 1 && authLevel !== 2 && authLevel !== 3) {
             throw new CustomError(
                 "존재하지 않는 권한입니다.",
                 401
-            );
-        }
+                );
+            }
+        const teamId = teams[0].teamId
 
         await this.userManageRepository.updateUser({
             userId,
-            team,
+            teamId,
             authLevel,
             rank,
         });
