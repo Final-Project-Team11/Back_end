@@ -14,32 +14,23 @@ class SignupRepository {
     }
 
     findCompanyById = async ({ companyId }) => {
-        const user =  await sequelize.query(
+        return await sequelize.query(
             "SELECT * FROM Companys WHERE BINARY companyId = ? LIMIT 1",
             {
                 replacements: [companyId],
                 type: sequelize.QueryTypes.SELECT,
             }
         );
-        console.log(user)
-        return user
-        // return await Companys.findOne({
-        //     where: { companyId: companyId },
-        // });
     };
+    
     findCompanyByName = async ({ companyName }) => {
-        const user = await sequelize.query(
+        return await sequelize.query(
             "SELECT * FROM Companys WHERE BINARY companyName = ? LIMIT 1",
             {
                 replacements: [companyName],
                 type: sequelize.QueryTypes.SELECT,
             }
         );
-        console.log(user)
-        return user
-        // return await Companys.findOne({
-        //     where: { companyName: companyName },
-        // });
     };
     companySignup = async ({
         companyId,
