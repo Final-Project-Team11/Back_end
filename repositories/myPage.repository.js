@@ -91,7 +91,8 @@ class MypageRepository {
                 },
                 {
                     model : Mentions,
-                    attributes : []
+                    attributes : [],
+                    where : {userId}
                 }
             ]
         })
@@ -123,7 +124,8 @@ class MypageRepository {
                 },
                 {
                     model : Mentions,
-                    attributes : []
+                    attributes : [],
+                    where : {userId}
                 }
             ]
         })
@@ -133,7 +135,7 @@ class MypageRepository {
         //report 테이블과 mention 테이블 합치기
         return await Events.findOne({
             raw:true,
-            where:{eventId},
+            where:{eventId,},
             attributes:[
                 "eventId",
                 "Mentions.mentionId",
@@ -154,7 +156,8 @@ class MypageRepository {
                 },
                 {
                     model : Mentions,
-                    attributes : []
+                    attributes : [],
+                    where : {userId}
                 }
             ]
         })
@@ -186,7 +189,8 @@ class MypageRepository {
                 },
                 {
                     model : Mentions,
-                    attributes : []
+                    attributes : [],
+                    where : {userId}
                 }
             ]
         })
@@ -217,7 +221,8 @@ class MypageRepository {
                 },
                 {
                     model : Mentions,
-                    attributes : []
+                    attributes : [],
+                    where : {userId}
                 }
             ]
         })
