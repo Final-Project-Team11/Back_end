@@ -67,7 +67,7 @@ class MypageRepository {
 
     getScheduleById = async ({ eventId, userId }) => {
         //schedule 테이블과 mention 테이블 합치기
-        const schedule = await Events.findOne({
+        return await Events.findOne({
             raw:true,
             where:{eventId},
             attributes:[
@@ -77,7 +77,6 @@ class MypageRepository {
                 "Schedule.endDay",
                 "User.userName",
                 "Schedule.title",
-                "Schedule.file",
                 "eventType",
                 "Mentions.isChecked"
             ],
@@ -96,13 +95,11 @@ class MypageRepository {
                 }
             ]
         })
-        schedule.fileName = (schedule.file ?? "").split("/")[3];
-        return schedule;
     };
 
     getMeetingById = async ({ eventId, userId }) => {
         //meeting 테이블과 mention 테이블 합치기
-        const meeting = await Events.findOne({
+        return await Events.findOne({
             raw:true,
             where:{eventId},
             attributes:[
@@ -112,7 +109,6 @@ class MypageRepository {
                 "Meeting.startTime",
                 "User.userName",
                 "Meeting.title",
-                "Meeting.file",
                 "eventType",
                 "Mentions.isChecked"
             ],
@@ -131,13 +127,11 @@ class MypageRepository {
                 }
             ]
         })
-        meeting.fileName = (meeting.file ?? "").split("/")[3];
-        return meeting;
     };
 
     getReportById = async ({ eventId, userId }) => {
         //report 테이블과 mention 테이블 합치기
-        const report = await Events.findOne({
+        return await Events.findOne({
             raw:true,
             where:{eventId},
             attributes:[
@@ -146,7 +140,6 @@ class MypageRepository {
                 "Report.enrollDay",
                 "User.userName",
                 "Report.title",
-                "Report.file",
                 "eventType",
                 "Mentions.isChecked"
             ],
@@ -165,13 +158,11 @@ class MypageRepository {
                 }
             ]
         })
-        report.fileName = (report.file ?? "").split("/")[3];
-        return report;
     };
 
     getOtherById = async ({ eventId, userId }) => {
         //other 테이블과 mention 테이블 합치기
-        const other = await Events.findOne({
+        return await Events.findOne({
             raw:true,
             where:{eventId},
             attributes:[
@@ -181,7 +172,6 @@ class MypageRepository {
                 "Other.endDay",
                 "User.userName",
                 "Other.title",
-                "Other.file",
                 "eventType",
                 "Mentions.isChecked"
             ],
@@ -200,13 +190,11 @@ class MypageRepository {
                 }
             ]
         })
-        other.fileName = (other.file ?? "").split("/")[3];
-        return other;
     };
 
     getMeetingReportsById = async ({ eventId, userId }) => {
         //meetingreport 테이블과 mention 테이블 합치기
-        const meetingreport = await Events.findOne({
+        return await Events.findOne({
             raw:true,
             where:{eventId},
             attributes:[
@@ -215,7 +203,6 @@ class MypageRepository {
                 "MeetingReport.enrollDay",
                 "User.userName",
                 "MeetingReport.title",
-                "MeetingReport.file",
                 "eventType",
                 "Mentions.isChecked"
             ],
@@ -234,8 +221,6 @@ class MypageRepository {
                 }
             ]
         })
-        meetingreport.fileName = (meetingreport.file ?? "").split("/")[3];
-        return meetingreport;
     };
 
     findMention = async ({ mentionId }) => {
