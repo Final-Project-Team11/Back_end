@@ -404,9 +404,21 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
-                });
+                }).then((data) => {
+                    return data.map(item => {
+                    let enrollDay = moment(item.enrollDay);
+                    enrollDay = enrollDay.format("YYYY/MM/DD")
+                    return {
+                        eventId : item.eventId ,
+                        userName : item.userName,
+                        title : item.title,
+                        file : item.file,
+                        enrollDay : enrollDay,
+                    }})
+                })
             })
         )
+        console.log(list)
         return list.flat().map((event) => {
             event.fileName = (event.file ?? "").split("/")[3];
             return event
@@ -440,7 +452,18 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
-                });
+                }).then((data) => {
+                    return data.map(item => {
+                    let enrollDay = moment(item.enrollDay);
+                    enrollDay = enrollDay.format("YYYY/MM/DD")
+                    return {
+                        eventId : item.eventId ,
+                        userName : item.userName,
+                        title : item.title,
+                        file : item.file,
+                        enrollDay : enrollDay,
+                    }})
+                })
             })
         )
         return list.flat().map((event) => {
