@@ -10,8 +10,9 @@ class MainPageController {
     findTotalVacation = async(req, res, next) => {
         try {
             const {teamId} = req.params
-
-            const findTotalVacation = await this.mainPageService.findTotalVacation(teamId)
+            const {year, month} = req.query
+            
+            const findTotalVacation = await this.mainPageService.findTotalVacation({teamId, year, month})
 
             res.status(200).json({ main: findTotalVacation})
         } catch (error) {
@@ -23,8 +24,9 @@ class MainPageController {
     findTotalSchedule = async(req, res, next) => {
         try {
             const {teamId} = req.params
+            const {year, month} = req.query
 
-            const findTotalSchedule = await this.mainPageService.findTotalSchedule(teamId)
+            const findTotalSchedule = await this.mainPageService.findTotalSchedule({teamId, year, month})
 
             res.status(200).json({ main: findTotalSchedule})
         } catch (error) {
