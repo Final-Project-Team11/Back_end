@@ -1,3 +1,4 @@
+const moment = require("moment");
 const {
     Users,
     Schedules,
@@ -95,6 +96,21 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
+        }).then((data) => {
+            let startDay = moment(data.startDay);
+            let endDay = moment(data.endDay);
+            startDay = startDay.format("MM/DD")
+            endDay = endDay.format("MM/DD")
+            return {
+                eventId : data.eventId ,
+                mentionId : data.mentionId,
+                startDay : startDay,
+                endDay : endDay,
+                userName : data.userName,
+                title : data.title,
+                eventType : data.eventType,
+                isChecked : data.isChecked 
+            }
         })
     };
 
@@ -128,6 +144,22 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
+        }).then((data) => {
+            let startDay = moment(data.startDay);
+            startDay = startDay.format("MM/DD")
+            const day = `${startDay} ${data.startTime}`
+            let startTime = moment(day);
+            startTime = startTime.format("HH:mm")
+            return {
+                eventId : data.eventId ,
+                mentionId : data.mentionId,
+                startDay : startDay,
+                startTime : startTime,
+                userName : data.userName,
+                title : data.title,
+                eventType : data.eventType,
+                isChecked : data.isChecked 
+            }
         })
     };
 
@@ -160,6 +192,18 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
+        }).then((data) => {
+            let enrollDay = moment(data.enrollDay);
+            enrollDay = enrollDay.format("MM/DD")
+            return {
+                eventId : data.eventId ,
+                mentionId : data.mentionId,
+                enrollDay : enrollDay,
+                userName : data.userName,
+                title : data.title,
+                eventType : data.eventType,
+                isChecked : data.isChecked 
+            }
         })
     };
 
@@ -193,6 +237,21 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
+        }).then((data) => {
+            let startDay = moment(data.startDay);
+            let endDay = moment(data.endDay);
+            startDay = startDay.format("MM/DD")
+            endDay = endDay.format("MM/DD")
+            return {
+                eventId : data.eventId ,
+                mentionId : data.mentionId,
+                startDay : startDay,
+                endDay : endDay,
+                userName : data.userName,
+                title : data.title,
+                eventType : data.eventType,
+                isChecked : data.isChecked 
+            }
         })
     };
 
@@ -225,6 +284,18 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
+        }).then((data) => {
+            let enrollDay = moment(data.enrollDay);
+            enrollDay = enrollDay.format("MM/DD")
+            return {
+                eventId : data.eventId ,
+                mentionId : data.mentionId,
+                enrollDay : enrollDay,
+                userName : data.userName,
+                title : data.title,
+                eventType : data.eventType,
+                isChecked : data.isChecked 
+            }
         })
     };
 
