@@ -15,7 +15,7 @@ class MypageRepository {
         return await Users.findOne({ where: { userId } });
     };
 
-    getUserSchedule = async ({ userId }) => {
+    getUserSchedule = async ({ userId , start, pageSize}) => {
         const schedule = await Schedules.findAll({
             raw: true,
             limit: pageSize,
@@ -67,180 +67,175 @@ class MypageRepository {
 
     getScheduleById = async ({ eventId, userId }) => {
         //schedule 테이블과 mention 테이블 합치기
-        const schedule = await Schedules.findOne({
-            raw: true,
-            where: { eventId },
-            attributes: [
+        const schedule = await Events.findOne({
+            raw:true,
+            where:{eventId},
+            attributes:[
                 "eventId",
-                "startDay",
-                "endDay",
+                "Mentions.mentionId",
+                "Schedule.startDay",
+                "Schedule.endDay",
                 "User.userName",
-                "title",
-                "file",
-                "Event.eventType",
+                "Schedule.title",
+                "Schedule.file",
+                "eventType",
+                "Mentions.isChecked"
             ],
-            include: [
+            include : [
                 {
-                    model: Users,
-                    attributes: [],
+                    model : Users,
+                    attributes : []
                 },
                 {
-                    model: Events,
-                    attributes: [],
+                    model : Schedules,
+                    attributes : []
                 },
-            ],
-        });
-        schedule.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+                {
+                    model : Mentions,
+                    attributes : []
+                }
+            ]
         })
-        const mention = await Mentions.findOne({
-            raw: true,
-            where: { eventId, userId },
-            attributes: ["mentionId", "isChecked"],
-        });
-        return Object.assign({}, schedule, mention);
+        schedule.fileName = (schedule.file ?? "").split("/")[3];
+        return schedule;
     };
 
     getMeetingById = async ({ eventId, userId }) => {
         //meeting 테이블과 mention 테이블 합치기
-        const meeting = await Meetings.findOne({
-            raw: true,
-            where: { eventId },
-            attributes: [
+        const meeting = await Events.findOne({
+            raw:true,
+            where:{eventId},
+            attributes:[
                 "eventId",
-                "startDay",
-                "startTime",
+                "Mentions.mentionId",
+                "Meeting.startDay",
+                "Meeting.startTime",
                 "User.userName",
-                "title",
-                "file",
-                "Event.eventType",
+                "Meeting.title",
+                "Meeting.file",
+                "eventType",
+                "Mentions.isChecked"
             ],
-            include: [
+            include : [
                 {
-                    model: Users,
-                    attributes: [],
+                    model : Users,
+                    attributes : []
                 },
                 {
-                    model: Events,
-                    attributes: [],
+                    model : Meetings,
+                    attributes : []
                 },
-            ],
-        });
-        meeting.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+                {
+                    model : Mentions,
+                    attributes : []
+                }
+            ]
         })
-        const mention = await Mentions.findOne({
-            raw: true,
-            where: { eventId, userId },
-            attributes: ["mentionId", "isChecked"],
-        });
-        return Object.assign({}, meeting, mention);
+        meeting.fileName = (meeting.file ?? "").split("/")[3];
+        return meeting;
     };
 
     getReportById = async ({ eventId, userId }) => {
-        //meeting 테이블과 mention 테이블 합치기
-        const report = await Reports.findOne({
-            raw: true,
-            where: { eventId },
-            attributes: [
+        //report 테이블과 mention 테이블 합치기
+        const report = await Events.findOne({
+            raw:true,
+            where:{eventId},
+            attributes:[
                 "eventId",
-                "enrollDay",
+                "Mentions.mentionId",
+                "Report.enrollDay",
                 "User.userName",
-                "title",
-                "file",
-                "Event.eventType",
+                "Report.title",
+                "Report.file",
+                "eventType",
+                "Mentions.isChecked"
             ],
-            include: [
+            include : [
                 {
-                    model: Users,
-                    attributes: [],
+                    model : Users,
+                    attributes : []
                 },
                 {
-                    model: Events,
-                    attributes: [],
+                    model : Reports,
+                    attributes : []
                 },
-            ],
-        });
-        report.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+                {
+                    model : Mentions,
+                    attributes : []
+                }
+            ]
         })
-        const mention = await Mentions.findOne({
-            raw: true,
-            where: { eventId, userId },
-            attributes: ["mentionId", "isChecked"],
-        });
-        return Object.assign({}, report, mention);
+        report.fileName = (report.file ?? "").split("/")[3];
+        return report;
     };
 
     getOtherById = async ({ eventId, userId }) => {
-        //meeting 테이블과 mention 테이블 합치기
-        const other = await Others.findOne({
-            raw: true,
-            where: { eventId },
-            attributes: [
+        //other 테이블과 mention 테이블 합치기
+        const other = await Events.findOne({
+            raw:true,
+            where:{eventId},
+            attributes:[
                 "eventId",
-                "startDay",
-                "endDay",
+                "Mentions.mentionId",
+                "Other.startDay",
+                "Other.endDay",
                 "User.userName",
-                "title",
-                "file",
-                "Event.eventType",
+                "Other.title",
+                "Other.file",
+                "eventType",
+                "Mentions.isChecked"
             ],
-            include: [
+            include : [
                 {
-                    model: Users,
-                    attributes: [],
+                    model : Users,
+                    attributes : []
                 },
                 {
-                    model: Events,
-                    attributes: [],
+                    model : Others,
+                    attributes : []
                 },
-            ],
-        });
-        other.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+                {
+                    model : Mentions,
+                    attributes : []
+                }
+            ]
         })
-        const mention = await Mentions.findOne({
-            raw: true,
-            where: { eventId, userId },
-            attributes: ["mentionId", "isChecked"],
-        });
-        return Object.assign({}, other, mention);
+        other.fileName = (other.file ?? "").split("/")[3];
+        return other;
     };
 
     getMeetingReportsById = async ({ eventId, userId }) => {
-        //meeting 테이블과 mention 테이블 합치기
-        const meetingReports = await MeetingReports.findOne({
-            raw: true,
-            where: { eventId },
-            attributes: [
+        //meetingreport 테이블과 mention 테이블 합치기
+        const meetingreport = await Events.findOne({
+            raw:true,
+            where:{eventId},
+            attributes:[
                 "eventId",
-                "enrollDay",
+                "Mentions.mentionId",
+                "MeetingReport.enrollDay",
                 "User.userName",
-                "title",
-                "file",
-                "Event.eventType",
+                "MeetingReport.title",
+                "MeetingReport.file",
+                "eventType",
+                "Mentions.isChecked"
             ],
-            include: [
+            include : [
                 {
-                    model: Users,
-                    attributes: [],
+                    model : Users,
+                    attributes : []
                 },
                 {
-                    model: Events,
-                    attributes: [],
+                    model : MeetingReports,
+                    attributes : []
                 },
-            ],
-        });
-        meetingReports.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+                {
+                    model : Mentions,
+                    attributes : []
+                }
+            ]
         })
-        const mention = await Mentions.findOne({
-            raw: true,
-            where: { eventId, userId },
-            attributes: ["mentionId", "isChecked"],
-        });
-        return Object.assign({}, meetingReports, mention);
+        meetingreport.fileName = (meetingreport.file ?? "").split("/")[3];
+        return meetingreport;
     };
 
     findMention = async ({ mentionId }) => {

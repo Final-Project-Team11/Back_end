@@ -10,7 +10,6 @@ class SubmitService {
     // 출장 신청
     scheduleSubmit =  async({userId, teamId, startDay, endDay, title, ref, location, content, file}) => {
         const isRef = await this.submitRepository.findRef(teamId)
-
         let REF;
         if (ref === null) {
             // ref가 null인 경우
@@ -203,7 +202,6 @@ class SubmitService {
     // 보고서 수정
     reportModify = async({userId, eventId, teamId, title, content, ref, file}) => {
         const report = await this.submitRepository.findOneReport(eventId)
-
         const bucketName = process.env.BUCKET_NAME
         const fileKey = report.file.split('/')[3]
 
@@ -222,6 +220,7 @@ class SubmitService {
         .catch((error) => {
             console.log(error)
         })
+
 
         const isRef = await this.submitRepository.findRef(teamId)
         let REF;
