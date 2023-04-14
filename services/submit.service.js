@@ -9,17 +9,27 @@ class SubmitService {
 
     // 출장 신청
     scheduleSubmit =  async({userId, teamId, startDay, endDay, title, ref, location, content, file}) => {
-        // console.log("service",typeof userId)
         const isRef = await this.submitRepository.findRef(teamId)
+
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
+        // console.log(REF)
         
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
-
         const createScheduleSubmit = await this.submitRepository.scheduleSubmit(
             {
                 userId,
@@ -66,13 +76,23 @@ class SubmitService {
 
         const isRef = await this.submitRepository.findRef(teamId)
         
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
 
         const createScheduleSubmit = await this.submitRepository.scheduleModify(
             {
@@ -102,13 +122,23 @@ class SubmitService {
     otherSubmit = async({userId, teamId, startDay, endDay, title, ref, content, file}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
 
         const createOtherSubmit = await this.submitRepository.otherSubmit({userId, startDay, endDay, title, ref:REF, content, file})
 
@@ -116,17 +146,28 @@ class SubmitService {
     }
 
     // 회의 신청
-    meetingSubmit = async({userId, teamId, startDay, startTime, title, ref, location, content, file}) => {
+    meetingSubmit = async({userId, teamId, eventType, startDay, startTime, title, ref, location, content, file}) => {
         // console.log("service",typeof userId)
         const isRef = await this.submitRepository.findRef(teamId)
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
 
-        const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, startDay, startTime, title, ref:REF, location, content, file})
+        const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, eventType, startDay, startTime, title, ref:REF, location, content, file})
 
         return createMeetingSubmit
     }
@@ -135,13 +176,23 @@ class SubmitService {
     reportSubmit = async({userId, teamId, title, content, ref, file}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
 
         await this.submitRepository.reportSubmit({userId, title, content, ref: REF, file})
     }
@@ -170,13 +221,23 @@ class SubmitService {
         })
 
         const isRef = await this.submitRepository.findRef(teamId)
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
 
         await this.submitRepository.reportModify({userId, eventId, title, content, ref: REF, file})
     }
@@ -186,13 +247,23 @@ class SubmitService {
         
         const isRef = await this.submitRepository.findRef(teamId)
         
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
 
         await this.submitRepository.meetingReportSubmit({userId, meetingId, title, content, ref: REF, file})
     }
@@ -222,13 +293,23 @@ class SubmitService {
 
         const isRef = await this.submitRepository.findRef(teamId)
         
-        // 팀장 참조
-        let REF = isRef.map((item) => {
-            return item.userName
-        })
-
-        // concat() 메서드는 인자로 주어진 배열이나 값들을 기존 배열에 합쳐서 새 배열을 반환합니다.
-        REF = ref.concat(REF)
+        let REF;
+        if (ref === null) {
+            // ref가 null인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        } else if(ref !== undefined && ref !== null) {
+            // ref가 undefined가 아니고, null이 아닌 경우.
+            REF = ref.concat(isRef.map((item) => {
+                return item.userName;
+            }));
+        } else {
+            // ref가 undefined인 경우
+            REF = isRef.map((item) => {
+                return item.userName;
+            });
+        }
 
         await this.submitRepository.meetingReportModify({userId, eventId: meetingReport.eventId, meetingId, title, content, ref: REF, file})
     } 

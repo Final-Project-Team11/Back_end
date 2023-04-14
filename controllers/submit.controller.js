@@ -16,12 +16,12 @@ class SubmitController {
         const file = req.file ? await req.file.location : null
 
         const schema = Joi.object({
-            startDay: Joi.string().required().messages({
+            startDay: Joi.date().required().messages({
                 "string.base": "startDay 필드는 날짜로 이루어져야 합니다.",
                 "string.empty": "일정을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
             }),
-            endDay: Joi.string().required().messages({
+            endDay: Joi.date().required().messages({
                 "string.base": "endDay 필드는 날짜로 이루어져야 합니다.",
                 "string.empty": "일정을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
@@ -31,17 +31,15 @@ class SubmitController {
                 "string.empty": "제목을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 "string.base": "ref 필드는 문자열로 이루어져야 합니다.",
-                "string.empty": "멘션을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
             }),
             location: Joi.string().required().messages({
                 "string.base": "location 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "장소를 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 "string.base": "content 필드는 문자열로 이루어져야 합니다.",
             }),
         });
@@ -96,12 +94,12 @@ class SubmitController {
         const file = req.file ? await req.file.location : null
 
         const schema = Joi.object({
-            startDay: Joi.string().required().messages({
+            startDay: Joi.date().required().messages({
                 "string.base": "startDay 필드는 날짜로 이루어져야 합니다.",
                 "string.empty": "일정을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
             }),
-            endDay: Joi.string().required().messages({
+            endDay: Joi.date().required().messages({
                 "string.base": "endDay 필드는 날짜로 이루어져야 합니다.",
                 "string.empty": "일정을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
@@ -111,17 +109,15 @@ class SubmitController {
                 "string.empty": "제목을 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 "string.base": "ref 필드는 문자열로 이루어져야 합니다.",
-                "string.empty": "멘션을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
             }),
             location: Joi.string().required().messages({
                 "string.base": "location 필드는 문자열로 이루어져야 합니다.",
                 "string.empty": "장소를 입력해 주세요.",
                 "any.required": "이 필드는 필수입니다.",
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 "string.base": "content 필드는 문자열로 이루어져야 합니다.",
             }),
         });
@@ -171,12 +167,12 @@ class SubmitController {
         const {userId} = res.locals.user
         
         const schema = Joi.object({
-            startDay: Joi.string().required().messages({
+            startDay: Joi.date().required().messages({
                 'string.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
                 'string.empty' : '일정을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            endDay: Joi.string().required().messages({
+            endDay: Joi.date().required().messages({
                 'string.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
                 'string.empty' : '일정을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
@@ -229,12 +225,12 @@ class SubmitController {
         const file = req.file ? await req.file.location : null
 
         const schema = Joi.object({
-            startDay: Joi.string().required().messages({
+            startDay: Joi.date().required().messages({
                 'string.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
                 'string.empty' : '일정을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            endDay: Joi.string().required().messages({
+            endDay: Joi.date().required().messages({
                 'string.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
                 'string.empty' : '일정을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
@@ -244,12 +240,10 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })
@@ -292,7 +286,7 @@ class SubmitController {
 
     // 회의 신청
     meetingSubmit = async(req, res, next) => {
-        const {startDay, startTime, title, location, ref, content} = req.body
+        const {startDay, startTime, eventType, title, location, ref, content} = req.body
         const {userId, teamId} = res.locals.user
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
@@ -301,14 +295,19 @@ class SubmitController {
         const file = req.file ? await req.file.location : null
 
         const schema = Joi.object({
-            startDay: Joi.string().required().messages({
+            startDay: Joi.date().required().messages({
                 'string.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
                 'string.empty' : '일정을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            startTime: Joi.string().required().messages({
+            startTime: Joi.date().required().messages({
                 'string.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
                 'string.empty' : '일정을 입력해 주세요.',
+                'any.required' : '이 필드는 필수입니다.'
+            }),
+            eventType: Joi.string().required().messages({
+                'string.base' : 'eventType 필드는 문자열로 이루어져야 합니다.',
+                'string.empty' : 'eventType을 입력해주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
             title: Joi.string().required().messages({
@@ -316,17 +315,15 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
             location: Joi.string().required().messages({
                 'string.base' : 'location 필드는 문자열로 이루어져야 합니다.',
                 'string.empty' : '장소를 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })
@@ -335,6 +332,7 @@ class SubmitController {
             {
                 startDay : startDay,
                 startTime : startTime,
+                eventType: eventType,
                 title : title,
                 ref : ref,
                 location : location,
@@ -354,6 +352,7 @@ class SubmitController {
             const MeetingSubmit = await this.submitService.meetingSubmit({
                 userId,
                 teamId: teamId,
+                eventType,
                 startDay,
                 startTime,
                 title,
@@ -384,12 +383,10 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })
@@ -441,12 +438,10 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })
@@ -499,12 +494,10 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })
@@ -557,12 +550,10 @@ class SubmitController {
                 'string.empty' : '제목을 입력해 주세요.',
                 'any.required' : '이 필드는 필수입니다.'
             }),
-            ref: Joi.array().required().messages({
+            ref: Joi.array().messages({
                 'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '멘션을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
             }),
-            content: Joi.string().required().messages({
+            content: Joi.string().messages({
                 'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
             }),
         })

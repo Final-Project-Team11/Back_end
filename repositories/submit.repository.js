@@ -193,7 +193,7 @@ class SubmitRepository {
     }
 
     // 회의 신청
-    meetingSubmit = async({userId, startDay, startTime, title, ref, location, content, file}) => {
+    meetingSubmit = async({userId, eventType, startDay, startTime, title, ref, location, content, file}) => {
         // console.log(typeof userId)
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
@@ -202,7 +202,7 @@ class SubmitRepository {
             let hasFile = (file) ? true : false;
             const event = await Events.create({
                 userId,
-                eventType: 'Meetings',
+                eventType,
                 hasFile : hasFile,
             }, {transaction : t})
             
