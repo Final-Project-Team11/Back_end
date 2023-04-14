@@ -311,6 +311,7 @@ class MypageRepository {
                         "User.userName",
                         "MeetingReport.title",
                         "MeetingReport.file",
+                        "MeetingReport.enrollDay"
                     ],
                     where: {
                         userId: team.userId,
@@ -346,6 +347,7 @@ class MypageRepository {
                         "User.userName",
                         "Report.title",
                         "Report.file",
+                        "Report.enrollDay"
                     ],
                     where: {
                         userId: team.userId,
