@@ -64,18 +64,10 @@ class VacationManageService {
         const { remainDay } = writerInfo.dataValues
         const endDay = moment(vacation.endDay)
         const startDay = moment(vacation.startDay)
-        console.log("스타트",startDay.day())
-        console.log("엔드", endDay.day())
-
+        
         // 남은 연차일수 변수
         let afterRemainDay
         if (vacation.typeDetail == '반차') {
-            if (startDay !== endDay) {
-                throw new CustomError('반차 신청 시 시작일과 종료일을 같은 날짜로 설정해 주세요.')
-            }
-            if ([6, 0].includes(startDay.day())) {
-                throw new CustomError('주말에는 반차사용이 불가합니다.')
-            }
             afterRemainDay = remainDay - 0.5
             console.log(afterRemainDay)
         } else {
