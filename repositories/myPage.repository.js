@@ -374,6 +374,7 @@ class MypageRepository {
                     attributes: [],
                 },
             ],
+            order: [['EventId', 'DESC']],
         });
         return await Promise.all(
             myfile.map(async (event) => {
@@ -449,7 +450,7 @@ class MypageRepository {
                     where: {
                         userId: team.userId,
                         hasFile: true,
-                        eventType: "MeetingReports" || "Issues",
+                        eventType: "MeetingReports",
                     },
                     include: [
                         {
@@ -461,6 +462,7 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
+                    order: [['eventId', 'DESC']],
                 }).then((data) => {
                     return data.map(item => {
                     let enrollDay = moment(item.enrollDay);
@@ -509,6 +511,7 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
+                    order: [['eventId', 'DESC']],
                 }).then((data) => {
                     return data.map(item => {
                     let enrollDay = moment(item.enrollDay);
