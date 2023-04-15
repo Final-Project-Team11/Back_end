@@ -88,6 +88,24 @@ class MypageService {
         );
     };
 
+    getMentionedIssue = async ({ userId }) => {
+        //멘션테이블에서 내 아이디가 들어있는 값 가져오기
+        const meeting = await this.MypageRepository.getMention({
+            userId,
+            type: "Issues",
+        });
+
+        //내가 언급된 미팅 가져오기
+        return await Promise.all(
+            meeting.map(async (event) => {
+                return await this.MypageRepository.getIssueById({
+                    eventId: event,
+                    userId,
+                });
+            })
+        );
+    };
+
     getMentionedReport = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const report = await this.MypageRepository.getMention({
@@ -140,12 +158,13 @@ class MypageService {
     filterIssue = async ({
         schedule,
         meeting,
+        issues,
         report,
         meetingReport,
         other,
     }) => {
         const issue = schedule
-            .concat(meeting, report, meetingReport, other)
+            .concat(meeting,issues, report, meetingReport, other)
             .sort((a, b) => b.eventId - a.eventId);
 
         return issue

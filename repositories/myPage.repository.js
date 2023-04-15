@@ -163,6 +163,55 @@ class MypageRepository {
         })
     };
 
+    getIssueById = async ({ eventId, userId }) => {
+        //meeting 테이블과 mention 테이블 합치기
+        return await Events.findOne({
+            raw:true,
+            where:{eventId},
+            attributes:[
+                "eventId",
+                "Mentions.mentionId",
+                "Meeting.startDay",
+                "Meeting.startTime",
+                "User.userName",
+                "Meeting.title",
+                "eventType",
+                "Mentions.isChecked"
+            ],
+            include : [
+                {
+                    model : Users,
+                    attributes : []
+                },
+                {
+                    model : Meetings,
+                    attributes : []
+                },
+                {
+                    model : Mentions,
+                    attributes : [],
+                    where : {userId}
+                }
+            ]
+        }).then((data) => {
+            let startDay = moment(data.startDay);
+            startDay = startDay.format("MM/DD")
+            const day = `${startDay} ${data.startTime}`
+            let startTime = moment(day);
+            startTime = startTime.format("HH:mm")
+            return {
+                eventId : data.eventId ,
+                mentionId : data.mentionId,
+                startDay : startDay,
+                startTime : startTime,
+                userName : data.userName,
+                title : data.title,
+                eventType : data.eventType,
+                isChecked : data.isChecked 
+            }
+        })
+    };
+
     getReportById = async ({ eventId, userId }) => {
         //report 테이블과 mention 테이블 합치기
         return await Events.findOne({
