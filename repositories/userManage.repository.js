@@ -62,8 +62,14 @@ class UserManageRepository {
         });
         return teams;
     };
-    // 회사 전체 유저 리스트
-    findAllCompanyUser = async ({ companyId }) => {
+    // 회사 전체 유저 리스트, 부서별 유저 조회
+    findAllCompanyUser = async ({ companyId, teamId }) => {
+        const where = { companyId };
+        
+        // teamId 가 있을 경우에만 where 객체에 teamId 속성 추가
+        if (teamId) {
+            where.teamId = teamId;
+        }
         const companyUserList = await Users.findAll({
             raw: true,
             attributes: [
@@ -74,9 +80,7 @@ class UserManageRepository {
                 "job",
                 [Sequelize.col("Team.teamName"), "team"],
             ],
-            where: {
-                companyId,
-            },
+            where: where,
             include: [
                 {
                     model: Teams,

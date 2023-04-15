@@ -78,8 +78,8 @@ class VacationManageRepository {
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
                 "typeDetail",
-                "startDay",
-                "endDay",
+                [Sequelize.fn("date_format",Sequelize.col("startDay"),"%m/%d"),"startDay"],
+                [Sequelize.fn("date_format",Sequelize.col("endDay"),"%m/%d"),"endDay"],
                 "status",
             ],
             include: [

@@ -106,13 +106,16 @@ class UserManageController {
             next(err);
         }
     };
-    // 회사 유저 전체 리스트
+    // 회사 유저 전체 리스트 , 부서별 유저 리스트
+    // teamId 쿼리로 없을시 유저 전체, 쿼리 있을시 팀유저 조회
     usersList = async (req, res, next) => {
         try {
+            const { teamId } = req.query
             const userInfo = res.locals.user;
             const companyId = userInfo.companyId;
             const usersList = await this.userManageService.companyUserList({
                 companyId,
+                teamId
             });
 
             res.status(200).json({ users: usersList });

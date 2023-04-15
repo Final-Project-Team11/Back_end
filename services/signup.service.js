@@ -12,7 +12,7 @@ class SignupService {
         const existCompany = await this.SignupRepository.findCompanyByName({
             companyName,
         });
-        if (existCompany) {
+        if (existCompany.length !== 0) {
             throw new CustomError("이미 등록된 회사입니다.", 401);
         }
     };
@@ -20,7 +20,7 @@ class SignupService {
         const existCompanyId = await this.SignupRepository.findCompanyById({
             companyId,
         });
-        if (existCompanyId) {
+        if (existCompanyId.length !== 0) {
             throw new CustomError("이미 등록된 아이디입니다.", 401);
         }
     };
