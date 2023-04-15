@@ -27,8 +27,8 @@ class MypageRepository {
                 "User.userName",
                 "title",
                 "file",
-                "startDay",
-                "endDay",
+                [Sequelize.fn("date_format",Sequelize.col("startDay"),"%m/%d"),"startDay"],
+                [Sequelize.fn("date_format",Sequelize.col("endDay"),"%m/%d"),"endDay"],
                 "status",
             ],
             order: [["createdAt", "DESC"]],
@@ -74,8 +74,8 @@ class MypageRepository {
             attributes:[
                 "eventId",
                 "Mentions.mentionId",
-                "Schedule.startDay",
-                "Schedule.endDay",
+                [Sequelize.fn("date_format",Sequelize.col("Schedule.startDay"),"%m/%d"),"startDay"],
+                [Sequelize.fn("date_format",Sequelize.col("Schedule.endDay"),"%m/%d"),"endDay"],
                 "User.userName",
                 "Schedule.title",
                 "eventType",
@@ -96,22 +96,23 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
-        }).then((data) => {
-            let startDay = moment(data.startDay);
-            let endDay = moment(data.endDay);
-            startDay = startDay.format("MM/DD")
-            endDay = endDay.format("MM/DD")
-            return {
-                eventId : data.eventId ,
-                mentionId : data.mentionId,
-                startDay : startDay,
-                endDay : endDay,
-                userName : data.userName,
-                title : data.title,
-                eventType : data.eventType,
-                isChecked : data.isChecked 
-            }
         })
+        // .then((data) => {
+        //     let startDay = moment(data.startDay);
+        //     let endDay = moment(data.endDay);
+        //     startDay = startDay.format("MM/DD")
+        //     endDay = endDay.format("MM/DD")
+        //     return {
+        //         eventId : data.eventId ,
+        //         mentionId : data.mentionId,
+        //         startDay : startDay,
+        //         endDay : endDay,
+        //         userName : data.userName,
+        //         title : data.title,
+        //         eventType : data.eventType,
+        //         isChecked : data.isChecked 
+        //     }
+        // })
     };
 
     getMeetingById = async ({ eventId, userId }) => {
@@ -122,8 +123,8 @@ class MypageRepository {
             attributes:[
                 "eventId",
                 "Mentions.mentionId",
-                "Meeting.startDay",
-                "Meeting.startTime",
+                [Sequelize.fn("date_format",Sequelize.col("Meeting.startDay"),"%m/%d"),"startDay"],
+                [Sequelize.fn("date_format",Sequelize.col("Meeting.startTime"),"%H:%i"),"startTime"],
                 "User.userName",
                 "Meeting.title",
                 "eventType",
@@ -144,23 +145,24 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
-        }).then((data) => {
-            let startDay = moment(data.startDay);
-            startDay = startDay.format("MM/DD")
-            const day = `${startDay} ${data.startTime}`
-            let startTime = moment(day);
-            startTime = startTime.format("HH:mm")
-            return {
-                eventId : data.eventId ,
-                mentionId : data.mentionId,
-                startDay : startDay,
-                startTime : startTime,
-                userName : data.userName,
-                title : data.title,
-                eventType : data.eventType,
-                isChecked : data.isChecked 
-            }
         })
+        // .then((data) => {
+        //     let startDay = moment(data.startDay);
+        //     startDay = startDay.format("MM/DD")
+        //     const day = `${startDay} ${data.startTime}`
+        //     let startTime = moment(day);
+        //     startTime = startTime.format("HH:mm")
+        //     return {
+        //         eventId : data.eventId ,
+        //         mentionId : data.mentionId,
+        //         startDay : startDay,
+        //         startTime : startTime,
+        //         userName : data.userName,
+        //         title : data.title,
+        //         eventType : data.eventType,
+        //         isChecked : data.isChecked 
+        //     }
+        // })
     };
 
     getIssueById = async ({ eventId, userId }) => {
@@ -171,8 +173,8 @@ class MypageRepository {
             attributes:[
                 "eventId",
                 "Mentions.mentionId",
-                "Meeting.startDay",
-                "Meeting.startTime",
+                [Sequelize.fn("date_format",Sequelize.col("Meeting.startDay"),"%m/%d"),"startDay"],
+                [Sequelize.fn("date_format",Sequelize.col("Meeting.startTime"),"%H:%i"),"startTime"],
                 "User.userName",
                 "Meeting.title",
                 "eventType",
@@ -193,23 +195,24 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
-        }).then((data) => {
-            let startDay = moment(data.startDay);
-            startDay = startDay.format("MM/DD")
-            const day = `${startDay} ${data.startTime}`
-            let startTime = moment(day);
-            startTime = startTime.format("HH:mm")
-            return {
-                eventId : data.eventId ,
-                mentionId : data.mentionId,
-                startDay : startDay,
-                startTime : startTime,
-                userName : data.userName,
-                title : data.title,
-                eventType : data.eventType,
-                isChecked : data.isChecked 
-            }
         })
+        // .then((data) => {
+        //     let startDay = moment(data.startDay);
+        //     startDay = startDay.format("MM/DD")
+        //     const day = `${startDay} ${data.startTime}`
+        //     let startTime = moment(day);
+        //     startTime = startTime.format("HH:mm")
+        //     return {
+        //         eventId : data.eventId ,
+        //         mentionId : data.mentionId,
+        //         startDay : startDay,
+        //         startTime : startTime,
+        //         userName : data.userName,
+        //         title : data.title,
+        //         eventType : data.eventType,
+        //         isChecked : data.isChecked 
+        //     }
+        // })
     };
 
     getReportById = async ({ eventId, userId }) => {
@@ -220,7 +223,7 @@ class MypageRepository {
             attributes:[
                 "eventId",
                 "Mentions.mentionId",
-                "Report.enrollDay",
+                [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%m/%d"),"enrollDay"],
                 "User.userName",
                 "Report.title",
                 "eventType",
@@ -241,19 +244,20 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
-        }).then((data) => {
-            let enrollDay = moment(data.enrollDay);
-            enrollDay = enrollDay.format("MM/DD")
-            return {
-                eventId : data.eventId ,
-                mentionId : data.mentionId,
-                enrollDay : enrollDay,
-                userName : data.userName,
-                title : data.title,
-                eventType : data.eventType,
-                isChecked : data.isChecked 
-            }
         })
+        // .then((data) => {
+        //     let enrollDay = moment(data.enrollDay);
+        //     enrollDay = enrollDay.format("MM/DD")
+        //     return {
+        //         eventId : data.eventId ,
+        //         mentionId : data.mentionId,
+        //         enrollDay : enrollDay,
+        //         userName : data.userName,
+        //         title : data.title,
+        //         eventType : data.eventType,
+        //         isChecked : data.isChecked 
+        //     }
+        // })
     };
 
     getOtherById = async ({ eventId, userId }) => {
@@ -264,8 +268,8 @@ class MypageRepository {
             attributes:[
                 "eventId",
                 "Mentions.mentionId",
-                "Other.startDay",
-                "Other.endDay",
+                [Sequelize.fn("date_format",Sequelize.col("Other.startDay"),"%m/%d"),"startDay"],
+                [Sequelize.fn("date_format",Sequelize.col("Other.endDay"),"%m/%d"),"endDay"],
                 "User.userName",
                 "Other.title",
                 "eventType",
@@ -286,22 +290,23 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
-        }).then((data) => {
-            let startDay = moment(data.startDay);
-            let endDay = moment(data.endDay);
-            startDay = startDay.format("MM/DD")
-            endDay = endDay.format("MM/DD")
-            return {
-                eventId : data.eventId ,
-                mentionId : data.mentionId,
-                startDay : startDay,
-                endDay : endDay,
-                userName : data.userName,
-                title : data.title,
-                eventType : data.eventType,
-                isChecked : data.isChecked 
-            }
         })
+        // .then((data) => {
+        //     let startDay = moment(data.startDay);
+        //     let endDay = moment(data.endDay);
+        //     startDay = startDay.format("MM/DD")
+        //     endDay = endDay.format("MM/DD")
+        //     return {
+        //         eventId : data.eventId ,
+        //         mentionId : data.mentionId,
+        //         startDay : startDay,
+        //         endDay : endDay,
+        //         userName : data.userName,
+        //         title : data.title,
+        //         eventType : data.eventType,
+        //         isChecked : data.isChecked 
+        //     }
+        // })
     };
 
     getMeetingReportsById = async ({ eventId, userId }) => {
@@ -312,7 +317,7 @@ class MypageRepository {
             attributes:[
                 "eventId",
                 "Mentions.mentionId",
-                "MeetingReport.enrollDay",
+                [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%m/%d"),"enrollDay"],
                 "User.userName",
                 "MeetingReport.title",
                 "eventType",
@@ -333,19 +338,20 @@ class MypageRepository {
                     where : {userId}
                 }
             ]
-        }).then((data) => {
-            let enrollDay = moment(data.enrollDay);
-            enrollDay = enrollDay.format("MM/DD")
-            return {
-                eventId : data.eventId ,
-                mentionId : data.mentionId,
-                enrollDay : enrollDay,
-                userName : data.userName,
-                title : data.title,
-                eventType : data.eventType,
-                isChecked : data.isChecked 
-            }
         })
+        // .then((data) => {
+        //     let enrollDay = moment(data.enrollDay);
+        //     enrollDay = enrollDay.format("MM/DD")
+        //     return {
+        //         eventId : data.eventId ,
+        //         mentionId : data.mentionId,
+        //         enrollDay : enrollDay,
+        //         userName : data.userName,
+        //         title : data.title,
+        //         eventType : data.eventType,
+        //         isChecked : data.isChecked 
+        //     }
+        // })
     };
 
     findMention = async ({ mentionId }) => {
