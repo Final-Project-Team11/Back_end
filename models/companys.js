@@ -24,11 +24,13 @@ module.exports = (sequelize, DataTypes) => {
             companyId: {
                 allowNull: false,
                 primaryKey: true,
-                type: DataTypes.STRING,
+                type: DataTypes.STRING.BINARY,
+                collate: 'utf8_bin'
             },
             companyName: {
                 allowNull: false,
-                type: DataTypes.STRING,
+                type: DataTypes.STRING.BINARY,
+                collate: 'utf8_bin'
             },
             companyNum: {
                 allowNull: false,
@@ -40,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
             },
             ceoName: {
                 allowNull: false,
-                type: DataTypes.STRING,
+                type: DataTypes.STRING.BINARY,
+                collate: 'utf8_bin'
             },
             ceoNum: {
                 allowNull: false,

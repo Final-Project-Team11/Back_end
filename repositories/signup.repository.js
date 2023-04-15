@@ -14,14 +14,23 @@ class SignupRepository {
     }
 
     findCompanyById = async ({ companyId }) => {
-        return await Companys.findOne({
-            where: { companyId: companyId },
-        });
+        return await sequelize.query(
+            "SELECT * FROM Companys WHERE BINARY companyId = ? LIMIT 1",
+            {
+                replacements: [companyId],
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
     };
+    
     findCompanyByName = async ({ companyName }) => {
-        return await Companys.findOne({
-            where: { companyName: companyName },
-        });
+        return await sequelize.query(
+            "SELECT * FROM Companys WHERE BINARY companyName = ? LIMIT 1",
+            {
+                replacements: [companyName],
+                type: sequelize.QueryTypes.SELECT,
+            }
+        );
     };
     companySignup = async ({
         companyId,
@@ -81,9 +90,12 @@ class SignupRepository {
             await t.commit();
         } catch (transactionError) {
             // rollback()을 호출하여 트랜잭션 전체를 롤백
-            console.log(transactionError)
+            console.log(transactionError);
             await t.rollback();
-            throw new CustomError("회원가입 중 예상치 못한 에러가 발생했습니다.", 400);
+            throw new CustomError(
+                "회원가입 중 예상치 못한 에러가 발생했습니다.",
+                400
+            );
         }
     };
 }

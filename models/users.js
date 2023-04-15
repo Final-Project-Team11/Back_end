@@ -82,11 +82,13 @@ module.exports = (sequelize, DataTypes) => {
             userId: {
                 allowNull: false,
                 primaryKey: true,
-                type: DataTypes.STRING,
+                type: DataTypes.STRING.BINARY,
+                collate: 'utf8_bin'
             },
             userName: {
                 allowNull: false,
-                type: DataTypes.STRING,
+                type: DataTypes.STRING.BINARY,
+                collate: 'utf8_bin'
             },
             password: {
                 allowNull: false,

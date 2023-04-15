@@ -11,15 +11,13 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-    sequelize = new Sequelize(process.env[config.use_env_variable],
-        {
-            ...config,
-            timezone: "+09:00", // DB에 저장할 때 시간 설정
-            dialectOptions: {
-                timezone: "+09:00", // DB에서 가져올 때 시간 설정
-            }
+    sequelize = new Sequelize(process.env[config.use_env_variable], {
+        ...config,
+        timezone: "+09:00", // DB에 저장할 때 시간 설정
+        dialectOptions: {
+            timezone: "+09:00", // DB에서 가져올 때 시간 설정
+        },
     });
-    
 } else {
     sequelize = new Sequelize(
         config.database,
@@ -29,10 +27,13 @@ if (config.use_env_variable) {
             ...config,
             timezone: "+09:00", // DB에 저장할 때 시간 설정
             dialectOptions: {
-            timezone: "+09:00", // DB에서 가져올 때 시간 설정
-            }}
-        
-    )
+                timezone: "+09:00", // DB에서 가져올 때 시간 설정
+            },
+            define: {
+                collate: "utf8_bin",
+            },
+        }
+    );
 }
 
 fs.readdirSync(__dirname)
