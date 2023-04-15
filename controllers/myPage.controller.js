@@ -138,8 +138,8 @@ class MypageController {
             const meeting = await this.MypageService.TeamMeetingReport({
                 userId,
             });
-            const meetings = meeting.slice(pageSize * (pageNum - 1), pageSize * pageNum);
-            res.status(200).json({ meetings });
+            const meetingfiles = meeting.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ meetingfiles });
         } catch (err) {
             next(err);
         }
@@ -157,8 +157,8 @@ class MypageController {
             const report = await this.MypageService.TeamReport({
                 userId,
             });
-            const reports = report.slice(pageSize * (pageNum - 1), pageSize * pageNum);
-            res.status(200).json({ reports });
+            const reportfiles = report.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ reportfiles });
         } catch (err) {
             next(err);
         }
