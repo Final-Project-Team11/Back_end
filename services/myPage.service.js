@@ -76,6 +76,7 @@ class MypageService {
             userId,
             type: "Meetings",
         });
+
         //내가 언급된 미팅 가져오기
         return await Promise.all(
             meeting.map(async (event) => {
