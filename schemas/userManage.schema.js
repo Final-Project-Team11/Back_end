@@ -59,6 +59,11 @@ const userUpdateSchema = Joi.object({
         "string.empty": "rank 필드는 비어 있을 수 없습니다.",
         "any.required": "rank 필드는 필수입니다.",
     }),
+    job: Joi.string().required().messages({
+        "string.base": "job 필드는 문자열로 이루어져야 합니다.",
+        "string.empty": "job 필드는 비어 있을 수 없습니다.",
+        "any.required": "job 필드는 필수입니다.",
+    }),
 })
 const options = {
     abortEarly: false

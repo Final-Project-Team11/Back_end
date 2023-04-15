@@ -15,7 +15,7 @@ class UserManageService {
     };
 
     // 유저 수정
-    updateUser = async ({ userId, team, authLevel, rank, companyId }) => {
+    updateUser = async ({ userId, team, authLevel, rank, job, companyId }) => {
         console.log(companyId);
         const existUser = this.userManageRepository.findUserById(userId);
         if (!existUser) {
@@ -45,6 +45,7 @@ class UserManageService {
             teamId,
             authLevel,
             rank,
+            job
         });
     };
     // 유저 삭제
