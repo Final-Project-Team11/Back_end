@@ -393,6 +393,14 @@ class MypageRepository {
                     });
                     meeting.fileName = meeting.file.split("/")[3];
                     return Object.assign(event, meeting);
+                }else if (event.eventType === "Issues") {
+                    const meeting = await Meetings.findOne({
+                        raw: true,
+                        attributes: ["title", "file"],
+                        where: { userId, eventId: event.eventId },
+                    });
+                    meeting.fileName = meeting.file.split("/")[3];
+                    return Object.assign(event, meeting);
                 } else if (event.eventType === "Reports") {
                     const report = await Reports.findOne({
                         raw: true,
@@ -441,7 +449,7 @@ class MypageRepository {
                     where: {
                         userId: team.userId,
                         hasFile: true,
-                        eventType: "MeetingReports",
+                        eventType: "MeetingReports" || "Issues",
                     },
                     include: [
                         {
