@@ -1,5 +1,6 @@
 const CommentService = require("../services/comment.service")
 const CustomError = require("../middlewares/errorHandler");
+const {commentSchema} = require('../schemas/comment.shcema')
 const Joi = require("joi");
 
 class CommentController{
@@ -11,29 +12,13 @@ class CommentController{
         const {comment} = req.body
         const {userId} = res.locals.user
 
-        const schema = Joi.object({
-            comment: Joi.string().required().messages({
-                "string.base": "comment 필드는 날짜로 이루어져야 합니다.",
-                "string.empty": "댓글을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
-            }),
-        });
-
-        const validate = schema.validate(
-            {
-                comment : comment
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        );
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401);
-        } else {
-            console.log("Valid input!");
-        }
-
         try {
+            await commentSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             await this.commentService.createComments({
                 eventId: Number(eventId),
                 comment,

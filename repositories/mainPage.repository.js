@@ -31,6 +31,7 @@ class MainPageRepository {
             attributes: [
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Vacation.userId"), "userId"],
                 [Sequelize.col("Vacation.startDay"), "startDay"],
                 [Sequelize.col("Vacation.endDay"), "endDay"],
                 [Sequelize.col("Vacation.typeDetail"), "typeDetail"],
@@ -82,6 +83,7 @@ class MainPageRepository {
             attributes: [
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Schedule.userId"), "userId"],
                 [Sequelize.col("Schedule.title"), "title"],
                 [Sequelize.col("Schedule.content"), "content"],
                 [Sequelize.col("Schedule.file"), "file"],
@@ -143,6 +145,7 @@ class MainPageRepository {
             attributes: [
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Report.userId"), "userId"],
                 [Sequelize.col("Report.title"), "title"],
                 [Sequelize.col("Report.content"), "content"],
                 [Sequelize.col("Report.file"), "file"],
@@ -209,6 +212,7 @@ class MainPageRepository {
             attributes: [
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Other.userId"), "userId"],
                 [Sequelize.col("Other.title"), "title"],
                 [Sequelize.col("Other.content"), "content"],
                 [Sequelize.col("Other.file"), "file"],
@@ -270,6 +274,7 @@ class MainPageRepository {
             attributes: [
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Meeting.userId"), "userId"],
                 [Sequelize.col("Meeting.title"), "title"],
                 [Sequelize.col("Meeting.content"), "content"],
                 [Sequelize.col("Meeting.file"), "file"],
@@ -332,6 +337,7 @@ class MainPageRepository {
             attributes: [
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Meeting.userId"), "userId"],
                 [Sequelize.col("Meeting.title"), "title"],
                 [Sequelize.col("Meeting.content"), "content"],
                 [Sequelize.col("Meeting.file"), "file"],
@@ -394,6 +400,7 @@ class MainPageRepository {
                 "eventId",
                 [Sequelize.col("MeetingReport.meetingId"), "meetingId"],
                 [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("MeetingReport.userId"), "userId"],
                 [Sequelize.col("MeetingReport.title"), "title"],
                 [Sequelize.col("MeetingReport.content"), "content"],
                 [Sequelize.col("MeetingReport.file"), "file"],

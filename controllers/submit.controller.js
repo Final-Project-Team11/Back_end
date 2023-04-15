@@ -1,5 +1,6 @@
 const SubmitService = require("../services/submit.service");
 const CustomError = require("../middlewares/errorHandler");
+const {scheduleSchema, vacationSchema, otherSchema, meetingSchema, reportSchema, meetingReportSchema} = require('../schemas/submit.schema')
 const Joi = require("joi");
 
 class SubmitController {
@@ -15,55 +16,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            startDay: Joi.date().required().messages({
-                "string.base": "startDay 필드는 날짜로 이루어져야 합니다.",
-                "string.empty": "일정을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
-            }),
-            endDay: Joi.date().required().messages({
-                "string.base": "endDay 필드는 날짜로 이루어져야 합니다.",
-                "string.empty": "일정을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
-            }),
-            title: Joi.string().required().messages({
-                "string.base": "title 필드는 문자열로 이루어져야 합니다.",
-                "string.empty": "제목을 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
-            }),
-            ref: Joi.array().messages({
-                "string.base": "ref 필드는 문자열로 이루어져야 합니다.",
-            }),
-            location: Joi.string().required().messages({
-                "string.base": "location 필드는 문자열로 이루어져야 합니다.",
-                "string.empty": "장소를 입력해 주세요.",
-                "any.required": "이 필드는 필수입니다.",
-            }),
-            content: Joi.string().messages({
-                "string.base": "content 필드는 문자열로 이루어져야 합니다.",
-            }),
-        });
+        try{
+            await scheduleSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
 
-        const validate = schema.validate(
-            {
-                startDay: startDay,
-                endDay: endDay,
-                title: title,
-                ref: ref,
-                location: location,
-                content: content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        );
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401);
-        } else {
-            console.log("Valid input!");
-        }
-
-        try {
             const ScheduleSubmit = await this.submitService.scheduleSubmit({
                 userId,
                 teamId: teamId,
@@ -93,51 +52,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            startDay: Joi.date().required().messages({
-                "string.base": "startDay 필드는 날짜로 이루어져야 합니다.",
-                "string.empty": "일정을 입력해 주세요.",
-            }),
-            endDay: Joi.date().required().messages({
-                "string.base": "endDay 필드는 날짜로 이루어져야 합니다.",
-                "string.empty": "일정을 입력해 주세요.",
-            }),
-            title: Joi.string().messages({
-                "string.base": "title 필드는 문자열로 이루어져야 합니다.",
-                "string.empty": "제목을 입력해 주세요.",
-            }),
-            ref: Joi.array().messages({
-                "string.base": "ref 필드는 문자열로 이루어져야 합니다.",
-            }),
-            location: Joi.string().messages({
-                "string.base": "location 필드는 문자열로 이루어져야 합니다.",
-                "string.empty": "장소를 입력해 주세요.",
-            }),
-            content: Joi.string().messages({
-                "string.base": "content 필드는 문자열로 이루어져야 합니다.",
-            }),
-        });
-
-        const validate = schema.validate(
-            {
-                startDay: startDay,
-                endDay: endDay,
-                title: title,
-                ref: ref,
-                location: location,
-                content: content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        );
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401);
-        } else {
-            console.log("Valid input!");
-        }
-
         try {
+            await scheduleSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             const ScheduleSubmit = await this.submitService.scheduleModify({
                 userId,
                 eventId,
@@ -161,42 +82,14 @@ class SubmitController {
     vacationSubmit = async(req, res, next) => {
         const {typeDetail, startDay, endDay} = req.body
         const {userId} = res.locals.user
-        
-        const schema = Joi.object({
-            startDay: Joi.date().required().messages({
-                'string.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
-                'string.empty' : '일정을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            endDay: Joi.date().required().messages({
-                'string.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
-                'string.empty' : '일정을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            typeDetail: Joi.string().required().messages({
-                'string.base' : 'typeDetail 필드는 날짜로 이루어져야 합니다.',
-                'string.empty' : '휴가 종류를 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-        })
-
-        const validate = schema.validate(
-            {
-                startDay : startDay,
-                endDay : endDay,
-                typeDetail : typeDetail
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        )
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401)
-        }else {
-            console.log('Valid input!')
-        }
 
         try {
+            await vacationSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             const vacationSubmit = await this.submitService.vacationSubmit({
                 userId,
                 startDay,
@@ -220,49 +113,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            startDay: Joi.date().required().messages({
-                'string.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
-                'string.empty' : '일정을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            endDay: Joi.date().required().messages({
-                'string.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
-                'string.empty' : '일정을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            title: Joi.string().required().messages({
-                'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '제목을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            ref: Joi.array().messages({
-                'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-            }),
-            content: Joi.string().messages({
-                'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
-            }),
-        })
-
-        const validate = schema.validate(
-            {
-                startDay : startDay,
-                endDay : endDay,
-                title : title,
-                ref : ref,
-                content : content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        )
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401)
-        }else {
-            console.log('Valid input!')
-        }
-
         try{
+            await otherSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             const OtherSubmit = await this.submitService.otherSubmit({
                 userId,
                 teamId: teamId,
@@ -290,61 +147,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            startDay: Joi.date().required().messages({
-                'string.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
-                'string.empty' : '일정을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            startTime: Joi.date().required().messages({
-                'string.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
-                'string.empty' : '일정을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            eventType: Joi.string().required().messages({
-                'string.base' : 'eventType 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : 'eventType을 입력해주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            title: Joi.string().required().messages({
-                'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '제목을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            ref: Joi.array().messages({
-                'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-            }),
-            location: Joi.string().required().messages({
-                'string.base' : 'location 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '장소를 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            content: Joi.string().messages({
-                'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
-            }),
-        })
-
-        const validate = schema.validate(
-            {
-                startDay : startDay,
-                startTime : startTime,
-                eventType: eventType,
-                title : title,
-                ref : ref,
-                location : location,
-                content : content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        )
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401)
-        }else {
-            console.log('Valid input!')
-        }
-
         try{
+            await meetingSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             const MeetingSubmit = await this.submitService.meetingSubmit({
                 userId,
                 teamId: teamId,
@@ -373,36 +182,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            title: Joi.string().required().messages({
-                'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '제목을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            ref: Joi.array().messages({
-                'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-            }),
-            content: Joi.string().messages({
-                'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
-            }),
-        })
-
-        const validate = schema.validate(
-            {
-                title : title,
-                ref : ref,
-                content : content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        )
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401)
-        }else {
-            console.log('Valid input!')
-        }
         try{
+            await reportSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             await this.submitService.reportSubmit({
                 userId,
                 teamId : teamId,
@@ -428,35 +214,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            title: Joi.string().messages({
-                'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '제목을 입력해 주세요.',
-            }),
-            ref: Joi.array().messages({
-                'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-            }),
-            content: Joi.string().messages({
-                'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
-            }),
-        })
-
-        const validate = schema.validate(
-            {
-                title : title,
-                ref : ref,
-                content : content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        )
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401)
-        }else {
-            console.log('Valid input!')
-        }
         try{
+            await reportSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             await this.submitService.reportModify({
                 userId,
                 eventId,
@@ -483,36 +247,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            title: Joi.string().required().messages({
-                'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '제목을 입력해 주세요.',
-                'any.required' : '이 필드는 필수입니다.'
-            }),
-            ref: Joi.array().messages({
-                'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-            }),
-            content: Joi.string().messages({
-                'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
-            }),
-        })
-
-        const validate = schema.validate(
-            {
-                title : title,
-                ref : ref,
-                content : content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        )
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401)
-        }else {
-            console.log('Valid input!')
-        }
         try{
+            await meetingReportSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+
             await this.submitService.meetingReportSubmit({
                 userId,
                 meetingId : eventId,
@@ -539,35 +280,13 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const file = req.file ? await req.file.location : null
 
-        const schema = Joi.object({
-            title: Joi.string().messages({
-                'string.base' : 'title 필드는 문자열로 이루어져야 합니다.',
-                'string.empty' : '제목을 입력해 주세요.',
-            }),
-            ref: Joi.array().messages({
-                'string.base' : 'ref 필드는 문자열로 이루어져야 합니다.',
-            }),
-            content: Joi.string().messages({
-                'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
-            }),
-        })
-
-        const validate = schema.validate(
-            {
-                title : title,
-                ref : ref,
-                content : content,
-            },
-            // 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate()의 세 번째 파라미터로 {abortEarly: false}를 설정하면 된다.
-            { abortEarly: false }
-        )
-
-        if (validate.error) {
-            throw new CustomError(validate.error.message, 401)
-        }else {
-            console.log('Valid input!')
-        }
         try{
+            await meetingReportSchema
+            .validateAsync(req.body)
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
+            
             await this.submitService.meetingReportModify({
                 userId,
                 meetingId,
