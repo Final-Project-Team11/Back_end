@@ -3,14 +3,16 @@ const CustomError = require("../middlewares/errorHandler");
 const Joi = require("joi");
 
 class MainPageController {
-    mainPageService = new MainPageService()
-
+    constructor() {
+        this.mainPageService = new MainPageService()
+    }
     // 휴가 전체 조회
     findTotalVacation = async(req, res, next) => {
         try {
             const {teamId} = req.params
-
-            const findTotalVacation = await this.mainPageService.findTotalVacation(teamId)
+            const {year, month} = req.query
+            
+            const findTotalVacation = await this.mainPageService.findTotalVacation({teamId, year, month})
 
             res.status(200).json({ main: findTotalVacation})
         } catch (error) {
@@ -18,6 +20,19 @@ class MainPageController {
         }
     }
     
+    // 전체 일정 조회
+    findTotalSchedule = async(req, res, next) => {
+        try {
+            const {teamId} = req.params
+            const {year, month} = req.query
+
+            const findTotalSchedule = await this.mainPageService.findTotalSchedule({teamId, year, month})
+
+            res.status(200).json({ main: findTotalSchedule})
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = MainPageController

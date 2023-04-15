@@ -4,10 +4,10 @@ const { boolean } = require("joi");
 
 class UserManageRepository {
     //유저 수정
-    updateUser = async ({ userId, team, authLevel, rank }) => {
+    updateUser = async ({ userId, teamId, authLevel, rank }) => {
         await Users.update(
             {
-                team,
+                teamId,
                 authLevel,
                 rank,
             },
@@ -56,13 +56,20 @@ class UserManageRepository {
             where.teamName = team;
         }
         const teams = await Teams.findAll({
+            raw:true,
             where: where,
             attributes: ["teamId", ["teamName", "team"]],
         });
         return teams;
     };
-    // 회사 전체 유저 리스트
-    findAllCompanyUser = async ({ companyId }) => {
+    // 회사 전체 유저 리스트, 부서별 유저 조회
+    findAllCompanyUser = async ({ companyId, teamId }) => {
+        const where = { companyId };
+        
+        // teamId 가 있을 경우에만 where 객체에 teamId 속성 추가
+        if (teamId) {
+            where.teamId = teamId;
+        }
         const companyUserList = await Users.findAll({
             raw: true,
             attributes: [
@@ -73,9 +80,7 @@ class UserManageRepository {
                 "job",
                 [Sequelize.col("Team.teamName"), "team"],
             ],
-            where: {
-                companyId,
-            },
+            where: where,
             include: [
                 {
                     model: Teams,

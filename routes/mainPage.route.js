@@ -8,4 +8,7 @@ const mainPageController = new MainPageController();
 // 휴가 전체 조회
 router.get('/totalVacation/:teamId', authMiddleware, mainPageController.findTotalVacation)
 
+// 전체 일정 조회
+router.get('/totalSchedule/:teamId', authMiddleware, mainPageController.findTotalSchedule)
+
 module.exports = router

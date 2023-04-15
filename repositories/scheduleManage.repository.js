@@ -64,8 +64,8 @@ class ScheduleManageRepository {
                 [Sequelize.col("User.userName"), "userName"],
                 "title",
                 "file",
-                "startDay",
-                "endDay",
+                [Sequelize.fn("date_format",Sequelize.col("startDay"),"%Y/%m/%d"),"startDay"],
+                [Sequelize.fn("date_format",Sequelize.col("endDay"),"%Y/%m/%d"),"endDay"],
                 "status",
             ],
             include: [

@@ -64,19 +64,31 @@ class VacationManageService {
         const { remainDay } = writerInfo.dataValues
         const endDay = moment(vacation.endDay)
         const startDay = moment(vacation.startDay)
+        
+        // 남은 연차일수 변수
         let afterRemainDay
         if (vacation.typeDetail == '반차') {
             afterRemainDay = remainDay - 0.5
             console.log(afterRemainDay)
         } else {
+            let weekendsCount = 0;
+            const currentDay = startDay.clone(); // 복사본 생성
+
+            while (currentDay <= endDay) {
+                const dayOfWeek = currentDay.day();
+            // 주말이면 카운트 증가
+                if ([6, 0].includes(dayOfWeek)) {
+                    weekendsCount++;
+                }   
+                currentDay.add(1, 'days'); // 날짜를 1일씩 증가
+            }
             const daysDifference = endDay.diff(startDay, 'days') + 1;
-            afterRemainDay = remainDay - daysDifference
+            afterRemainDay = remainDay - daysDifference + weekendsCount
         }
         if (afterRemainDay < 0) {
             throw new CustomError("남은 연차 일수가 부족합니다.",400)
         }
         const status = 'accept'
-        console.log(afterRemainDay)
         await this.vacationManageRepository.updateVacationStaus({ eventId, status })
         await this.vacationManageRepository.updateUserRemainDay({ userId, afterRemainDay })
     

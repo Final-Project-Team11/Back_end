@@ -17,6 +17,7 @@ class CommentRepository{
             raw: true,
             where: {eventId},
             attributes: [
+                "commentId",
                 "comment",
                 "User.userName"
             ],

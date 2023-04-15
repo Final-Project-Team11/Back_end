@@ -76,6 +76,7 @@ class MypageService {
             userId,
             type: "Meetings",
         });
+
         //내가 언급된 미팅 가져오기
         return await Promise.all(
             meeting.map(async (event) => {
@@ -89,13 +90,13 @@ class MypageService {
 
     getMentionedReport = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
-        const meeting = await this.MypageRepository.getMention({
+        const report = await this.MypageRepository.getMention({
             userId,
             type: "Reports",
         });
-        //내가 언급된 미팅 가져오기
+        //내가 언급된 report 가져오기
         return await Promise.all(
-            meeting.map(async (event) => {
+            report.map(async (event) => {
                 return await this.MypageRepository.getReportById({
                     eventId: event,
                     userId,
@@ -105,13 +106,13 @@ class MypageService {
     };
     getMentionedOther = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
-        const meeting = await this.MypageRepository.getMention({
+        const other = await this.MypageRepository.getMention({
             userId,
             type: "Others",
         });
-        //내가 언급된 미팅 가져오기
+        //내가 언급된 other 가져오기
         return await Promise.all(
-            meeting.map(async (event) => {
+            other.map(async (event) => {
                 return await this.MypageRepository.getOtherById({
                     eventId: event,
                     userId,
@@ -121,13 +122,13 @@ class MypageService {
     };
     getMentionedMeetingReports = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
-        const meeting = await this.MypageRepository.getMention({
+        const meetingreport = await this.MypageRepository.getMention({
             userId,
             type: "MeetingReports",
         });
-        //내가 언급된 미팅 가져오기
+        //내가 언급된 meetingreport 가져오기
         return await Promise.all(
-            meeting.map(async (event) => {
+            meetingreport.map(async (event) => {
                 return await this.MypageRepository.getMeetingReportsById({
                     eventId: event,
                     userId,
