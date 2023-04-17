@@ -77,6 +77,14 @@ class ScheduleManageRepository {
                     },
                 },
             ],
+            order: [
+                [
+                    // status submit 먼저 정렬
+                    Sequelize.fn("FIELD", Sequelize.col("status"), "submit"),
+                    "DESC",
+                ],
+                ["createdAt", "DESC"],
+            ],
         });
         return teamScheduleList;
     };
