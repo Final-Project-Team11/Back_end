@@ -1,6 +1,7 @@
 const moment = require("moment");
 const {
     Users,
+    Teams,
     Schedules,
     Mentions,
     Events,
@@ -14,7 +15,17 @@ class MypageRepository {
     constructor() {}
 
     findUserById = async ({ userId }) => {
-        return await Users.findOne({ where: { userId } });
+        return await Users.findOne({ 
+            raw: true,
+            where: { userId } ,
+            attributes: ["userId","userName","Team.teamName","remainDay","salaryDay"],
+            include: [
+                {
+                    model: Teams,
+                    attributes: [],
+                },
+            ],
+        });
     };
 
     getUserSchedule = async ({ userId, start, pageSize }) => {
