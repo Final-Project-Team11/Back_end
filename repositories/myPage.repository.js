@@ -429,7 +429,7 @@ class MypageRepository {
                         "User.userName",
                         "MeetingReport.title",
                         "MeetingReport.file",
-                        "MeetingReport.enrollDay",
+                        [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"), "enrollDay"],
                     ],
                     where: {
                         userId: team.userId,
@@ -447,19 +447,7 @@ class MypageRepository {
                         },
                     ],
                     order: [["eventId", "DESC"]],
-                }).then((data) => {
-                    return data.map((item) => {
-                        let enrollDay = moment(item.enrollDay);
-                        enrollDay = enrollDay.format("YYYY/MM/DD");
-                        return {
-                            eventId: item.eventId,
-                            userName: item.userName,
-                            title: item.title,
-                            file: item.file,
-                            enrollDay: enrollDay,
-                        };
-                    });
-                });
+                })
             })
         );
         console.log(list);
@@ -479,7 +467,7 @@ class MypageRepository {
                         "User.userName",
                         "Report.title",
                         "Report.file",
-                        "Report.enrollDay",
+                        [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%Y/%m/%d"), "enrollDay"],
                     ],
                     where: {
                         userId: team.userId,
@@ -497,19 +485,7 @@ class MypageRepository {
                         },
                     ],
                     order: [["eventId", "DESC"]],
-                }).then((data) => {
-                    return data.map((item) => {
-                        let enrollDay = moment(item.enrollDay);
-                        enrollDay = enrollDay.format("YYYY/MM/DD");
-                        return {
-                            eventId: item.eventId,
-                            userName: item.userName,
-                            title: item.title,
-                            file: item.file,
-                            enrollDay: enrollDay,
-                        };
-                    });
-                });
+                })
             })
         );
         return list.flat().map((event) => {
