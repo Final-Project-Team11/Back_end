@@ -39,6 +39,7 @@ class MypageService {
 
         const userInfo = {
             userName: user.userName,
+            team : user.teamName,
             remainDay: user.remainDay,
             salaryDay: payDay,
         };
