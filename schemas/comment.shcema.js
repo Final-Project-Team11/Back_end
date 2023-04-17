@@ -7,3 +7,5 @@ const commentSchema = Joi.object({
         "any.required": "이 필드는 필수입니다.",
     }),
 });
+
+module.exports = {commentSchema}
