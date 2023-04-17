@@ -91,6 +91,13 @@ class VacationManageRepository {
                     },
                 },
             ],
+            order: [
+                [
+                    Sequelize.fn("FIELD", Sequelize.col("status"), "submit"),
+                    "DESC",
+                ],
+                ["createdAt", "DESC"],
+            ],
         });
         return teamVacationList;
     };
