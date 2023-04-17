@@ -374,6 +374,7 @@ class MypageRepository {
                     attributes: [],
                 },
             ],
+            order: [['EventId', 'DESC']],
         });
         return await Promise.all(
             myfile.map(async (event) => {
@@ -386,6 +387,14 @@ class MypageRepository {
                     schedule.fileName = schedule.file.split("/")[3];
                     return Object.assign(event, schedule);
                 } else if (event.eventType === "Meetings") {
+                    const meeting = await Meetings.findOne({
+                        raw: true,
+                        attributes: ["title", "file"],
+                        where: { userId, eventId: event.eventId },
+                    });
+                    meeting.fileName = meeting.file.split("/")[3];
+                    return Object.assign(event, meeting);
+                }else if (event.eventType === "Issues") {
                     const meeting = await Meetings.findOne({
                         raw: true,
                         attributes: ["title", "file"],
@@ -453,6 +462,7 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
+                    order: [['eventId', 'DESC']],
                 }).then((data) => {
                     return data.map(item => {
                     let enrollDay = moment(item.enrollDay);
@@ -501,6 +511,7 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
+                    order: [['eventId', 'DESC']],
                 }).then((data) => {
                     return data.map(item => {
                     let enrollDay = moment(item.enrollDay);
