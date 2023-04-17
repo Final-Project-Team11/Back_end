@@ -1,5 +1,5 @@
 const CustomError = require("../middlewares/errorHandler");
-const ScheduleManageService = require("../services/ScheduleManage.service");
+const ScheduleManageService = require("../services/scheduleManage.service");
 
 class ScheduleManageController {
     constructor() {

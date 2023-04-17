@@ -39,6 +39,7 @@ class MypageService {
 
         const userInfo = {
             userName: user.userName,
+            team : user.teamName,
             remainDay: user.remainDay,
             salaryDay: payDay,
         };
@@ -46,11 +47,19 @@ class MypageService {
     };
 
     getUserSchedule = async ({ userId, start, pageSize }) => {
-        return await this.MypageRepository.getUserSchedule({
+        const schedule = await this.MypageRepository.getUserSchedule({
             userId,
             start,
             pageSize,
         });
+        return schedule
+            .filter((event) => event.status === "submit")
+            .concat(
+                schedule.filter(
+                    (event) =>
+                        event.status === "accept" || event.status === "deny"
+                )
+            );
     };
 
     getMentionedSchedules = async ({ userId }) => {
@@ -164,7 +173,7 @@ class MypageService {
         other,
     }) => {
         const issue = schedule
-            .concat(meeting,issues, report, meetingReport, other)
+            .concat(meeting, issues, report, meetingReport, other)
             .sort((a, b) => b.eventId - a.eventId);
 
         return issue
@@ -184,10 +193,13 @@ class MypageService {
         return existMention;
     };
     completeMentioned = async ({ existMention, mentionId }) => {
-        console.log(existMention.isChecked)
+        console.log(existMention.isChecked);
         if (existMention.isChecked == false) {
             const check = true;
-            return await this.MypageRepository.updateMention({ mentionId, check });
+            return await this.MypageRepository.updateMention({
+                mentionId,
+                check,
+            });
         }
     };
 
