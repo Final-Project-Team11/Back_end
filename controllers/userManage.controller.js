@@ -1,66 +1,8 @@
 const Joi = require("joi");
+const { userCreateSchema, userUpdateSchema,options } = require('../schemas/userManage.schema')
 const CustomError = require("../middlewares/errorHandler");
 const UserManageService = require("../services/userManage.service");
-// , , , , , job
-const userCreateSchema = Joi.object({
-    userId:Joi.string().pattern(/^[a-zA-Z0-9]{5,}$/).required().messages({
-        "string.pattern.base": "문자열은 영문 대/소문자와 숫자만 포함 가능합니다.",
-        "string.empty": "userId 필드는 비어 있을 수 없습니다.",
-        "string.min": "문자열은 최소 5글자 이상이어야 합니다.",
-        "any.required": "userId 필드는 필수입니다.",
-    }),
-    userName: Joi.string().required().messages({
-        "string.base": "userName 필드는 문자열로 이루어져야 합니다.",
-        "string.empty": "userName 필드는 비어 있을 수 없습니다.",
-        "any.required": "userName 필드는 필수입니다.",
-    }),
-    authLevel: Joi.number().required().messages({
-        "number.base": "authLevel 필드는 숫자로 이루어져야 합니다.",
-        "number.empty": "authLevel 필드는 비어 있을 수 없습니다.",
-        "any.required": "authLevel 필드는 필수입니다.",
-    }),
-    team: Joi.string().required().messages({
-        "string.base": "team 필드는 문자열로 이루어져야 합니다.",
-        "string.empty": "team 필드는 비어 있을 수 없습니다.",
-        "any.required": "team 필드는 필수입니다.",
-    }),
-    joinDay: Joi.date().required().messages({
-        "date.base": "joinDay 필드는 date형식으로 이루어져야 합니다.",
-        "date.empty": "joinDay 필드는 비어 있을 수 없습니다.",
-        "any.required": "joinDay 필드는 필수입니다.",
-    }),
-    job: Joi.string().required().messages({
-        "string.base": "job 필드는 문자열로 이루어져야 합니다.",
-        "string.empty": "job 필드는 비어 있을 수 없습니다.",
-        "any.required": "job 필드는 필수입니다.",
-    }),
-    rank: Joi.string().required().messages({
-        "string.base": "rank 필드는 문자열로 이루어져야 합니다.",
-    }),
-    salaryDay: Joi.number().required().messages({
-        "number.base": "salaryDay 필드는 숫자로 이루어져야 합니다.",
-        "number.empty": "salaryDay 필드는 비어 있을 수 없습니다.",
-        "any.required": "salaryDay 필드는 필수입니다.",
-    })
-})
-const userUpdateSchema = Joi.object({
-    authLevel: Joi.number().required().messages({
-        "number.base": "authLevel 필드는 숫자로 이루어져야 합니다.",
-        "number.empty": "authLevel 필드는 비어 있을 수 없습니다.",
-        "any.required": "authLevel 필드는 필수입니다.",
-    }),
-    team: Joi.string().required().messages({
-        "string.base": "team 필드는 문자열로 이루어져야 합니다.",
-        "string.empty": "team 필드는 비어 있을 수 없습니다.",
-        "any.required": "team 필드는 필수입니다.",
-    }),
-    rank: Joi.string().required().messages({
-        "string.base": "rank 필드는 문자열로 이루어져야 합니다.",
-    }),
-})
-const options = {
-    abortEarly: false
-};
+
 class UserManageController {
     constructor() {
         this.userManageService = new UserManageService();
@@ -90,7 +32,7 @@ class UserManageController {
             try {
                 await userUpdateSchema.validateAsync({ team, authLevel, rank}, options);
             } catch (err) {
-                throw new CustomError(err.details[0].message, 401);
+                throw new CustomError(err.message, 401);
             }
             await this.userManageService.updateUser({
                 userId,
@@ -155,8 +97,8 @@ class UserManageController {
                 req.body;
             try {
                 await userCreateSchema.validateAsync({ team, authLevel, rank, userName, userId, joinDay, job, salaryDay }, options);
-            } catch (err) {
-                throw new CustomError(err.details[0].message, 401);
+            } catch (err) {                
+                throw new CustomError(err.message, 401);
             }
             await this.userManageService.createUser({
                 team,
