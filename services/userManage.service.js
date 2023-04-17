@@ -15,7 +15,7 @@ class UserManageService {
     };
 
     // 유저 수정
-    updateUser = async ({ userId, team, authLevel, rank, companyId }) => {
+    updateUser = async ({ userId, team, authLevel, rank, job, companyId }) => {
         console.log(companyId);
         const existUser = this.userManageRepository.findUserById(userId);
         if (!existUser) {
@@ -45,6 +45,7 @@ class UserManageService {
             teamId,
             authLevel,
             rank,
+            job
         });
     };
     // 유저 삭제
@@ -95,7 +96,12 @@ class UserManageService {
         if (existUser) {
             throw new CustomError("중복된 아이디입니다.", 401);
         }
-
+        if (authLevel !== 1 && authLevel !== 2 && authLevel !== 3) {
+            throw new CustomError(
+                "존재하지 않는 권한입니다.",
+                401
+                );
+            }
         // 팀 존재 유무 확인
         const companyId = userInfo.companyId;
         const existTeam = await this.userManageRepository.findTeamId({
