@@ -4,12 +4,13 @@ const { boolean } = require("joi");
 
 class UserManageRepository {
     //유저 수정
-    updateUser = async ({ userId, teamId, authLevel, rank }) => {
+    updateUser = async ({ userId, teamId, job, authLevel, rank }) => {
         await Users.update(
             {
                 teamId,
                 authLevel,
                 rank,
+                job
             },
             {
                 where: { userId },

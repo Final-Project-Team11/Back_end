@@ -25,12 +25,12 @@ class UserManageController {
     updateUser = async (req, res, next) => {
         try {
             const { userId } = req.params;
-            const { team, authLevel, rank } = req.body;
+            const { team, authLevel, rank, job } = req.body;
 
             const userInfo = res.locals.user;
             const companyId = userInfo.companyId;
             try {
-                await userUpdateSchema.validateAsync({ team, authLevel, rank}, options);
+                await userUpdateSchema.validateAsync({ team, authLevel, rank, job}, options);
             } catch (err) {
                 throw new CustomError(err.message, 401);
             }
@@ -39,6 +39,7 @@ class UserManageController {
                 team,
                 authLevel,
                 rank,
+                job,
                 companyId,
             });
             res.status(200).json({
