@@ -26,19 +26,11 @@ class MypageController {
             if (!pageInfo || !pageSize || !pageNum) {
                 throw new CustomError("pagenation 정보를 입력해주세요", 410);
             }
-            let start = 0;
-
-            if (pageNum <= 0) {
-                pageNum = 1;
-            } else {
-                start = (pageNum - 1) * pageSize;
-            }
             const schedule = await this.MypageService.getUserSchedule({
-                userId,
-                start,
-                pageSize,
+                userId
             });
-            res.status(200).json({ schedule });
+            const schedules = schedule.slice(pageSize * (pageNum - 1), pageSize * pageNum);
+            res.status(200).json({ schedule :schedules });
         } catch (err) {
             next(err);
         }
