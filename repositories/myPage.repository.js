@@ -28,11 +28,9 @@ class MypageRepository {
         });
     };
 
-    getUserSchedule = async ({ userId, start, pageSize }) => {
+    getUserSchedule = async ({ userId}) => {
         const schedule = await Schedules.findAll({
             raw: true,
-            limit: pageSize,
-            offset: start,
             where: { userId },
             attributes: [
                 "eventId",
