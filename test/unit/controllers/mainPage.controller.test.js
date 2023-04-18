@@ -34,6 +34,7 @@ describe("MainPageController Test", () => {
         jest.resetAllMocks();
     })
 
+    // 휴가 전체 조회 Success Case
     test('findTotalVacation이 성공하였을 때', async() => {
         res.status = jest.fn(() => {
             return res;
@@ -65,5 +66,19 @@ describe("MainPageController Test", () => {
         expect(res.json).toHaveBeenCalledWith({ main: findTotalVacationReturnValue})
         // findTotalVacation은 next를 호출하지 않음
         expect(next).not.toHaveBeenCalled();
+    })
+
+    // 휴가 전체 조회 Falied Case
+    test('findTotalVacation이 실패하였을 때', async() => {
+        const findTotalVacationErrorMessage = 'Error : 예상치 못한 에러가 발생했습니다.'
+
+        mainPageController.mainPageService.findTotalVacation = jest.fn(() => {
+            throw Error(findTotalVacationErrorMessage)
+        })
+
+        // Error가 발생합니다.
+        await mainPageController.findTotalVacation(req, res, next);
+
+        expect(next).toHaveBeenCalledWith(new CustomError(findTotalVacationErrorMessage))
     })
 })
