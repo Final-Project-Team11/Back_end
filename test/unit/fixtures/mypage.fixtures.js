@@ -1,13 +1,17 @@
-const { file } = require("@babel/types");
-const { createDeflate } = require("zlib");
-
 exports.MypageUserInfoSchemaByController = {
     user: {
-        userName: "test1",
+        userName: "testman",
         team: "dev",
         remainDay: 15,
         salaryDay: 4,
     },
+};
+exports.MypageUserSchemaByController = {
+    userId: "test1",
+    userName: "testman",
+    team: "dev",
+    remainDay: 15,
+    salaryDay: 4,
 };
 
 exports.MypageUserIdInsertSchema = {
@@ -127,27 +131,27 @@ exports.TeamMemberInsertSchema = [
 
 exports.TeamMenberResultSchema = [
     {
-        eventId : 1,
-        userName : "test1",
+        eventId: 1,
+        userName: "test1",
         title: "test title",
         file: "http://asd.png",
         enrollDay: "2023-04-05",
         fileName: "asd.png",
     },
     {
-        eventId : 2,
-        userName : "test2",
+        eventId: 2,
+        userName: "test2",
         title: "test title",
         file: "http://asd.png",
         enrollDay: "2023-04-05",
         fileName: "asd.png",
     },
     {
-        eventId : 3,
-        userName : "test3",
+        eventId: 3,
+        userName: "test3",
         title: "test title",
         file: "http://asd.png",
         enrollDay: "2023-04-05",
         fileName: "asd.png",
-    }
-]
+    },
+];
