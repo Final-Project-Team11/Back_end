@@ -46,11 +46,9 @@ class MypageService {
         return userInfo;
     };
 
-    getUserSchedule = async ({ userId, start, pageSize }) => {
+    getUserSchedule = async ({ userId}) => {
         const schedule = await this.MypageRepository.getUserSchedule({
             userId,
-            start,
-            pageSize,
         });
         return schedule
             .filter((event) => event.status === "submit")
