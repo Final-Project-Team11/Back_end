@@ -68,7 +68,7 @@ describe("MainPageController Test", () => {
         expect(next).not.toHaveBeenCalled();
     })
 
-    // 휴가 전체 조회 Falied Case
+    // 전체 일정 조회 Falied Case
     test('findTotalVacation이 실패하였을 때', async() => {
         const findTotalVacationErrorMessage = 'Error : 예상치 못한 에러가 발생했습니다.'
 
