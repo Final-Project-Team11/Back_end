@@ -1,5 +1,10 @@
 const MainPageService = require('../../../services/mainPage.service')
 const CustomError = require('../../../middlewares/errorHandler')
+const {
+    mockData,
+    vacationData,
+    scheduleData
+} = require('../../fixtures/mainPage.fixtures')
 
 const mockMainPageRepository = () => ({
     findTotalVacation: jest.fn(),
@@ -11,12 +16,6 @@ const mockMainPageRepository = () => ({
     findTotalMeetingReport: jest.fn(),
     findTeamName: jest.fn(),
 });
-
-const mockData = {
-    teamId: 2,
-    year: 2023,
-    month: 4
-}
 
 const teamName = '개발팀'
 
@@ -30,15 +29,6 @@ describe('MainPageService Test', () => {
     })
 
     test('findTotalVacation', async() => {
-        const vacationData = [
-            {
-                "eventId": 8,
-                "userName": "ju3",
-                "startDay": "2023-05-13T00:00:00.000Z",
-                "endDay": "2023-05-13T00:00:00.000Z",
-                "typeDetail": "반차"
-            }
-        ]
 
         // mockMainPageRepository에서 findTeamName 메소드가 호출될 때 반환될 가짜 데이터를 설정한다.
         mainPageService.mainPageRepository.findTeamName.mockResolvedValue({teamName});
@@ -51,6 +41,19 @@ describe('MainPageService Test', () => {
         expect(result).toEqual({
             teamName,
             vacation: vacationData
+        })
+    })
+
+    test('findTotalSchedule', async() => {
+        // mockMainPageRepository에서 findTeamName 메소드가 호출될 때 반환될 가짜 데이터를 설정한다.
+        mainPageService.mainPageRepository.findTeamName.mockResolvedValue({teamName});
+        mainPageService.mainPageRepository.findTotalSchedule.mockResolvedValue(scheduleData);
+
+        const result = await mainPageService.findTotalSchedule.mockResolvedValue(mockData)
+
+        expect(result).toEqual({
+            teamName,
+            schedule: scheduleData,
         })
     })
 })
