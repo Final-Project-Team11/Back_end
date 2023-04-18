@@ -3,7 +3,12 @@ const CustomError = require('../../../middlewares/errorHandler')
 const {
     mockData,
     vacationData,
-    scheduleData
+    scheduleData,
+    reportData,
+    otherData,
+    meetingReportData,
+    issueData,
+    meetingData,
 } = require('../../fixtures/mainPage.fixtures')
 
 const mockMainPageRepository = () => ({
@@ -48,12 +53,22 @@ describe('MainPageService Test', () => {
         // mockMainPageRepository에서 findTeamName 메소드가 호출될 때 반환될 가짜 데이터를 설정한다.
         mainPageService.mainPageRepository.findTeamName.mockResolvedValue({teamName});
         mainPageService.mainPageRepository.findTotalSchedule.mockResolvedValue(scheduleData);
+        mainPageService.mainPageRepository.findTotalReport.mockResolvedValue(reportData);
+        mainPageService.mainPageRepository.findTotalOther.mockResolvedValue(otherData);
+        mainPageService.mainPageRepository.findTotalMeetingReport.mockResolvedValue(meetingReportData);
+        mainPageService.mainPageRepository.findTotalIssue.mockResolvedValue(issueData);
+        mainPageService.mainPageRepository.findTotalMeeting.mockResolvedValue(meetingData);
 
-        const result = await mainPageService.findTotalSchedule.mockResolvedValue(mockData)
+        const result = await mainPageService.findTotalSchedule(mockData)
 
         expect(result).toEqual({
             teamName,
             schedule: scheduleData,
+            report: reportData,
+            other: otherData,
+            issue: issueData,
+            meeting: meetingData,
+            meetingReport: meetingReportData,
         })
     })
 })
