@@ -37,9 +37,9 @@ class VacationManageService {
             throw new CustomError("신청서가 존재하지 않습니다.",401)
         }
         const vacationStatus = vacation.status
-        if (vacationStatus === 'accept' || vacationStatus === 'deny') {
-            throw new CustomError("이미 결제가 완료되었습니다.",400)
-        }
+        // if (vacationStatus === 'accept' || vacationStatus === 'deny') {
+        //     throw new CustomError("이미 결제가 완료되었습니다.",400)
+        // }
         const status = 'deny'
         await this.vacationManageRepository.updateVacationStaus({ eventId, status })
     }
@@ -52,9 +52,9 @@ class VacationManageService {
             throw new CustomError("신청서가 존재하지 않습니다.",401)
         }
         const vacationStatus = vacation.status
-        if (vacationStatus === 'accept' || vacationStatus === 'deny') {
-            throw new CustomError("이미 결제가 완료되었습니다.",400)
-        }
+        // if (vacationStatus === 'accept' || vacationStatus === 'deny') {
+        //     throw new CustomError("이미 결제가 완료되었습니다.",400)
+        // }
         const { teamId } = userInfo
         const eventInfo = await this.vacationManageRepository.findEventInfo({ eventId })
         // 이벤트를 쓴 유저 아이디를 찾아서 teamId와 userId로 유저 인포를 찾음. 그걸로 연차일수 차감 하는 업데이트

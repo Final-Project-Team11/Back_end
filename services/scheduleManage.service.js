@@ -14,9 +14,9 @@ class ScheduleManageService {
             throw new CustomError("신청서가 존재하지 않습니다.",401)
         }
         const scheduleStatus = schedule.dataValues.status
-        if (scheduleStatus === 'accept' || scheduleStatus === 'deny') {
-            throw new CustomError("이미 결제가 완료되었습니다.",400)
-        }
+        // if (scheduleStatus === 'accept' || scheduleStatus === 'deny') {
+        //     throw new CustomError("이미 결제가 완료되었습니다.",400)
+        // }
         const status = 'deny'
         await this.scheduleManageRepository.updateScheduleStaus({ eventId, status })
     }
@@ -29,9 +29,9 @@ class ScheduleManageService {
             throw new CustomError("신청서가 존재하지 않습니다.",401)
         }
         const scheduleStatus = schedule.dataValues.status
-        if (scheduleStatus === 'accept' || scheduleStatus === 'deny') {
-            throw new CustomError("이미 결제가 완료되었습니다.",400)
-        }
+        // if (scheduleStatus === 'accept' || scheduleStatus === 'deny') {
+        //     throw new CustomError("이미 결제가 완료되었습니다.",400)
+        // }
         const status = 'accept'
         await this.scheduleManageRepository.updateScheduleStaus({ eventId, status })
     }
