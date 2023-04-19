@@ -429,6 +429,7 @@ class MypageRepository {
         return await Users.findAll({ where: { teamId: user.teamId } });
     };
     findTeamMeetingFile = async ({ team }) => {
+        console.log(team)
         const list = await Promise.all(
             team.map(async (team) => {
                 return await Events.findAll({

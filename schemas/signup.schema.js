@@ -29,7 +29,7 @@ const ResisterSchema = Joi.object({
         "any.required": "필수입력값을 입력해주세요",
     }),
     companyNum: Joi.string().required().messages({
-        "string.base": "companyNum 필드는 숫자로 이루어져야 합니다.",
+        "string.base": "companyNum 필드는 문자열로 이루어져야 합니다.",
         "string.empty": "사업자 등록 번호를 입력해 주세요.",
         "any.required": "필수입력값을 입력해주세요",
     }),
