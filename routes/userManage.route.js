@@ -10,7 +10,7 @@ router.get("/teams", authMiddleware, userManageController.teamsList);
 // 유저 생성
 router.post("/", managerMiddleware, userManageController.createUser);
 // 중복체크
-router.get("/:userId", managerMiddleware, userManageController.checkUserId);
+router.post("/:userId/check", managerMiddleware, userManageController.checkUserId);
 // 전체 유저 조회
 router.get("/", managerMiddleware, userManageController.usersList);
 // 유저 검색

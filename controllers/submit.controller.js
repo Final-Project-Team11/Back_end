@@ -18,7 +18,7 @@ class SubmitController {
 
         try{
             await scheduleSchema
-            .validateAsync(req.body)
+            .validateAsync({startDay, endDay, title, location, ref, content}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -54,7 +54,7 @@ class SubmitController {
 
         try {
             await scheduleSchema
-            .validateAsync(req.body)
+            .validateAsync({startDay, endDay, title, location, ref, content}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -85,7 +85,7 @@ class SubmitController {
 
         try {
             await vacationSchema
-            .validateAsync(req.body)
+            .validateAsync({typeDetail, startDay, endDay})
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -97,7 +97,7 @@ class SubmitController {
                 typeDetail,
             })
 
-            return res.status(200).send({ message : '휴가 신청이 성공적으로 완료되었습니다.'})
+            return res.status(200).send({ message : '휴가 신청이 성공적으로 완료되었습니다.'}, { abortEarly: false })
         }catch(error) {
             next(error);
         }
@@ -115,7 +115,7 @@ class SubmitController {
 
         try{
             await otherSchema
-            .validateAsync(req.body)
+            .validateAsync({startDay, endDay, title, content, ref}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -149,7 +149,8 @@ class SubmitController {
 
         try{
             await meetingSchema
-            .validateAsync(req.body)
+            // .validateAsync(req.body)
+            .validateAsync({startDay, startTime, eventType, title, location, ref, content}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -184,7 +185,7 @@ class SubmitController {
 
         try{
             await reportSchema
-            .validateAsync(req.body)
+            .validateAsync({title, content, ref}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -216,7 +217,7 @@ class SubmitController {
 
         try{
             await reportSchema
-            .validateAsync(req.body)
+            .validateAsync({title, content, ref}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -249,7 +250,7 @@ class SubmitController {
 
         try{
             await meetingReportSchema
-            .validateAsync(req.body)
+            .validateAsync({title, content, ref}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -282,7 +283,7 @@ class SubmitController {
 
         try{
             await meetingReportSchema
-            .validateAsync(req.body)
+            .validateAsync({title, content, ref}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
