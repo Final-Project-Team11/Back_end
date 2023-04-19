@@ -29,9 +29,7 @@ class MypageController {
             const schedule = await this.MypageService.getUserSchedule({
                 userId
             });
-            console.log("여기에오니")
             const schedules = schedule.slice(pageSize * (pageNum - 1), pageSize * pageNum);
-            console.log("여기에오니?")
             res.status(200).json({ schedule :schedules });
         } catch (err) {
             next(err);
