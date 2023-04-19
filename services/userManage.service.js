@@ -75,6 +75,14 @@ class UserManageService {
 
         return companyUserList;
     };
+    
+    checkUserId = async({ userId }) => {
+        const existUser = await this.userManageRepository.findUserById(userId);
+        if (existUser) {
+            throw new CustomError("중복된 아이디입니다.", 401);
+        }
+
+    }
     // 유저 생성
     createUser = async ({
         team,
