@@ -15,6 +15,7 @@ class MypageRepository {
     constructor() {}
 
     findUserById = async ({ userId }) => {
+        console.log("하이")
         return await Users.findOne({ 
             raw: true,
             where: { userId } ,
