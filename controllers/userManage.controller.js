@@ -90,6 +90,18 @@ class UserManageController {
             next(err);
         }
     };
+    // 아이디 체크
+    checkUserId = async (req, res, next) => {
+        try {
+            const { userId } = req.params
+            await this.userManageService.checkUserId({
+                userId
+            })
+            res.status(200).json({message: "사용가능한 아이디입니다.."})
+        } catch (err) {
+            next(err);
+        }
+    }
     // 유저 생성
     createUser = async (req, res, next) => {
         try {
