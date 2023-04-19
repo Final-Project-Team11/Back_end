@@ -514,9 +514,10 @@ class MypageRepository {
     }
 
     getDetailMeetingFile = async ({ eventId, userId }) => {
+        console.log(eventId, userId)
         const meetingReport =  await Events.findOne({
             raw : true,
-            where : {eventId, userId},
+            where : {eventId : eventId, userId : userId},
             attributes : [
                 "eventId",
                 [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"), "enrollDay"],
@@ -536,8 +537,8 @@ class MypageRepository {
                 },
             ]
         })
-        console.log(meetingReport)
-        // meetingReport.fileName = meetingReport.file.split("/")[3];
+        // console.log(meetingReport)
+        meetingReport.fileName = meetingReport.file.split("/")[3];
         return meetingReport
     }
 

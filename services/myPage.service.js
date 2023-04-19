@@ -219,6 +219,7 @@ class MypageService {
     }
 
     getDetailMeetingFile = async({ eventId, userId }) => {
+
         return await this.MypageRepository.getDetailMeetingFile({ eventId, userId })
     }
     getDetailReportFile = async({ eventId, userId }) => {
