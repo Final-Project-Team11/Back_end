@@ -18,6 +18,11 @@ exports.MypageUserIdInsertSchema = {
     userId: "test1",
 };
 
+exports.MypageUserIdInsertSchema = {
+    type : "Schedules",
+    userId: "test1",
+};
+
 exports.MyScheduleResultSchema = [
     {
         eventId: 1,
@@ -50,6 +55,17 @@ exports.MyScheduleResultSchema = [
         fileName: "asd.png",
     },
 ];
+
+exports.MentionFindAllResultSchema = [
+    {
+        eventId: 1,
+        eventType: "Schedules",
+    },
+    {
+        eventId: 2,
+        eventType: "Schedules",
+    },
+]
 
 exports.MentionScheduleResultSchema = [
     {

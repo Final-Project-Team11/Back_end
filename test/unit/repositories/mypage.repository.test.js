@@ -14,7 +14,7 @@
 //     MyfileAllResultSchema,
 //     TeamMemberInsertSchema,
 //     TeamMenberResultSchema,
-// } = require("../fixtures/mypage.fixtures");
+// } = require("../../fixtures/mypage.fixtures");
 // const { beforeEach } = require("node:test");
 
 // const mockMypageModel = () => ({

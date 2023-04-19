@@ -15,7 +15,7 @@ const {
     MentionCheckResultSchema,
     MyfileAllResultSchema,
     TeamMenberResultSchema
-} = require("../fixtures/mypage.fixtures");
+} = require("../../fixtures/mypage.fixtures");
 
 const mockMypageService = () => ({
     checkUserById: jest.fn(),
