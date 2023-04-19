@@ -1,7 +1,8 @@
 const Joi = require('joi')
+const regexId = /^[a-zA-Z0-9]{5,}$/
 
 const userCreateSchema = Joi.object({
-    userId:Joi.string().min(5).pattern(/^[a-zA-Z0-9]$/).required().messages({
+    userId:Joi.string().min(5).pattern(regexId).required().messages({
         "string.pattern.base": "문자열은 영문 대/소문자와 숫자만 포함 가능합니다.",
         "string.empty": "userId 필드는 비어 있을 수 없습니다.",
         "string.min": "문자열은 최소 {{#limit}}글자 이상이어야 합니다.",
