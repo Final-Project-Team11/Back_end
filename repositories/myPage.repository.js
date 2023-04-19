@@ -436,6 +436,7 @@ class MypageRepository {
                     attributes: [
                         "eventId",
                         "User.userName",
+                        "User.userId",
                         "MeetingReport.title",
                         "MeetingReport.file",
                         [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"), "enrollDay"],
@@ -474,6 +475,7 @@ class MypageRepository {
                     attributes: [
                         "eventId",
                         "User.userName",
+                        "User.userId",
                         "Report.title",
                         "Report.file",
                         [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%Y/%m/%d"), "enrollDay"],
@@ -503,6 +505,13 @@ class MypageRepository {
         });
     };
 
+    getUserId = async({userName}) => {
+        return await Users.findOne({
+            attributes : ["userId"],
+            where : {userName}
+        })
+    }
+
     getDetailMeetingFile = async ({ eventId, userId }) => {
         const meetingReport =  await Events.findOne({
             raw : true,
@@ -526,7 +535,8 @@ class MypageRepository {
                 },
             ]
         })
-        meetingReport.fileName = meetingReport.file.split("/")[3];
+        console.log(meetingReport)
+        // meetingReport.fileName = meetingReport.file.split("/")[3];
         return meetingReport
     }
 
@@ -553,7 +563,8 @@ class MypageRepository {
                 },
             ]
         })
-        Report.fileName = Report.file.split("/")[3];
+        console.log(Report)
+        // Report.fileName = Report.file.split("/")[3];
         return Report
     }
 }
