@@ -22,6 +22,7 @@ class UserManageRepository {
         console.log(existUser);
         await existUser.destroy();
     };
+    
     // 유저 검색
     findUserByName = async ({ userName, companyId }) => {
         console.log("레포", userName);
@@ -30,7 +31,7 @@ class UserManageRepository {
                 "userId",
                 "userName",
                 "rank",
-                "joinDay",
+                [Sequelize.fn("date_format",Sequelize.col("joinDay"),"%Y/%m/%d"),"joinDay"],
                 "job",
                 [Sequelize.col("Team.teamName"), "team"],
             ],
@@ -77,7 +78,7 @@ class UserManageRepository {
                 "userId",
                 "userName",
                 "rank",
-                "joinDay",
+                [Sequelize.fn("date_format",Sequelize.col("joinDay"),"%Y/%m/%d"),"joinDay"],
                 "job",
                 [Sequelize.col("Team.teamName"), "team"],
             ],
