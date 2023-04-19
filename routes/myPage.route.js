@@ -32,4 +32,12 @@ router.get("/meetingfiles",authmiddleware,mypagecontroller.getMeetingFiles)
 //팀 보고서 파일 조회
 //localhost:3003/reportfiles
 router.get("/reportfiles",authmiddleware,mypagecontroller.getReportFiles)
+
+//팀 회의록 상세조회
+//localhost:3003/meetingfiles/:eventId
+router.get("/meetingfiles/:eventId",authmiddleware,mypagecontroller.getDetailMeetingFile)
+
+//팀 보고서 상세조회
+//localhost:3003/reportfiles/:eventId
+router.get("/reportfiles/:eventId",authmiddleware,mypagecontroller.getDetailReportFile)
 module.exports = router;

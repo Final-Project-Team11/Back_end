@@ -502,6 +502,60 @@ class MypageRepository {
             return event;
         });
     };
+
+    getDetailMeetingFile = async ({ eventId, userId }) => {
+        const meetingReport =  await Events.findOne({
+            raw : true,
+            where : {eventId, userId},
+            attributes : [
+                "eventId",
+                [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"), "enrollDay"],
+                "User.userName",
+                "MeetingReport.title",
+                "MeetingReport.content",
+                "MeetingReport.file",
+            ],
+            include : [
+                {
+                    model : MeetingReports,
+                    attributes : []
+                },
+                {
+                    model: Users,
+                    attributes: [],
+                },
+            ]
+        })
+        meetingReport.fileName = meetingReport.file.split("/")[3];
+        return meetingReport
+    }
+
+    getDetailReportFile = async ({ eventId, userId }) => {
+        const Report =  await Events.findOne({
+            raw : true,
+            where : {eventId, userId},
+            attributes : [
+                "eventId",
+                [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%Y/%m/%d"), "enrollDay"],
+                "User.userName",
+                "Report.title",
+                "Report.content",
+                "Report.file",
+            ],
+            include : [
+                {
+                    model : Reports,
+                    attributes : []
+                },
+                {
+                    model: Users,
+                    attributes: [],
+                },
+            ]
+        })
+        Report.fileName = Report.file.split("/")[3];
+        return Report
+    }
 }
 
 module.exports = MypageRepository;
