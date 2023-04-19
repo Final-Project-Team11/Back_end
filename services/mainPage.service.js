@@ -35,10 +35,10 @@ class MainPageService {
         // 회의록 조회
         const meetingReport = await this.mainPageRepository.findTotalMeetingReport({teamId, year, month})
 
-        const findTotalVacation = Object.assign({}, findTeamName, {schedule}, {report}, {other}, {meetingReport}, {issue}, {meeting});
-        // console.log("-------------------",findTotalVacation)
+        const findTotalSchedule = Object.assign({}, findTeamName, {schedule}, {report}, {other}, {meetingReport}, {issue}, {meeting});
+        // console.log("-------------------",findTotalSchedule)
 
-        return findTotalVacation
+        return findTotalSchedule
     }
 }
 

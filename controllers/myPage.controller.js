@@ -27,10 +27,13 @@ class MypageController {
                 throw new CustomError("pagenation 정보를 입력해주세요", 410);
             }
             const schedule = await this.MypageService.getUserSchedule({
-                userId
+                userId,
             });
-            const schedules = schedule.slice(pageSize * (pageNum - 1), pageSize * pageNum);
-            res.status(200).json({ schedule :schedules });
+            const schedules = schedule.slice(
+                pageSize * (pageNum - 1),
+                pageSize * pageNum
+            );
+            res.status(200).json({ schedule: schedules });
         } catch (err) {
             next(err);
         }
@@ -167,6 +170,32 @@ class MypageController {
                 pageSize * pageNum
             );
             res.status(200).json({ reportfiles });
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    getDetailMeetingFile = async (req, res, next) => {
+        try {
+            const { eventId } = req.params;
+            const { userId } = res.locals.user;
+
+            const detail = await this.MypageService.getDetailMeetingFile({ eventId, userId });
+
+            res.status(200).json({meetingfile : detail});
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    getDetailReportFile = async (req, res, next) => {
+        try {
+            const { eventId } = req.params;
+            const { userId } = res.locals.user;
+
+            const detail = await this.MypageService.getDetailReportFile({ eventId, userId });
+
+            res.status(200).json({reportfile : detail});
         } catch (err) {
             next(err);
         }

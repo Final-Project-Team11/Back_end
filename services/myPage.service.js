@@ -214,6 +214,13 @@ class MypageService {
         const team = await this.MypageRepository.findTeam({ userId });
         return await this.MypageRepository.findTeamReportFile({ team });
     };
+
+    getDetailMeetingFile = async({ eventId, userId }) => {
+        return await this.MypageRepository.getDetailMeetingFile({ eventId, userId })
+    }
+    getDetailReportFile = async({ eventId, userId }) => {
+        return await this.MypageRepository.getDetailReportFile({ eventId, userId })
+    }
 }
 
 module.exports = MypageService;
