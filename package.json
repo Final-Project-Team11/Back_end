@@ -4,7 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "test:init": "NODE_ENV=test sequelize db:create --config=./config/config.js",
+
     "test": "jest",
+    "test:coverage": "NODE_ENV=test jest --coverage --forceExit",
+
     "start": "nodemon app.js",
     "prettify": "prettier --write *.js **/*.js"
   },
