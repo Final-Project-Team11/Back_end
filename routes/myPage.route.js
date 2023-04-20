@@ -34,10 +34,10 @@ router.get("/meetingfiles",authmiddleware,mypagecontroller.getMeetingFiles)
 router.get("/reportfiles",authmiddleware,mypagecontroller.getReportFiles)
 
 //팀 회의록 상세조회
-//localhost:3003/meetingfiles/:eventId
-router.get("/meetingfiles/:eventId",authmiddleware,mypagecontroller.getDetailMeetingFile)
+//localhost:3003/meetingfiles
+router.get("/meetingfiles/detail",authmiddleware,mypagecontroller.getDetailMeetingFile)
 
 //팀 보고서 상세조회
 //localhost:3003/reportfiles/:eventId
-router.get("/reportfiles/:eventId",authmiddleware,mypagecontroller.getDetailReportFile)
+router.get("/reportfiles/detail",authmiddleware,mypagecontroller.getDetailReportFile)
 module.exports = router;

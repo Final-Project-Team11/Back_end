@@ -177,9 +177,7 @@ class MypageController {
 
     getDetailMeetingFile = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
-            const { userId } = res.locals.user;
-
+            const {userId,eventId} = req.query;
             const detail = await this.MypageService.getDetailMeetingFile({ eventId, userId });
 
             res.status(200).json({meetingfile : detail});
@@ -190,9 +188,7 @@ class MypageController {
 
     getDetailReportFile = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
-            const { userId } = res.locals.user;
-
+            const {userId,eventId} = req.query;
             const detail = await this.MypageService.getDetailReportFile({ eventId, userId });
 
             res.status(200).json({reportfile : detail});

@@ -363,6 +363,7 @@ class MypageRepository {
         return await Users.findAll({ where: { teamId: user.teamId } });
     };
     findTeamMeetingFile = async ({ team }) => {
+        console.log(team)
         const list = await Promise.all(
             team.map(async (team) => {
                 return await Events.findAll({
@@ -370,6 +371,7 @@ class MypageRepository {
                     attributes: [
                         "eventId",
                         "User.userName",
+                        "User.userId",
                         "MeetingReport.title",
                         "MeetingReport.file",
                         [
@@ -414,6 +416,7 @@ class MypageRepository {
                     attributes: [
                         "eventId",
                         "User.userName",
+                        "User.userId",
                         "Report.title",
                         "Report.file",
                         [
@@ -450,10 +453,18 @@ class MypageRepository {
         });
     };
 
+    getUserId = async({userName}) => {
+        return await Users.findOne({
+            attributes : ["userId"],
+            where : {userName}
+        })
+    }
+
     getDetailMeetingFile = async ({ eventId, userId }) => {
+        console.log(eventId, userId)
         const meetingReport =  await Events.findOne({
             raw : true,
-            where : {eventId, userId},
+            where : {eventId : eventId, userId : userId},
             attributes : [
                 "eventId",
                 [
@@ -480,6 +491,7 @@ class MypageRepository {
                 },
             ]
         })
+        // console.log(meetingReport)
         meetingReport.fileName = meetingReport.file.split("/")[3];
         return meetingReport;
     };
@@ -512,12 +524,12 @@ class MypageRepository {
                     model: Users,
                     attributes: [],
                 },
-            ],
-        });
-        console.log(Report);
-        // Report.fileName = Report.file.split("/")[3];
-        return Report;
-    };
+            ]
+        })
+        // console.log(Report)
+        Report.fileName = Report.file.split("/")[3];
+        return Report
+    }
 }
 
 module.exports = MypageRepository;
