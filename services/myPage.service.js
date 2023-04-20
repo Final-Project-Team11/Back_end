@@ -202,7 +202,10 @@ class MypageService {
     };
 
     getMyfile = async ({ userId }) => {
-        return await this.MypageRepository.findMyfile({ userId });
+        const meeting =  await this.MypageRepository.findMyMeetingfile({ userId });
+        const report = await this.MypageRepository.findMyReportfile({ userId });
+        let result = []
+        return result.concat(meeting,report).sort((a,b) => b-a)
     };
     TeamMeetingReport = async ({ userId }) => {
         //팀원의 배열
