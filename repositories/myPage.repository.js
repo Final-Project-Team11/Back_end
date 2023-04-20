@@ -565,8 +565,8 @@ class MypageRepository {
                 },
             ]
         })
-        console.log(Report)
-        // Report.fileName = Report.file.split("/")[3];
+        // console.log(Report)
+        Report.fileName = Report.file.split("/")[3];
         return Report
     }
 }
