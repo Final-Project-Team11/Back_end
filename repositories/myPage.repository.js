@@ -15,10 +15,16 @@ class MypageRepository {
     constructor() {}
 
     findUserById = async ({ userId }) => {
-        return await Users.findOne({ 
+        return await Users.findOne({
             raw: true,
-            where: { userId } ,
-            attributes: ["userId","userName","Team.teamName","remainDay","salaryDay"],
+            where: { userId },
+            attributes: [
+                "userId",
+                "userName",
+                "Team.teamName",
+                "remainDay",
+                "salaryDay",
+            ],
             include: [
                 {
                     model: Teams,
@@ -28,7 +34,7 @@ class MypageRepository {
         });
     };
 
-    getUserSchedule = async ({ userId}) => {
+    getUserSchedule = async ({ userId }) => {
         const schedule = await Schedules.findAll({
             raw: true,
             where: { userId },
@@ -290,138 +296,66 @@ class MypageRepository {
         );
     };
 
-    findMyfile = async ({ userId }) => {
+    findMyMeetingfile = async ({ userId }) => {
         const myfile = await Events.findAll({
             raw: true,
-            attributes: ["eventId", "User.userName", "eventType"],
-            where: { userId, hasFile: true },
+            attributes: [
+                "eventId", 
+                [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"),"enrollDay"],
+                "User.userName", 
+                "MeetingReport.title",
+                "MeetingReport.file",
+                "eventType"
+            ],
+            where: { userId, hasFile: true ,eventType : "MeetingReports"},
             include: [
                 {
                     model: Users,
                     attributes: [],
                 },
+                {
+                    model: MeetingReports,
+                    attributes: [],
+                },
             ],
             order: [["EventId", "DESC"]],
         });
-        return await Promise.all(
-            myfile.map(async (event) => {
-                if (event.eventType === "Schedules") {
-                    const schedule = await Schedules.findOne({
-                        raw: true,
-                        attributes: [
-                            "title",
-                            "file",
-                            [
-                                Sequelize.fn(
-                                    "date_format",
-                                    Sequelize.col("createdAt"),
-                                    "%Y/%m/%d"
-                                ),
-                                "enrollDay",
-                            ],
-                        ],
-                        where: { userId, eventId: event.eventId },
-                    });
-                    schedule.fileName = schedule.file.split("/")[3];
-                    return Object.assign(event, schedule);
-                } else if (event.eventType === "Meetings") {
-                    const meeting = await Meetings.findOne({
-                        raw: true,
-                        attributes: [
-                            "title",
-                            "file",
-                            [
-                                Sequelize.fn(
-                                    "date_format",
-                                    Sequelize.col("createdAt"),
-                                    "%Y/%m/%d"
-                                ),
-                                "enrollDay",
-                            ],
-                        ],
-                        where: { userId, eventId: event.eventId },
-                    });
-                    meeting.fileName = meeting.file.split("/")[3];
-                    return Object.assign(event, meeting);
-                } else if (event.eventType === "Issues") {
-                    const meeting = await Meetings.findOne({
-                        raw: true,
-                        attributes: [
-                            "title",
-                            "file",
-                            [
-                                Sequelize.fn(
-                                    "date_format",
-                                    Sequelize.col("createdAt"),
-                                    "%Y/%m/%d"
-                                ),
-                                "enrollDay",
-                            ],
-                        ],
-                        where: { userId, eventId: event.eventId },
-                    });
-                    meeting.fileName = meeting.file.split("/")[3];
-                    return Object.assign(event, meeting);
-                } else if (event.eventType === "Reports") {
-                    const report = await Reports.findOne({
-                        raw: true,
-                        attributes: [
-                            "title",
-                            "file",
-                            [
-                                Sequelize.fn(
-                                    "date_format",
-                                    Sequelize.col("createdAt"),
-                                    "%Y/%m/%d"
-                                ),
-                                "enrollDay",
-                            ],
-                        ],
-                        where: { userId, eventId: event.eventId },
-                    });
-                    report.fileName = report.file.split("/")[3];
-                    return Object.assign(event, report);
-                } else if (event.eventType === "Others") {
-                    const other = await Others.findOne({
-                        raw: true,
-                        attributes: [
-                            "title",
-                            "file",
-                            [
-                                Sequelize.fn(
-                                    "date_format",
-                                    Sequelize.col("createdAt"),
-                                    "%Y/%m/%d"
-                                ),
-                                "enrollDay",
-                            ],
-                        ],
-                        where: { userId, eventId: event.eventId },
-                    });
-                    other.fileName = other.file.split("/")[3];
-                    return Object.assign(event, other);
-                } else if (event.eventType === "MeetingReports") {
-                    const MeetingReport = await MeetingReports.findOne({
-                        raw: true,
-                        attributes: [
-                            "title",
-                            "file",
-                            [
-                                Sequelize.fn(
-                                    "date_format",
-                                    Sequelize.col("createdAt"),
-                                    "%Y/%m/%d"
-                                ),
-                                "enrollDay",
-                            ],
-                        ],
-                        where: { userId, eventId: event.eventId },
-                    });
-                    MeetingReport.fileName = MeetingReport.file.split("/")[3];
-                    return Object.assign(event, MeetingReport);
-                }
-            })
-        );
+        myfile.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+            return event
+        })
+        return myfile
+    };
+
+    findMyReportfile = async ({ userId }) => {
+        const report = await Events.findAll({
+            raw: true,
+            attributes: [
+                "eventId", 
+                [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%Y/%m/%d"),"enrollDay"],
+                "User.userName", 
+                "Report.title",
+                "Report.file",
+                "eventType"
+            ],
+            where: { userId, hasFile: true,eventType : "Reports" },
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                },
+                {
+                    model: Reports,
+                    attributes: [],
+                },
+            ],
+            order: [["EventId", "DESC"]],
+        });
+        report.map((event) => {
+            event.fileName = (event.file ?? "").split("/")[3];
+            return event
+        })
+        return report
     };
 
     findTeam = async ({ userId }) => {
@@ -429,6 +363,7 @@ class MypageRepository {
         return await Users.findAll({ where: { teamId: user.teamId } });
     };
     findTeamMeetingFile = async ({ team }) => {
+        console.log(team)
         const list = await Promise.all(
             team.map(async (team) => {
                 return await Events.findAll({
@@ -436,9 +371,17 @@ class MypageRepository {
                     attributes: [
                         "eventId",
                         "User.userName",
+                        "User.userId",
                         "MeetingReport.title",
                         "MeetingReport.file",
-                        [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"), "enrollDay"],
+                        [
+                            Sequelize.fn(
+                                "date_format",
+                                Sequelize.col("MeetingReport.enrollDay"),
+                                "%Y/%m/%d"
+                            ),
+                            "enrollDay",
+                        ],
                     ],
                     where: {
                         userId: team.userId,
@@ -456,10 +399,9 @@ class MypageRepository {
                         },
                     ],
                     order: [["eventId", "DESC"]],
-                })
+                });
             })
         );
-        console.log(list);
         return list.flat().map((event) => {
             event.fileName = (event.file ?? "").split("/")[3];
             return event;
@@ -474,9 +416,17 @@ class MypageRepository {
                     attributes: [
                         "eventId",
                         "User.userName",
+                        "User.userId",
                         "Report.title",
                         "Report.file",
-                        [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%Y/%m/%d"), "enrollDay"],
+                        [
+                            Sequelize.fn(
+                                "date_format",
+                                Sequelize.col("Report.enrollDay"),
+                                "%Y/%m/%d"
+                            ),
+                            "enrollDay",
+                        ],
                     ],
                     where: {
                         userId: team.userId,
@@ -494,7 +444,7 @@ class MypageRepository {
                         },
                     ],
                     order: [["eventId", "DESC"]],
-                })
+                });
             })
         );
         return list.flat().map((event) => {
@@ -503,22 +453,37 @@ class MypageRepository {
         });
     };
 
+    getUserId = async({userName}) => {
+        return await Users.findOne({
+            attributes : ["userId"],
+            where : {userName}
+        })
+    }
+
     getDetailMeetingFile = async ({ eventId, userId }) => {
+        console.log(eventId, userId)
         const meetingReport =  await Events.findOne({
             raw : true,
-            where : {eventId, userId},
+            where : {eventId : eventId, userId : userId},
             attributes : [
                 "eventId",
-                [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"), "enrollDay"],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("MeetingReport.enrollDay"),
+                        "%Y/%m/%d"
+                    ),
+                    "enrollDay",
+                ],
                 "User.userName",
                 "MeetingReport.title",
                 "MeetingReport.content",
                 "MeetingReport.file",
             ],
-            include : [
+            include: [
                 {
-                    model : MeetingReports,
-                    attributes : []
+                    model: MeetingReports,
+                    attributes: [],
                 },
                 {
                     model: Users,
@@ -526,26 +491,34 @@ class MypageRepository {
                 },
             ]
         })
+        // console.log(meetingReport)
         meetingReport.fileName = meetingReport.file.split("/")[3];
-        return meetingReport
-    }
+        return meetingReport;
+    };
 
     getDetailReportFile = async ({ eventId, userId }) => {
-        const Report =  await Events.findOne({
-            raw : true,
-            where : {eventId, userId},
-            attributes : [
+        const Report = await Events.findOne({
+            raw: true,
+            where: { eventId, userId },
+            attributes: [
                 "eventId",
-                [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%Y/%m/%d"), "enrollDay"],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Report.enrollDay"),
+                        "%Y/%m/%d"
+                    ),
+                    "enrollDay",
+                ],
                 "User.userName",
                 "Report.title",
                 "Report.content",
                 "Report.file",
             ],
-            include : [
+            include: [
                 {
-                    model : Reports,
-                    attributes : []
+                    model: Reports,
+                    attributes: [],
                 },
                 {
                     model: Users,
@@ -553,6 +526,7 @@ class MypageRepository {
                 },
             ]
         })
+        // console.log(Report)
         Report.fileName = Report.file.split("/")[3];
         return Report
     }
