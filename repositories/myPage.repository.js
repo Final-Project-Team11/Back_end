@@ -92,7 +92,8 @@ class MypageRepository {
                 result.push(mention.eventId);
             }
         });
-        return result;
+        result = new Set(result); //중복제거
+        return [...result];
     };
 
     getScheduleById = async ({ eventId, userId }) => {
