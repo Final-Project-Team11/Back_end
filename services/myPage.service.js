@@ -39,14 +39,14 @@ class MypageService {
 
         const userInfo = {
             userName: user.userName,
-            team : user.teamName,
+            team: user.teamName,
             remainDay: user.remainDay,
             salaryDay: payDay,
         };
         return userInfo;
     };
 
-    getUserSchedule = async ({ userId}) => {
+    getUserSchedule = async ({ userId }) => {
         const schedule = await this.MypageRepository.getUserSchedule({
             userId,
         });
@@ -202,32 +202,41 @@ class MypageService {
     };
 
     getMyfile = async ({ userId }) => {
-        const meeting =  await this.MypageRepository.findMyMeetingfile({ userId });
+        const meeting = await this.MypageRepository.findMyMeetingfile({
+            userId,
+        });
         const report = await this.MypageRepository.findMyReportfile({ userId });
-        let result = []
-        return result.concat(meeting,report).sort((a,b) => b-a)
+        let result = [];
+        return result.concat(meeting, report).sort((a, b) => b.eventId - a.eventId);
     };
-    TeamMeetingReport = async ({ userId }) => {
+    TeamMeetingReport = async ({ teamId }) => {
         //팀원의 배열
-        const team = await this.MypageRepository.findTeam({ userId });
+        const team = await this.MypageRepository.findTeam({ teamId });
         return await this.MypageRepository.findTeamMeetingFile({ team });
     };
-    TeamReport = async ({ userId }) => {
+    TeamReport = async ({ teamId }) => {
         //팀원의 배열
-        const team = await this.MypageRepository.findTeam({ userId });
+        const team = await this.MypageRepository.findTeam({ teamId });
         return await this.MypageRepository.findTeamReportFile({ team });
     };
-    getUserId = async({userName}) =>{
-        return await this.MypageRepository.getUserId({userName})
-    }
+    getUserId = async ({ userName }) => {
+        return await this.MypageRepository.getUserId({ userName });
+    };
 
-    getDetailMeetingFile = async({ eventId, userId }) => {
-
-        return await this.MypageRepository.getDetailMeetingFile({ eventId, userId })
-    }
-    getDetailReportFile = async({ eventId, userId }) => {
-        return await this.MypageRepository.getDetailReportFile({ eventId, userId })
-    }
+    getDatailMyfile = async ({ eventId }) => {
+        const event = await this.MypageRepository.getEventType({ eventId });
+        
+        return await this.MypageRepository.getDetailMyfile({
+            eventId,
+            event,
+        });
+    };
+    getDetailMeetingFile = async ({ eventId }) => {
+        return await this.MypageRepository.getDetailMeetingFile({ eventId });
+    };
+    getDetailReportFile = async ({ eventId }) => {
+        return await this.MypageRepository.getDetailReportFile({ eventId });
+    };
 
     getVacationProgress = async({userId}) => {
         return await this.MypageRepository.getVacationProgress({userId})

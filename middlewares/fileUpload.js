@@ -6,6 +6,9 @@ const path = require("path");
 const AWS = require("aws-sdk");
 // AWS S3 버킷에 이미지 파일을 저장하고, DB엔 그 버킷의 이미지 파일 경로(이미지 주소)를 저장하고, 서버는 이 경로를 클라이언트로 응답하는 식으로 프로세스를 구축하여야 한다.
 const multerS3 = require("multer-s3");
+// UUID를 통해 고유 key값 설정
+// v4 : 랜덤값 기반
+const {v4} = require('uuid')
 require("dotenv").config();
 
 //* aws region 및 자격증명 설정
@@ -28,7 +31,7 @@ const upload = multer({
         //multer-s3가 파일의 내용 유형을 자동으로 찾도록 multerS3.AUTO_CONTENT_TYPE 상수를 사용하여 contentType을 지정하도록 해야 된다.
         contentType: multerS3.AUTO_CONTENT_TYPE,
         key(req, file, cb) {
-            cb(null, `${Date.now()}_${path.basename(file.originalname)}`); // original 폴더안에다 파일을 저장
+            cb(null, `${v4()}_${path.basename(file.originalname)}`); // original 폴더안에다 파일을 저장
         },
     }),
     //* 용량 제한

@@ -14,14 +14,15 @@ class SubmitRepository {
         ref,
         location,
         content,
-        file
+        fileLocation,
+        fileName,
     }) => {
         // console.log(typeof userId)
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
                 eventType: 'Schedules',
@@ -39,7 +40,8 @@ class SubmitRepository {
                 title,
                 location,
                 content,
-                file,
+                fileLocation,
+                fileName,
             }, {transaction : t})
 
             await Promise.all(ref.map(async(item) => {
@@ -73,13 +75,14 @@ class SubmitRepository {
         ref,
         location,
         content,
-        file
+        fileLocation,
+        fileName,
     }) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
@@ -94,7 +97,8 @@ class SubmitRepository {
                 title,
                 location,
                 content,
-                file,
+                fileLocation,
+                fileName,
             },{
                 where: {eventId}
             }, {transaction : t})
@@ -127,8 +131,7 @@ class SubmitRepository {
         try {
             const event = await Events.create({
                 userId,
-                eventType: 'Vacations',
-                hasFile : false,
+                eventType: 'Vacations'
             }, {transaction : t})
 
             const {eventId} = event
@@ -151,12 +154,12 @@ class SubmitRepository {
     }
 
     // 기타 신청
-    otherSubmit = async({userId, startDay, endDay, title, ref, content, file}) => {
+    otherSubmit = async({userId, startDay, endDay, title, ref, content, fileLocation, fileName}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
                 eventType: 'Others',
@@ -172,7 +175,8 @@ class SubmitRepository {
                 endDay,
                 title,
                 content,
-                file
+                fileLocation,
+                fileName,
             }, {transaction : t})
 
             await Promise.all(ref.map(async(item) => {
@@ -194,13 +198,13 @@ class SubmitRepository {
     }
 
     // 회의 신청
-    meetingSubmit = async({userId, eventType, startDay, startTime, title, ref, location, content, file}) => {
+    meetingSubmit = async({userId, eventType, startDay, startTime, title, ref, location, content, fileLocation, fileName}) => {
         // console.log(typeof userId)
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
                 eventType,
@@ -217,7 +221,8 @@ class SubmitRepository {
                 title,
                 location,
                 content,
-                file
+                fileLocation,
+                fileName,
             }, {transaction : t})
 
             await Promise.all(ref.map(async(item) => {
@@ -238,12 +243,12 @@ class SubmitRepository {
     }
 
     // 보고서 등록
-    reportSubmit = async({userId, title, ref, content, file}) => {
+    reportSubmit = async({userId, title, ref, content, fileLocation, fileName}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
                 eventType: 'Reports',
@@ -257,7 +262,8 @@ class SubmitRepository {
                 userId,
                 title,
                 content,
-                file,
+                fileLocation,
+                fileName,
                 enrollDay : event.createdAt
             }, {transaction : t})
 
@@ -282,12 +288,12 @@ class SubmitRepository {
     }
 
     // 보고서 수정
-    reportModify = async({userId, eventId, title, ref, content, file}) => {
+    reportModify = async({userId, eventId, title, ref, content, fileLocation, fileName}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
@@ -299,7 +305,8 @@ class SubmitRepository {
                 userId,
                 title,
                 content,
-                file,
+                fileLocation,
+                fileName,
                 enrollDay : event.createdAt
             }, {
                 where: {eventId}
@@ -324,12 +331,12 @@ class SubmitRepository {
     }
 
     // 회의록 등록
-    meetingReportSubmit = async({userId, meetingId, title, ref, content, file}) => {
+    meetingReportSubmit = async({userId, meetingId, title, ref, content, fileLocation, fileName}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
                 eventType: 'MeetingReports',
@@ -344,7 +351,8 @@ class SubmitRepository {
                 userId,
                 title,
                 content,
-                file,
+                fileLocation,
+                fileName,
                 enrollDay : event.createdAt
             }, {transaction : t})
 
@@ -366,12 +374,12 @@ class SubmitRepository {
     }
 
     // 회의록 수정
-    meetingReportModify = async({userId, eventId, meetingId, title, ref, content, file}) => {
+    meetingReportModify = async({userId, eventId, meetingId, title, ref, content, fileLocation, fileName}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (file) ? true : false;
+            let hasFile = (fileName) ? true : false;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
@@ -383,7 +391,8 @@ class SubmitRepository {
                 userId,
                 title,
                 content,
-                file,
+                fileLocation,
+                fileName,
                 enrollDay : event.createdAt
             }, {
                 where: {eventId, meetingId}
@@ -439,6 +448,7 @@ class SubmitRepository {
             where: {eventId}
         })
 
+        console.log('aaaaaaaaa', report)
         return report
     }
 
@@ -447,6 +457,8 @@ class SubmitRepository {
             raw: true,
             where: {meetingId}
         })
+
+        return meetingReport
     }
 }
 

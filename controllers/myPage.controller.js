@@ -134,14 +134,14 @@ class MypageController {
     getMeetingFiles = async (req, res, next) => {
         const pageInfo = req.query;
         try {
-            const { userId } = res.locals.user;
+            const { teamId } = res.locals.user;
             const pageNum = parseInt(pageInfo.pageNum);
             const pageSize = parseInt(pageInfo.pageSize);
             if (!pageInfo || !pageSize) {
                 throw new CustomError("pagenation 정보를 입력해주세요", 410);
             }
             const meeting = await this.MypageService.TeamMeetingReport({
-                userId,
+                teamId,
             });
             const meetingfiles = meeting.slice(
                 pageSize * (pageNum - 1),
@@ -156,14 +156,14 @@ class MypageController {
     getReportFiles = async (req, res, next) => {
         const pageInfo = req.query;
         try {
-            const { userId } = res.locals.user;
+            const { teamId } = res.locals.user;
             const pageNum = parseInt(pageInfo.pageNum);
             const pageSize = parseInt(pageInfo.pageSize);
             if (!pageInfo || !pageSize) {
                 throw new CustomError("pagenation 정보를 입력해주세요", 410);
             }
             const report = await this.MypageService.TeamReport({
-                userId,
+                teamId,
             });
             const reportfiles = report.slice(
                 pageSize * (pageNum - 1),
@@ -175,12 +175,24 @@ class MypageController {
         }
     };
 
+    getDetailMyfile = async (req,res,next) => {
+        try{
+            const { eventId } = req.params;
+            const detail = await this.MypageService.getDatailMyfile({eventId})
+            res.status(200).json({detail})
+        }catch(err){
+            next(err)
+        }
+    }
+
     getDetailMeetingFile = async (req, res, next) => {
         try {
-            const {userId,eventId} = req.query;
-            const detail = await this.MypageService.getDetailMeetingFile({ eventId, userId });
+            const { eventId } = req.params;
+            const detail = await this.MypageService.getDetailMeetingFile({
+                eventId,
+            });
 
-            res.status(200).json({meetingfile : detail});
+            res.status(200).json({ meetingfile: detail });
         } catch (err) {
             next(err);
         }
@@ -188,10 +200,12 @@ class MypageController {
 
     getDetailReportFile = async (req, res, next) => {
         try {
-            const {userId,eventId} = req.query;
-            const detail = await this.MypageService.getDetailReportFile({ eventId, userId });
+            const { eventId } = req.params;
+            const detail = await this.MypageService.getDetailReportFile({
+                eventId,
+            });
 
-            res.status(200).json({reportfile : detail});
+            res.status(200).json({ reportfile: detail });
         } catch (err) {
             next(err);
         }
