@@ -70,7 +70,7 @@ class MypageRepository {
             ],
         });
         schedule.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
         });
         return schedule;
     };
@@ -301,14 +301,21 @@ class MypageRepository {
         const myfile = await Events.findAll({
             raw: true,
             attributes: [
-                "eventId", 
-                [Sequelize.fn("date_format",Sequelize.col("MeetingReport.enrollDay"),"%Y/%m/%d"),"enrollDay"],
-                "User.userName", 
+                "eventId",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("MeetingReport.enrollDay"),
+                        "%Y/%m/%d"
+                    ),
+                    "enrollDay",
+                ],
+                "User.userName",
                 "MeetingReport.title",
                 "MeetingReport.file",
-                "eventType"
+                "eventType",
             ],
-            where: { userId, hasFile: true ,eventType : "MeetingReports"},
+            where: { userId, hasFile: true, eventType: "MeetingReports" },
             include: [
                 {
                     model: Users,
@@ -322,24 +329,32 @@ class MypageRepository {
             order: [["EventId", "DESC"]],
         });
         myfile.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
-            return event
-        })
-        return myfile
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
+            console.log(event.eventId,event.fileName)
+            return event;
+        });
+        return myfile;
     };
 
     findMyReportfile = async ({ userId }) => {
         const report = await Events.findAll({
             raw: true,
             attributes: [
-                "eventId", 
-                [Sequelize.fn("date_format",Sequelize.col("Report.enrollDay"),"%Y/%m/%d"),"enrollDay"],
-                "User.userName", 
+                "eventId",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Report.enrollDay"),
+                        "%Y/%m/%d"
+                    ),
+                    "enrollDay",
+                ],
+                "User.userName",
                 "Report.title",
                 "Report.file",
-                "eventType"
+                "eventType",
             ],
-            where: { userId, hasFile: true,eventType : "Reports" },
+            where: { userId, hasFile: true, eventType: "Reports" },
             include: [
                 {
                     model: Users,
@@ -353,18 +368,17 @@ class MypageRepository {
             order: [["EventId", "DESC"]],
         });
         report.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
-            return event
-        })
-        return report
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
+            return event;
+        });
+        return report;
     };
 
-    findTeam = async ({ userId }) => {
-        const user = await Users.findOne({ where: { userId } });
-        return await Users.findAll({ where: { teamId: user.teamId } });
+    findTeam = async ({ teamId }) => {
+        return await Users.findAll({ where: { teamId } });
     };
+
     findTeamMeetingFile = async ({ team }) => {
-        console.log(team)
         const list = await Promise.all(
             team.map(async (team) => {
                 return await Events.findAll({
@@ -404,7 +418,7 @@ class MypageRepository {
             })
         );
         return list.flat().map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
             return event;
         });
     };
@@ -449,24 +463,40 @@ class MypageRepository {
             })
         );
         return list.flat().map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
             return event;
         });
     };
 
-    getUserId = async({userName}) => {
+    getUserId = async ({ userName }) => {
         return await Users.findOne({
-            attributes : ["userId"],
-            where : {userName}
-        })
-    }
+            attributes: ["userId"],
+            where: { userName },
+        });
+    };
 
-    getDetailMeetingFile = async ({ eventId, userId }) => {
-        console.log(eventId, userId)
-        const meetingReport =  await Events.findOne({
-            raw : true,
-            where : {eventId : eventId, userId : userId},
-            attributes : [
+    getEventType = async ({eventId}) => {
+        return await Events.findOne({
+            attributes: ["eventId","eventType"],
+            where: { eventId },
+        });
+    };
+    getDetailMyfile = async ({
+        eventId,
+        event,
+    }) => {
+       if(event.eventType === "MeetingReports"){
+        return await this.getDetailMeetingFile({eventId})
+       }else if(event.eventType === "Reports"){
+        return await this.getDetailReportFile({eventId})
+       }
+    };
+
+    getDetailMeetingFile = async ({ eventId }) => {
+        const meetingReport = await Events.findOne({
+            raw: true,
+            where: { eventId: eventId },
+            attributes: [
                 "eventId",
                 [
                     Sequelize.fn(
@@ -479,6 +509,12 @@ class MypageRepository {
                 "User.userName",
                 "MeetingReport.title",
                 "MeetingReport.content",
+                [
+                    Sequelize.literal(
+                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ',') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.eventId = Events.eventId)"
+                    ),
+                    "ref",
+                ],
                 "MeetingReport.file",
             ],
             include: [
@@ -490,17 +526,17 @@ class MypageRepository {
                     model: Users,
                     attributes: [],
                 },
-            ]
-        })
-        // console.log(meetingReport)
-        meetingReport.fileName = meetingReport.file.split("/")[3];
+            ],
+        });
+        meetingReport.ref = meetingReport.ref.split(",");
+        meetingReport.fileName = meetingReport.file.split("/")[3].split("_")[1];
         return meetingReport;
     };
 
-    getDetailReportFile = async ({ eventId, userId }) => {
+    getDetailReportFile = async ({ eventId }) => {
         const Report = await Events.findOne({
             raw: true,
-            where: { eventId, userId },
+            where: { eventId },
             attributes: [
                 "eventId",
                 [
@@ -514,6 +550,12 @@ class MypageRepository {
                 "User.userName",
                 "Report.title",
                 "Report.content",
+                [
+                    Sequelize.literal(
+                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ',') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.eventId = Events.eventId)"
+                    ),
+                    "ref",
+                ],
                 "Report.file",
             ],
             include: [
@@ -525,12 +567,12 @@ class MypageRepository {
                     model: Users,
                     attributes: [],
                 },
-            ]
-        })
-        // console.log(Report)
-        Report.fileName = Report.file.split("/")[3];
-        return Report
-    }
+            ],
+        });
+        Report.ref = Report.ref.split(",");
+        Report.fileName = Report.file.split("/")[3].split("_")[1];
+        return Report;
+    };
 }
 
 module.exports = MypageRepository;

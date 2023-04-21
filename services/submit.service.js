@@ -8,7 +8,7 @@ class SubmitService {
     submitRepository = new SubmitRepository();
 
     // 출장 신청
-    scheduleSubmit =  async({userId, teamId, startDay, endDay, title, ref, location, content, file}) => {
+    scheduleSubmit =  async({userId, teamId, startDay, endDay, title, ref, location, content, fileLocation, fileName}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         let REF;
         if (ref === null) {
@@ -38,14 +38,15 @@ class SubmitService {
                 ref: REF,
                 location,
                 content,
-                file,
+                fileLocation,
+                fileName,
             }
         );
         return createScheduleSubmit
     }
 
     // 일정 수정
-    scheduleModify = async({userId, eventId, teamId, startDay, endDay, title, ref, location, content, file}) => {
+    scheduleModify = async({userId, eventId, teamId, startDay, endDay, title, ref, location, content, fileLocation, fileName}) => {
         const schedule = await this.submitRepository.findOneSchedule(eventId)
         // console.log("aaaaaaaaaa", schedule)
         if(!schedule) {
@@ -55,7 +56,7 @@ class SubmitService {
             throw new CustomError("수정 권한이 존재하지 않습니다.", 401)
         }
         const bucketName = process.env.BUCKET_NAME
-        const fileKey = schedule.file.split('/')[3]
+        const fileKey = schedule.fileLocation.split('/')[3].split('_')[0]
 
         // 단일 파일 삭제
         const objectParams_del = {
@@ -103,7 +104,8 @@ class SubmitService {
                 ref: REF,
                 location,
                 content,
-                file,
+                fileLocation,
+                fileName,
             }
         );
         return createScheduleSubmit
@@ -121,7 +123,7 @@ class SubmitService {
     }
 
     // 기타 신청
-    otherSubmit = async({userId, teamId, startDay, endDay, title, ref, content, file}) => {
+    otherSubmit = async({userId, teamId, startDay, endDay, title, ref, content, fileLocation, fileName}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         
         let REF;
@@ -142,13 +144,13 @@ class SubmitService {
             });
         }
 
-        const createOtherSubmit = await this.submitRepository.otherSubmit({userId, startDay, endDay, title, ref:REF, content, file})
+        const createOtherSubmit = await this.submitRepository.otherSubmit({userId, startDay, endDay, title, ref:REF, content, fileLocation, fileName})
 
         return createOtherSubmit
     }
 
     // 회의 신청
-    meetingSubmit = async({userId, teamId, eventType, startDay, startTime, title, ref, location, content, file}) => {
+    meetingSubmit = async({userId, teamId, eventType, startDay, startTime, title, ref, location, content, fileLocation, fileName}) => {
         // console.log("service",typeof userId)
         const isRef = await this.submitRepository.findRef(teamId)
         let REF;
@@ -169,13 +171,13 @@ class SubmitService {
             });
         }
 
-        const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, eventType, startDay, startTime, title, ref:REF, location, content, file})
+        const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, eventType, startDay, startTime, title, ref:REF, location, content, fileLocation, fileName})
 
         return createMeetingSubmit
     }
 
     // 보고서 등록
-    reportSubmit = async({userId, teamId, title, content, ref, file}) => {
+    reportSubmit = async({userId, teamId, title, content, ref, fileLocation, fileName}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         
         let REF;
@@ -196,14 +198,15 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.reportSubmit({userId, title, content, ref: REF, file})
+        await this.submitRepository.reportSubmit({userId, title, content, ref: REF, fileLocation, fileName})
     }
 
     // 보고서 수정
-    reportModify = async({userId, eventId, teamId, title, content, ref, file}) => {
+    reportModify = async({userId, eventId, teamId, title, content, ref, fileLocation, fileName}) => {
         const report = await this.submitRepository.findOneReport(eventId)
         const bucketName = process.env.BUCKET_NAME
-        const fileKey = report.file.split('/')[3]
+        const fileKey = report.fileLocation.split('/')[3].split('_')[0]
+        console.log('aaaaaaaaa', fileKey)
 
         // 단일 파일 삭제
         const objectParams_del = {
@@ -241,11 +244,11 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.reportModify({userId, eventId, title, content, ref: REF, file})
+        await this.submitRepository.reportModify({userId, eventId, title, content, ref: REF, fileLocation, fileName})
     }
 
     // 회의록 등록
-    meetingReportSubmit = async({userId, meetingId, teamId, title, ref, content, file}) => {
+    meetingReportSubmit = async({userId, meetingId, teamId, title, ref, content, fileLocation, fileName}) => {
         
         const isRef = await this.submitRepository.findRef(teamId)
         
@@ -267,15 +270,15 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.meetingReportSubmit({userId, meetingId, title, content, ref: REF, file})
+        await this.submitRepository.meetingReportSubmit({userId, meetingId, title, content, ref: REF, fileLocation, fileName})
     }
 
     // 회의록 수정
-    meetingReportModify = async({userId, meetingId, teamId, title, ref, content, file}) => {
+    meetingReportModify = async({userId, meetingId, teamId, title, ref, content, fileLocation, fileName}) => {
         const meetingReport = await this.submitRepository.findOneMeetingReport(meetingId)
 
         const bucketName = process.env.BUCKET_NAME
-        const fileKey = meetingReport.file.split('/')[3]
+        const fileKey = meetingReport.fileLocation.split('/')[3].split('_')[0]
 
         // 단일 파일 삭제
         const objectParams_del = {
@@ -313,7 +316,7 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.meetingReportModify({userId, eventId: meetingReport.eventId, meetingId, title, content, ref: REF, file})
+        await this.submitRepository.meetingReportModify({userId, eventId: meetingReport.eventId, meetingId, title, content, ref: REF, fileLocation, fileName})
     } 
 
     // 팀원 목록 조회
