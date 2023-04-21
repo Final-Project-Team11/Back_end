@@ -207,7 +207,7 @@ class MypageService {
         });
         const report = await this.MypageRepository.findMyReportfile({ userId });
         let result = [];
-        return result.concat(meeting, report).sort((a, b) => b - a);
+        return result.concat(meeting, report).sort((a, b) => b.eventId - a.eventId);
     };
     TeamMeetingReport = async ({ teamId }) => {
         //팀원의 배열
