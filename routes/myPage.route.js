@@ -60,4 +60,8 @@ router.get(
     authmiddleware,
     mypagecontroller.getDetailReportFile
 );
+
+//휴가 진행 상황조회
+//localhost:3003/vacationProgress
+router.get("/vacationProgress",authmiddleware,mypagecontroller.getVacationProgress)
 module.exports = router;

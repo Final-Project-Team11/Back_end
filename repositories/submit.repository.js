@@ -129,9 +129,11 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
+            console.log('aaaaaa',userId, startDay, endDay, typeDetail)
             const event = await Events.create({
                 userId,
-                eventType: 'Vacations'
+                eventType: 'Vacations',
+                hasFile: 0
             }, {transaction : t})
 
             const {eventId} = event
@@ -148,6 +150,7 @@ class SubmitRepository {
             return createVacationSubmit
 
         }catch(transactionError) {
+            console.error(transactionError)
             await t.rollback()
             throw new CustomError('휴가 신청서 생성에 실패하였습니다.', 400)
         }
