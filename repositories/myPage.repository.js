@@ -71,7 +71,7 @@ class MypageRepository {
             ],
         });
         schedule.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3].split("_")[1];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
         });
         return schedule;
     };
@@ -330,7 +330,8 @@ class MypageRepository {
             order: [["EventId", "DESC"]],
         });
         myfile.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3].split("_")[1];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
+            console.log(event.eventId,event.fileName)
             return event;
         });
         return myfile;
@@ -368,7 +369,7 @@ class MypageRepository {
             order: [["EventId", "DESC"]],
         });
         report.map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3].split("_")[1];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
             return event;
         });
         return report;
@@ -418,7 +419,7 @@ class MypageRepository {
             })
         );
         return list.flat().map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3].split("_")[1];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
             return event;
         });
     };
@@ -463,7 +464,7 @@ class MypageRepository {
             })
         );
         return list.flat().map((event) => {
-            event.fileName = (event.file ?? "").split("/")[3].split("_")[1];
+            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
             return event;
         });
     };
