@@ -6,7 +6,7 @@
   "scripts": {
     "test:init": "NODE_ENV=test sequelize db:create --config=./config/config.js",
 
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "test:coverage": "NODE_ENV=test jest --coverage --forceExit",
 
     "start": "nodemon app.js",
