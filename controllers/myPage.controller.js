@@ -175,6 +175,16 @@ class MypageController {
         }
     };
 
+    getDetailMyfile = async (req,res,next) => {
+        try{
+            const { eventId } = req.params;
+            const detail = await this.MypageService.getDatailMyfile({eventId})
+            res.status(200).json({detail})
+        }catch(err){
+            next(err)
+        }
+    }
+
     getDetailMeetingFile = async (req, res, next) => {
         try {
             const { eventId } = req.params;

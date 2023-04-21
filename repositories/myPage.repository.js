@@ -474,6 +474,23 @@ class MypageRepository {
         });
     };
 
+    getEventType = async ({eventId}) => {
+        return await Events.findOne({
+            attributes: ["eventId","eventType"],
+            where: { eventId },
+        });
+    };
+    getDetailMyfile = async ({
+        eventId,
+        event,
+    }) => {
+       if(event.eventType === "MeetingReports"){
+        return await this.getDetailMeetingFile({eventId})
+       }else if(event.eventType === "Reports"){
+        return await this.getDetailReportFile({eventId})
+       }
+    };
+
     getDetailMeetingFile = async ({ eventId }) => {
         const meetingReport = await Events.findOne({
             raw: true,

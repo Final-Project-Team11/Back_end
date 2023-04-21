@@ -207,7 +207,7 @@ class MypageService {
         });
         const report = await this.MypageRepository.findMyReportfile({ userId });
         let result = [];
-        return result.concat(meeting, report).sort((a, b) => b - a);
+        return result.concat(meeting, report).sort((a, b) => b.eventId - a.eventId);
     };
     TeamMeetingReport = async ({ teamId }) => {
         //팀원의 배열
@@ -223,6 +223,14 @@ class MypageService {
         return await this.MypageRepository.getUserId({ userName });
     };
 
+    getDatailMyfile = async ({ eventId }) => {
+        const event = await this.MypageRepository.getEventType({ eventId });
+        
+        return await this.MypageRepository.getDetailMyfile({
+            eventId,
+            event,
+        });
+    };
     getDetailMeetingFile = async ({ eventId }) => {
         return await this.MypageRepository.getDetailMeetingFile({ eventId });
     };
