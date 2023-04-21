@@ -86,7 +86,8 @@ class MainPageRepository {
                 [Sequelize.col("Schedule.userId"), "userId"],
                 [Sequelize.col("Schedule.title"), "title"],
                 [Sequelize.col("Schedule.content"), "content"],
-                [Sequelize.col("Schedule.file"), "file"],
+                [Sequelize.col("Schedule.fileName"), "fileName"],
+                [Sequelize.col("Schedule.fileLocation"), "fileLocation"],
                 [Sequelize.col("Schedule.startDay"), "startDay"],
                 [Sequelize.col("Schedule.endDay"), "endDay"],
                 "eventType",
@@ -148,7 +149,8 @@ class MainPageRepository {
                 [Sequelize.col("Report.userId"), "userId"],
                 [Sequelize.col("Report.title"), "title"],
                 [Sequelize.col("Report.content"), "content"],
-                [Sequelize.col("Report.file"), "file"],
+                [Sequelize.col("Report.fileName"), "fileName"],
+                [Sequelize.col("Report.fileLocation"), "fileLocation"],
                 [Sequelize.col("Report.enrollDay"), "enrollDay"],
                 "eventType",
                 [
@@ -215,7 +217,8 @@ class MainPageRepository {
                 [Sequelize.col("Other.userId"), "userId"],
                 [Sequelize.col("Other.title"), "title"],
                 [Sequelize.col("Other.content"), "content"],
-                [Sequelize.col("Other.file"), "file"],
+                [Sequelize.col("Other.fileName"), "fileName"],
+                [Sequelize.col("Other.fileLocation"), "fileLocation"],
                 [Sequelize.col("Other.startDay"), "startDay"],
                 [Sequelize.col("Other.endDay"), "endDay"],
                 "eventType",
@@ -277,7 +280,8 @@ class MainPageRepository {
                 [Sequelize.col("Meeting.userId"), "userId"],
                 [Sequelize.col("Meeting.title"), "title"],
                 [Sequelize.col("Meeting.content"), "content"],
-                [Sequelize.col("Meeting.file"), "file"],
+                [Sequelize.col("Meeting.fileName"), "fileName"],
+                [Sequelize.col("Meeting.fileLocation"), "fileLocation"],
                 [Sequelize.col("Meeting.location"), "location"],
                 [Sequelize.col("Meeting.startDay"), "startDay"],
                 [Sequelize.col("Meeting.startTime"), "startTime"],
@@ -340,7 +344,8 @@ class MainPageRepository {
                 [Sequelize.col("Meeting.userId"), "userId"],
                 [Sequelize.col("Meeting.title"), "title"],
                 [Sequelize.col("Meeting.content"), "content"],
-                [Sequelize.col("Meeting.file"), "file"],
+                [Sequelize.col("Meeting.fileName"), "fileName"],
+                [Sequelize.col("Meeting.fileLocation"), "fileLocation"],
                 [Sequelize.col("Meeting.location"), "location"],
                 [Sequelize.col("Meeting.startDay"), "startDay"],
                 [Sequelize.col("Meeting.startTime"), "startTime"],
@@ -403,7 +408,8 @@ class MainPageRepository {
                 [Sequelize.col("MeetingReport.userId"), "userId"],
                 [Sequelize.col("MeetingReport.title"), "title"],
                 [Sequelize.col("MeetingReport.content"), "content"],
-                [Sequelize.col("MeetingReport.file"), "file"],
+                [Sequelize.col("MeetingReport.fileName"), "fileName"],
+                [Sequelize.col("MeetingReport.fileLocation"), "fileLocation"],
                 [Sequelize.col("MeetingReport.enrollDay"), "enrollDay"],
                 "eventType",
                 [
@@ -447,6 +453,17 @@ class MainPageRepository {
         })
 
         return teamName
+    }
+
+    findCompanyId = async(teamId) => {
+        const companyId = await Teams.findOne({
+            raw: true,
+            where: {teamId},
+            attributes: ["companyId"]
+        })
+        // console.log("aaaaaaaa", companyId)
+
+        return companyId
     }
 }
 
