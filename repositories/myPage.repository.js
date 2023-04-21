@@ -36,14 +36,15 @@ class MypageRepository {
     };
 
     getUserSchedule = async ({ userId }) => {
-        const schedule = await Schedules.findAll({
+        return await Schedules.findAll({
             raw: true,
             where: { userId },
             attributes: [
                 "eventId",
                 "User.userName",
                 "title",
-                "file",
+                "fileLocation",
+                "fileName",
                 [
                     Sequelize.fn(
                         "date_format",
@@ -70,10 +71,6 @@ class MypageRepository {
                 },
             ],
         });
-        schedule.map((event) => {
-            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
-        });
-        return schedule;
     };
     getMention = async ({ userId, type }) => {
         const mentions = await Mentions.findAll({
@@ -299,7 +296,7 @@ class MypageRepository {
     };
 
     findMyMeetingfile = async ({ userId }) => {
-        const myfile = await Events.findAll({
+        return await Events.findAll({
             raw: true,
             attributes: [
                 "eventId",
@@ -313,7 +310,8 @@ class MypageRepository {
                 ],
                 "User.userName",
                 "MeetingReport.title",
-                "MeetingReport.file",
+                "MeetingReport.fileLocation",
+                "MeetingReport.fileName",
                 "eventType",
             ],
             where: { userId, hasFile: true, eventType: "MeetingReports" },
@@ -329,16 +327,10 @@ class MypageRepository {
             ],
             order: [["EventId", "DESC"]],
         });
-        myfile.map((event) => {
-            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
-            console.log(event.eventId,event.fileName)
-            return event;
-        });
-        return myfile;
     };
 
     findMyReportfile = async ({ userId }) => {
-        const report = await Events.findAll({
+        return await Events.findAll({
             raw: true,
             attributes: [
                 "eventId",
@@ -352,7 +344,8 @@ class MypageRepository {
                 ],
                 "User.userName",
                 "Report.title",
-                "Report.file",
+                "Report.fileLocation",
+                "Report.fileName",
                 "eventType",
             ],
             where: { userId, hasFile: true, eventType: "Reports" },
@@ -368,11 +361,6 @@ class MypageRepository {
             ],
             order: [["EventId", "DESC"]],
         });
-        report.map((event) => {
-            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
-            return event;
-        });
-        return report;
     };
 
     findTeam = async ({ teamId }) => {
@@ -389,7 +377,8 @@ class MypageRepository {
                         "User.userName",
                         "User.userId",
                         "MeetingReport.title",
-                        "MeetingReport.file",
+                        "MeetingReport.fileLocation",
+                        "MeetingReport.fileName",
                         [
                             Sequelize.fn(
                                 "date_format",
@@ -418,10 +407,7 @@ class MypageRepository {
                 });
             })
         );
-        return list.flat().map((event) => {
-            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
-            return event;
-        });
+        return list.flat()
     };
 
     findTeamReportFile = async ({ team }) => {
@@ -434,7 +420,8 @@ class MypageRepository {
                         "User.userName",
                         "User.userId",
                         "Report.title",
-                        "Report.file",
+                        "Report.fileLocation",
+                        "Report.fileName",
                         [
                             Sequelize.fn(
                                 "date_format",
@@ -463,10 +450,7 @@ class MypageRepository {
                 });
             })
         );
-        return list.flat().map((event) => {
-            event.fileName = ((event.file ?? "").split("/")[3] ?? "").split("_")[1];
-            return event;
-        });
+        return list.flat()
     };
 
     getUserId = async ({ userName }) => {
@@ -516,7 +500,8 @@ class MypageRepository {
                     ),
                     "ref",
                 ],
-                "MeetingReport.file",
+                "MeetingReport.fileLocation",
+                "MeetingReport.fileName",
             ],
             include: [
                 {
@@ -530,7 +515,6 @@ class MypageRepository {
             ],
         });
         meetingReport.ref = meetingReport.ref.split(",");
-        meetingReport.fileName = meetingReport.file.split("/")[3].split("_")[1];
         return meetingReport;
     };
 
@@ -557,7 +541,8 @@ class MypageRepository {
                     ),
                     "ref",
                 ],
-                "Report.file",
+                "Report.fileLocation",
+                "Report.fileName",
             ],
             include: [
                 {
@@ -571,7 +556,6 @@ class MypageRepository {
             ],
         });
         Report.ref = Report.ref.split(",");
-        Report.fileName = Report.file.split("/")[3].split("_")[1];
         return Report;
     };
 
