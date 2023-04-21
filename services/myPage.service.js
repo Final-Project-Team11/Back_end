@@ -207,14 +207,14 @@ class MypageService {
         let result = []
         return result.concat(meeting,report).sort((a,b) => b-a)
     };
-    TeamMeetingReport = async ({ userId }) => {
+    TeamMeetingReport = async ({ teamId }) => {
         //팀원의 배열
-        const team = await this.MypageRepository.findTeam({ userId });
+        const team = await this.MypageRepository.findTeam({ teamId });
         return await this.MypageRepository.findTeamMeetingFile({ team });
     };
-    TeamReport = async ({ userId }) => {
+    TeamReport = async ({ teamId }) => {
         //팀원의 배열
-        const team = await this.MypageRepository.findTeam({ userId });
+        const team = await this.MypageRepository.findTeam({ teamId });
         return await this.MypageRepository.findTeamReportFile({ team });
     };
     getUserId = async({userName}) =>{

@@ -359,12 +359,11 @@ class MypageRepository {
         return report
     };
 
-    findTeam = async ({ userId }) => {
-        const user = await Users.findOne({ where: { userId } });
-        return await Users.findAll({ where: { teamId: user.teamId } });
+    findTeam = async ({ teamId }) => {
+        return await Users.findAll({ where: { teamId } });
     };
+    
     findTeamMeetingFile = async ({ team }) => {
-        console.log(team)
         const list = await Promise.all(
             team.map(async (team) => {
                 return await Events.findAll({

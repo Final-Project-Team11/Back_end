@@ -134,14 +134,14 @@ class MypageController {
     getMeetingFiles = async (req, res, next) => {
         const pageInfo = req.query;
         try {
-            const { userId } = res.locals.user;
+            const {teamId} = res.locals.user;
             const pageNum = parseInt(pageInfo.pageNum);
             const pageSize = parseInt(pageInfo.pageSize);
             if (!pageInfo || !pageSize) {
                 throw new CustomError("pagenation 정보를 입력해주세요", 410);
             }
             const meeting = await this.MypageService.TeamMeetingReport({
-                userId,
+                teamId
             });
             const meetingfiles = meeting.slice(
                 pageSize * (pageNum - 1),
@@ -156,14 +156,14 @@ class MypageController {
     getReportFiles = async (req, res, next) => {
         const pageInfo = req.query;
         try {
-            const { userId } = res.locals.user;
+            const { teamId } = res.locals.user;
             const pageNum = parseInt(pageInfo.pageNum);
             const pageSize = parseInt(pageInfo.pageSize);
             if (!pageInfo || !pageSize) {
                 throw new CustomError("pagenation 정보를 입력해주세요", 410);
             }
             const report = await this.MypageService.TeamReport({
-                userId,
+                teamId,
             });
             const reportfiles = report.slice(
                 pageSize * (pageNum - 1),
