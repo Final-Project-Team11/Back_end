@@ -196,6 +196,16 @@ class MypageController {
             next(err);
         }
     };
+
+    getVacationProgress = async (req,res,next) => {
+        try{
+            const {userId} = res.locals.user
+            const status = await this.MypageService.getVacationProgress({userId})
+            res.status(200).json(status)
+        }catch(err){
+            next(err)
+        }
+    }
 }
 
 module.exports = MypageController;

@@ -8,6 +8,7 @@ const {
     Meetings,
     Reports,
     Others,
+    Vacations,
     MeetingReports,
     Sequelize,
 } = require("../models");
@@ -530,6 +531,13 @@ class MypageRepository {
         // console.log(Report)
         Report.fileName = Report.file.split("/")[3];
         return Report
+    }
+
+    getVacationProgress = async({userId}) => {
+        return await Vacations.findOne({
+            attributes : ["status"],
+            where : {userId}
+        })
     }
 }
 

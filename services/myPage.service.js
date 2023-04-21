@@ -228,6 +228,11 @@ class MypageService {
     getDetailReportFile = async({ eventId, userId }) => {
         return await this.MypageRepository.getDetailReportFile({ eventId, userId })
     }
+
+    getVacationProgress = async({userId}) => {
+        return await this.MypageRepository.getVacationProgress({userId})
+    }
+    
 }
 
 module.exports = MypageService;

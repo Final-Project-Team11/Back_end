@@ -40,4 +40,8 @@ router.get("/meetingfiles/detail",authmiddleware,mypagecontroller.getDetailMeeti
 //팀 보고서 상세조회
 //localhost:3003/reportfiles/:eventId
 router.get("/reportfiles/detail",authmiddleware,mypagecontroller.getDetailReportFile)
+
+//휴가 진행 상황조회
+//localhost:3003/vacationProgress
+router.get("/vacationProgress",authmiddleware,mypagecontroller.getVacationProgress)
 module.exports = router;
