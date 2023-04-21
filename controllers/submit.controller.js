@@ -14,7 +14,8 @@ class SubmitController {
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try{
             await scheduleSchema
@@ -32,7 +33,8 @@ class SubmitController {
                 ref: ref,
                 location,
                 content,
-                file
+                fileLocation,
+                fileName,
             });
 
             return res.status(200).send({ message : '출장 신청이 성공적으로 완료되었습니다.'})
@@ -50,7 +52,8 @@ class SubmitController {
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try {
             await scheduleSchema
@@ -69,7 +72,8 @@ class SubmitController {
                 ref: ref,
                 location,
                 content,
-                file
+                fileLocation,
+                fileName,
             });
 
             return res.status(200).send({ message : '일정 수정이 성공적으로 완료되었습니다.'})
@@ -111,7 +115,8 @@ class SubmitController {
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try{
             await otherSchema
@@ -128,7 +133,8 @@ class SubmitController {
                 title,
                 ref: ref,
                 content,
-                file
+                fileLocation,
+                fileName,
             })
 
             return res.status(200).send({ message : '기타 신청이 성공적으로 완료되었습니다.'})
@@ -145,7 +151,8 @@ class SubmitController {
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try{
             await meetingSchema
@@ -165,7 +172,8 @@ class SubmitController {
                 ref: ref,
                 location,
                 content,
-                file
+                fileLocation,
+                fileName,
             })
 
             return res.status(200).send({ message : '회의 신청이 성공적으로 완료되었습니다.'})
@@ -181,7 +189,8 @@ class SubmitController {
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try{
             await reportSchema
@@ -196,7 +205,8 @@ class SubmitController {
                 title,
                 ref : ref,
                 content,
-                file
+                fileLocation,
+                fileName,
             })
 
             return res.status(200).send({ message : '보고서 등록이 성공적으로 완료되었습니다.'})
@@ -213,7 +223,8 @@ class SubmitController {
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try{
             await reportSchema
@@ -229,7 +240,8 @@ class SubmitController {
                 title,
                 ref : ref,
                 content,
-                file
+                fileLocation,
+                fileName,
             })
 
             return res.status(200).send({ message : '보고서 수정이 성공적으로 완료되었습니다.'})
@@ -246,7 +258,8 @@ class SubmitController {
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try{
             await meetingReportSchema
@@ -262,7 +275,8 @@ class SubmitController {
                 title,
                 ref : ref,
                 content,
-                file
+                fileLocation,
+                fileName,
             })
 
             return res.status(200).send({ message : '회의록 등록이 성공적으로 완료되었습니다.'})
@@ -279,7 +293,8 @@ class SubmitController {
 
         console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
         // 파일이 있을때와 없을때
-        const file = req.file ? await req.file.location : null
+        const fileLocation = req.file ? await req.file.location : null
+        const fileName = req.file ? await req.file.originalname : null
 
         try{
             await meetingReportSchema
@@ -295,7 +310,8 @@ class SubmitController {
                 title,
                 ref : ref,
                 content,
-                file
+                fileLocation,
+                fileName,
             })
 
             return res.status(200).send({ message : '회의록 수정이 성공적으로 완료되었습니다.'})

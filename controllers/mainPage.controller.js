@@ -11,8 +11,9 @@ class MainPageController {
         try {
             const {teamId} = req.params
             const {year, month} = req.query
+            const {companyId} = res.locals.user
             
-            const findTotalVacation = await this.mainPageService.findTotalVacation({teamId, year, month})
+            const findTotalVacation = await this.mainPageService.findTotalVacation({teamId, year, month, companyId})
 
             res.status(200).json({ main: findTotalVacation})
         } catch (error) {
@@ -25,8 +26,9 @@ class MainPageController {
         try {
             const {teamId} = req.params
             const {year, month} = req.query
+            const {companyId} = res.locals.user
 
-            const findTotalSchedule = await this.mainPageService.findTotalSchedule({teamId, year, month})
+            const findTotalSchedule = await this.mainPageService.findTotalSchedule({teamId, year, month, companyId})
 
             res.status(200).json({ main: findTotalSchedule})
         } catch (error) {
