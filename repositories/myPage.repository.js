@@ -474,8 +474,7 @@ class MypageRepository {
         });
     };
 
-    getDetailMeetingFile = async ({ eventId, userId }) => {
-        console.log(eventId, userId);
+    getDetailMeetingFile = async ({ eventId }) => {
         const meetingReport = await Events.findOne({
             raw: true,
             where: { eventId: eventId },
@@ -516,10 +515,10 @@ class MypageRepository {
         return meetingReport;
     };
 
-    getDetailReportFile = async ({ eventId, userId }) => {
+    getDetailReportFile = async ({ eventId }) => {
         const Report = await Events.findOne({
             raw: true,
-            where: { eventId, userId },
+            where: { eventId },
             attributes: [
                 "eventId",
                 [
