@@ -148,6 +148,7 @@ class SubmitRepository {
             return createVacationSubmit
 
         }catch(transactionError) {
+            console.error(transactionError)
             await t.rollback()
             throw new CustomError('휴가 신청서 생성에 실패하였습니다.', 400)
         }
