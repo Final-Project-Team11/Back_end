@@ -41,6 +41,10 @@ router.get("/meetingfiles", authmiddleware, mypagecontroller.getMeetingFiles);
 //localhost:3003/reportfiles
 router.get("/reportfiles", authmiddleware, mypagecontroller.getReportFiles);
 
+//나의 파일 상세조회
+//localhost:3003/myfiles/:eventId
+router.get("/myfiles/:eventId",authmiddleware,mypagecontroller.getDetailMyfile)
+
 //팀 회의록 상세조회
 //localhost:3003/meetingfiles/:eventId
 router.get(

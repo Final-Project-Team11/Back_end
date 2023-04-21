@@ -223,6 +223,14 @@ class MypageService {
         return await this.MypageRepository.getUserId({ userName });
     };
 
+    getDatailMyfile = async ({ eventId }) => {
+        const event = await this.MypageRepository.getEventType({ eventId });
+        
+        return await this.MypageRepository.getDetailMyfile({
+            eventId,
+            event,
+        });
+    };
     getDetailMeetingFile = async ({ eventId }) => {
         return await this.MypageRepository.getDetailMeetingFile({ eventId });
     };
