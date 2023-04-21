@@ -129,9 +129,11 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
+            console.log('aaaaaa',userId, startDay, endDay, typeDetail)
             const event = await Events.create({
                 userId,
-                eventType: 'Vacations'
+                eventType: 'Vacations',
+                hasFile: 0
             }, {transaction : t})
 
             const {eventId} = event
