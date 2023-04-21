@@ -43,7 +43,7 @@ class MypageRepository {
                 "eventId",
                 "User.userName",
                 "title",
-                "fileLocation",
+                [Sequelize.col("fileLocation"), "file"],
                 "fileName",
                 [
                     Sequelize.fn(
@@ -310,7 +310,7 @@ class MypageRepository {
                 ],
                 "User.userName",
                 "MeetingReport.title",
-                "MeetingReport.fileLocation",
+                [Sequelize.col("MeetingReport.fileLocation"), "file"],
                 "MeetingReport.fileName",
                 "eventType",
             ],
@@ -344,7 +344,7 @@ class MypageRepository {
                 ],
                 "User.userName",
                 "Report.title",
-                "Report.fileLocation",
+                [Sequelize.col("Report.fileLocation"), "file"],
                 "Report.fileName",
                 "eventType",
             ],
@@ -377,7 +377,7 @@ class MypageRepository {
                         "User.userName",
                         "User.userId",
                         "MeetingReport.title",
-                        "MeetingReport.fileLocation",
+                        [Sequelize.col("MeetingReport.fileLocation"), "file"],
                         "MeetingReport.fileName",
                         [
                             Sequelize.fn(
@@ -420,7 +420,7 @@ class MypageRepository {
                         "User.userName",
                         "User.userId",
                         "Report.title",
-                        "Report.fileLocation",
+                        [Sequelize.col("Report.fileLocation"), "file"],
                         "Report.fileName",
                         [
                             Sequelize.fn(
@@ -500,7 +500,7 @@ class MypageRepository {
                     ),
                     "ref",
                 ],
-                "MeetingReport.fileLocation",
+                [Sequelize.col("MeetingReport.fileLocation"), "file"],
                 "MeetingReport.fileName",
             ],
             include: [
@@ -541,7 +541,7 @@ class MypageRepository {
                     ),
                     "ref",
                 ],
-                "Report.fileLocation",
+                [Sequelize.col("Report.fileLocation"), "file"],
                 "Report.fileName",
             ],
             include: [
