@@ -85,7 +85,7 @@ class SubmitController {
 
         try {
             await vacationSchema
-            .validateAsync({typeDetail, startDay, endDay})
+            .validateAsync({typeDetail, startDay, endDay}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -97,7 +97,7 @@ class SubmitController {
                 typeDetail,
             })
 
-            return res.status(200).send({ message : '휴가 신청이 성공적으로 완료되었습니다.'}, { abortEarly: false })
+            return res.status(200).send({ message : '휴가 신청이 성공적으로 완료되었습니다.'})
         }catch(error) {
             next(error);
         }
