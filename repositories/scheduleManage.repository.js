@@ -63,7 +63,7 @@ class ScheduleManageRepository {
                 "eventId",
                 [Sequelize.col("User.userName"), "userName"],
                 "title",
-                "file",
+                "fileName",
                 [Sequelize.fn("date_format",Sequelize.col("Schedules.createdAt"),"%Y/%m/%d"),"enrollDay"],
                 "status",
             ],
