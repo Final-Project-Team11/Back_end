@@ -514,7 +514,9 @@ class MypageRepository {
                 },
             ],
         });
+        console.log("111111111",meetingReport.ref)
         meetingReport.ref = meetingReport.ref.split(",");
+        console.log("2222222222",meetingReport.ref)
         return meetingReport;
     };
 
@@ -555,7 +557,9 @@ class MypageRepository {
                 },
             ],
         });
+        console.log("1111111111",Report.ref)
         Report.ref = Report.ref.split(",");
+        console.log("22222222222",Report.ref)
         return Report;
     };
 
