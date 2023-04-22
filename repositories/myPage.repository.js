@@ -557,6 +557,7 @@ class MypageRepository {
                 },
             ],
         });
+        console.log("aaaaaaaaaaaaaaaa",Report)
         console.log("1111111111",Report.ref)
         Report.ref = Report.ref.split(",");
         console.log("22222222222",Report.ref)
