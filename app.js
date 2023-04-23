@@ -1,12 +1,11 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
 const logger = require("./config/logger");
 const { sequelize } = require("./models/index.js");
-const morganMiddleware = require('./middlewares/morgan-middleware.js');
-
+const morganMiddleware = require("./middlewares/morgan-middleware.js");
+const slackMiddleware = require("./middlewares/slack-middleware")
 const indexRouter = require("./routes/index");
 
 app.use(
@@ -29,13 +28,22 @@ sequelize
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(morganMiddleware)
+app.use(morganMiddleware);
 app.use("/", indexRouter);
 
+//에러핸들러
 app.use((err, req, res, next) => {
     //에러로그파일 생성 및 저장
+    console.log(err.fileName)
     const errorstack = err.stack;
     logger.error(errorstack);
+    //슬랙에 메세지 전송
+    const message = {
+        color : '#ffc107',
+        title : "에러가 발생했습니다.",
+        text : `\`\`\`${err.message}\`\`\``,
+    }
+    slackMiddleware(message)
     return res.status(err.status || 400).json({
         success: false,
         errorMessage: err.message || "예상치 못한 에러가 발생했습니다.",
