@@ -145,19 +145,19 @@ class SubmitController {
 
     // 회의 신청
     meetingSubmit = async(req, res, next) => {
-        const {startDay, startTime, eventType, title, location, ref, content} = req.body
+        const {start, end, calendarId, title, location, attendees, body} = req.body
         const {userId, teamId} = res.locals.user
 
-        console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
+        console.log("req.file: ", req.files); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const fileLocation = req.file ? await req.file.location : null
-        const fileName = req.file ? await req.file.originalname : null
+        const fileLocation = req.files ? await req.files.map(file => file.location) : null
+        const fileName = req.files ? await req.files.map(file => file.originalname) : null
 
         try{
             await meetingSchema
             // .validateAsync(req.body)
-            .validateAsync({startDay, startTime, eventType, title, location, ref, content}, { abortEarly: false })
+            .validateAsync({start, end, calendarId, title, location, attendees, body}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -165,13 +165,13 @@ class SubmitController {
             const MeetingSubmit = await this.submitService.meetingSubmit({
                 userId,
                 teamId: teamId,
-                eventType,
-                startDay,
-                startTime,
+                calendarId,
+                start,
+                end,
                 title,
-                ref: ref,
+                attendees: attendees,
                 location,
-                content,
+                body,
                 fileLocation,
                 fileName,
             })

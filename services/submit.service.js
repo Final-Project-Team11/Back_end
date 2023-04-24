@@ -150,18 +150,18 @@ class SubmitService {
     }
 
     // 회의 신청
-    meetingSubmit = async({userId, teamId, eventType, startDay, startTime, title, ref, location, content, fileLocation, fileName}) => {
+    meetingSubmit = async({userId, teamId, calendarId, start, end, title, attendees, location, body, fileLocation, fileName}) => {
         // console.log("service",typeof userId)
         const isRef = await this.submitRepository.findRef(teamId)
         let REF;
-        if (ref === null) {
+        if (attendees === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
                 return item.userName;
             });
-        } else if(ref !== undefined && ref !== null) {
+        } else if(attendees !== undefined && attendees !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = ref.concat(isRef.map((item) => {
+            REF = attendees.concat(isRef.map((item) => {
                 return item.userName;
             }));
         } else {
@@ -171,7 +171,7 @@ class SubmitService {
             });
         }
 
-        const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, eventType, startDay, startTime, title, ref:REF, location, content, fileLocation, fileName})
+        const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, calendarId, start, end, title, attendees:REF, location, body, fileLocation, fileName})
 
         return createMeetingSubmit
     }

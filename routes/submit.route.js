@@ -19,7 +19,7 @@ router.post('/vacation', authMiddleware, submitController.vacationSubmit )
 router.post('/other', authMiddleware, upload.array('file'), submitController.otherSubmit)
 
 // 회의 신청
-router.post('/meeting', authMiddleware, upload.single('file'), submitController.meetingSubmit)
+router.post('/meeting', authMiddleware, upload.array('file'), submitController.meetingSubmit)
 
 // 보고서 등록
 router.post('/report', authMiddleware, upload.single('file'), submitController.reportSubmit)

@@ -215,7 +215,7 @@ class SubmitRepository {
     }
 
     // 회의 신청
-    meetingSubmit = async({userId, eventType, startDay, startTime, title, ref, location, content, fileLocation, fileName}) => {
+    meetingSubmit = async({userId, calendarId, start, end, title, attendees, location, body, fileLocation, fileName}) => {
         // console.log(typeof userId)
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
@@ -224,29 +224,35 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                eventType,
+                calendarId,
                 hasFile : hasFile,
             }, {transaction : t})
             
-            const {eventId} = event;
+            const {Id} = event;
             
             const createMeetingSubmit = await Meetings.create({
-                eventId: eventId,
+                Id: Id,
                 userId,
-                startDay,
-                startTime,
+                start,
+                end,
                 title,
                 location,
-                content,
-                fileLocation,
-                fileName,
+                body,
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.create({
+                    Id : Id,
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {transaction : t});
+            }))
+
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
-                    eventId : eventId,
+                    Id : Id,
                     userId : userId,
                     isChecked : false
                 }, {transaction : t})
