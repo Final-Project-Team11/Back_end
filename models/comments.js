@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
             });
 
             this.belongsTo(models.Events, {
-                targetKey: "eventId",
-                foreignKey: "eventId",
+                targetKey: "Id",
+                foreignKey: "Id",
                 onDelete: 'CASCADE',
             });
         }
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.STRING,
             },
-            eventId: {
+            Id: {
                 allowNull: false,
                 type: DataTypes.INTEGER,
             },
