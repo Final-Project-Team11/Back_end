@@ -8,18 +8,19 @@ class SubmitController {
 
     // 출장 신청
     scheduleSubmit = async (req, res, next) => {
-        const {startDay, endDay, title, location, ref, content} = req.body
+        const {start, end, title, location, attendees, body} = req.body
         const {userId, teamId} = res.locals.user
 
-        console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
+        console.log("req.file: ", req.files); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const fileLocation = req.file ? await req.file.location : null
-        const fileName = req.file ? await req.file.originalname : null
+        const fileLocation = req.files ? await req.files.map(file => file.location) : null
+        const fileName = req.files ? await req.files.map(file => file.originalname) : null
 
+        // console.log("aaaaaaaaaaaaa", fileLocation, fileName)
         try{
             await scheduleSchema
-            .validateAsync({startDay, endDay, title, location, ref, content}, { abortEarly: false })
+            .validateAsync({start, end, title, location, attendees, body}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -27,12 +28,12 @@ class SubmitController {
             const ScheduleSubmit = await this.submitService.scheduleSubmit({
                 userId,
                 teamId: teamId,
-                startDay,
-                endDay,
+                start,
+                end,
                 title,
-                ref: ref,
+                attendees: attendees,
                 location,
-                content,
+                body,
                 fileLocation,
                 fileName,
             });

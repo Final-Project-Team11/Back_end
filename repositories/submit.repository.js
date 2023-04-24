@@ -1,4 +1,4 @@
-const {Users, Schedules, Events, Mentions, sequelize, Vacations, Meetings, Reports, Others, MeetingReports} = require('../models')
+const {Users, Schedules, Events, Mentions, Files, sequelize, Vacations, Meetings, Reports, Others, MeetingReports} = require('../models')
 const CustomError = require('../middlewares/errorHandler')
 const {Transaction} = require('sequelize');
 const { date } = require('joi');
@@ -8,12 +8,12 @@ class SubmitRepository {
     // 출장 신청
     scheduleSubmit = async (
         {userId,
-        startDay,
-        endDay,
+        start,
+        end,
         title,
-        ref,
+        attendees,
         location,
-        content,
+        body,
         fileLocation,
         fileName,
     }) => {
@@ -25,31 +25,37 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                eventType: 'Schedules',
+                calendarId: 'Schedules',
                 hasFile : hasFile,
             }, {transaction : t})
             
-            const {eventId} = event;
+            const {Id} = event;
             // console.log("aaaaaaaaaaaaaa",event)
 
             const createScheduleSubmit = await Schedules.create({
-                eventId: eventId,
+                Id: Id,
                 userId,
-                startDay,
-                endDay,
+                start,
+                end,
                 title,
                 location,
-                content,
-                fileLocation,
-                fileName,
+                body,
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.create({
+                    Id : Id,
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {transaction : t});
+            }))
+
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',item)
 
                 await Mentions.create({
-                    eventId : eventId,
+                    Id : Id,
                     userId : userId,
                     isChecked : false
                 }, {transaction : t});

@@ -4,8 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "test:init": "NODE_ENV=test sequelize db:create --config=./config/config.js",
+
     "test": "jest",
-    "start": "npx nodemon app.js",
+    "start": "nodemon app.js",
     "prettify": "prettier --write *.js **/*.js"
   },
   "repository": {

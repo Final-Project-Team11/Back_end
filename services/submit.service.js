@@ -8,17 +8,17 @@ class SubmitService {
     submitRepository = new SubmitRepository();
 
     // 출장 신청
-    scheduleSubmit =  async({userId, teamId, startDay, endDay, title, ref, location, content, fileLocation, fileName}) => {
+    scheduleSubmit =  async({userId, teamId, start, end, title, attendees, location, body, fileLocation, fileName}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         let REF;
-        if (ref === null) {
+        if (attendees === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
                 return item.userName;
             });
-        } else if(ref !== undefined && ref !== null) {
+        } else if(attendees !== undefined && attendees !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = ref.concat(isRef.map((item) => {
+            REF = attendees.concat(isRef.map((item) => {
                 return item.userName;
             }));
         } else {
@@ -32,12 +32,12 @@ class SubmitService {
         const createScheduleSubmit = await this.submitRepository.scheduleSubmit(
             {
                 userId,
-                startDay,
-                endDay,
+                start,
+                end,
                 title,
-                ref: REF,
+                attendees: REF,
                 location,
-                content,
+                body,
                 fileLocation,
                 fileName,
             }

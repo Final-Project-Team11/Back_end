@@ -1,13 +1,13 @@
 const Joi = require('joi')
 
 const scheduleSchema = Joi.object({
-    startDay: Joi.date().required().messages({
-        "date.base": "startDay 필드는 날짜로 이루어져야 합니다.",
+    start: Joi.date().required().messages({
+        "date.base": "start 필드는 날짜로 이루어져야 합니다.",
         "string.empty": "일정을 입력해 주세요.",
         "any.required": "startDay이 필드는 필수입니다.",
     }),
-    endDay: Joi.date().required().messages({
-        "date.base": "endDay 필드는 날짜로 이루어져야 합니다.",
+    end: Joi.date().required().messages({
+        "date.base": "end 필드는 날짜로 이루어져야 합니다.",
         "string.empty": "일정을 입력해 주세요.",
         "any.required": "endDay이 필드는 필수입니다.",
     }),
@@ -16,16 +16,16 @@ const scheduleSchema = Joi.object({
         "string.empty": "제목을 입력해 주세요.",
         "any.required": "title이 필드는 필수입니다.",
     }),
-    ref: Joi.array().items(Joi.string()).messages({
-        "string.base": "ref 필드는 문자열로 이루어져야 합니다.",
+    attendees: Joi.array().items(Joi.string()).messages({
+        "string.base": "attendees 필드는 문자열로 이루어져야 합니다.",
     }),
     location: Joi.string().required().messages({
         "string.base": "location 필드는 문자열로 이루어져야 합니다.",
         "string.empty": "장소를 입력해 주세요.",
         "any.required": "location이 필드는 필수입니다.",
     }),
-    content: Joi.string().messages({
-        "string.base": "content 필드는 문자열로 이루어져야 합니다.",
+    body: Joi.string().messages({
+        "string.base": "body 필드는 문자열로 이루어져야 합니다.",
     }),
 });
 

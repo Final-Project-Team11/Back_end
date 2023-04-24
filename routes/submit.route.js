@@ -7,7 +7,7 @@ const SubmitController = require("../controllers/submit.controller");
 const submitController = new SubmitController();
 
 // 출장 신청
-router.post("/schedule", authMiddleware, upload.single('file'), submitController.scheduleSubmit); // 단일파일이라면 single => 다중파일이라면 array 프론트에서는 multiple
+router.post("/schedule", authMiddleware, upload.array('file'), submitController.scheduleSubmit); // 단일파일이라면 single => 다중파일이라면 array 프론트에서는 multiple
 
 // 일정 수정
 router.patch('/schedule/:eventId', authMiddleware, upload.single('file'), submitController.scheduleModify)
