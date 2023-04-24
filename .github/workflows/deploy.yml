@@ -71,4 +71,4 @@ jobs:
 
     #  @@ AWS CLI를 사용하여 AWS CodeDeploy를 이용해 배포를 시작
     - name: deploy with AWS codeDeploy
-      run: aws deploy create-deployment --application-name my-codedeploy-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name my-codedeploy-deployment-group --s3-location bucket=my-github-actions-s3-bucket-meer,bundleType=zip,key=meer.zip
+      run: aws deploy create-deployment --application-name my-codedeploy-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name my-codedeploy-deployment-group2 --s3-location bucket=my-github-actions-s3-bucket-meer,bundleType=zip,key=meer.zip
