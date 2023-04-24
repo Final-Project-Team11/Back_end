@@ -22,6 +22,7 @@ class ScheduleManageRepository {
                 [Sequelize.col("Schedule.title"), "title"],
                 [Sequelize.col("Schedule.content"), "content"],
                 [Sequelize.col("Schedule.fileName"), "fileName"],
+                [Sequelize.col("Schedule.fileLocation"), "fileLocation"],
                 [Sequelize.col("Schedule.startDay"), "startDay"],
                 [Sequelize.col("Schedule.endDay"), "endDay"],
                 [Sequelize.col("Schedule.status"), "status"],
