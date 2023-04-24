@@ -70,7 +70,7 @@ class MypageService {
         return await Promise.all(
             schedule.map(async (event) => {
                 return await this.MypageRepository.getScheduleById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -88,7 +88,7 @@ class MypageService {
         return await Promise.all(
             meeting.map(async (event) => {
                 return await this.MypageRepository.getMeetingById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -106,7 +106,7 @@ class MypageService {
         return await Promise.all(
             meeting.map(async (event) => {
                 return await this.MypageRepository.getIssueById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -123,7 +123,7 @@ class MypageService {
         return await Promise.all(
             report.map(async (event) => {
                 return await this.MypageRepository.getReportById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -139,7 +139,7 @@ class MypageService {
         return await Promise.all(
             other.map(async (event) => {
                 return await this.MypageRepository.getOtherById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -155,7 +155,7 @@ class MypageService {
         return await Promise.all(
             meetingreport.map(async (event) => {
                 return await this.MypageRepository.getMeetingReportsById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -172,7 +172,7 @@ class MypageService {
     }) => {
         const issue = schedule
             .concat(meeting, issues, report, meetingReport, other)
-            .sort((a, b) => b.eventId - a.eventId);
+            .sort((a, b) => b.Id - a.Id);
 
         return issue
             .filter((event) => event.isChecked == false)
@@ -191,7 +191,6 @@ class MypageService {
         return existMention;
     };
     completeMentioned = async ({ existMention, mentionId }) => {
-        console.log(existMention.isChecked);
         if (existMention.isChecked == false) {
             const check = true;
             return await this.MypageRepository.updateMention({
@@ -207,7 +206,7 @@ class MypageService {
         });
         const report = await this.MypageRepository.findMyReportfile({ userId });
         let result = [];
-        return result.concat(meeting, report).sort((a, b) => b.eventId - a.eventId);
+        return result.concat(meeting, report).sort((a, b) => b.Id - a.Id);
     };
     TeamMeetingReport = async ({ teamId }) => {
         //팀원의 배열
@@ -223,19 +222,19 @@ class MypageService {
         return await this.MypageRepository.getUserId({ userName });
     };
 
-    getDatailMyfile = async ({ eventId }) => {
-        const event = await this.MypageRepository.getEventType({ eventId });
+    getDatailMyfile = async ({ Id }) => {
+        const event = await this.MypageRepository.getcalenderId({ Id });
         
         return await this.MypageRepository.getDetailMyfile({
-            eventId,
+            Id,
             event,
         });
     };
-    getDetailMeetingFile = async ({ eventId }) => {
-        return await this.MypageRepository.getDetailMeetingFile({ eventId });
+    getDetailMeetingFile = async ({ Id }) => {
+        return await this.MypageRepository.getDetailMeetingFile({ Id });
     };
-    getDetailReportFile = async ({ eventId }) => {
-        return await this.MypageRepository.getDetailReportFile({ eventId });
+    getDetailReportFile = async ({ Id }) => {
+        return await this.MypageRepository.getDetailReportFile({ Id });
     };
 
     getVacationProgress = async({userId}) => {

@@ -42,21 +42,21 @@ router.get("/meetingfiles", authmiddleware, mypagecontroller.getMeetingFiles);
 router.get("/reportfiles", authmiddleware, mypagecontroller.getReportFiles);
 
 //나의 파일 상세조회
-//localhost:3003/myfiles/:eventId
-router.get("/myfiles/:eventId",authmiddleware,mypagecontroller.getDetailMyfile)
+//localhost:3003/myfiles/:Id
+router.get("/myfiles/:Id",authmiddleware,mypagecontroller.getDetailMyfile)
 
 //팀 회의록 상세조회
-//localhost:3003/meetingfiles/:eventId
+//localhost:3003/meetingfiles/:Id
 router.get(
-    "/meetingfiles/:eventId",
+    "/meetingfiles/:Id",
     authmiddleware,
     mypagecontroller.getDetailMeetingFile
 );
 
 //팀 보고서 상세조회
-//localhost:3003/reportfiles/:eventId
+//localhost:3003/reportfiles/:Id
 router.get(
-    "/reportfiles/:eventId",
+    "/reportfiles/:Id",
     authmiddleware,
     mypagecontroller.getDetailReportFile
 );

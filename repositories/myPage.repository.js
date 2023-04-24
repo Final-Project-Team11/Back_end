@@ -25,6 +25,7 @@ class MypageRepository {
                 "Team.teamName",
                 "remainDay",
                 "salaryDay",
+                "profileImg"
             ],
             include: [
                 {
@@ -40,7 +41,7 @@ class MypageRepository {
             raw: true,
             where: { userId },
             attributes: [
-                "eventId",
+                "Id",
                 "User.userName",
                 "title",
                 [Sequelize.col("fileLocation"), "file"],
@@ -76,7 +77,7 @@ class MypageRepository {
         const mentions = await Mentions.findAll({
             raw: true,
             where: { userId },
-            attributes: ["eventId", "Event.eventType"],
+            attributes: ["Id", "Event.calenderId"],
             include: [
                 {
                     model: Events,
@@ -86,25 +87,25 @@ class MypageRepository {
         });
         let result = [];
         mentions.map((mention) => {
-            if (mention.eventType === type) {
-                result.push(mention.eventId);
+            if (mention.calenderId === type) {
+                result.push(mention.Id);
             }
         });
         result = new Set(result); //중복제거
         return [...result];
     };
 
-    getScheduleById = async ({ eventId, userId }) => {
+    getScheduleById = async ({ Id, userId }) => {
         //schedule 테이블과 mention 테이블 합치기
         return await Events.findOne({
             raw: true,
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 "Mentions.mentionId",
                 "User.userName",
                 "Schedule.title",
-                "eventType",
+                "calenderId",
                 "Mentions.isChecked",
             ],
             include: [
@@ -125,17 +126,17 @@ class MypageRepository {
         });
     };
 
-    getMeetingById = async ({ eventId, userId }) => {
+    getMeetingById = async ({ Id, userId }) => {
         //meeting 테이블과 mention 테이블 합치기
         return await Events.findOne({
             raw: true,
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 "Mentions.mentionId",
                 "User.userName",
                 "Meeting.title",
-                "eventType",
+                "calenderId",
                 "Mentions.isChecked",
             ],
             include: [
@@ -156,17 +157,17 @@ class MypageRepository {
         });
     };
 
-    getIssueById = async ({ eventId, userId }) => {
+    getIssueById = async ({ Id, userId }) => {
         //meeting 테이블과 mention 테이블 합치기
         return await Events.findOne({
             raw: true,
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 "Mentions.mentionId",
                 "User.userName",
                 "Meeting.title",
-                "eventType",
+                "calenderId",
                 "Mentions.isChecked",
             ],
             include: [
@@ -187,17 +188,17 @@ class MypageRepository {
         });
     };
 
-    getReportById = async ({ eventId, userId }) => {
+    getReportById = async ({ Id, userId }) => {
         //report 테이블과 mention 테이블 합치기
         return await Events.findOne({
             raw: true,
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 "Mentions.mentionId",
                 "User.userName",
                 "Report.title",
-                "eventType",
+                "calenderId",
                 "Mentions.isChecked",
             ],
             include: [
@@ -218,17 +219,17 @@ class MypageRepository {
         });
     };
 
-    getOtherById = async ({ eventId, userId }) => {
+    getOtherById = async ({ Id, userId }) => {
         //other 테이블과 mention 테이블 합치기
         return await Events.findOne({
             raw: true,
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 "Mentions.mentionId",
                 "User.userName",
                 "Other.title",
-                "eventType",
+                "calenderId",
                 "Mentions.isChecked",
             ],
             include: [
@@ -249,17 +250,17 @@ class MypageRepository {
         });
     };
 
-    getMeetingReportsById = async ({ eventId, userId }) => {
+    getMeetingReportsById = async ({ Id, userId }) => {
         //meetingreport 테이블과 mention 테이블 합치기
         return await Events.findOne({
             raw: true,
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 "Mentions.mentionId",
                 "User.userName",
                 "MeetingReport.title",
-                "eventType",
+                "calenderId",
                 "Mentions.isChecked",
             ],
             include: [
@@ -299,7 +300,7 @@ class MypageRepository {
         return await Events.findAll({
             raw: true,
             attributes: [
-                "eventId",
+                "Id",
                 [
                     Sequelize.fn(
                         "date_format",
@@ -312,9 +313,9 @@ class MypageRepository {
                 "MeetingReport.title",
                 [Sequelize.col("MeetingReport.fileLocation"), "file"],
                 "MeetingReport.fileName",
-                "eventType",
+                "calenderId",
             ],
-            where: { userId, hasFile: true, eventType: "MeetingReports" },
+            where: { userId, hasFile: true, calenderId: "MeetingReports" },
             include: [
                 {
                     model: Users,
@@ -325,7 +326,7 @@ class MypageRepository {
                     attributes: [],
                 },
             ],
-            order: [["EventId", "DESC"]],
+            order: [["Id", "DESC"]],
         });
     };
 
@@ -333,7 +334,7 @@ class MypageRepository {
         return await Events.findAll({
             raw: true,
             attributes: [
-                "eventId",
+                "Id",
                 [
                     Sequelize.fn(
                         "date_format",
@@ -346,9 +347,9 @@ class MypageRepository {
                 "Report.title",
                 [Sequelize.col("Report.fileLocation"), "file"],
                 "Report.fileName",
-                "eventType",
+                "calenderId",
             ],
-            where: { userId, hasFile: true, eventType: "Reports" },
+            where: { userId, hasFile: true, calenderId: "Reports" },
             include: [
                 {
                     model: Users,
@@ -359,7 +360,7 @@ class MypageRepository {
                     attributes: [],
                 },
             ],
-            order: [["EventId", "DESC"]],
+            order: [["Id", "DESC"]],
         });
     };
 
@@ -373,7 +374,7 @@ class MypageRepository {
                 return await Events.findAll({
                     raw: true,
                     attributes: [
-                        "eventId",
+                        "Id",
                         "User.userName",
                         "User.userId",
                         "MeetingReport.title",
@@ -391,7 +392,7 @@ class MypageRepository {
                     where: {
                         userId: team.userId,
                         hasFile: true,
-                        eventType: "MeetingReports",
+                        calenderId: "MeetingReports",
                     },
                     include: [
                         {
@@ -403,7 +404,7 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
-                    order: [["eventId", "DESC"]],
+                    order: [["Id", "DESC"]],
                 });
             })
         );
@@ -416,7 +417,7 @@ class MypageRepository {
                 return await Events.findAll({
                     raw: true,
                     attributes: [
-                        "eventId",
+                        "Id",
                         "User.userName",
                         "User.userId",
                         "Report.title",
@@ -434,7 +435,7 @@ class MypageRepository {
                     where: {
                         userId: team.userId,
                         hasFile: true,
-                        eventType: "Reports",
+                        calenderId: "Reports",
                     },
                     include: [
                         {
@@ -446,7 +447,7 @@ class MypageRepository {
                             attributes: [],
                         },
                     ],
-                    order: [["eventId", "DESC"]],
+                    order: [["Id", "DESC"]],
                 });
             })
         );
@@ -460,29 +461,29 @@ class MypageRepository {
         });
     };
 
-    getEventType = async ({eventId}) => {
+    getcalenderId = async ({Id}) => {
         return await Events.findOne({
-            attributes: ["eventId","eventType"],
-            where: { eventId },
+            attributes: ["Id","calenderId"],
+            where: { Id },
         });
     };
     getDetailMyfile = async ({
-        eventId,
+        Id,
         event,
     }) => {
-       if(event.eventType === "MeetingReports"){
-        return await this.getDetailMeetingFile({eventId})
-       }else if(event.eventType === "Reports"){
-        return await this.getDetailReportFile({eventId})
+       if(event.calenderId === "MeetingReports"){
+        return await this.getDetailMeetingFile({Id})
+       }else if(event.calenderId === "Reports"){
+        return await this.getDetailReportFile({Id})
        }
     };
 
-    getDetailMeetingFile = async ({ eventId }) => {
+    getDetailMeetingFile = async ({ Id }) => {
         const meetingReport = await Events.findOne({
             raw: true,
-            where: { eventId: eventId },
+            where: { Id: Id },
             attributes: [
-                "eventId",
+                "Id",
                 [
                     Sequelize.fn(
                         "date_format",
@@ -496,7 +497,7 @@ class MypageRepository {
                 "MeetingReport.content",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ',') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.eventId = Events.eventId)"
+                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ',') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.Id = Events.Id)"
                     ),
                     "ref",
                 ],
@@ -514,18 +515,16 @@ class MypageRepository {
                 },
             ],
         });
-        console.log("111111111",meetingReport.ref)
         meetingReport.ref = meetingReport.ref.split(",");
-        console.log("2222222222",meetingReport.ref)
         return meetingReport;
     };
 
-    getDetailReportFile = async ({ eventId }) => {
+    getDetailReportFile = async ({ Id }) => {
         const Report = await Events.findOne({
             raw: true,
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 [
                     Sequelize.fn(
                         "date_format",
@@ -539,7 +538,7 @@ class MypageRepository {
                 "Report.content",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ',') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.eventId = Events.eventId)"
+                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ',') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.Id = Events.Id)"
                     ),
                     "ref",
                 ],
@@ -557,10 +556,7 @@ class MypageRepository {
                 },
             ],
         });
-        console.log("aaaaaaaaaaaaaaaa",Report)
-        console.log("1111111111",Report.ref)
         Report.ref = Report.ref.split(",");
-        console.log("22222222222",Report.ref)
         return Report;
     };
 

@@ -1,5 +1,4 @@
 const MypageService = require("../services/myPage.service.js");
-const Joi = require("joi");
 const CustomError = require("../middlewares/errorHandler");
 class MypageController {
     constructor() {
@@ -177,8 +176,8 @@ class MypageController {
 
     getDetailMyfile = async (req,res,next) => {
         try{
-            const { eventId } = req.params;
-            const detail = await this.MypageService.getDatailMyfile({eventId})
+            const { Id } = req.params;
+            const detail = await this.MypageService.getDatailMyfile({Id})
             res.status(200).json({detail})
         }catch(err){
             next(err)
@@ -187,9 +186,9 @@ class MypageController {
 
     getDetailMeetingFile = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
+            const { Id } = req.params;
             const detail = await this.MypageService.getDetailMeetingFile({
-                eventId,
+                Id,
             });
 
             res.status(200).json({ meetingfile: detail });
@@ -200,9 +199,9 @@ class MypageController {
 
     getDetailReportFile = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
+            const { Id } = req.params;
             const detail = await this.MypageService.getDetailReportFile({
-                eventId,
+                Id,
             });
 
             res.status(200).json({ reportfile: detail });
