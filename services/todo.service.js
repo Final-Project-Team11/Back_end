@@ -80,6 +80,13 @@ class TodoService {
             return message;
         }
     };
+
+    modifyCategory = async({categoryId, userId,category}) => {
+        await this.TodoRepository.modifyCategory({categoryId, userId,category})
+    }
+    modifyTodos = async({ todoId, userId, content }) => {
+        await this.TodoRepository.modifyTodos({ todoId, userId, content })
+    }
 }
 
 module.exports = TodoService;
