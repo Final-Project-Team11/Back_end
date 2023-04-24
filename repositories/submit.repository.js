@@ -130,25 +130,25 @@ class SubmitRepository {
     };
     
     // 휴가 신청
-    vacationSubmit = async({userId, startDay, endDay, typeDetail}) => {
+    vacationSubmit = async({userId, start, end, typeDetail}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            console.log('aaaaaa',userId, startDay, endDay, typeDetail)
+            // console.log('aaaaaa',userId, startDay, endDay, typeDetail)
             const event = await Events.create({
                 userId,
-                eventType: 'Vacations',
+                calendarId: 'Vacations',
                 hasFile: 0
             }, {transaction : t})
 
-            const {eventId} = event
+            const {Id} = event
 
             const createVacationSubmit = await Vacations.create({
                 userId,
-                eventId,
-                startDay,
-                endDay,
+                Id,
+                start,
+                end,
                 typeDetail
             }, {transaction : t})
 

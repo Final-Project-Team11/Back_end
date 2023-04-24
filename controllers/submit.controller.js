@@ -85,20 +85,20 @@ class SubmitController {
 
     // 휴가 신청
     vacationSubmit = async(req, res, next) => {
-        const {typeDetail, startDay, endDay} = req.body
+        const {typeDetail, start, end} = req.body
         const {userId} = res.locals.user
 
         try {
             await vacationSchema
-            .validateAsync({typeDetail, startDay, endDay}, { abortEarly: false })
+            .validateAsync({typeDetail, start, end}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
 
             const vacationSubmit = await this.submitService.vacationSubmit({
                 userId,
-                startDay,
-                endDay,
+                start,
+                end,
                 typeDetail,
             })
 

@@ -112,12 +112,12 @@ class SubmitService {
     }
 
     // 휴가 신청
-    vacationSubmit = async({userId, startDay, endDay, typeDetail}) => {
-        if(typeDetail == "반차" && startDay !== endDay){
+    vacationSubmit = async({userId, start, end, typeDetail}) => {
+        if(typeDetail == "반차" && start !== end){
             throw new CustomError('날짜를 확인해 주세요')
         }
 
-        const createVacationSubmit = await this.submitRepository.vacationSubmit({userId, startDay, endDay, typeDetail})
+        const createVacationSubmit = await this.submitRepository.vacationSubmit({userId, start, end, typeDetail})
 
         return createVacationSubmit
     }

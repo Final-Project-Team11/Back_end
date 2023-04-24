@@ -4,12 +4,12 @@ const scheduleSchema = Joi.object({
     start: Joi.date().required().messages({
         "date.base": "start 필드는 날짜로 이루어져야 합니다.",
         "string.empty": "일정을 입력해 주세요.",
-        "any.required": "startDay이 필드는 필수입니다.",
+        "any.required": "start이 필드는 필수입니다.",
     }),
     end: Joi.date().required().messages({
         "date.base": "end 필드는 날짜로 이루어져야 합니다.",
         "string.empty": "일정을 입력해 주세요.",
-        "any.required": "endDay이 필드는 필수입니다.",
+        "any.required": "end이 필드는 필수입니다.",
     }),
     title: Joi.string().required().messages({
         "string.base": "title 필드는 문자열로 이루어져야 합니다.",
@@ -30,15 +30,15 @@ const scheduleSchema = Joi.object({
 });
 
 const vacationSchema = Joi.object({
-    startDay: Joi.date().required().messages({
-        'date.base' : 'startDay 필드는 날짜로 이루어져야 합니다.',
+    start: Joi.date().required().messages({
+        'date.base' : 'start 필드는 날짜로 이루어져야 합니다.',
         'date.empty' : '일정을 입력해 주세요.',
-        'any.required' : 'startDay이 필드는 필수입니다.'
+        'any.required' : 'start이 필드는 필수입니다.'
     }),
-    endDay: Joi.date().required().messages({
-        'date.base' : 'endDay 필드는 날짜로 이루어져야 합니다.',
+    end: Joi.date().required().messages({
+        'date.base' : 'end 필드는 날짜로 이루어져야 합니다.',
         'date.empty' : '일정을 입력해 주세요.',
-        'any.required' : 'endDay이 필드는 필수입니다.'
+        'any.required' : 'end이 필드는 필수입니다.'
     }),
     typeDetail: Joi.string().required().messages({
         'string.base' : 'typeDetail 필드는 날짜로 이루어져야 합니다.',
