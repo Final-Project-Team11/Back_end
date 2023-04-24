@@ -10,43 +10,47 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             this.hasMany(models.Mentions, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.hasOne(models.Vacations, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.hasOne(models.Schedules, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.hasOne(models.Meetings, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.hasOne(models.Reports, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.hasOne(models.MeetingReports, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.hasOne(models.Others, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.hasMany(models.Comments, {
-                sourceKey: "eventId",
-                foreignKey: "eventId",
+                sourceKey: "Id",
+                foreignKey: "Id",
+            });
+            this.hasMany(models.Files, {
+                sourceKey: "Id",
+                foreignKey: "Id",
             });
 
             this.belongsTo(models.Users, {
@@ -58,13 +62,13 @@ module.exports = (sequelize, DataTypes) => {
     }
     Events.init(
         {
-            eventId: {
+            Id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
-            eventType: {
+            calendarId: {
                 allowNull: false,
                 type: DataTypes.STRING,
             },
@@ -75,6 +79,11 @@ module.exports = (sequelize, DataTypes) => {
             userId: {
                 allowNull: false,
                 type: DataTypes.STRING,
+            },
+            isReadOnly: {
+                allowNull: false,
+                type: DataTypes.BOOLEAN,
+                defaultValue: true,
             },
             createdAt: {
                 allowNull: false,

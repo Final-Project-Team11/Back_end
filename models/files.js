@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-    class Meetings extends Model {
+    class Files extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -9,57 +9,31 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            this.hasMany(models.Mentions, {
-                sourceKey: "Id",
-                foreignKey: "Id",
-            });
-
             this.belongsTo(models.Events, {
                 targetKey: "Id",
                 foreignKey: "Id",
                 onDelete : "CASCADE"
             });
-            this.belongsTo(models.Users, {
-                targetKey: "userId",
-                foreignKey: "userId",
-                onDelete : "CASCADE"
-            });
-
-            this.hasOne(models.MeetingReports, {
-                sourceKey: "Id",
-                foreignKey: "meetingId",
-            });
         }
     }
-    Meetings.init(
+    Files.init(
         {
-            Id: {
+            fileId: {
                 allowNull: false,
                 primaryKey: true,
+                autoIncrement: true,
                 type: DataTypes.INTEGER,
             },
-            start: {
+            Id: {
                 allowNull: false,
-                type: DataTypes.DATE,
+                type: DataTypes.INTEGER,
             },
-            end: {
-                allowNull: false,
-                type: DataTypes.TIME,
-            },
-            location: {
-                allowNull: true,
-                type: DataTypes.STRING,
-            },
-            userId: {
+            fileName: {
                 allowNull: false,
                 type: DataTypes.STRING,
             },
-            title: {
+            fileLocation: {
                 allowNull: false,
-                type: DataTypes.STRING,
-            },
-            body: {
-                allowNull: true,
                 type: DataTypes.STRING,
             },
             createdAt: {
@@ -75,8 +49,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: "Meetings",
+            modelName: "Files",
         }
     );
-    return Meetings;
+    return Files;
 };
