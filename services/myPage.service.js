@@ -42,6 +42,7 @@ class MypageService {
             team: user.teamName,
             remainDay: user.remainDay,
             salaryDay: payDay,
+            profileImg : user.profileImg
         };
         return userInfo;
     };
@@ -64,8 +65,9 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const schedule = await this.MypageRepository.getMention({
             userId,
-            type: "Schedules",
+            type: "1",
         });
+        console.log("22222222222222222",schedule)
         //내가 언급된 스케줄 가져오기
         return await Promise.all(
             schedule.map(async (event) => {
@@ -223,7 +225,7 @@ class MypageService {
     };
 
     getDatailMyfile = async ({ Id }) => {
-        const event = await this.MypageRepository.getcalenderId({ Id });
+        const event = await this.MypageRepository.getcalendarId({ Id });
         
         return await this.MypageRepository.getDetailMyfile({
             Id,
