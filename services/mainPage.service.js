@@ -7,7 +7,11 @@ class MainPageService {
     }
 
     // 휴가 전체 조회
-    findTotalVacation = async({teamId, year, month}) => {
+    findTotalVacation = async({teamId, year, month, companyId}) => {
+        const companyCheck = await this.mainPageRepository.findCompanyId(teamId)
+        if(companyCheck.companyId != companyId) {
+            throw new CustomError('권한이 존재하지않습니다.', 401)
+        }
         const findTeamName = await this.mainPageRepository.findTeamName(teamId)
         const vacation = await this.mainPageRepository.findTotalVacation({teamId, year, month})
         // console.log(findTeamVacation)
@@ -20,7 +24,11 @@ class MainPageService {
     }
 
     // 전체 일정 조회
-    findTotalSchedule = async({teamId, year, month}) => {
+    findTotalSchedule = async({teamId, year, month, companyId}) => {
+        const companyCheck = await this.mainPageRepository.findCompanyId(teamId)
+        if(companyCheck.companyId != companyId) {
+            throw new CustomError('권한이 존재하지않습니다.', 401)
+        }
         const findTeamName = await this.mainPageRepository.findTeamName(teamId)
         // 출장 조회
         const schedule = await this.mainPageRepository.findTotalSchedule({teamId, year, month})
@@ -35,10 +43,10 @@ class MainPageService {
         // 회의록 조회
         const meetingReport = await this.mainPageRepository.findTotalMeetingReport({teamId, year, month})
 
-        const findTotalVacation = Object.assign({}, findTeamName, {schedule}, {report}, {other}, {meetingReport}, {issue}, {meeting});
-        // console.log("-------------------",findTotalVacation)
+        const findTotalSchedule = Object.assign({}, findTeamName, {schedule}, {report}, {other}, {meetingReport}, {issue}, {meeting});
+        // console.log("-------------------",findTotalSchedule)
 
-        return findTotalVacation
+        return findTotalSchedule
     }
 }
 

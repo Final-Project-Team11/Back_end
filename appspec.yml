@@ -1,0 +1,23 @@
+version: 0.0
+os: linux
+# 배포할 파일 및 디렉토리 구성
+files:
+  - source: /
+    destination: /home/ubuntu/build
+    overwrite: yes
+
+# 파일 및 디렉토리 권한 설정
+permissions:
+  - object: /home/ubuntu
+    pattern: '**'
+    owner: ubuntu
+    group: ubuntu
+
+# @@ 배포 라이프사이클 이벤트에 대한 스크립트
+hooks:
+  BeforeInstall:
+    - location: script/before-deploy.sh
+      runas: ubuntu
+  AfterInstall:
+    - location: script/after-deploy.sh
+      runas: ubuntu
