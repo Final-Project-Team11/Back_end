@@ -37,11 +37,20 @@ router.delete(
 );
 
 //투두리스트 체크
-//localhost:3003/feed/todo/{todoId}
+//localhost:3003/feed/todo/check/{todoId}
 router.patch(
-    "/todo/:todoId",
+    "/todo/check/:todoId",
     authmiddleware,
     todocontroller.completeTodo
 );
+
+//카테고리 수정
+//localhost:3003/feed/category/:categoryId
+router.patch("/category/:categoryId",authmiddleware,todocontroller.modifyCategory)
+
+//투두리스트 수정
+//localhost:3003/feed/todo/:todoId
+router.patch("/todo/:todoId",authmiddleware,todocontroller.modifyTodos)
+
 
 module.exports = router;
