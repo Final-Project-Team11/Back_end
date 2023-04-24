@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
     const message = {
         color : '#DC3545',
         title : "에러가 발생했습니다.",
-        text : `errorMessage : *[${err.status}]* ${err.message}`,
+        text : `errorMessage : *[ statuscode : ${err.status}]* ${err.message}`,
     }
     slackMiddleware(message)
 
