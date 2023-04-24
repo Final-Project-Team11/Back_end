@@ -515,7 +515,7 @@ describe ("getMeetingFiles test" ,() => {
         json: jest.fn(),
         locals: {
             user: {
-                userId: "test1",
+                teamId: "testteam",
             },
         },
     };
@@ -553,7 +553,7 @@ describe ("getMeetingFiles test" ,() => {
         ).toHaveBeenCalledTimes(1);
         expect(
             mypagecontroller.MypageService.TeamMeetingReport
-        ).toHaveBeenCalledWith(mockResponse.locals.user);
+        ).toHaveBeenCalledWith(mockResponse.locals.user);//
 
         expect(mockResponse.status).toHaveBeenCalledTimes(1);
         expect(mockResponse.status).toHaveBeenCalledWith(200);

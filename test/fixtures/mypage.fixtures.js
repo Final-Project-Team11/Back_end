@@ -14,12 +14,12 @@ exports.MypageUserSchemaByController = {
     salaryDay: 4,
 };
 
-exports.MypageUserIdInsertSchema = {
+exports.MypageonlyUserIdInsertSchema = {
     userId: "test1",
 };
 
 exports.MypageUserIdInsertSchema = {
-    type : "Schedules",
+    type: "Schedules",
     userId: "test1",
 };
 
@@ -56,35 +56,18 @@ exports.MyScheduleResultSchema = [
     },
 ];
 
-exports.MentionFindAllResultSchema = [
-    {
-        eventId: 1,
-        eventType: "Schedules",
-    },
-    {
-        eventId: 2,
-        eventType: "Schedules",
-    },
-]
+exports.MentionFindAllResultSchema = [1, 2]
 
-exports.MentionScheduleResultSchema = [
-    {
-        eventId: 1,
-        mentionId: 1,
-        userName: "test1",
-        title: "test title",
-        eventType: "Schedules",
-        isChecked: false,
-    },
-    {
-        eventId: 2,
-        mentionId: 2,
-        userName: "test2",
-        title: "test title",
-        eventType: "Schedules",
-        isChecked: false,
-    },
-];
+exports.MentionScheduleResultSchema =
+{
+    eventId: 1,
+    mentionId: 1,
+    userName: "test1",
+    title: "test title",
+    eventType: "Schedules",
+    isChecked: false,
+}
+
 
 exports.MentionMeetingResultSchema = [
     {
@@ -230,14 +213,12 @@ exports.MentionCheckInsertSchema = {
 };
 
 exports.MentionCheckResultSchema = {
-    existMention: {
-        mentionId: 1,
-        userId: "test1",
-        eventId: 4,
-        isChecked: false,
-        createdAt: "2023-04-08",
-        updatedAt: "2023-04-08",
-    },
+    mentionId: 1,
+    userId: "test1",
+    eventId: 4,
+    isChecked: false,
+    createdAt: "2023-04-08",
+    updatedAt: "2023-04-08",
 };
 
 exports.MentionUpdateInsertSchema = {
