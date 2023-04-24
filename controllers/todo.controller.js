@@ -72,9 +72,9 @@ class TodoController {
     };
 
     deleteTodo = async (req, res, next) => {
-        const { todoId } = req.params;
-        const { userId } = res.locals.user;
         try {
+            const { todoId } = req.params;
+            const { userId } = res.locals.user;
             //투두리스트 권한 체크
             await this.TodoService.checkTodo({ todoId, userId });
             //투두리스트 삭제
@@ -86,9 +86,9 @@ class TodoController {
     };
 
     completeTodo = async (req, res, next) => {
-        const { todoId } = req.params;
-        const { userId } = res.locals.user;
         try {
+            const { todoId } = req.params;
+            const { userId } = res.locals.user;
             //투두리스트 권한 체크
             const existTodos = await this.TodoService.checkTodo({
                 todoId,
@@ -105,6 +105,36 @@ class TodoController {
             next(err);
         }
     };
+
+    modifyCategory = async (req, res, next) => {
+        const { categoryId } = req.params;
+        const { category } = req.body;
+        try {
+            const { userId } = res.locals.user;
+            //카테고리에 대한 권한 체크
+            await this.TodoService.checkCategory({ categoryId, userId });
+            //카테고리 수정
+            await this.TodoService.modifyCategory({ categoryId, userId, category })
+            res.status(200).json({ message: "카테고리가 수정되었습니다." })
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    modifyTodos = async (req, res, next) => {
+        const { todoId } = req.params;
+        const { content } = req.body;
+        try {
+            const { userId } = res.locals.user;
+            //투두리스트 권한체크
+            await this.TodoService.checkTodo({ todoId, userId });
+            //투두리스트 수정
+            await this.TodoService.modifyTodos({ todoId, userId, content })
+            res.status(200).json({ message: "투두리스트가 수정되었습니다." })
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 module.exports = TodoController;
