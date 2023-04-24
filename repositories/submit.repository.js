@@ -163,7 +163,7 @@ class SubmitRepository {
     }
 
     // 기타 신청
-    otherSubmit = async({userId, startDay, endDay, title, ref, content, fileLocation, fileName}) => {
+    otherSubmit = async({userId, start, end, title, attendees, body, fileLocation, fileName}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
@@ -171,28 +171,36 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                eventType: 'Others',
+                calendarId: 'Others',
                 hasFile : hasFile,
             }, {transaction : t})
             
-            const {eventId} = event;
+            const {Id} = event;
             
             const createOtherSubmit = await Others.create({
-                eventId: eventId,
+                Id: Id,
                 userId,
-                startDay,
-                endDay,
+                start,
+                end,
                 title,
-                content,
+                body,
                 fileLocation,
                 fileName,
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.create({
+                    Id : Id,
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {transaction : t});
+            }))
+
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
-                    eventId : eventId,
+                    Id : Id,
                     userId : userId,
                     isChecked : false
                 }, {transaction : t})

@@ -123,18 +123,18 @@ class SubmitService {
     }
 
     // 기타 신청
-    otherSubmit = async({userId, teamId, startDay, endDay, title, ref, content, fileLocation, fileName}) => {
+    otherSubmit = async({userId, teamId, start, end, title, attendees, body, fileLocation, fileName}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         
         let REF;
-        if (ref === null) {
+        if (attendees === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
                 return item.userName;
             });
-        } else if(ref !== undefined && ref !== null) {
+        } else if(attendees !== undefined && attendees !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = ref.concat(isRef.map((item) => {
+            REF = attendees.concat(isRef.map((item) => {
                 return item.userName;
             }));
         } else {
@@ -144,7 +144,7 @@ class SubmitService {
             });
         }
 
-        const createOtherSubmit = await this.submitRepository.otherSubmit({userId, startDay, endDay, title, ref:REF, content, fileLocation, fileName})
+        const createOtherSubmit = await this.submitRepository.otherSubmit({userId, start, end, title, attendees:REF, body, fileLocation, fileName})
 
         return createOtherSubmit
     }
