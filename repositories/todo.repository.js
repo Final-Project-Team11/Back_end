@@ -1,6 +1,6 @@
 const { CategoryTodos, Todos } = require("../models");
 class TodoRepository {
-    constructor() {}
+    constructor() { }
     findAllCategory = async ({ userId }) => {
         return await CategoryTodos.findAll({
             where: { userId },
@@ -59,6 +59,28 @@ class TodoRepository {
             }
         );
     };
+
+    modifyCategory = async ({ categoryId, userId, category }) => {
+        await CategoryTodos.update(
+            {
+                categoryName: category
+            },
+            {
+                where: { categoryId, userId }
+            }
+        )
+    }
+
+    modifyTodos = async ({ todoId, userId, content }) => {
+        await Todos.update(
+            {
+                todo: content
+            },
+            {
+                where: { todoId, userId }
+            }
+        )
+    }
 }
 
 module.exports = TodoRepository;
