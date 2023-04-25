@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             this.belongsTo(models.Events, {
-                targetKey: "eventId",
-                foreignKey: "eventId",
+                targetKey: "Id",
+                foreignKey: "Id",
                 onDelete : "CASCADE"
             });
 
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Reports.init(
         {
-            eventId: {
+            Id: {
                 allowNull: false,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
@@ -33,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.STRING,
             },
-            enrollDay: {
+            start: {
+                allowNull: false,
+                type: DataTypes.DATE,
+            },
+            end: {
                 allowNull: false,
                 type: DataTypes.DATE,
             },
@@ -41,15 +45,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.STRING,
             },
-            fileName: {
-                allowNull: true,
-                type: DataTypes.STRING,
-            },
-            fileLocation: {
-                allowNull: true,
-                type: DataTypes.STRING,
-            },
-            content: {
+            body: {
                 allowNull: true,
                 type: DataTypes.STRING,
             },

@@ -2,6 +2,7 @@
 echo @@@@@@@after-deploy.sh@@@@@@@@@
 REPOSITORY=/home/ubuntu/build
 cd $REPOSITORY
+sudo export NODE_ENV=production
 
 sudo npm ci
 echo @@@@@@@@npm ci@@@@@@@@@@@
