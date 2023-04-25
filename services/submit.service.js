@@ -248,19 +248,19 @@ class SubmitService {
     }
 
     // 회의록 등록
-    meetingReportSubmit = async({userId, meetingId, teamId, title, ref, content, fileLocation, fileName}) => {
+    meetingReportSubmit = async({userId, meetingId, teamId, title, attendees, body, fileLocation, fileName, start, end}) => {
         
         const isRef = await this.submitRepository.findRef(teamId)
         
         let REF;
-        if (ref === null) {
+        if (attendees === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
                 return item.userName;
             });
-        } else if(ref !== undefined && ref !== null) {
+        } else if(attendees !== undefined && attendees !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = ref.concat(isRef.map((item) => {
+            REF = attendees.concat(isRef.map((item) => {
                 return item.userName;
             }));
         } else {
@@ -270,7 +270,7 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.meetingReportSubmit({userId, meetingId, title, content, ref: REF, fileLocation, fileName})
+        await this.submitRepository.meetingReportSubmit({userId, meetingId, title, body, attendees: REF, fileLocation, fileName, start, end})
     }
 
     // 회의록 수정

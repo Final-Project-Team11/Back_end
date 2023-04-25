@@ -28,7 +28,7 @@ router.post('/report', authMiddleware, upload.array('file'), submitController.re
 router.patch('/report/:eventId', authMiddleware, upload.single('file'), submitController.reportModify)
 
 // 회의록 등록
-router.post('/meeting/:eventId', authMiddleware, upload.single('file'), submitController.meetingReportSubmit)
+router.post('/meeting/:Id', authMiddleware, upload.array('file'), submitController.meetingReportSubmit)
 
 // 회의록 수정
 router.patch('/report/:meetingReport', authMiddleware, upload.single('file'), submitController.meetingReportModify)
