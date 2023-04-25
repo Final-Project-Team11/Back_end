@@ -47,10 +47,10 @@ class ScheduleManageService {
         }
         scheduleDetail = scheduleDetail.dataValues
         console.log("datavalue 확인용", scheduleDetail)
-        const ref = scheduleDetail.Mentions.map(
+        const attendees = scheduleDetail.Mentions.map(
             (mention) => mention.User.userName
         );
-        scheduleDetail.ref = ref;
+        scheduleDetail.attendees = attendees;
 
         // scheduleDetail객체 Mentions속성 삭제
         delete scheduleDetail.Mentions;
@@ -58,13 +58,25 @@ class ScheduleManageService {
     };
     // 팀 출장 요청 전체 조회
     scheduleList = async ({ size, page, teamId }) => {
-        const scheduleList =
+        let scheduleList =
             await this.scheduleManageRepository.findTeamSchedule({
                 size,
                 page,
                 teamId,
             });
-        return scheduleList;
+        // scheduleList = scheduleList.dataValues
+        console.log(scheduleList)
+        // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",scheduleList.dataValues)
+        const newscheduleList = scheduleList.map(
+            (item) => {
+                const newItem =item.toJSON()
+                newItem.files = item.Event.Files
+                delete newItem.Event;
+                return newItem
+            }
+        )
+        // console.log(tempScheduleList)
+        return newscheduleList;
     };
 }
 module.exports = ScheduleManageService;
