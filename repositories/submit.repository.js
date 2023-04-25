@@ -224,7 +224,7 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                calendarId, // Issues("3"), Meeting("0")
+                calendarId, // Issues("3"), Meeting("0"), 기타일정("1")
                 hasFile : hasFile,
             }, {transaction : t})
             

@@ -424,6 +424,86 @@ class MainPageRepository {
         return result
     }
 
+    // 기타일정
+    findTotalProgram = async({teamId, year, month}) => {
+        // 시작일은 해당 년도와 달의 1일
+        const startDate = new Date(year, month - 1, 1);
+        // 종료일은 해당 년도와 달의 마지막 일
+        const endDate = new Date(year, month, 0)
+
+        // console.log("=================",startDate, endDate)
+        const findTotalProgram = await Events.findAll({
+            raw: true,
+            where: {
+                calendarId: "1", // Program
+                [Op.and]: [
+                    {
+                        "$Meeting.start$": {
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                    {
+                        "$Meeting.end$": {
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                ],
+            },
+            attributes: [
+                "Id",
+                [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Meeting.userId"), "userId"],
+                [Sequelize.col("Meeting.title"), "title"],
+                [Sequelize.col("Meeting.body"), "body"],
+                [
+                    Sequelize.literal(
+                    "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Meeting.Id)"
+                    ),
+                    "files"
+                ],
+                [Sequelize.col("Meeting.location"), "location"],
+                [Sequelize.col("Meeting.start"), "start"],
+                [Sequelize.col("Meeting.end"), "end"],
+                "calendarId",
+                [
+                    Sequelize.literal(
+                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ', ') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.Id = Events.Id)"
+                    ),
+                    "mentions",
+                ],
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                    where: {
+                        teamId: teamId,
+                    },
+                },
+                {
+                    model: Meetings,
+                    attributes: [],
+                    as: "Meeting" // Schedules 모델을 Schedule 별칭으로 사용
+                },
+            ],
+        })
+        findTotalProgram.map((item) => {
+            if(item.files) {
+                item.files = item.files.split("|").map((item) => {
+                    return JSON.parse(item)
+                })
+            }
+        })
+
+        const result = findTotalProgram.map((item) => ({
+            ...item,
+            mentions: item.mentions.split(", "),
+        }));
+        // console.log("=====================",result);
+
+        return result
+    }
+
     // // 회의록 조회
     // findTotalMeetingReport = async({teamId, year, month}) => {
     //     // 시작일은 해당 년도와 달의 1일
