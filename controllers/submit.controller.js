@@ -14,7 +14,7 @@ class SubmitController {
         console.log("req.file: ", req.files); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const fileLocation = req.files ? await req.files.map(file => file.location) : null
+        const fileLocation = req.files ? await req.files.map(file => file.transforms[0].location) : null
         const fileName = req.files ? await req.files.map(file => file.originalname) : null
 
         // console.log("aaaaaaaaaaaaa", fileLocation, fileName)
@@ -115,7 +115,7 @@ class SubmitController {
         console.log("req.file: ", req.files); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const fileLocation = req.files ? await req.files.map(file => file.location) : null
+        const fileLocation = req.files ? await req.files.map(file => file.transforms[0].location) : null
         const fileName = req.files ? await req.files.map(file => file.originalname) : null
         // console.log("aaaaaaaaaaaaa", fileLocation, fileName)
         try{
@@ -151,7 +151,7 @@ class SubmitController {
         console.log("req.file: ", req.files); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
-        const fileLocation = req.files ? await req.files.map(file => file.location) : null
+        const fileLocation = req.files ? await req.files.map(file => file.transforms[0].location) : null
         const fileName = req.files ? await req.files.map(file => file.originalname) : null
 
         try{
