@@ -7,10 +7,10 @@ class VacationManageService {
     }
     
     // 휴가 상세 조회
-    vacationDetail = async ({ eventId }) => {
+    vacationDetail = async ({ Id }) => {
         let vacationDetail =
             await this.vacationManageRepository.findVacationById({
-                eventId,
+                Id,
             })
         if (!vacationDetail) {
             throw new CustomError("신청서가 존재하지 않습니다.",401)

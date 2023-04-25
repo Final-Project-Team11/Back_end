@@ -32,9 +32,9 @@ class VacationManageController {
     // 휴가 상세 조회
     vacationDetail = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
+            const { Id } = req.params;
             const vacationDetail =
-                await this.vacationManageService.vacationDetail({ eventId });
+                await this.vacationManageService.vacationDetail({ Id });
             res.status(200).json(vacationDetail);
         } catch (err) {
             next(err);

@@ -46,15 +46,15 @@ class VacationManageRepository {
     }
 
     // 휴가 상세조회
-    findVacationById = async ({ eventId }) => {
+    findVacationById = async ({Id }) => {
         const vacation = await Vacations.findOne({
-            where: { eventId },
+            where: {Id },
             attributes: [
-                "eventId",
+                "Id",
                 [Sequelize.col("User.userName"), "userName"],
                 "typeDetail",
-                "startDay",
-                "endDay",
+                [Sequelize.fn("date_format",Sequelize.col("start"),"%m/%d"),"start"],
+                [Sequelize.fn("date_format",Sequelize.col("end"),"%m/%d"),"end"],
                 "status"
             ],
             include: [
@@ -75,11 +75,11 @@ class VacationManageRepository {
             limit: size ? size : 10,
             offset: offset ? offset : 0,
             attributes: [
-                "eventId",
+                "Id",
                 [Sequelize.col("User.userName"), "userName"],
                 "typeDetail",
-                [Sequelize.fn("date_format",Sequelize.col("startDay"),"%m/%d"),"startDay"],
-                [Sequelize.fn("date_format",Sequelize.col("endDay"),"%m/%d"),"endDay"],
+                [Sequelize.fn("date_format",Sequelize.col("start"),"%m/%d"),"start"],
+                [Sequelize.fn("date_format",Sequelize.col("end"),"%m/%d"),"end"],
                 "status",
             ],
             include: [
