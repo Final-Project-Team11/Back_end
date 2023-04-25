@@ -411,7 +411,7 @@ class MypageRepository {
                 {
                     model: Events,
                     attributes: [],
-                    where:{calendarId: "3" , hasFile: true}
+                    where:{calendarId: "6" , hasFile: true}
                 },
             ],
             order: [["Id", "DESC"]],
@@ -543,7 +543,7 @@ class MypageRepository {
                             attributes: [],
                             where: {
                                 hasFile: true,
-                                calendarId: "3",
+                                calendarId: "6",
                             }
                         },
                         {
@@ -582,7 +582,7 @@ class MypageRepository {
     }) => {
        if(event.calendarId === "5"){
         return await this.getDetailMeetingFile({Id})
-       }else if(event.calendarId === "3"){
+       }else if(event.calendarId === "6"){
         return await this.getDetailReportFile({Id})
        }
     };
