@@ -42,6 +42,7 @@ class MypageService {
             team: user.teamName,
             remainDay: user.remainDay,
             salaryDay: payDay,
+            profileImg : user.profileImg
         };
         return userInfo;
     };
@@ -64,13 +65,13 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const schedule = await this.MypageRepository.getMention({
             userId,
-            type: "Schedules",
+            type: "1",
         });
         //내가 언급된 스케줄 가져오기
         return await Promise.all(
             schedule.map(async (event) => {
                 return await this.MypageRepository.getScheduleById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -81,14 +82,14 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "Meetings",
+            type: "4",
         });
 
         //내가 언급된 미팅 가져오기
         return await Promise.all(
             meeting.map(async (event) => {
                 return await this.MypageRepository.getMeetingById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -99,14 +100,14 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "Issues",
+            type: "7",
         });
 
         //내가 언급된 미팅 가져오기
         return await Promise.all(
             meeting.map(async (event) => {
                 return await this.MypageRepository.getIssueById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -117,13 +118,13 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const report = await this.MypageRepository.getMention({
             userId,
-            type: "Reports",
+            type: "3",
         });
         //내가 언급된 report 가져오기
         return await Promise.all(
             report.map(async (event) => {
                 return await this.MypageRepository.getReportById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -133,13 +134,13 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const other = await this.MypageRepository.getMention({
             userId,
-            type: "Others",
+            type: "6",
         });
         //내가 언급된 other 가져오기
         return await Promise.all(
             other.map(async (event) => {
                 return await this.MypageRepository.getOtherById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -149,13 +150,13 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meetingreport = await this.MypageRepository.getMention({
             userId,
-            type: "MeetingReports",
+            type: "5",
         });
         //내가 언급된 meetingreport 가져오기
         return await Promise.all(
             meetingreport.map(async (event) => {
                 return await this.MypageRepository.getMeetingReportsById({
-                    eventId: event,
+                    Id: event,
                     userId,
                 });
             })
@@ -172,7 +173,7 @@ class MypageService {
     }) => {
         const issue = schedule
             .concat(meeting, issues, report, meetingReport, other)
-            .sort((a, b) => b.eventId - a.eventId);
+            .sort((a, b) => b.Id - a.Id);
 
         return issue
             .filter((event) => event.isChecked == false)
@@ -191,7 +192,6 @@ class MypageService {
         return existMention;
     };
     completeMentioned = async ({ existMention, mentionId }) => {
-        console.log(existMention.isChecked);
         if (existMention.isChecked == false) {
             const check = true;
             return await this.MypageRepository.updateMention({
@@ -207,7 +207,7 @@ class MypageService {
         });
         const report = await this.MypageRepository.findMyReportfile({ userId });
         let result = [];
-        return result.concat(meeting, report).sort((a, b) => b.eventId - a.eventId);
+        return result.concat(meeting, report).sort((a, b) => b.Id - a.Id);
     };
     TeamMeetingReport = async ({ teamId }) => {
         //팀원의 배열
@@ -223,19 +223,19 @@ class MypageService {
         return await this.MypageRepository.getUserId({ userName });
     };
 
-    getDatailMyfile = async ({ eventId }) => {
-        const event = await this.MypageRepository.getEventType({ eventId });
+    getDatailMyfile = async ({ Id }) => {
+        const event = await this.MypageRepository.getcalendarId({ Id });
         
         return await this.MypageRepository.getDetailMyfile({
-            eventId,
+            Id,
             event,
         });
     };
-    getDetailMeetingFile = async ({ eventId }) => {
-        return await this.MypageRepository.getDetailMeetingFile({ eventId });
+    getDetailMeetingFile = async ({ Id }) => {
+        return await this.MypageRepository.getDetailMeetingFile({ Id });
     };
-    getDetailReportFile = async ({ eventId }) => {
-        return await this.MypageRepository.getDetailReportFile({ eventId });
+    getDetailReportFile = async ({ Id }) => {
+        return await this.MypageRepository.getDetailReportFile({ Id });
     };
 
     getVacationProgress = async({userId}) => {

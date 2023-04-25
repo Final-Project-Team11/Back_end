@@ -9,19 +9,19 @@ const scheduleManageController = new ScheduleManageController();
 router.get("/", managerMiddleware, scheduleManageController.scheduleList);
 // 출장 상세 조회
 router.get(
-    "/:eventId",
+    "/:Id",
     authMiddleware,
     scheduleManageController.scheduleDetail
 );
 // 출장 승인
 router.put(
-    "/:eventId/accept",
+    "/:Id/accept",
     managerMiddleware,
     scheduleManageController.scheduleAccept
 );
 // 출장 반려
 router.put(
-    "/:eventId/deny",
+    "/:Id/deny",
     managerMiddleware,
     scheduleManageController.scheduleDeny
 );

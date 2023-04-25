@@ -5,7 +5,8 @@ const path = require("path");
 // aws sdk v2 버젼을 사용하기에 multer-s3도 v2용으로
 const AWS = require("aws-sdk");
 // AWS S3 버킷에 이미지 파일을 저장하고, DB엔 그 버킷의 이미지 파일 경로(이미지 주소)를 저장하고, 서버는 이 경로를 클라이언트로 응답하는 식으로 프로세스를 구축하여야 한다.
-const multerS3 = require("multer-s3");
+const multerS3 = require("multer-s3-transform");
+const sharp = require('sharp')
 // UUID를 통해 고유 key값 설정
 // v4 : 랜덤값 기반
 const {v4} = require('uuid')
@@ -26,16 +27,25 @@ const upload = multer({
         // 저장 위치
         s3: new AWS.S3(),
         bucket: "meer2",
+        shouldTransform: true,
         // public-read : AllUsers그룹이 액세스 READ권한을 얻습니다.
-        acl: "public-read", // 보통 게시글의 이미지는 브라우저에 바로 검색해서 볼수 있는 것이 일반적이니 public-read 로 설정하였다.
+        acl: "public-read-write", // 보통 게시글의 이미지는 브라우저에 바로 검색해서 볼수 있는 것이 일반적이니 public-read 로 설정하였다.
         //multer-s3가 파일의 내용 유형을 자동으로 찾도록 multerS3.AUTO_CONTENT_TYPE 상수를 사용하여 contentType을 지정하도록 해야 된다.
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        key(req, file, cb) {
-            cb(null, `${v4()}_${path.basename(file.originalname)}`); // original 폴더안에다 파일을 저장
-        },
+        transforms: [
+            {
+                id : "resized",
+                key(req, file, cb) {
+                    cb(null, `${v4()}_${path.basename(file.originalname)}`); // original 폴더안에다 파일을 저장
+                },
+                transform: function (req, file, cb) {
+                    cb(null, sharp().resize(100, 100)); // 이미지를 100x100 으로 리사이징
+                },
+            }
+        ]
     }),
     //* 용량 제한
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5메가로 용량 제한
+    // limits: { fileSize: 5 * 1024 * 1024 }, // 5메가로 용량 제한
 });
 
 exports.upload = multer(upload);
