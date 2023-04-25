@@ -14,7 +14,7 @@ class MainPageRepository {
         const findTotalVacation = await Events.findAll({
             raw: true,
             where: {
-                calendarId: "Vacations",
+                calendarId: "4", // Vacations
                 [Op.and]: [
                     {
                         "$Vacation.start$": { // Schedule.startDay 컬럼 참조
@@ -66,7 +66,7 @@ class MainPageRepository {
         const findTotalSchedule = await Events.findAll({
             raw: true,
             where: {
-                calendarId: "Schedules",
+                calendarId: "2", // Schedules
                 [Op.and]: [
                     {
                         "$Schedule.start$": { // Schedule.start 컬럼 참조
@@ -275,7 +275,7 @@ class MainPageRepository {
         const findTotalIssue = await Events.findAll({
             raw: true,
             where: {
-                calendarId: "Issues",
+                calendarId: "3", // Issues
                 [Op.and]: [
                     {
                         "$Meeting.start$": {
@@ -355,7 +355,7 @@ class MainPageRepository {
         const findTotalMeeting = await Events.findAll({
             raw: true,
             where: {
-                calendarId: "Meetings",
+                calendarId: "0", // Meetings
                 [Op.and]: [
                     {
                         "$Meeting.start$": {
@@ -419,73 +419,73 @@ class MainPageRepository {
             ...item,
             mentions: item.mentions.split(", "),
         }));
-        console.log("=====================",result);
+        // console.log("=====================",result);
 
         return result
     }
 
-    // 회의록 조회
-    findTotalMeetingReport = async({teamId, year, month}) => {
-        // 시작일은 해당 년도와 달의 1일
-        const startDate = new Date(year, month - 1, 1);
-        // 종료일은 해당 년도와 달의 마지막 일
-        const endDate = new Date(year, month, 0)
+    // // 회의록 조회
+    // findTotalMeetingReport = async({teamId, year, month}) => {
+    //     // 시작일은 해당 년도와 달의 1일
+    //     const startDate = new Date(year, month - 1, 1);
+    //     // 종료일은 해당 년도와 달의 마지막 일
+    //     const endDate = new Date(year, month, 0)
 
-        const findTotalMeetingReport = await Events.findAll({
-            raw: true,
-            where: { 
-                eventType: "MeetingReports",
-                [Op.and]: [
-                    {
-                        "$MeetingReport.enrollDay$": { // Report.startDay 컬럼 참조
-                            [Op.between]: [startDate, endDate],
-                        },
-                    },
-                ],
-            },
-            attributes: [
-                "eventId",
-                [Sequelize.col("MeetingReport.meetingId"), "meetingId"],
-                [Sequelize.col("User.userName"), "userName"],
-                [Sequelize.col("MeetingReport.userId"), "userId"],
-                [Sequelize.col("MeetingReport.title"), "title"],
-                [Sequelize.col("MeetingReport.content"), "content"],
-                [Sequelize.col("MeetingReport.fileName"), "fileName"],
-                [Sequelize.col("MeetingReport.fileLocation"), "fileLocation"],
-                [Sequelize.col("MeetingReport.enrollDay"), "enrollDay"],
-                "eventType",
-                [
-                    Sequelize.literal(
-                        "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ', ') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.eventId = Events.eventId)"
-                    ),
-                    "mentions",
-                ],
-            ],
-            include: [
-                {
-                    model: Users,
-                    attributes: [],
-                    where: {
-                        teamId: teamId,
-                    },
-                },
-                {
-                    model: MeetingReports,
-                    attributes: [],
-                    as: "MeetingReport"
-                },
-            ],
-            group: ["eventId"],
-        });
+    //     const findTotalMeetingReport = await Events.findAll({
+    //         raw: true,
+    //         where: { 
+    //             eventType: "MeetingReports",
+    //             [Op.and]: [
+    //                 {
+    //                     "$MeetingReport.enrollDay$": { // Report.startDay 컬럼 참조
+    //                         [Op.between]: [startDate, endDate],
+    //                     },
+    //                 },
+    //             ],
+    //         },
+    //         attributes: [
+    //             "eventId",
+    //             [Sequelize.col("MeetingReport.meetingId"), "meetingId"],
+    //             [Sequelize.col("User.userName"), "userName"],
+    //             [Sequelize.col("MeetingReport.userId"), "userId"],
+    //             [Sequelize.col("MeetingReport.title"), "title"],
+    //             [Sequelize.col("MeetingReport.content"), "content"],
+    //             [Sequelize.col("MeetingReport.fileName"), "fileName"],
+    //             [Sequelize.col("MeetingReport.fileLocation"), "fileLocation"],
+    //             [Sequelize.col("MeetingReport.enrollDay"), "enrollDay"],
+    //             "eventType",
+    //             [
+    //                 Sequelize.literal(
+    //                     "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ', ') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.eventId = Events.eventId)"
+    //                 ),
+    //                 "mentions",
+    //             ],
+    //         ],
+    //         include: [
+    //             {
+    //                 model: Users,
+    //                 attributes: [],
+    //                 where: {
+    //                     teamId: teamId,
+    //                 },
+    //             },
+    //             {
+    //                 model: MeetingReports,
+    //                 attributes: [],
+    //                 as: "MeetingReport"
+    //             },
+    //         ],
+    //         group: ["eventId"],
+    //     });
 
-        const result = findTotalMeetingReport.map((item) => ({
-            ...item,
-            mentions: item.mentions.split(", "),
-        }));
-        // console.log(result);
+    //     const result = findTotalMeetingReport.map((item) => ({
+    //         ...item,
+    //         mentions: item.mentions.split(", "),
+    //     }));
+    //     // console.log(result);
 
-        return result
-    }
+    //     return result
+    // }
 
     findTeamName = async(teamId) => {
         const teamName = await Teams.findOne({
