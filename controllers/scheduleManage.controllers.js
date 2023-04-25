@@ -9,8 +9,8 @@ class ScheduleManageController {
     scheduleDeny = async (req, res, next) => {
         try{
             const userInfo = res.locals.user;
-            const { eventId } = req.params;
-            await this.scheduleManageService.scheduleDeny({ eventId, userInfo })
+            const { Id } = req.params;
+            await this.scheduleManageService.scheduleDeny({ Id, userInfo })
             res.status(200).json({ message: '일정 결제 승인 거절되었습니다.' })    
         } catch (err) {
             next(err)
