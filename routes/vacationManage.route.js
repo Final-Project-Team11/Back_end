@@ -22,7 +22,7 @@ router.put(
 );
 // 휴가 반려
 router.put(
-    "/Id/deny",
+    "/:Id/deny",
     managerMiddleware,
     vacationManageController.vacationDeny
 );

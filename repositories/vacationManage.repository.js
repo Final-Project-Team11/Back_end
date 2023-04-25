@@ -44,7 +44,12 @@ class VacationManageRepository {
             })
         return result
     }
-
+    findVacationOne = async ({ Id }) => {
+        const vacation = await Vacations.findOne({
+            where:{Id}
+        })
+        return vacation
+    }
     // 휴가 상세조회
     findVacationById = async ({Id }) => {
         const vacation = await Vacations.findOne({

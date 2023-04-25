@@ -9,8 +9,9 @@ class VacationManageController {
     vacationDeny = async (req, res, next) => {
         try{
             const userInfo = res.locals.user;
-            const { eventId } = req.params;
-            await this.vacationManageService.vacationDeny({ eventId, userInfo })
+            console.log(userInfo)
+            const { Id } = req.params;
+            await this.vacationManageService.vacationDeny({ Id, userInfo })
             res.status(200).json({ message: '휴가 승인 거절되었습니다.' })    
         } catch (err) {
             next(err)
