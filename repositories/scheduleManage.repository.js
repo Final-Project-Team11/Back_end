@@ -1,33 +1,38 @@
-const { Users, Schedules, Mentions, Events, Sequelize } = require("../models");
+const { Users, Schedules, Mentions, Events, Sequelize, Files } = require("../models");
 class ScheduleManageRepository {
 
     // 출장 승인/반려
-    updateScheduleStaus = async ({ eventId, status }) => {
+    updateScheduleStaus = async ({ Id, status }) => {
         const result = await Schedules.update(
             {
             status: status,
             },
             {
-            where: { eventId },  
+            where: { Id },  
             })
         return result
     }
     // 출장 상세 조회
-    findScheduleById = async ({ eventId }) => {
+    findScheduleById = async ({ Id }) => {
         const schedule = await Events.findOne({
-            where: { eventId },
+            where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 [Sequelize.col("User.userName"), "userName"],
                 [Sequelize.col("Schedule.title"), "title"],
-                [Sequelize.col("Schedule.content"), "content"],
-                [Sequelize.col("Schedule.fileName"), "fileName"],
-                [Sequelize.col("Schedule.fileLocation"), "fileLocation"],
-                [Sequelize.col("Schedule.startDay"), "startDay"],
-                [Sequelize.col("Schedule.endDay"), "endDay"],
+                [Sequelize.col("Schedule.body"), "body"],
+                [Sequelize.col("Schedule.start"), "start"],
+                [Sequelize.col("Schedule.end"), "end"],
                 [Sequelize.col("Schedule.status"), "status"],
             ],
+            order: [["createdAt", "DESC"]],
             include: [
+                {
+                    model: Files,
+                    where: { Id },
+                    attributes: ["fileName", "fileLocation"],
+                    required: false
+                },
                 {
                     model: Schedules,
                     attributes: [],
@@ -49,7 +54,6 @@ class ScheduleManageRepository {
                 },
             ],
         });
-        // console.log(schedule)
         return schedule
     };
 
@@ -61,12 +65,12 @@ class ScheduleManageRepository {
             limit: size ? size : 10,
             offset: offset ? offset : 0,
             attributes: [
-                "eventId",
-                [Sequelize.col("User.userName"), "userName"],
+                "Id",
                 "title",
-                "fileName",
-                [Sequelize.fn("date_format",Sequelize.col("Schedules.createdAt"),"%Y/%m/%d"),"enrollDay"],
                 "status",
+                [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.fn("date_format", Sequelize.col("Schedules.createdAt"), "%Y/%m/%d"), "enrollDay"],
+                "createdAt", 
             ],
             include: [
                 {
@@ -76,17 +80,30 @@ class ScheduleManageRepository {
                         teamId: teamId,
                     },
                 },
+                {
+                    model: Events,
+                    attributes: ["Id"],
+                    required: true,
+                    include: [
+                        {
+                            model: Files,
+                            as: 'Files',
+                            attributes: ['fileName',"fileLocation"]
+                            
+                        }
+                    ]
+                },
             ],
             order: [
                 [
-                    // status submit 먼저 정렬
                     Sequelize.fn("FIELD", Sequelize.col("status"), "submit"),
                     "DESC",
                 ],
-                ["createdAt", "DESC"],
+                ["createdAt", "DESC"], // 수정된 부분
             ],
         });
-        return teamScheduleList;
+        return await teamScheduleList;
     };
+
 }
 module.exports = ScheduleManageRepository;
