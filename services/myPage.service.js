@@ -67,7 +67,6 @@ class MypageService {
             userId,
             type: "1",
         });
-        console.log("22222222222222222",schedule)
         //내가 언급된 스케줄 가져오기
         return await Promise.all(
             schedule.map(async (event) => {
@@ -83,7 +82,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "Meetings",
+            type: "4",
         });
 
         //내가 언급된 미팅 가져오기
@@ -101,7 +100,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meeting = await this.MypageRepository.getMention({
             userId,
-            type: "Issues",
+            type: "7",
         });
 
         //내가 언급된 미팅 가져오기
@@ -119,7 +118,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const report = await this.MypageRepository.getMention({
             userId,
-            type: "Reports",
+            type: "3",
         });
         //내가 언급된 report 가져오기
         return await Promise.all(
@@ -135,7 +134,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const other = await this.MypageRepository.getMention({
             userId,
-            type: "Others",
+            type: "6",
         });
         //내가 언급된 other 가져오기
         return await Promise.all(
@@ -151,7 +150,7 @@ class MypageService {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
         const meetingreport = await this.MypageRepository.getMention({
             userId,
-            type: "MeetingReports",
+            type: "5",
         });
         //내가 언급된 meetingreport 가져오기
         return await Promise.all(
