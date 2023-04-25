@@ -14,26 +14,26 @@ class MainPageRepository {
         const findTotalVacation = await Events.findAll({
             raw: true,
             where: {
-                eventType: "Vacations",
+                calendarId: "Vacations",
                 [Op.and]: [
                     {
-                        "$Vacation.startDay$": { // Schedule.startDay 컬럼 참조
+                        "$Vacation.start$": { // Schedule.startDay 컬럼 참조
                             [Op.between]: [startDate, endDate],
                         },
                     },
                     {
-                        "$Vacation.endDay$": { // Schedule.endDay 컬럼 참조
+                        "$Vacation.end$": { // Schedule.endDay 컬럼 참조
                             [Op.between]: [startDate, endDate],
                         },
                     },
                 ],
             },
             attributes: [
-                "eventId",
+                "Id",
                 [Sequelize.col("User.userName"), "userName"],
                 [Sequelize.col("Vacation.userId"), "userId"],
-                [Sequelize.col("Vacation.startDay"), "startDay"],
-                [Sequelize.col("Vacation.endDay"), "endDay"],
+                [Sequelize.col("Vacation.start"), "start"],
+                [Sequelize.col("Vacation.end"), "end"],
                 [Sequelize.col("Vacation.typeDetail"), "typeDetail"],
             ],
             include: [

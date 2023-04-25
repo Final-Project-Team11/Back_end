@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
         title : "에러가 발생했습니다.",
         text : `errorMessage : *[ statuscode : ${err.status}]* ${err.message}`,
     }
-    slackMiddleware(message)
+    // slackMiddleware(message)
 
     return res.status(err.status || 400).json({
         success: false,
