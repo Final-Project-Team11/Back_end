@@ -21,19 +21,19 @@ class ScheduleManageService {
         await this.scheduleManageRepository.updateScheduleStaus({ eventId, status })
     }
     // 출장 수락
-    scheduleAccept = async ({ eventId, userInfo }) => {
+    scheduleAccept = async ({ Id, userInfo }) => {
         const schedule = await this.scheduleManageRepository.findScheduleById({
-            eventId,
+            Id,
         });
         if (!schedule) {
             throw new CustomError("신청서가 존재하지 않습니다.",401)
         }
         const scheduleStatus = schedule.dataValues.status
-        // if (scheduleStatus === 'accept' || scheduleStatus === 'deny') {
-        //     throw new CustomError("이미 결제가 완료되었습니다.",400)
-        // }
+        if (scheduleStatus === 'accept') {
+            throw new CustomError("이미 결제가 완료되었습니다.",400)
+        }
         const status = 'accept'
-        await this.scheduleManageRepository.updateScheduleStaus({ eventId, status })
+        await this.scheduleManageRepository.updateScheduleStaus({ Id, status })
     }
     // 출장 상세 조회
     scheduleDetail = async ({ Id }) => {

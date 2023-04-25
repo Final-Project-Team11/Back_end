@@ -2,13 +2,13 @@ const { Users, Schedules, Mentions, Events, Sequelize, Files } = require("../mod
 class ScheduleManageRepository {
 
     // 출장 승인/반려
-    updateScheduleStaus = async ({ eventId, status }) => {
+    updateScheduleStaus = async ({ Id, status }) => {
         const result = await Schedules.update(
             {
             status: status,
             },
             {
-            where: { eventId },  
+            where: { Id },  
             })
         return result
     }
@@ -54,7 +54,6 @@ class ScheduleManageRepository {
                 },
             ],
         });
-        console.log(schedule)
         return schedule
     };
 
