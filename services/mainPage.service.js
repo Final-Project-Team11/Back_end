@@ -32,19 +32,19 @@ class MainPageService {
         const findTeamName = await this.mainPageRepository.findTeamName(teamId)
         // 출장 조회
         const schedule = await this.mainPageRepository.findTotalSchedule({teamId, year, month})
-        // 보고서 조회
-        const report = await this.mainPageRepository.findTotalReport({teamId, year, month})
-        // 기타 조회
-        const other = await this.mainPageRepository.findTotalOther({teamId, year, month})
+        // // 보고서 조회
+        // const report = await this.mainPageRepository.findTotalReport({teamId, year, month})
+        // // 기타 조회
+        // const other = await this.mainPageRepository.findTotalOther({teamId, year, month})
         // 회의(Issue) 조회
         const issue = await this.mainPageRepository.findTotalIssue({teamId, year, month})
         // 회의(Meeting) 조회
         const meeting = await this.mainPageRepository.findTotalMeeting({teamId, year, month})
-        // 회의록 조회
-        const meetingReport = await this.mainPageRepository.findTotalMeetingReport({teamId, year, month})
+        // // 회의록 조회
+        // const meetingReport = await this.mainPageRepository.findTotalMeetingReport({teamId, year, month})
 
-        const findTotalSchedule = Object.assign({}, findTeamName, {schedule}, {report}, {other}, {meetingReport}, {issue}, {meeting});
-        // console.log("-------------------",findTotalSchedule)
+        const findTotalSchedule = Object.assign({}, findTeamName, {schedule}, {issue}, {meeting});
+        // // console.log("-------------------",findTotalSchedule)
 
         return findTotalSchedule
     }
