@@ -17,18 +17,22 @@ class ScheduleManageRepository {
         const schedule = await Events.findOne({
             where: { Id },
             attributes: [
-                "eventId",
+                "Id",
                 [Sequelize.col("User.userName"), "userName"],
                 [Sequelize.col("Schedule.title"), "title"],
                 [Sequelize.col("Schedule.body"), "body"],
-                [Sequelize.col("Schedule.fileName"), "fileName"],
-                [Sequelize.col("Schedule.fileLocation"), "fileLocation"],
                 [Sequelize.col("Schedule.start"), "start"],
                 [Sequelize.col("Schedule.end"), "end"],
                 [Sequelize.col("Schedule.status"), "status"],
             ],
             order: [["createdAt", "DESC"]],
             include: [
+                {
+                    model: Files,
+                    where: { Id },
+                    attributes: ["fileName", "fileLocation"],
+                    required: false
+                },
                 {
                     model: Schedules,
                     attributes: [],
@@ -50,7 +54,7 @@ class ScheduleManageRepository {
                 },
             ],
         });
-        // console.log(schedule)
+        console.log(schedule)
         return schedule
     };
 

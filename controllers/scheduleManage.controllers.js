@@ -30,9 +30,9 @@ class ScheduleManageController {
     // 출장 상세 조회
     scheduleDetail = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
+            const { Id } = req.params;
             const scheduleDetail =
-                await this.scheduleManageService.scheduleDetail({ eventId });
+                await this.scheduleManageService.scheduleDetail({ Id });
             res.status(200).json(scheduleDetail);
         } catch (err) {
             next(err);

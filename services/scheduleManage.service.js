@@ -36,10 +36,10 @@ class ScheduleManageService {
         await this.scheduleManageRepository.updateScheduleStaus({ eventId, status })
     }
     // 출장 상세 조회
-    scheduleDetail = async ({ eventId }) => {
+    scheduleDetail = async ({ Id }) => {
         let scheduleDetail =
             await this.scheduleManageRepository.findScheduleById({
-                eventId,
+                Id,
             })
         console.log((JSON.stringify(scheduleDetail, null, 4)))
         if (!scheduleDetail) {
