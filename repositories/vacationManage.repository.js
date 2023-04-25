@@ -17,9 +17,9 @@ class VacationManageRepository {
         })
         return vacationInfo
     }
-    findEventInfo = async ({ eventId }) => {
+    findEventInfo = async ({ Id }) => {
         const eventInfo =  await Events.findOne({
-            where: { eventId }
+            where: { Id }
         })
         return eventInfo
     }
@@ -34,13 +34,13 @@ class VacationManageRepository {
     }
 
 // 휴가  승인/반려
-    updateVacationStaus = async ({ eventId, status }) => {
+    updateVacationStaus = async ({ Id, status }) => {
         const result = await Vacations.update(
             {
             status: status,
             },
             {
-            where: { eventId },  
+            where: { Id },  
             })
         return result
     }

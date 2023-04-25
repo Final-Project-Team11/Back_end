@@ -21,8 +21,8 @@ class VacationManageController {
     vacationAccept = async (req, res, next) => {
         try{
             const userInfo = res.locals.user;
-            const { eventId } = req.params;
-            await this.vacationManageService.vacationAccept({ eventId, userInfo })
+            const { Id } = req.params;
+            await this.vacationManageService.vacationAccept({ Id, userInfo })
             res.status(200).json({ message: '휴가가 등록되었습니다.' })    
         } catch (err) {
             next(err)
