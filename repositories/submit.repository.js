@@ -25,7 +25,7 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                calendarId: 'Schedules',
+                calendarId: '2', // Schedules
                 hasFile : hasFile,
             }, {transaction : t})
             
@@ -138,7 +138,7 @@ class SubmitRepository {
             // console.log('aaaaaa',userId, startDay, endDay, typeDetail)
             const event = await Events.create({
                 userId,
-                calendarId: 'Vacations',
+                calendarId: '4', //Vacations
                 hasFile: 0
             }, {transaction : t})
 
@@ -149,7 +149,7 @@ class SubmitRepository {
                 Id,
                 start,
                 end,
-                typeDetail
+                typeDetail // 휴가 : 0, 반차 : 1, 월차 : 2, 병가 : 3
             }, {transaction : t})
 
             await t.commit()
@@ -171,7 +171,7 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                calendarId: 'Others',
+                calendarId: '7', // Others
                 hasFile : hasFile,
             }, {transaction : t})
             
@@ -224,7 +224,7 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                calendarId,
+                calendarId, // Issues("3"), Meeting("0")
                 hasFile : hasFile,
             }, {transaction : t})
             
@@ -274,7 +274,7 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                calendarId: 'Reports',
+                calendarId: '6', // Reports
                 hasFile : hasFile,
             }, {transaction : t})
             
@@ -366,7 +366,7 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                calendarId: 'MeetingReports',
+                calendarId: '5', //MeetingReports
                 hasFile : hasFile,
             }, {transaction : t})
 
