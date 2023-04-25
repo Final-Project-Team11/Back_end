@@ -7,7 +7,7 @@
     "test:init": "NODE_ENV=test sequelize db:create --config=./config/config.js",
     "test": "jest",
     "test:coverage": "jest --coverage --forceExit",
-    "start": "nodemon app.js",
+    "start": "npx nodemon app.js",
     "prettify": "prettier --write *.js **/*.js"
   },
   "repository": {
@@ -38,7 +38,7 @@
     "mysql2": "^3.2.0",
     "sequelize": "^6.30.0",
     "sharp": "^0.32.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"
   },
