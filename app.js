@@ -40,7 +40,13 @@ app.use((err, req, res, next) => {
     const message = {
         color : '#DC3545',
         title : "에러가 발생했습니다.",
-        text : `errorMessage : *[ statuscode : ${err.status}]* ${err.message}`,
+        text : `errorMessage : *[${err.status}]* ${err.message}`,
+        fields: [
+            {
+               title: 'Error Stack:',
+               value: `\`\`\`${errorstack}\`\`\`` //여기서 ```를 추가해서 마크다운 형태로 보내줍니다.
+            }
+         ]
     }
     slackMiddleware(message)
 
