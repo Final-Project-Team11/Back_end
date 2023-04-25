@@ -266,7 +266,7 @@ class SubmitRepository {
     }
 
     // 보고서 등록
-    reportSubmit = async({userId, title, ref, content, fileLocation, fileName}) => {
+    reportSubmit = async({userId, title, attendees, body, fileLocation, fileName, start, end}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
@@ -274,30 +274,34 @@ class SubmitRepository {
             let hasFile = (fileName) ? true : false;
             const event = await Events.create({
                 userId,
-                eventType: 'Reports',
+                calendarId: 'Reports',
                 hasFile : hasFile,
             }, {transaction : t})
             
-            const {eventId} = event;
+            const {Id} = event;
             
             await Reports.create({
-                eventId: eventId,
+                Id: Id,
                 userId,
                 title,
-                content,
-                fileLocation,
-                fileName,
-                enrollDay : event.createdAt
+                body,
+                start,
+                end,
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.create({
+                    Id : Id,
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {transaction : t});
+            }))
+
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
-                // console.log("---------------------------")
-                // console.log(await Users.findOne({where : {userName : item}}))
-                // console.log("---------------------------")
                 
                 await Mentions.create({
-                    eventId : eventId,
+                    Id : Id,
                     userId : userId,
                     isChecked : false
                 }, {transaction : t})

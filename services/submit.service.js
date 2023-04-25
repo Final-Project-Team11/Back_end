@@ -177,18 +177,18 @@ class SubmitService {
     }
 
     // 보고서 등록
-    reportSubmit = async({userId, teamId, title, content, ref, fileLocation, fileName}) => {
+    reportSubmit = async({userId, teamId, title, body, attendees, fileLocation, fileName, start, end}) => {
         const isRef = await this.submitRepository.findRef(teamId)
         
         let REF;
-        if (ref === null) {
+        if (attendees === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
                 return item.userName;
             });
-        } else if(ref !== undefined && ref !== null) {
+        } else if(attendees !== undefined && attendees !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = ref.concat(isRef.map((item) => {
+            REF = attendees.concat(isRef.map((item) => {
                 return item.userName;
             }));
         } else {
@@ -198,7 +198,7 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.reportSubmit({userId, title, content, ref: REF, fileLocation, fileName})
+        await this.submitRepository.reportSubmit({userId, title, body, attendees: REF, fileLocation, fileName, start, end})
     }
 
     // 보고서 수정

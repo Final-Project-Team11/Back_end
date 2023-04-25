@@ -184,17 +184,18 @@ class SubmitController {
 
     // 보고서 등록
     reportSubmit = async(req, res, next) => {
-        const {title, content, ref} = req.body
+        const {title, body, attendees, start, end} = req.body
         const {userId, teamId} = res.locals.user
 
-        console.log("req.file: ", req.file); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
+        console.log("req.file: ", req.files); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
         // 파일이 있을때와 없을때
-        const fileLocation = req.file ? await req.file.location : null
-        const fileName = req.file ? await req.file.originalname : null
+        const fileLocation = req.files ? await req.files.map(file => file.transforms[0].location) : null
+        const fileName = req.files ? await req.files.map(file => file.originalname) : null
+        // console.log('aaaaaaaa', fileLocation)
 
         try{
             await reportSchema
-            .validateAsync({title, content, ref}, { abortEarly: false })
+            .validateAsync({title, body, attendees, start, end}, { abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -203,8 +204,10 @@ class SubmitController {
                 userId,
                 teamId : teamId,
                 title,
-                ref : ref,
-                content,
+                attendees : attendees,
+                body,
+                start,
+                end,
                 fileLocation,
                 fileName,
             })
