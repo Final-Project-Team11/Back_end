@@ -110,10 +110,13 @@ class UserManageRepository {
         return existUser;
     };
     // 팀 생성
-    createTeam = async ({ team, companyId }) => {
+    createTeam = async ({ team, companyId,transaction },) => {
         const newTeam = await Teams.create({
             teamName: team,
             companyId,
+        },
+        {
+            transaction
         });
         return newTeam;
     };
@@ -133,24 +136,28 @@ class UserManageRepository {
         authLevel,
         rank,
         userName,
-        userId,
         joinDay,
+        userId,
         job,
         companyId,
         salaryDay,
         encryptPwd,
+        transaction
     }) => {
         await Users.create({
             teamId,
             authLevel,
             rank,
             userName,
-            userId,
             password: encryptPwd,
             joinDay,
+            userId,
             job,
             companyId,
             salaryDay,
+        },
+        {
+            transaction
         });
     };
 }
