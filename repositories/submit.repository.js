@@ -109,6 +109,15 @@ class SubmitRepository {
                 where: {Id}
             }, {transaction : t})
 
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.update({
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {
+                    where: {Id}
+                }, {transaction : t});
+            }))
+
             await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',userId)
@@ -319,7 +328,7 @@ class SubmitRepository {
     }
 
     // 보고서 수정
-    reportModify = async({userId, eventId, title, ref, content, fileLocation, fileName}) => {
+    reportModify = async({userId, Id, title, attendees, body, fileLocation, fileName, start, end}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
@@ -329,28 +338,36 @@ class SubmitRepository {
                 userId,
                 hasFile : hasFile,
             }, {
-                where: {eventId}
+                where: {Id}
             }, {transaction : t})
             
             await Reports.update({
                 userId,
                 title,
-                content,
-                fileLocation,
-                fileName,
-                enrollDay : event.createdAt
+                body,
+                start,
+                end,
             }, {
-                where: {eventId}
+                where: {Id}
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.update({
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {
+                    where: {Id}
+                }, {transaction : t});
+            }))
+
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.update({
                     userId : userId,
                     isChecked : false
                 }, {
-                    where: {eventId}
+                    where: {Id}
                 }, {transaction : t})
             }))
 
@@ -477,10 +494,10 @@ class SubmitRepository {
         return schedule
     }
 
-    findOneReport = async(eventId) => {
+    findOneReport = async(Id) => {
         const report = await Reports.findOne({
             raw: true,
-            where: {eventId}
+            where: {Id}
         })
 
         console.log('aaaaaaaaa', report)
