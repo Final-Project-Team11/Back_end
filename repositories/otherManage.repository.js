@@ -1,6 +1,18 @@
 const { Users, Schedules, Mentions, Events, Sequelize, Files, Others } = require("../models");
 class OtherManageRepository {
 
+    // 기타 결제 승인 반려
+    updateOtherStaus = async ({ Id, status }) => {
+        const result = await Others.update(
+            {
+            status: status,
+            },
+            {
+            where: { Id },  
+            })
+        return result
+    }
+    
      // 기타 결제 상세 조회
     findOtherById = async ({ Id }) => {
         const other = await Events.findOne({
@@ -89,7 +101,7 @@ class OtherManageRepository {
                     Sequelize.fn("FIELD", Sequelize.col("status"), "submit"),
                     "DESC",
                 ],
-                ["createdAt", "DESC"], // 수정된 부분
+                ["createdAt", "DESC"], 
             ],
         });
         return await teamOtherList;

@@ -5,7 +5,28 @@ class OtherManageController {
     constructor() {
         this.otherManageService = new OtherManageService();
     }
-    
+    // 기타 결제 반려 
+    otherDeny = async (req, res, next) => {
+        try{
+            const userInfo = res.locals.user;
+            const { Id } = req.params;
+            await this.otherManageService.otherDeny({ Id, userInfo })
+            res.status(200).json({ message: '일정 결제 승인 거절되었습니다.' })    
+        } catch (err) {
+            next(err)
+    }
+    }
+    // 기타 결제 승인
+    otherAccept = async (req, res, next) => {
+        try{
+            const userInfo = res.locals.user;
+            const { Id } = req.params;
+            await this.otherManageService.otherAccept({ Id, userInfo })
+            res.status(200).json({ message: '일정 결제 수락했습니다.' })    
+        } catch (err) {
+            next(err)
+    }
+    }
     // 팀 기타 결제 요청 상세 조회
     otherDetail = async (req, res, next) => {
         try {

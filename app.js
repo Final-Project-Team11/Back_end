@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
             }
          ]
     }
-    // slackMiddleware(message)
+    slackMiddleware(message)
 
     return res.status(err.status || 400).json({
         success: false,

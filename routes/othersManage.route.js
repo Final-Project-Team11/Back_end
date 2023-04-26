@@ -14,5 +14,16 @@ router.get(
     authMiddleware,
     otherManageController.otherDetail
 );
-
+// 기타 결제 승인
+router.put(
+    "/:Id/accept",
+    managerMiddleware,
+    otherManageController.otherAccept
+);
+// 기타 결제 반려
+router.put(
+    "/:Id/deny",
+    managerMiddleware,
+    otherManageController.otherDeny
+);
 module.exports = router;
