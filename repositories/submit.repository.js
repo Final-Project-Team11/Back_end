@@ -400,11 +400,17 @@ class SubmitRepository {
                 userId,
                 title,
                 body,
-                fileLocation,
-                fileName,
                 start,
                 end,
             }, {transaction : t})
+
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.create({
+                    Id : Id,
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {transaction : t});
+            }))
 
             await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
@@ -425,7 +431,7 @@ class SubmitRepository {
     }
 
     // 회의록 수정
-    meetingReportModify = async({userId, eventId, meetingId, title, ref, content, fileLocation, fileName}) => {
+    meetingReportModify = async({userId, Id, meetingId, title, attendees, body, fileLocation, fileName, start, end}) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
@@ -435,28 +441,36 @@ class SubmitRepository {
                 userId,
                 hasFile : hasFile,
             }, {
-                where: {eventId}
+                where: {Id}
             }, {transaction : t})
 
             await MeetingReports.update({
                 userId,
                 title,
-                content,
-                fileLocation,
-                fileName,
-                enrollDay : event.createdAt
+                body,
+                start,
+                end
             }, {
-                where: {eventId, meetingId}
+                where: {Id, meetingId}
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(fileName.map(async(item, index) => {
+                await Files.update({
+                    fileName : item,
+                    fileLocation : fileLocation[index]
+                }, {
+                    where: {Id}
+                }, {transaction : t});
+            }))
+
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
 
                 await Mentions.update({
                     userId : userId,
                     isChecked : false
                 }, {
-                    where: {eventId}
+                    where: {Id}
                 }, {transaction : t})
             }))
 

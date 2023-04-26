@@ -31,7 +31,7 @@ router.patch('/report/:Id', authMiddleware, upload.array('file'), submitControll
 router.post('/meeting/:Id', authMiddleware, upload.array('file'), submitController.meetingReportSubmit)
 
 // 회의록 수정
-router.patch('/report/:meetingId', authMiddleware, upload.array('file'), submitController.meetingReportModify)
+router.patch('/meeting/:meetingId/:Id', authMiddleware, upload.array('file'), submitController.meetingReportModify)
 
 // 팀원 목록 조회
 router.get('/teamUsers', authMiddleware, submitController.teamUsersList)
