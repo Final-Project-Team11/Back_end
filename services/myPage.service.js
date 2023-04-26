@@ -48,16 +48,24 @@ class MypageService {
     };
 
     getUserSchedule = async ({ userId }) => {
+        //출장조회
         const schedule = await this.MypageRepository.getUserSchedule({
             userId,
         });
-        return schedule
+        //결제요청서 조회
+        const other = await this.MypageRepository.getUserOther({
+            userId
+        })
+        //배열 합치기
+        let list =[]
+        const result = list.concat(schedule,other).sort((a,b) => b.Id - a.Id)
+        return result
             .filter((event) => event.status === "submit")
             .concat(
-                schedule.filter(
+                result.filter(
                     (event) =>
                         event.status === "accept" || event.status === "deny"
-                )
+                ).reverse()
             );
     };
 
@@ -95,6 +103,23 @@ class MypageService {
             })
         );
     };
+    getMentionedEvent = async ({ userId }) => {
+        //멘션테이블에서 내 아이디가 들어있는 값 가져오기
+        const meeting = await this.MypageRepository.getMention({
+            userId,
+            type: "1",
+        });
+
+        //내가 언급된 이벤트 가져오기
+        return await Promise.all(
+            meeting.map(async (event) => {
+                return await this.MypageRepository.getMeetingById({
+                    Id: event,
+                    userId,
+                });
+            })
+        );
+    };
 
     getMentionedIssue = async ({ userId }) => {
         //멘션테이블에서 내 아이디가 들어있는 값 가져오기
@@ -106,7 +131,7 @@ class MypageService {
         //내가 언급된 미팅 가져오기
         return await Promise.all(
             meeting.map(async (event) => {
-                return await this.MypageRepository.getIssueById({
+                return await this.MypageRepository.getMeetingById({
                     Id: event,
                     userId,
                 });
@@ -167,14 +192,14 @@ class MypageService {
         schedule,
         meeting,
         issues,
+        event,
         report,
         meetingReport,
         other,
     }) => {
         const issue = schedule
-            .concat(meeting, issues, report, meetingReport, other)
+            .concat(meeting, issues,event, report, meetingReport, other)
             .sort((a, b) => b.Id - a.Id);
-
         return issue
             .filter((event) => event.isChecked == false)
             .concat(issue.filter((event) => event.isChecked == true).reverse());

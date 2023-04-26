@@ -22,7 +22,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '2', // Schedules
@@ -74,13 +74,13 @@ class SubmitRepository {
     // 일정 수정
     scheduleModify = async({
         userId,
-        eventId,
-        startDay,
-        endDay,
+        Id,
+        start,
+        end,
         title,
-        ref,
+        attendees,
         location,
-        content,
+        body,
         fileLocation,
         fileName,
     }) => {
@@ -88,28 +88,28 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
             }, {
-                where : {eventId}
+                where : {Id}
             }, {transaction : t})
             
             const createScheduleSubmit = await Schedules.update({
                 userId,
-                startDay,
-                endDay,
+                start,
+                end,
                 title,
                 location,
-                content,
+                body,
                 fileLocation,
                 fileName,
             },{
-                where: {eventId}
+                where: {Id}
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',userId)
 
@@ -117,7 +117,7 @@ class SubmitRepository {
                     userId : userId,
                     isChecked : false
                 }, {
-                    where : {eventId}
+                    where : {Id}
                 }, {transaction : t});
             }))
 
@@ -168,7 +168,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '7', // Others
@@ -221,7 +221,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId, // Issues("3"), Meeting("0"), 기타일정("1")
@@ -271,7 +271,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '6', // Reports
@@ -320,7 +320,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
@@ -363,7 +363,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '5', //MeetingReports
@@ -407,7 +407,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
@@ -461,10 +461,10 @@ class SubmitRepository {
         return findRef
     };
 
-    findOneSchedule = async(eventId) => {
+    findOneSchedule = async(Id) => {
         const schedule = await Schedules.findOne({
             raw : true,
-            where : {eventId},
+            where : {Id},
         })
 
         return schedule
@@ -487,6 +487,18 @@ class SubmitRepository {
         })
 
         return meetingReport
+    }
+
+    findOneFile = async(Id) => {
+        const file = await Files.findAll({
+            raw: true,
+            where: {Id},
+            attributes: [
+                "fileLocation"
+            ]
+        })
+
+        return file
     }
 }
 
