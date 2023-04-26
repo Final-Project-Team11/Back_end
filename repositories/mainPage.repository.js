@@ -433,17 +433,17 @@ class MainPageRepository {
     }
 
     // 기타일정
-    findTotalProgram = async({teamId, year, month}) => {
+    findTotalEvent = async({teamId, year, month}) => {
         // 시작일은 해당 년도와 달의 1일
         const startDate = new Date(year, month - 1, 1);
         // 종료일은 해당 년도와 달의 마지막 일
         const endDate = new Date(year, month, 0)
 
         // console.log("=================",startDate, endDate)
-        const findTotalProgram = await Events.findAll({
+        const findTotalEvent = await Events.findAll({
             raw: true,
             where: {
-                calendarId: "1", // Program
+                calendarId: "1", // event
                 [Op.and]: [
                     {
                         "$Meeting.start$": {
@@ -496,7 +496,7 @@ class MainPageRepository {
                 },
             ],
         })
-        findTotalProgram.map((item) => {
+        findTotalEvent.map((item) => {
             if(item.files) {
                 item.files = item.files.split("|").map((item) => {
                     return JSON.parse(item)
@@ -505,7 +505,7 @@ class MainPageRepository {
             return;
         })
 
-        const result = findTotalProgram.map((item) => ({
+        const result = findTotalEvent.map((item) => ({
             ...item,
             attendees: item.attendees.split(", "),
         }));
