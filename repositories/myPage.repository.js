@@ -401,7 +401,7 @@ class MypageRepository {
             order: [["Id", "DESC"]],
         });
         reports.map((report) => {
-            report.files = (report.files.split("|") ?? "").map((item) => {
+            report.files = (report.files ?? "").split("|").map((item) => {
                 return JSON.parse(item)
             })
         })
@@ -468,7 +468,7 @@ class MypageRepository {
         );
         const lists = list.flat()
         lists.map((event) => {
-            event.files = (event.files.split("|")?? "").map((item) => {
+            event.files = (event.files?? "").split("|").map((item) => {
                 return JSON.parse(item)
             })
         })
