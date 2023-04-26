@@ -421,7 +421,7 @@ class MainPageRepository {
                 console.log("@@@@@@@@@@@@item.files@@@@@@@@@", item.files)
                 item.files = item.files.split("|").map((item) => {
                     console.log("!!!!!!!!!!item!!!!!!!!!!", item)
-                    console.log("&&&&&&&&&&&item&&&&&&&&&&&&", item.files)
+                    console.log("&&&&&&&&&&&JSON.parse(item)&&&&&&&&&&&&", JSON.parse(item))
                     return JSON.parse(item)
                 })
             }
