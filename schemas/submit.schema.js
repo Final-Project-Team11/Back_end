@@ -19,10 +19,8 @@ const scheduleSchema = Joi.object({
     attendees: Joi.array().items(Joi.string()).messages({
         "string.base": "attendees 필드는 문자열로 이루어져야 합니다.",
     }),
-    location: Joi.string().required().messages({
+    location: Joi.string().messages({
         "string.base": "location 필드는 문자열로 이루어져야 합니다.",
-        "string.empty": "장소를 입력해 주세요.",
-        "any.required": "location이 필드는 필수입니다.",
     }),
     body: Joi.string().messages({
         "string.base": "body 필드는 문자열로 이루어져야 합니다.",
@@ -95,10 +93,8 @@ const meetingSchema = Joi.object({
     attendees: Joi.array().items(Joi.string()).messages({
         "string.base": "attendees 필드는 문자열로 이루어져야 합니다.",
     }),
-    location: Joi.string().required().messages({
+    location: Joi.string().messages({
         'string.base' : 'location 필드는 문자열로 이루어져야 합니다.',
-        'string.empty' : '장소를 입력해 주세요.',
-        'any.required' : 'location이 필드는 필수입니다.'
     }),
     body: Joi.string().messages({
         'string.base' : 'body 필드는 문자열로 이루어져야 합니다.',
