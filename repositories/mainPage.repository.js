@@ -414,9 +414,13 @@ class MainPageRepository {
                 },
             ],
         })
+        console.log("%%%%%%%%%findTotalMeeting%%%%%%%%%%%",findTotalMeeting)
         findTotalMeeting.map((item) => {
+            console.log("########item##########", item)
             if(item.files) {
+                console.log("@@@@@@@@@@@@item.files@@@@@@@@@", item.files)
                 item.files = item.files.split("|").map((item) => {
+                    console.log("&&&&&&&&&&&item&&&&&&&&&&&&", item.files)
                     return JSON.parse(item)
                 })
             }
