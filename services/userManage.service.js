@@ -1,12 +1,10 @@
 const bcrypt = require("bcrypt");
 const UserManageRepository = require("../repositories/userManage.repository");
 const CustomError = require("../middlewares/errorHandler");
-const { sequelize } = require("../models");
 
 class UserManageService {
     constructor() {
         this.userManageRepository = new UserManageRepository();
-        this.sequelize = sequelize;
     }
 
     // 팀 목록
@@ -98,7 +96,7 @@ class UserManageService {
         salaryDay,
         userInfo,
     }) => {
-        
+
         // 아이디 중복체크
         const existUser = await this.userManageRepository.findUserById(userId);
 
@@ -122,17 +120,22 @@ class UserManageService {
         const salt = await bcrypt.genSalt();
         const encryptPwd = await bcrypt.hash(userId, salt);
 
-        const t = await this.sequelize.transaction();
-        try {
             // console.log(t)
-            const teamInfo = existTeam
-            ? existTeam
-            : await this.userManageRepository.createTeam({
+        const teamInfo = existTeam
+        if (!existTeam) {
+            await this.userManageRepository.createTeamAndUser({
                 team,
                 companyId,
-                transaction: t,
+                authLevel,
+                rank,
+                userName,
+                userId,
+                joinDay,
+                job,
+                salaryDay,
+                encryptPwd,
             });
-        
+        } else {
             await this.userManageRepository.createUser({
                 teamId: teamInfo.teamId,
                 authLevel,
@@ -144,14 +147,9 @@ class UserManageService {
                 salaryDay,
                 companyId,
                 encryptPwd,
-                transaction: t,
             });
-            await t.commit();
-        } catch (transactionError) {
-            console.log(transactionError.message)
-            await t.rollback();
-            throw new CustomError(transactionError.message)
-        }    
+        }
+        
     };
 }
 
