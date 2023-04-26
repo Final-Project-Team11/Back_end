@@ -60,6 +60,10 @@ class MypageController {
             const issues = await this.MypageService.getMentionedIssue({
                 userId,
             });
+            //기타 일정(워크샵, 회식 등등)
+            const event = await this.MypageService.getMentionedEvent({
+                userId,
+            })
             //reports
             const report = await this.MypageService.getMentionedReport({
                 userId,
@@ -75,6 +79,7 @@ class MypageController {
             const issue = await this.MypageService.filterIssue({
                 schedule,
                 meeting,
+                event,
                 issues,
                 report,
                 meetingReport,
@@ -174,12 +179,12 @@ class MypageController {
         }
     };
 
-    getDetailMyfile = async (req,res,next) => {
-        try{
+    getDetailMyfile = async (req, res, next) => {
+        try {
             const { Id } = req.params;
-            const detail = await this.MypageService.getDatailMyfile({Id})
-            res.status(200).json({detail})
-        }catch(err){
+            const detail = await this.MypageService.getDatailMyfile({ Id })
+            res.status(200).json({ detail })
+        } catch (err) {
             next(err)
         }
     }
@@ -210,12 +215,12 @@ class MypageController {
         }
     };
 
-    getVacationProgress = async (req,res,next) => {
-        try{
-            const {userId} = res.locals.user
-            const status = await this.MypageService.getVacationProgress({userId})
+    getVacationProgress = async (req, res, next) => {
+        try {
+            const { userId } = res.locals.user
+            const status = await this.MypageService.getVacationProgress({ userId })
             res.status(200).json(status)
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }
