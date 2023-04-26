@@ -20,6 +20,7 @@ class ScheduleManageRepository {
                 "Id",
                 [Sequelize.col("User.userName"), "userName"],
                 [Sequelize.col("Schedule.title"), "title"],
+                [Sequelize.col("Schedule.location"), "location"],
                 [Sequelize.col("Schedule.body"), "body"],
                 [Sequelize.col("Schedule.start"), "start"],
                 [Sequelize.col("Schedule.end"), "end"],
