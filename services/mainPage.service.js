@@ -17,7 +17,7 @@ class MainPageService {
         // console.log(findTeamVacation)
         // console.log(findTeamName)
 
-        const findTotalVacation = Object.assign({}, findTeamName, {4: vacation});
+        const findTotalVacation = Object.assign({}, findTeamName, {vacation});
         // console.log("-------------------",findTotalVacation)
 
         return findTotalVacation
