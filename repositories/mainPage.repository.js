@@ -86,6 +86,7 @@ class MainPageRepository {
                 [Sequelize.col("Schedule.userId"), "userId"],
                 [Sequelize.col("Schedule.title"), "title"],
                 [Sequelize.col("Schedule.body"), "body"],
+                [Sequelize.col("Schedule.location"), "location"],
                 [
                     Sequelize.literal(
                     "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Schedule.Id)"
@@ -99,7 +100,7 @@ class MainPageRepository {
                     Sequelize.literal(
                         "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ', ') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.Id = Events.Id)"
                     ),
-                    "mentions",
+                    "attendees",
                 ],
             ],
             include: [
@@ -127,7 +128,7 @@ class MainPageRepository {
         })
         const result = findTotalSchedule.map((item) => ({
             ...item,
-            mentions: item.mentions.split(", "),
+            attendees: item.attendees.split(", "),
         }));
         // console.log("=====================",result);
 
@@ -309,7 +310,7 @@ class MainPageRepository {
                     Sequelize.literal(
                         "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ', ') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.Id = Events.Id)"
                     ),
-                    "mentions",
+                    "attendees",
                 ],
             ],
             include: [
@@ -337,7 +338,7 @@ class MainPageRepository {
 
         const result = findTotalIssue.map((item) => ({
             ...item,
-            mentions: item.mentions.split(", "),
+            attendees: item.attendees.split(", "),
         }));
         // console.log("=====================",result);
 
@@ -389,7 +390,7 @@ class MainPageRepository {
                     Sequelize.literal(
                         "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ', ') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.Id = Events.Id)"
                     ),
-                    "mentions",
+                    "attendees",
                 ],
             ],
             include: [
@@ -417,7 +418,7 @@ class MainPageRepository {
 
         const result = findTotalMeeting.map((item) => ({
             ...item,
-            mentions: item.mentions.split(", "),
+            attendees: item.attendees.split(", "),
         }));
         // console.log("=====================",result);
 
@@ -469,7 +470,7 @@ class MainPageRepository {
                     Sequelize.literal(
                         "(SELECT GROUP_CONCAT(DISTINCT Users.userName SEPARATOR ', ') FROM Mentions JOIN Users ON Mentions.userId = Users.userId WHERE Mentions.Id = Events.Id)"
                     ),
-                    "mentions",
+                    "attendees",
                 ],
             ],
             include: [
@@ -497,7 +498,7 @@ class MainPageRepository {
 
         const result = findTotalProgram.map((item) => ({
             ...item,
-            mentions: item.mentions.split(", "),
+            attendees: item.attendees.split(", "),
         }));
         // console.log("=====================",result);
 

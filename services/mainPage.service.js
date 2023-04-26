@@ -17,7 +17,7 @@ class MainPageService {
         // console.log(findTeamVacation)
         // console.log(findTeamName)
 
-        const findTotalVacation = Object.assign({}, findTeamName, {vacation});
+        const findTotalVacation = Object.assign({}, findTeamName, {4: vacation});
         // console.log("-------------------",findTotalVacation)
 
         return findTotalVacation
@@ -30,7 +30,7 @@ class MainPageService {
             throw new CustomError('권한이 존재하지않습니다.', 401)
         }
         const findTeamName = await this.mainPageRepository.findTeamName(teamId)
-        // 출장 조회
+        // 출장(schedule) 조회
         const schedule = await this.mainPageRepository.findTotalSchedule({teamId, year, month})
         // // 보고서 조회
         // const report = await this.mainPageRepository.findTotalReport({teamId, year, month})
