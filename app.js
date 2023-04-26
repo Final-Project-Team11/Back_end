@@ -17,7 +17,7 @@ app.use(
 );
 
 sequelize
-    .sync({ force: false }) // alter: true
+    .sync({ alter: true }) // alter: true
     .then(() => {
         console.log("Sync success");
     })
