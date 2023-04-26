@@ -158,36 +158,36 @@ class MypageRepository {
         });
     };
 
-    getIssueById = async ({ Id, userId }) => {
-        //meeting 테이블과 mention 테이블 합치기
-        return await Events.findOne({
-            raw: true,
-            where: { Id },
-            attributes: [
-                "Id",
-                "Mentions.mentionId",
-                "User.userName",
-                "Meeting.title",
-                "calendarId",
-                "Mentions.isChecked",
-            ],
-            include: [
-                {
-                    model: Users,
-                    attributes: [],
-                },
-                {
-                    model: Meetings,
-                    attributes: [],
-                },
-                {
-                    model: Mentions,
-                    attributes: [],
-                    where: { userId },
-                },
-            ],
-        });
-    };
+    // getIssueById = async ({ Id, userId }) => {
+    //     //meeting 테이블과 mention 테이블 합치기
+    //     return await Events.findOne({
+    //         raw: true,
+    //         where: { Id },
+    //         attributes: [
+    //             "Id",
+    //             "Mentions.mentionId",
+    //             "User.userName",
+    //             "Meeting.title",
+    //             "calendarId",
+    //             "Mentions.isChecked",
+    //         ],
+    //         include: [
+    //             {
+    //                 model: Users,
+    //                 attributes: [],
+    //             },
+    //             {
+    //                 model: Meetings,
+    //                 attributes: [],
+    //             },
+    //             {
+    //                 model: Mentions,
+    //                 attributes: [],
+    //                 where: { userId },
+    //             },
+    //         ],
+    //     });
+    // };
 
     getReportById = async ({ Id, userId }) => {
         //report 테이블과 mention 테이블 합치기
@@ -633,7 +633,6 @@ class MypageRepository {
                 },
             ],
         });
-        console.log(Report)
         if(Report.files){
             Report.files = Report.files.split("|").map((item) => {
                 return JSON.parse(item)
