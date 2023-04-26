@@ -127,6 +127,7 @@ class MainPageRepository {
                     return JSON.parse(item)
                 })
             }
+            return;
         })
         const result = findTotalSchedule.map((item) => ({
             ...item,
@@ -337,6 +338,7 @@ class MainPageRepository {
                     return JSON.parse(item)
                 })
             }
+            return;
         })
 
         const result = findTotalIssue.map((item) => ({
@@ -418,6 +420,7 @@ class MainPageRepository {
                     return JSON.parse(item)
                 })
             }
+            return;
         })
 
         const result = findTotalMeeting.map((item) => ({
@@ -499,6 +502,7 @@ class MainPageRepository {
                     return JSON.parse(item)
                 })
             }
+            return;
         })
 
         const result = findTotalProgram.map((item) => ({

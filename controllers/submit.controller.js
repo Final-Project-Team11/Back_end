@@ -11,7 +11,7 @@ class SubmitController {
         const {start, end, title, location, attendees, body} = req.body
         const {userId, teamId} = res.locals.user
 
-        console.log("req.file: ", req.files[0].transforms); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
+        console.log("req.file: ", req.files); // 테스트 => req.file.location에 이미지 링크(s3-server)가 담겨있음, 다중이라면 file => files로 변경
 
         // 파일이 있을때와 없을때
         const fileLocation = req.files ? await req.files.map(file => file.transforms[0].location) : null
