@@ -1,6 +1,52 @@
 const { Users, Schedules, Mentions, Events, Sequelize, Files, Others } = require("../models");
 class OtherManageRepository {
 
+     // 기타 결제 상세 조회
+    findOtherById = async ({ Id }) => {
+        const other = await Events.findOne({
+            where: { Id },
+            attributes: [
+                "Id",
+                [Sequelize.col("User.userName"), "userName"],
+                [Sequelize.col("Other.title"), "title"],
+                [Sequelize.col("Other.body"), "body"],
+                [Sequelize.col("Other.start"), "start"],
+                [Sequelize.col("Other.end"), "end"],
+                [Sequelize.col("Other.status"), "status"],
+            ],
+            order: [["createdAt", "DESC"]],
+            include: [
+                {
+                    model: Files,
+                    where: { Id },
+                    attributes: ["fileName", "fileLocation"],
+                    required: false
+                },
+                {
+                    model: Others,
+                    attributes: [],
+                },
+                {
+                    model: Users,
+                    attributes: [],
+                },
+                {
+                    model: Mentions,
+                    required: true,
+                    attributes: ["userId"],
+                    include: [
+                        {
+                            model: Users,
+                            attributes: ["userName"],
+                        },
+                    ],
+                },
+            ],
+        });
+        return other
+    };
+
+
     // 팀 기타 결제 
     findTeamOther = async ({ size, page, teamId }) => {
         page ? page : 1;

@@ -5,7 +5,14 @@ const managerMiddleware = require("../middlewares/managerMiddleware");
 const authMiddleware = require("../middlewares/auth-middleware");
 const otherManageController = new OtherManageController();
 
-// 팀 출장 요청 전체조회
+// 팀 기타 결제 요청 전체조회
 router.get("/", managerMiddleware, otherManageController.otherList);
+
+// 기타 결제 상세 조회
+router.get(
+    "/:Id",
+    authMiddleware,
+    otherManageController.otherDetail
+);
 
 module.exports = router;
