@@ -48,16 +48,24 @@ class MypageService {
     };
 
     getUserSchedule = async ({ userId }) => {
+        //출장조회
         const schedule = await this.MypageRepository.getUserSchedule({
             userId,
         });
-        return schedule
+        //결제요청서 조회
+        const other = await this.MypageRepository.getUserOther({
+            userId
+        })
+        //배열 합치기
+        let list =[]
+        const result = list.concat(schedule,other).sort((a,b) => b.Id - a.Id)
+        return result
             .filter((event) => event.status === "submit")
             .concat(
-                schedule.filter(
+                result.filter(
                     (event) =>
                         event.status === "accept" || event.status === "deny"
-                )
+                ).reverse()
             );
     };
 

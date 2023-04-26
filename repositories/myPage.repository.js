@@ -78,8 +78,51 @@ class MypageRepository {
             return;
         })
         return schedules
-
     };
+
+    getUserOther = async({ userId }) => { 
+        const others = await Others.findAll({
+            raw: true,
+            where: { userId },
+            attributes: [
+                "Id",
+                "User.userName",
+                "title",
+                [
+                    Sequelize.literal(
+                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Others.Id)"
+                    ),
+                    "files"
+                ],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Others.createdAt"),
+                        "%m/%d"
+                    ),
+                    "enroll",
+                ],
+                "status",
+            ],
+            order: [["createdAt", "DESC"]],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                },
+            ],
+        })
+        others.map((other) => {
+            if (other.files) {
+                other.files = other.files.split("|").map((item) => {
+                    return JSON.parse(item)
+                })
+            }
+            return;
+        })
+        return others
+    }
+
     getMention = async ({ userId, type }) => {
         const mentions = await Mentions.findAll({
             raw: true,

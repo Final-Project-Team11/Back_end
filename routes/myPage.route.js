@@ -9,7 +9,7 @@ const router = express.Router();
 //localhost:3003/usersInfo
 router.get("/usersInfo", authmiddleware, mypagecontroller.getUserInfo);
 
-//출장 조회
+//내 결재 조회
 //localhost:3003/mySchedule
 router.get("/mySchedule", authmiddleware, mypagecontroller.getSchedules);
 
