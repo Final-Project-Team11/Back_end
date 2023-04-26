@@ -10,22 +10,22 @@ class AuthService {
     }
     checkIdPassword = async ({ companyId, password }) => {
         const user = await this.AuthRepository.findByCompanyId({ companyId });
-        const checkpassword = await bcrypt.compare(password, user.password);
-
-        if (user.userId !== companyId) {
+        if (!user || user.userId !== companyId) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
-        } else if (!checkpassword) {
+        }
+        const checkpassword = await bcrypt.compare(password, user.password);
+        if (!checkpassword) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
         }
         return user;
     };
     checkUserIdPassword = async ({ userId, password }) => {
         const user = await this.AuthRepository.findByUserId({ userId });
-        const checkpassword = await bcrypt.compare(password, user.password);
-
-        if (user.userId !== userId) {
+        if (!user || user.userId !== userId) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
-        } else if (!checkpassword) {
+        }
+        const checkpassword = await bcrypt.compare(password, user.password);
+        if (!checkpassword) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
         }
         return user;
@@ -35,6 +35,7 @@ class AuthService {
         const token = jwt.sign(
             {
                 userId: user.userId,
+                userName : user.userName,
                 companyId: user.companyId,
                 teamId : user.teamId,
                 teamName: team.teamName,
@@ -58,6 +59,7 @@ class AuthService {
         const token = jwt.sign(
             {
                 userId,
+                userName : user.userName,
                 companyId: user.companyId,
                 teamName: team.teamName,
                 teamId : user.teamId,
