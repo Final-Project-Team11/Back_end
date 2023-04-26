@@ -22,7 +22,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '2', // Schedules
@@ -88,7 +88,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
@@ -168,7 +168,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '7', // Others
@@ -221,7 +221,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId, // Issues("3"), Meeting("0"), 기타일정("1")
@@ -271,7 +271,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '6', // Reports
@@ -320,7 +320,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
@@ -363,7 +363,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.create({
                 userId,
                 calendarId: '5', //MeetingReports
@@ -407,7 +407,7 @@ class SubmitRepository {
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
         })
         try {
-            let hasFile = (fileName) ? true : false;
+            let hasFile = (fileName.length === 0) ? false : true;
             const event = await Events.update({
                 userId,
                 hasFile : hasFile,
