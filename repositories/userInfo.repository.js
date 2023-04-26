@@ -22,6 +22,12 @@ class UserInfoRepository {
             ],
         });
     };
+    findProfileImgById = async ({userId}) => {
+        return await Users.findOne({
+            where : {userId},
+            attributes : ["profileImg"]
+        })
+    }
 
     updateProfile = async({userId,birthDay, phoneNum,fileLocation}) => {
         await Users.update(

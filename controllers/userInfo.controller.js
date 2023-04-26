@@ -22,10 +22,13 @@ class UserInfoController {
             const { userId } = res.locals.user;
             const { birthDay, phoneNum } = req.body; //joi 
             let fileLocation;
-            if (req.file){
+            if (req.file) {
                 fileLocation = req.file.transforms[0].location
+                //users 테이블에 올라가있는 파일이 있으면 지우기
+                // await this.UserInfoService.getUserProfile({ userId })
             }
-            await this.UserInfoService.updateProfile({userId,birthDay, phoneNum,fileLocation})
+            //프로필 정보 업데이트
+            await this.UserInfoService.updateProfile({ userId, birthDay, phoneNum, fileLocation })
 
             res.status(200).json({ message: "프로필 정보가 수정되었습니다." })
         } catch (err) {
@@ -33,12 +36,12 @@ class UserInfoController {
         }
     }
 
-    getProfile = async(req,res,next) => {
-        try{
-            const {userId} = res.locals.user;
-            const userInfo = await this.UserInfoService.getProfile({userId})
+    getProfile = async (req, res, next) => {
+        try {
+            const { userId } = res.locals.user;
+            const userInfo = await this.UserInfoService.getProfile({ userId })
             res.status(200).json(userInfo)
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }

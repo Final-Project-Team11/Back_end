@@ -1,8 +1,11 @@
 const CustomError = require("../middlewares/errorHandler");
 const moment = require("moment");
+const env = process.env
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
 const UserInfoRepository = require("../repositories/userInfo.repository")
 class UserInfoService {
-    constructor(){
+    constructor() {
         this.UserInfoRepository = new UserInfoRepository();
     }
     checkUserById = async ({ userId }) => {
@@ -42,17 +45,43 @@ class UserInfoService {
             team: user.teamName,
             remainDay: user.remainDay,
             salaryDay: payDay,
-            profileImg : user.profileImg
+            profileImg: user.profileImg
         };
         return userInfo;
     };
 
-    updateProfile = async ({userId,birthDay, phoneNum,fileLocation}) => {
-        await this.UserInfoRepository.updateProfile({userId,birthDay, phoneNum,fileLocation})
+    // getUserProfile = async ({ userId }) => {
+    //     //users 테이블에 profileImg가 존재하는지 확인하기
+    //     const userImg = await this.UserInfoRepository.findProfileImgById({ userId })
+    //     console.log(userImg.profileImg)
+    //     //존재한다면 삭제
+    //     if (userImg !== null) {
+    //         // 단일 파일 삭제
+    //         const fileKey = userImg.profileImg.split('/')[3]
+    //         const objectParams_del = {
+    //             Bucket: env.BUCKET_NAME,
+    //             Delete: {
+    //                 Objects: { Key: fileKey }
+    //             }
+    //         }
+    //         await s3
+    //             .deleteObject(objectParams_del)
+    //             .promise()
+    //             .then((data) => {
+    //                 console.log('Delete Success! : ', data)
+    //             })
+    //             .catch((error) => {
+    //                 console.log(error)
+    //             })
+    //     }
+    // }
+
+    updateProfile = async ({ userId, birthDay, phoneNum, fileLocation }) => {
+        await this.UserInfoRepository.updateProfile({ userId, birthDay, phoneNum, fileLocation })
     }
 
-    getProfile = async ({userId}) => {
-        return await this.UserInfoRepository.getProfile({userId})
+    getProfile = async ({ userId }) => {
+        return await this.UserInfoRepository.getProfile({ userId })
     }
 }
 
