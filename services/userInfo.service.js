@@ -46,6 +46,14 @@ class UserInfoService {
         };
         return userInfo;
     };
+
+    updateProfile = async ({userId,birthDay, phoneNum,fileLocation}) => {
+        await this.UserInfoRepository.updateProfile({userId,birthDay, phoneNum,fileLocation})
+    }
+
+    getProfile = async ({userId}) => {
+        return await this.UserInfoRepository.getProfile({userId})
+    }
 }
 
 module.exports = UserInfoService;

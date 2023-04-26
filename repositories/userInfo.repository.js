@@ -1,4 +1,4 @@
-const {Users,Teams} = require("../models")
+const {Users,Teams,Sequelize} = require("../models")
 class UserInfoRepository {
     constructor(){}
 
@@ -22,6 +22,40 @@ class UserInfoRepository {
             ],
         });
     };
+
+    updateProfile = async({userId,birthDay, phoneNum,fileLocation}) => {
+        await Users.update(
+            {
+                birthDay : birthDay,
+                phoneNum : phoneNum,
+                profileImg : fileLocation
+            },
+            {
+                where : {userId}
+            }
+        )
+    }
+
+    getProfile = async({userId}) => {
+        return await Users.findOne({
+            raw : true,
+            where : {userId},
+            attributes : [
+                "userId",
+                "userName",
+                "profileImg",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("birthDay"),
+                        "%Y/%m/%d"
+                    ),
+                    "birthDay",
+                ],
+                "phoneNum"
+            ]
+        })
+    }
 }
 
 module.exports=UserInfoRepository;
