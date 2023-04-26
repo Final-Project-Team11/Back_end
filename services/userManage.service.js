@@ -96,7 +96,6 @@ class UserManageService {
         salaryDay,
         userInfo,
     }) => {
-
         // 아이디 중복체크
         const existUser = await this.userManageRepository.findUserById(userId);
 

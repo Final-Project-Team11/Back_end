@@ -152,9 +152,13 @@ class UserManageRepository {
             password: encryptPwd,
             joinDay,
             userId,
+            userId,
             job,
             companyId,
             salaryDay,
+        },
+        {
+            transaction
         },
         {
             transaction
@@ -167,6 +171,7 @@ class UserManageRepository {
         rank,
         userName,
         joinDay,
+        userId,
         job,
         salaryDay,
         encryptPwd,
