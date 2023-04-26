@@ -420,6 +420,7 @@ class MainPageRepository {
             if(item.files) {
                 console.log("@@@@@@@@@@@@item.files@@@@@@@@@", item.files)
                 item.files = item.files.split("|").map((item) => {
+                    console.log("!!!!!!!!!!item!!!!!!!!!!", item)
                     console.log("&&&&&&&&&&&item&&&&&&&&&&&&", item.files)
                     return JSON.parse(item)
                 })
