@@ -54,18 +54,10 @@ class MypageRepository {
                 [
                     Sequelize.fn(
                         "date_format",
-                        Sequelize.col("start"),
+                        Sequelize.col("Schedules.createdAt"),
                         "%m/%d"
                     ),
-                    "start",
-                ],
-                [
-                    Sequelize.fn(
-                        "date_format",
-                        Sequelize.col("end"),
-                        "%m/%d"
-                    ),
-                    "end",
+                    "enroll",
                 ],
                 "status",
             ],
@@ -78,9 +70,12 @@ class MypageRepository {
             ],
         })
         schedules.map((schedule) => {
-            schedule.files = (schedule.files?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
+            if (schedule.files) {
+                schedule.files = schedule.files.split("|").map((item) => {
+                    return JSON.parse(item)
+                })
+            }
+            return;
         })
         return schedules
 
@@ -310,18 +305,10 @@ class MypageRepository {
                 [
                     Sequelize.fn(
                         "date_format",
-                        Sequelize.col("start"),
+                        Sequelize.col("MeetingReports.createdAt"),
                         "%Y/%m/%d"
                     ),
-                    "start",
-                ],
-                [
-                    Sequelize.fn(
-                        "date_format",
-                        Sequelize.col("end"),
-                        "%Y/%m/%d"
-                    ),
-                    "end",
+                    "enroll",
                 ],
                 "User.userName",
                 "title",
@@ -348,7 +335,7 @@ class MypageRepository {
             order: [["Id", "DESC"]],
         });
         meetingReports.map((meetingReport) => {
-            meetingReport.files = (meetingReport.files?? "").split("|").map((item) => {
+            meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
                 return JSON.parse(item)
             })
         })
@@ -360,21 +347,14 @@ class MypageRepository {
             raw: true,
             attributes: [
                 "Id",
+                "Event.calendarId",
                 [
                     Sequelize.fn(
                         "date_format",
-                        Sequelize.col("start"),
+                        Sequelize.col("Reports.createdAt"),
                         "%Y/%m/%d"
                     ),
-                    "start",
-                ],
-                [
-                    Sequelize.fn(
-                        "date_format",
-                        Sequelize.col("end"),
-                        "%Y/%m/%d"
-                    ),
-                    "end",
+                    "enroll",
                 ],
                 "User.userName",
                 "title",
@@ -384,7 +364,6 @@ class MypageRepository {
                     ),
                     "files"
                 ],
-                "Event.calendarId",
             ],
             where: { userId },
             include: [
@@ -419,6 +398,15 @@ class MypageRepository {
                     raw: true,
                     attributes: [
                         "Id",
+                        "Event.calendarId",
+                        [
+                            Sequelize.fn(
+                                "date_format",
+                                Sequelize.col("MeetingReports.createdAt"),
+                                "%Y/%m/%d"
+                            ),
+                            "enroll",
+                        ],
                         "User.userName",
                         "User.userId",
                         "title",
@@ -427,22 +415,6 @@ class MypageRepository {
                                 "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
                             ),
                             "files"
-                        ],
-                        [
-                            Sequelize.fn(
-                                "date_format",
-                                Sequelize.col("start"),
-                                "%Y/%m/%d"
-                            ),
-                            "start",
-                        ],
-                        [
-                            Sequelize.fn(
-                                "date_format",
-                                Sequelize.col("end"),
-                                "%Y/%m/%d"
-                            ),
-                            "end",
                         ],
                     ],
                     where: {
@@ -468,7 +440,7 @@ class MypageRepository {
         );
         const lists = list.flat()
         lists.map((event) => {
-            event.files = (event.files?? "").split("|").map((item) => {
+            event.files = (event.files ?? "").split("|").map((item) => {
                 return JSON.parse(item)
             })
         })
@@ -482,6 +454,15 @@ class MypageRepository {
                     raw: true,
                     attributes: [
                         "Id",
+                        "Event.calendarId",
+                        [
+                            Sequelize.fn(
+                                "date_format",
+                                Sequelize.col("Reports.createdAt"),
+                                "%Y/%m/%d"
+                            ),
+                            "enroll",
+                        ],
                         "User.userName",
                         "User.userId",
                         "title",
@@ -490,22 +471,6 @@ class MypageRepository {
                                 "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
                             ),
                             "files"
-                        ],
-                        [
-                            Sequelize.fn(
-                                "date_format",
-                                Sequelize.col("start"),
-                                "%Y/%m/%d"
-                            ),
-                            "start",
-                        ],
-                        [
-                            Sequelize.fn(
-                                "date_format",
-                                Sequelize.col("end"),
-                                "%Y/%m/%d"
-                            ),
-                            "end",
                         ],
                     ],
                     where: {
@@ -531,7 +496,7 @@ class MypageRepository {
         );
         const lists = list.flat()
         lists.map((event) => {
-            event.files = (event.files?? "").split("|").map((item) => {
+            event.files = (event.files ?? "").split("|").map((item) => {
                 return JSON.parse(item)
             })
         })
@@ -612,10 +577,10 @@ class MypageRepository {
             ],
         });
 
-        meetingReport.files = (meetingReport.files?? "").split("|").map((item) => {
+        meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
             return JSON.parse(item)
         })
-        meetingReport.attendees = (meetingReport.attendees?? "").split(",");
+        meetingReport.attendees = (meetingReport.attendees ?? "").split(",");
         return meetingReport;
     };
 
@@ -668,10 +633,13 @@ class MypageRepository {
                 },
             ],
         });
-        Report.files = (Report.files?? "").split("|").map((item) => {
-            return JSON.parse(item)
-        })
-        Report.attendees = (Report.attendees?? "").split(",");
+        console.log(Report)
+        if(Report.files){
+            Report.files = Report.files.split("|").map((item) => {
+                return JSON.parse(item)
+            })
+        }
+        Report.attendees = (Report.attendees ?? "").split(",");
         return Report;
     };
 
