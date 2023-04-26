@@ -35,6 +35,7 @@ class MainPageRepository {
                 [Sequelize.col("Vacation.start"), "start"],
                 [Sequelize.col("Vacation.end"), "end"],
                 [Sequelize.col("Vacation.typeDetail"), "typeDetail"],
+                "isReadOnly",
             ],
             include: [
                 {
@@ -102,6 +103,7 @@ class MainPageRepository {
                     ),
                     "attendees",
                 ],
+                "isReadOnly",
             ],
             include: [
                 {
@@ -312,6 +314,7 @@ class MainPageRepository {
                     ),
                     "attendees",
                 ],
+                "isReadOnly",
             ],
             include: [
                 {
@@ -392,6 +395,7 @@ class MainPageRepository {
                     ),
                     "attendees",
                 ],
+                "isReadOnly",
             ],
             include: [
                 {
@@ -472,6 +476,7 @@ class MainPageRepository {
                     ),
                     "attendees",
                 ],
+                "isReadOnly",
             ],
             include: [
                 {
