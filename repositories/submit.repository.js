@@ -74,13 +74,13 @@ class SubmitRepository {
     // 일정 수정
     scheduleModify = async({
         userId,
-        eventId,
-        startDay,
-        endDay,
+        Id,
+        start,
+        end,
         title,
-        ref,
+        attendees,
         location,
-        content,
+        body,
         fileLocation,
         fileName,
     }) => {
@@ -93,23 +93,23 @@ class SubmitRepository {
                 userId,
                 hasFile : hasFile,
             }, {
-                where : {eventId}
+                where : {Id}
             }, {transaction : t})
             
             const createScheduleSubmit = await Schedules.update({
                 userId,
-                startDay,
-                endDay,
+                start,
+                end,
                 title,
                 location,
-                content,
+                body,
                 fileLocation,
                 fileName,
             },{
-                where: {eventId}
+                where: {Id}
             }, {transaction : t})
 
-            await Promise.all(ref.map(async(item) => {
+            await Promise.all(attendees.map(async(item) => {
                 const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',userId)
 
@@ -117,7 +117,7 @@ class SubmitRepository {
                     userId : userId,
                     isChecked : false
                 }, {
-                    where : {eventId}
+                    where : {Id}
                 }, {transaction : t});
             }))
 
@@ -461,10 +461,10 @@ class SubmitRepository {
         return findRef
     };
 
-    findOneSchedule = async(eventId) => {
+    findOneSchedule = async(Id) => {
         const schedule = await Schedules.findOne({
             raw : true,
-            where : {eventId},
+            where : {Id},
         })
 
         return schedule
@@ -487,6 +487,18 @@ class SubmitRepository {
         })
 
         return meetingReport
+    }
+
+    findOneFile = async(Id) => {
+        const file = await Files.findAll({
+            raw: true,
+            where: {Id},
+            attributes: [
+                "fileLocation"
+            ]
+        })
+
+        return file
     }
 }
 
