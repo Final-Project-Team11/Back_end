@@ -46,13 +46,15 @@ class ScheduleManageService {
             throw new CustomError("신청서가 존재하지 않습니다.",401)
         }
         scheduleDetail = scheduleDetail.dataValues
-        console.log("datavalue 확인용", scheduleDetail)
         const attendees = scheduleDetail.Mentions.map(
             (mention) => mention.User.userName
         );
-        scheduleDetail.attendees = attendees;
-
+        
+        scheduleDetail.files = scheduleDetail.Files;
+        delete scheduleDetail.Files;
+        
         // scheduleDetail객체 Mentions속성 삭제
+        scheduleDetail.attendees = attendees;
         delete scheduleDetail.Mentions;
         return scheduleDetail;
     };
@@ -64,9 +66,6 @@ class ScheduleManageService {
                 page,
                 teamId,
             });
-        // scheduleList = scheduleList.dataValues
-        console.log(scheduleList)
-        // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",scheduleList.dataValues)
         const newscheduleList = scheduleList.map(
             (item) => {
                 const newItem =item.toJSON()
@@ -75,7 +74,6 @@ class ScheduleManageService {
                 return newItem
             }
         )
-        // console.log(tempScheduleList)
         return newscheduleList;
     };
 }
