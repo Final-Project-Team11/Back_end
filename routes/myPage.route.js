@@ -64,4 +64,9 @@ router.get(
 //휴가 진행 상황조회
 //localhost:3003/vacationProgress
 router.get("/vacationProgress",authmiddleware,mypagecontroller.getVacationProgress)
+
+//일주일 팀 일정 조회
+//localhost:3003/weeklySchedule
+router.get("/weeklySchedule",authmiddleware,mypagecontroller.getWeeklySchedule)
+
 module.exports = router;

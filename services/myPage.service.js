@@ -267,6 +267,20 @@ class MypageService {
         return await this.MypageRepository.getVacationProgress({userId})
     }
     
+    getWeeklySchedule = async({teamId,year,month,day}) => {
+        //팀에 해당하는 회의(0)
+        const meeting = await this.MypageRepository.getWeeklyMeeting({teamId,year,month,day})
+        //팀에 해당하는 기타일정(1)
+        const other = await this.MypageRepository.getWeeklyOther({teamId,year,month,day})
+        //팀에 해당하는 출장(2)
+        const schedule = await this.MypageRepository.getWeeklySchedule({teamId,year,month,day})
+        //팀에 해당하는 미팅(3)
+        const issue = await this.MypageRepository.getWeeklyIssue({teamId,year,month,day})
+        let result = []
+        //스케쥴하나로 합쳐서 리턴
+        const data = Object.assign({}, {meeting}, {other}, {schedule}, {issue});
+        return data
+    }
 }
 
 module.exports = MypageService;

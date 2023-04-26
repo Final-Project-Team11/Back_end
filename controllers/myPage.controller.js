@@ -224,6 +224,18 @@ class MypageController {
             next(err)
         }
     }
+
+    getWeeklySchedule = async(req,res,next) => {
+        try{
+            const {year,month,day} = req.query;
+            const {teamId} = res.locals.user;
+
+            const data = await this.MypageService.getWeeklySchedule({teamId,year,month,day})
+            res.status(200).json(data)
+        }catch(err){
+            next(err)
+        }
+    }
 }
 
 module.exports = MypageController;
