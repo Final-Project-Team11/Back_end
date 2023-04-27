@@ -5,11 +5,7 @@ const mypagecontroller = new MypageController();
 const authmiddleware = require("../middlewares/auth-middleware.js");
 const router = express.Router();
 
-//유저정보조회
-//localhost:3003/usersInfo
-router.get("/usersInfo", authmiddleware, mypagecontroller.getUserInfo);
-
-//출장 조회
+//내 결재 조회
 //localhost:3003/mySchedule
 router.get("/mySchedule", authmiddleware, mypagecontroller.getSchedules);
 
@@ -42,21 +38,21 @@ router.get("/meetingfiles", authmiddleware, mypagecontroller.getMeetingFiles);
 router.get("/reportfiles", authmiddleware, mypagecontroller.getReportFiles);
 
 //나의 파일 상세조회
-//localhost:3003/myfiles/:eventId
-router.get("/myfiles/:eventId",authmiddleware,mypagecontroller.getDetailMyfile)
+//localhost:3003/myfiles/:Id
+router.get("/myfiles/:Id",authmiddleware,mypagecontroller.getDetailMyfile)
 
 //팀 회의록 상세조회
-//localhost:3003/meetingfiles/:eventId
+//localhost:3003/meetingfiles/:Id
 router.get(
-    "/meetingfiles/:eventId",
+    "/meetingfiles/:Id",
     authmiddleware,
     mypagecontroller.getDetailMeetingFile
 );
 
 //팀 보고서 상세조회
-//localhost:3003/reportfiles/:eventId
+//localhost:3003/reportfiles/:Id
 router.get(
-    "/reportfiles/:eventId",
+    "/reportfiles/:Id",
     authmiddleware,
     mypagecontroller.getDetailReportFile
 );
@@ -64,4 +60,9 @@ router.get(
 //휴가 진행 상황조회
 //localhost:3003/vacationProgress
 router.get("/vacationProgress",authmiddleware,mypagecontroller.getVacationProgress)
+
+//일주일 팀 일정 조회
+//localhost:3003/weeklySchedule
+router.get("/weeklySchedule",authmiddleware,mypagecontroller.getWeeklySchedule)
+
 module.exports = router;

@@ -126,6 +126,12 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.STRING,
             },
+            birthDay: {
+                type: DataTypes.DATE,
+            },
+            phoneNum: {
+                type: DataTypes.STRING,
+            },
             profileImg :{
                 type: DataTypes.STRING,
             },

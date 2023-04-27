@@ -1,6 +1,6 @@
-const { Users, Companys, Teams, Sequelize } = require("../models");
+const { Users, Companys, Teams, Sequelize, sequelize } = require("../models");
 const { Op } = require("sequelize");
-const { boolean } = require("joi");
+const CustomError = require("../middlewares/errorHandler");
 
 class UserManageRepository {
     //유저 수정
@@ -110,10 +110,13 @@ class UserManageRepository {
         return existUser;
     };
     // 팀 생성
-    createTeam = async ({ team, companyId }) => {
+    createTeam = async ({ team, companyId, transaction },) => {
         const newTeam = await Teams.create({
             teamName: team,
             companyId,
+        },
+        {
+            transaction
         });
         return newTeam;
     };
@@ -133,26 +136,69 @@ class UserManageRepository {
         authLevel,
         rank,
         userName,
-        userId,
         joinDay,
+        userId,
         job,
         companyId,
         salaryDay,
         encryptPwd,
+        transaction
     }) => {
         await Users.create({
             teamId,
             authLevel,
             rank,
             userName,
-            userId,
             password: encryptPwd,
             joinDay,
+            userId,
+            userId,
             job,
             companyId,
             salaryDay,
+        },
+        {
+            transaction
+        },
+        {
+            transaction
         });
     };
+    createTeamAndUser = async ({
+        team,
+        companyId,
+        authLevel,
+        rank,
+        userName,
+        joinDay,
+        userId,
+        job,
+        salaryDay,
+        encryptPwd,
+    }) => {
+        const t = await sequelize.transaction();
+        try {
+            const teamInfo = await this.createTeam({ team, companyId, transaction: t, })
+            const teamId = teamInfo.teamId
+            await this.createUser({
+                teamId,
+                authLevel,
+                rank,
+                userName,
+                joinDay,
+                userId,
+                job,
+                companyId,
+                salaryDay,
+                encryptPwd,
+                transaction: t,
+            });
+            await t.commit();
+        } catch (transactionError) {
+            await t.rollback()
+            throw new CustomError(transactionError.message)
+        }
+    }
 }
 
 module.exports = UserManageRepository;

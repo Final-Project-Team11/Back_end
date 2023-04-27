@@ -1,9 +1,9 @@
-const { Users, Schedules, Mentions, Events, Sequelize, Files } = require("../models");
-class ScheduleManageRepository {
+const { Users, Schedules, Mentions, Events, Sequelize, Files, Others } = require("../models");
+class OtherManageRepository {
 
-    // 출장 승인/반려
-    updateScheduleStaus = async ({ Id, status }) => {
-        const result = await Schedules.update(
+    // 기타 결제 승인 반려
+    updateOtherStaus = async ({ Id, status }) => {
+        const result = await Others.update(
             {
             status: status,
             },
@@ -12,19 +12,19 @@ class ScheduleManageRepository {
             })
         return result
     }
-    // 출장 상세 조회
-    findScheduleById = async ({ Id }) => {
-        const schedule = await Events.findOne({
+    
+     // 기타 결제 상세 조회
+    findOtherById = async ({ Id }) => {
+        const other = await Events.findOne({
             where: { Id },
             attributes: [
                 "Id",
                 [Sequelize.col("User.userName"), "userName"],
-                [Sequelize.col("Schedule.title"), "title"],
-                [Sequelize.col("Schedule.location"), "location"],
-                [Sequelize.col("Schedule.body"), "body"],
-                [Sequelize.col("Schedule.start"), "start"],
-                [Sequelize.col("Schedule.end"), "end"],
-                [Sequelize.col("Schedule.status"), "status"],
+                [Sequelize.col("Other.title"), "title"],
+                [Sequelize.col("Other.body"), "body"],
+                [Sequelize.col("Other.start"), "start"],
+                [Sequelize.col("Other.end"), "end"],
+                [Sequelize.col("Other.status"), "status"],
             ],
             order: [["createdAt", "DESC"]],
             include: [
@@ -35,7 +35,7 @@ class ScheduleManageRepository {
                     required: false
                 },
                 {
-                    model: Schedules,
+                    model: Others,
                     attributes: [],
                 },
                 {
@@ -55,14 +55,15 @@ class ScheduleManageRepository {
                 },
             ],
         });
-        return schedule
+        return other
     };
 
-    // 팀 유저 스케줄 ( 출장만 ) , 기능 확장 가능성 있음
-    findTeamSchedule = async ({ size, page, teamId }) => {
+
+    // 팀 기타 결제 
+    findTeamOther = async ({ size, page, teamId }) => {
         page ? page : 1;
         const offset = (page - 1) * size;
-        const teamScheduleList = await Schedules.findAll({
+        const teamOtherList = await Others.findAll({
             limit: size ? size : 10,
             offset: offset ? offset : 0,
             attributes: [
@@ -70,7 +71,7 @@ class ScheduleManageRepository {
                 "title",
                 "status",
                 [Sequelize.col("User.userName"), "userName"],
-                [Sequelize.fn("date_format", Sequelize.col("Schedules.createdAt"), "%Y/%m/%d"), "enrollDay"],
+                [Sequelize.fn("date_format", Sequelize.col("Others.createdAt"), "%Y/%m/%d"), "enrollDay"],
                 "createdAt", 
             ],
             include: [
@@ -100,11 +101,11 @@ class ScheduleManageRepository {
                     Sequelize.fn("FIELD", Sequelize.col("status"), "submit"),
                     "DESC",
                 ],
-                ["createdAt", "DESC"], // 수정된 부분
+                ["createdAt", "DESC"], 
             ],
         });
-        return await teamScheduleList;
+        return await teamOtherList;
     };
 
 }
-module.exports = ScheduleManageRepository;
+module.exports = OtherManageRepository;

@@ -10,19 +10,19 @@ router.get("/", managerMiddleware, vacationManageController.vacationList);
 
 // 휴가 상세 조회
 router.get(
-    "/:eventId",
+    "/:Id",
     authMiddleware,
     vacationManageController.vacationDetail
 );
 // 휴가 승인
 router.put(
-    "/:eventId/accept",
+    "/:Id/accept",
     managerMiddleware,
     vacationManageController.vacationAccept
 );
 // 휴가 반려
 router.put(
-    "/:eventId/deny",
+    "/:Id/deny",
     managerMiddleware,
     vacationManageController.vacationDeny
 );

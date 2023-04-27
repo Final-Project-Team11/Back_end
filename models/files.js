@@ -29,11 +29,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             fileName: {
-                allowNull: false,
+                allowNull: true,
                 type: DataTypes.STRING,
             },
             fileLocation: {
-                allowNull: false,
+                allowNull: true,
                 type: DataTypes.STRING,
             },
             createdAt: {

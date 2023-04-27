@@ -9,8 +9,9 @@ class VacationManageController {
     vacationDeny = async (req, res, next) => {
         try{
             const userInfo = res.locals.user;
-            const { eventId } = req.params;
-            await this.vacationManageService.vacationDeny({ eventId, userInfo })
+            console.log(userInfo)
+            const { Id } = req.params;
+            await this.vacationManageService.vacationDeny({ Id, userInfo })
             res.status(200).json({ message: '휴가 승인 거절되었습니다.' })    
         } catch (err) {
             next(err)
@@ -21,8 +22,8 @@ class VacationManageController {
     vacationAccept = async (req, res, next) => {
         try{
             const userInfo = res.locals.user;
-            const { eventId } = req.params;
-            await this.vacationManageService.vacationAccept({ eventId, userInfo })
+            const { Id } = req.params;
+            await this.vacationManageService.vacationAccept({ Id, userInfo })
             res.status(200).json({ message: '휴가가 등록되었습니다.' })    
         } catch (err) {
             next(err)
@@ -32,9 +33,9 @@ class VacationManageController {
     // 휴가 상세 조회
     vacationDetail = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
+            const { Id } = req.params;
             const vacationDetail =
-                await this.vacationManageService.vacationDetail({ eventId });
+                await this.vacationManageService.vacationDetail({ Id });
             res.status(200).json(vacationDetail);
         } catch (err) {
             next(err);

@@ -1,21 +1,9 @@
 const MypageService = require("../services/myPage.service.js");
-const Joi = require("joi");
 const CustomError = require("../middlewares/errorHandler");
 class MypageController {
     constructor() {
         this.MypageService = new MypageService();
     }
-
-    getUserInfo = async (req, res, next) => {
-        try {
-            const { userId } = res.locals.user;
-            const user = await this.MypageService.checkUserById({ userId });
-            const userInfo = await this.MypageService.getUserInfo({ user });
-            res.status(200).json({ user: userInfo });
-        } catch (err) {
-            next(err);
-        }
-    };
 
     getSchedules = async (req, res, next) => {
         const pageInfo = req.query;
@@ -61,6 +49,10 @@ class MypageController {
             const issues = await this.MypageService.getMentionedIssue({
                 userId,
             });
+            //기타 일정(워크샵, 회식 등등)
+            const event = await this.MypageService.getMentionedEvent({
+                userId,
+            })
             //reports
             const report = await this.MypageService.getMentionedReport({
                 userId,
@@ -76,6 +68,7 @@ class MypageController {
             const issue = await this.MypageService.filterIssue({
                 schedule,
                 meeting,
+                event,
                 issues,
                 report,
                 meetingReport,
@@ -175,21 +168,28 @@ class MypageController {
         }
     };
 
-    getDetailMyfile = async (req,res,next) => {
-        try{
-            const { eventId } = req.params;
-            const detail = await this.MypageService.getDatailMyfile({eventId})
-            res.status(200).json({detail})
-        }catch(err){
+    getDetailMyfile = async (req, res, next) => {
+        try {
+            const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            await this.MypageService.checkSchedule({ userId, Id })
+            const detail = await this.MypageService.getDatailMyfile({ Id })
+            res.status(200).json({ detail })
+        } catch (err) {
             next(err)
         }
     }
 
     getDetailMeetingFile = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
+            const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            const eventType = "5"
+            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailMeetingFile({
-                eventId,
+                Id,
             });
 
             res.status(200).json({ meetingfile: detail });
@@ -200,9 +200,13 @@ class MypageController {
 
     getDetailReportFile = async (req, res, next) => {
         try {
-            const { eventId } = req.params;
+            const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            const eventType = "5"
+            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailReportFile({
-                eventId,
+                Id,
             });
 
             res.status(200).json({ reportfile: detail });
@@ -211,11 +215,23 @@ class MypageController {
         }
     };
 
-    getVacationProgress = async (req,res,next) => {
-        try{
-            const {userId} = res.locals.user
-            const status = await this.MypageService.getVacationProgress({userId})
+    getVacationProgress = async (req, res, next) => {
+        try {
+            const { userId } = res.locals.user
+            const status = await this.MypageService.getVacationProgress({ userId })
             res.status(200).json(status)
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    getWeeklySchedule = async(req,res,next) => {
+        try{
+            const {year,month,day} = req.query;
+            const {teamId} = res.locals.user;
+
+            const data = await this.MypageService.getWeeklySchedule({teamId,year,month,day})
+            res.status(200).json(data)
         }catch(err){
             next(err)
         }

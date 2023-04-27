@@ -45,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 type: DataTypes.STRING,
             },
+            status: {
+                allowNull: false,
+                type: DataTypes.STRING,
+                defaultValue:'submit',
+            },
             body: {
                 allowNull: true,
                 type: DataTypes.STRING,
