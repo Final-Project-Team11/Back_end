@@ -507,7 +507,7 @@ class MypageRepository {
             where: { Id },
         });
     };
-    findEvent = async ({ Id}) => {
+    findEvent = async ({Id}) => {
         return await Events.findOne({
             where: {
                 Id,
@@ -515,6 +515,7 @@ class MypageRepository {
         })
     }
     findEventdetail = async ({ Id, eventType }) => {
+        console.log(Id,eventType)
         return await Events.findOne({
             where: {
                 Id,
@@ -650,9 +651,11 @@ class MypageRepository {
     };
 
     getVacationProgress = async ({ userId }) => {
-        return await Vacations.findOne({
-            attributes: ["status"],
-            where: { userId }
+        return await Vacations.findAll({
+            raw:true,
+            attributes: ["Id","status"],
+            where: { userId },
+            order : [["Id", "DESC"]]
         })
     }
 
