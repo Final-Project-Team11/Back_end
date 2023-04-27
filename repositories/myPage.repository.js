@@ -1,4 +1,5 @@
 const moment = require("moment");
+const { Op } = require('sequelize')
 const {
     Users,
     Teams,
@@ -8,7 +9,6 @@ const {
     Meetings,
     Reports,
     Others,
-    Files,
     Vacations,
     MeetingReports,
     Sequelize,
@@ -200,37 +200,6 @@ class MypageRepository {
             ],
         });
     };
-
-    // getIssueById = async ({ Id, userId }) => {
-    //     //meeting 테이블과 mention 테이블 합치기
-    //     return await Events.findOne({
-    //         raw: true,
-    //         where: { Id },
-    //         attributes: [
-    //             "Id",
-    //             "Mentions.mentionId",
-    //             "User.userName",
-    //             "Meeting.title",
-    //             "calendarId",
-    //             "Mentions.isChecked",
-    //         ],
-    //         include: [
-    //             {
-    //                 model: Users,
-    //                 attributes: [],
-    //             },
-    //             {
-    //                 model: Meetings,
-    //                 attributes: [],
-    //             },
-    //             {
-    //                 model: Mentions,
-    //                 attributes: [],
-    //                 where: { userId },
-    //             },
-    //         ],
-    //     });
-    // };
 
     getReportById = async ({ Id, userId }) => {
         //report 테이블과 mention 테이블 합치기
@@ -705,6 +674,246 @@ class MypageRepository {
         return await Vacations.findOne({
             attributes: ["status"],
             where: { userId }
+        })
+    }
+
+    getWeeklyMeeting = async({teamId,year,month,day}) => {
+        const startDate = new Date(year, month - 1,Number(day) + 1);
+        const endDate = new Date(year, month -1, Number(day) + 7)
+        return await Events.findAll({
+            raw: true,
+            where: {
+                calendarId: "0", // Meeting
+                [Op.and]: [
+                    {
+                        "$Meeting.start$": { // Meetings.start 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                    {
+                        "$Meeting.end$": { // Meetings.end 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                ],
+            },
+            attributes: [
+                "Id",
+                "User.userName",
+                "Meeting.userId",
+                "Meeting.title",
+                "Meeting.body",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Meeting.start"),
+                        "%Y/%m/%d"
+                    ),
+                    "start",
+                ],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Meeting.end"),
+                        "%Y/%m/%d"
+                    ),
+                    "end",
+                ],
+                "calendarId",
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                    where: {
+                        teamId: teamId,
+                    },
+                },
+                {
+                    model: Meetings,
+                    attributes: [],
+                },
+            ],
+        })
+    }
+
+    getWeeklyOther = async({teamId,year,month,day}) => {
+        const startDate = new Date(year, month - 1,Number(day) + 1);
+        const endDate = new Date(year, month -1, Number(day) + 7)
+        return await Events.findAll({
+            raw: true,
+            where: {
+                calendarId: "1", // 기타일정
+                [Op.and]: [
+                    {
+                        "$Meeting.start$": { // Meetings.start 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                    {
+                        "$Meeting.end$": { // Meetings.end 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                ],
+            },
+            attributes: [
+                "Id",
+                "User.userName",
+                "Meeting.userId",
+                "Meeting.title",
+                "Meeting.body",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Meeting.start"),
+                        "%Y/%m/%d"
+                    ),
+                    "start",
+                ],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Meeting.end"),
+                        "%Y/%m/%d"
+                    ),
+                    "end",
+                ],
+                "calendarId",
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                    where: {
+                        teamId: teamId,
+                    },
+                },
+                {
+                    model: Meetings,
+                    attributes: [],
+                },
+            ],
+        })
+    }
+
+    getWeeklySchedule = async({teamId,year,month,day}) => {
+        const startDate = new Date(year, month - 1,Number(day) + 1);
+        const endDate = new Date(year, month -1, Number(day) + 7)
+        return await Events.findAll({
+            raw: true,
+            where: {
+                calendarId: "2", // schedule
+                [Op.and]: [
+                    {
+                        "$Schedule.start$": { // Meetings.start 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                    {
+                        "$Schedule.end$": { // Meetings.end 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                ],
+            },
+            attributes: [
+                "Id",
+                "User.userName",
+                "Schedule.userId",
+                "Schedule.title",
+                "Schedule.body",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Schedule.start"),
+                        "%Y/%m/%d"
+                    ),
+                    "start",
+                ],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Schedule.end"),
+                        "%Y/%m/%d"
+                    ),
+                    "end",
+                ],
+                "calendarId",
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                    where: {
+                        teamId: teamId,
+                    },
+                },
+                {
+                    model: Schedules,
+                    attributes: [],
+                },
+            ],
+        })
+    }
+
+    getWeeklyIssue = async({teamId,year,month,day}) => {
+        const startDate = new Date(year, month - 1,Number(day) + 1);
+        const endDate = new Date(year, month -1, Number(day) + 7)
+        return await Events.findAll({
+            raw: true,
+            where: {
+                calendarId: "3", // issue
+                [Op.and]: [
+                    {
+                        "$Meeting.start$": { // Meetings.start 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                    {
+                        "$Meeting.end$": { // Meetings.end 컬럼 참조
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
+                ],
+            },
+            attributes: [
+                "Id",
+                "User.userName",
+                "Meeting.userId",
+                "Meeting.title",
+                "Meeting.body",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Meeting.start"),
+                        "%Y/%m/%d"
+                    ),
+                    "start",
+                ],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Meeting.end"),
+                        "%Y/%m/%d"
+                    ),
+                    "end",
+                ],
+                "calendarId",
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                    where: {
+                        teamId: teamId,
+                    },
+                },
+                {
+                    model: Meetings,
+                    attributes: [],
+                },
+            ],
         })
     }
 }
