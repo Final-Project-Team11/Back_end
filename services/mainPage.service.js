@@ -40,12 +40,12 @@ class MainPageService {
         const issue = await this.mainPageRepository.findTotalIssue({teamId, year, month})
         // 회의(Meeting) 조회
         const meeting = await this.mainPageRepository.findTotalMeeting({teamId, year, month})
-        // 기타일정(program) 조회
-        const program = await this.mainPageRepository.findTotalProgram({teamId, year, month})
+        // 기타일정(event) 조회
+        const event = await this.mainPageRepository.findTotalEvent({teamId, year, month})
         // // 회의록 조회
         // const meetingReport = await this.mainPageRepository.findTotalMeetingReport({teamId, year, month})
 
-        const findTotalSchedule = Object.assign({}, findTeamName, {schedule}, {issue}, {meeting}, {program});
+        const findTotalSchedule = Object.assign({}, findTeamName, {schedule}, {issue}, {meeting}, {event});
         // // console.log("-------------------",findTotalSchedule)
 
         return findTotalSchedule

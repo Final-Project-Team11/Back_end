@@ -124,6 +124,7 @@ class SubmitRepository {
             await t.commit()
             return createScheduleSubmit;
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('출장 신청서 생성에 실패하였습니다.', 400)
         }
@@ -209,6 +210,7 @@ class SubmitRepository {
             await t.commit()
             return createOtherSubmit
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('기타 신청서 생성에 실패하였습니다.', 400)
         }
@@ -260,6 +262,7 @@ class SubmitRepository {
 
             await t.commit()
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('회의 신청서 생성에 실패하였습니다.', 400)
         }
@@ -309,6 +312,7 @@ class SubmitRepository {
 
             await t.commit()
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('보고서 등록에 실패하였습니다.', 400)
         }
@@ -352,6 +356,7 @@ class SubmitRepository {
 
             await t.commit()
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('보고서 등록에 실패하였습니다.', 400)
         }
@@ -396,6 +401,7 @@ class SubmitRepository {
 
             await t.commit()
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('회의록 등록에 실패하였습니다.', 400)
         }
@@ -439,6 +445,7 @@ class SubmitRepository {
 
             await t.commit()
         }catch(transactionError) {
+            console.log(transactionError)
             await t.rollback()
             throw new CustomError('회의록 등록에 실패하였습니다.', 400)
         }
