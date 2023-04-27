@@ -507,7 +507,7 @@ class MypageRepository {
             where: { Id },
         });
     };
-    findEvent = async ({ Id}) => {
+    findEvent = async ({Id}) => {
         return await Events.findOne({
             where: {
                 Id,

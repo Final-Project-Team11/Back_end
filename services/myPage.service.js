@@ -204,7 +204,7 @@ class MypageService {
     getUserId = async ({ userName }) => {
         return await this.MypageRepository.getUserId({ userName });
     };
-    checkSchedule = async({userId,Id}) => {
+    checkSchedule = async({Id}) => {
         const existSchedule = await this.MypageRepository.findEvent({
             Id,
         });
@@ -217,7 +217,6 @@ class MypageService {
         const existSchedule = await this.MypageRepository.findEventdetail({
             Id,eventType
         });
-        console.log(existSchedule)
         if (!existSchedule) {
             throw new CustomError("존재하지 않는 일정입니다.", 401);
         }
