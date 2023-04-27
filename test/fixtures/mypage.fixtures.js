@@ -19,7 +19,7 @@ exports.MypageonlyUserIdInsertSchema = {
 };
 
 exports.MypageUserIdInsertSchema = {
-    type: "Schedules",
+    type: "2",
     userId: "test1",
 };
 
@@ -46,6 +46,39 @@ exports.MyScheduleResultSchema = [
     },
     {
         eventId: 3,
+        userName: "test3",
+        title: "test title",
+        file: "http://asd.png",
+        startDay: "2023-04-04",
+        endDay: "2024-04-05",
+        status: "submit",
+        fileName: "asd.png",
+    },
+];
+
+exports.MyOtherResultSchema = [
+    {
+        eventId: 4,
+        userName: "test1",
+        title: "test title",
+        file: "http://asd.png",
+        startDay: "2023-04-04",
+        endDay: "2024-04-05",
+        status: "submit",
+        fileName: "asd.png",
+    },
+    {
+        eventId: 5,
+        userName: "test2",
+        title: "test title",
+        file: "http://asd.png",
+        startDay: "2023-04-04",
+        endDay: "2024-04-05",
+        status: "submit",
+        fileName: "asd.png",
+    },
+    {
+        eventId: 6,
         userName: "test3",
         title: "test title",
         file: "http://asd.png",
@@ -160,6 +193,25 @@ exports.MentionOtherResultSchema = [
     },
 ];
 
+exports.MentionEvnetResultSchema = [
+    {
+        eventId: 10,
+        mentionId: 10,
+        userName: "test1",
+        title: "test title",
+        eventType: "Issues",
+        isChecked: false,
+    },
+    {
+        eventId: 10,
+        mentionId: 10,
+        userName: "test2",
+        title: "test title",
+        eventType: "Issues",
+        isChecked: false,
+    },
+];
+
 exports.TotalMentionResultSchema = [
     {
         eventId: 1,
@@ -204,7 +256,7 @@ exports.TotalMentionResultSchema = [
 ];
 exports.MyMentionInsertSchema = {
     userId: "test1",
-    eventId: 1,
+    Id: 1,
 };
 
 exports.MentionCheckInsertSchema = {
@@ -247,74 +299,481 @@ exports.MyfileResultSchema = {
     fileName: "asd.png",
 };
 
-exports.MyfileAllResultSchema = [
+exports.MyfileMeetingReportResultSchema = [
     {
-        eventId: 1,
+        Id: 1,
         userName: "testman",
-        eventType: "Schedules",
+        calendarId: "5",
+        enroll: "2023-04-05",
         title: "test title",
-        file: "http://asd.png",
-        enrollDay: "2023-04-05",
-        fileName: "asd.png",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
     },
     {
-        eventId: 2,
-        userName: "testman",
-        eventType: "Meetings",
+        Id: 2,
+        userName: "testman2",
+        calendarId: "5",
+        enroll: "2023-04-05",
         title: "test title",
-        file: "http://asd.png",
-        enrollDay: "2023-04-05",
-        fileName: "asd.png",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
     },
     {
-        eventId: 3,
-        userName: "testman",
-        eventType: "Reports",
+        Id: 3,
+        userName: "testman3",
+        calendarId: "5",
+        enroll: "2023-04-05",
         title: "test title",
-        file: "http://asd.png",
-        enrollDay: "2023-04-05",
-        fileName: "asd.png",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
     },
 ];
+
+exports.MyfileReportResultSchema = [
+    {
+        Id: 4,
+        userName: "testman4",
+        calendarId: "6",
+        enroll: "2023-04-05",
+        title: "test title",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+    },
+    {
+        Id: 5,
+        userName: "testman5",
+        calendarId: "6",
+        enroll: "2023-04-05",
+        title: "test title",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+    },
+    {
+        Id: 6,
+        userName: "testman6",
+        calendarId: "6",
+        enroll: "2023-04-05",
+        title: "test title",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+    },
+];
+
+exports.MyfileAllResultSchema = [
+    {
+        Id: 6,
+        calendarId: "6",
+        enroll: "2023-04-05",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+        title: "test title",
+        userName: "testman6",
+    },
+    {
+        Id: 5,
+        calendarId: "6",
+        enroll: "2023-04-05",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+        title: "test title",
+        userName: "testman5",
+    },
+    {
+        Id: 4,
+        calendarId: "6",
+        enroll: "2023-04-05",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+        title: "test title",
+        userName: "testman4",
+    },
+    {
+        Id: 3,
+        calendarId: "5",
+        enroll: "2023-04-05",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+        title: "test title",
+        userName: "testman3",
+    },
+    {
+        Id: 2,
+        calendarId: "5",
+        enroll: "2023-04-05",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+        title: "test title",
+        userName: "testman2",
+    },
+    {
+        Id: 1,
+        calendarId: "5",
+        enroll: "2023-04-05",
+        file: [
+            {
+                fileLocation: "http://asd.png",
+                fileName: "asd.png"
+            }
+        ],
+        title: "test title",
+        userName: "testman",
+    },
+]
+
+exports.TeamIdInsertSchema = { teamId: 2 }
 
 exports.TeamMemberInsertSchema = [
     {
-        teamId: 1,
+        authLevel: 3,
+        birthDay: null,
+        companyId: "sparta",
+        createdAt: "2023 - 04 - 26T16: 13: 46.000Z",
+        job: "Software Engineer",
+        joinDay: "2023 - 04 - 13T00: 00: 00.000Z",
+        password: "aaaa1111",
+        phoneNum: null,
+        profileImg: null,
+        rank: "Senior",
+        remainDay: 15,
+        salaryDay: 25,
+        teamId: 2,
+        updatedAt: "2023 - 04 - 26T16: 13: 46.000Z",
         userId: "test1",
+        userName: "testman"
     },
     {
-        teamId: 1,
+        authLevel: 3,
+        birthDay: null,
+        companyId: "sparta",
+        createdAt: "2023 - 04 - 26T16: 13: 46.000Z",
+        job: "Software Engineer",
+        joinDay: "2023 - 04 - 13T00: 00: 00.000Z",
+        password: "aaaa1111",
+        phoneNum: null,
+        profileImg: null,
+        rank: "Senior",
+        remainDay: 15,
+        salaryDay: 25,
+        teamId: 2,
+        updatedAt: "2023 - 04 - 26T16: 13: 46.000Z",
         userId: "test2",
+        userName: "testman2"
     },
     {
-        teamId: 1,
+        authLevel: 3,
+        birthDay: null,
+        companyId: "sparta",
+        createdAt: "2023 - 04 - 26T16: 13: 46.000Z",
+        job: "Software Engineer",
+        joinDay: "2023 - 04 - 13T00: 00: 00.000Z",
+        password: "aaaa1111",
+        phoneNum: null,
+        profileImg: null,
+        rank: "Senior",
+        remainDay: 15,
+        salaryDay: 25,
+        teamId: 2,
+        updatedAt: "2023 - 04 - 26T16: 13: 46.000Z",
         userId: "test3",
+        userName: "testman3"
+    }
+]
+
+exports.TeamMeetingResultSchema = [
+    {
+        Id: 1,
+        calendarId: "5",
+        enroll: "2023/04/27",
+        userName: "testman2",
+        userId: "test2",
+        title: "test title1",
+        files: [
+            {
+                fileName: "img.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/add65151-3037-468c-bb99-21f3bd132d52_img.png"
+            },
+            {
+                fileName: "multerr.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/66f0d5ea-6d38-42f5-8554-33bd2b91a319_multerr.png"
+            }
+        ]
+    },
+    {
+        Id: 2,
+        calendarId: "5",
+        enroll: "2023/04/27",
+        userName: "testman3",
+        userId: "test3",
+        title: "test title2",
+        files: [
+            {
+                fileName: "img.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/add65151-3037-468c-bb99-21f3bd132d52_img.png"
+            },
+            {
+                fileName: "multerr.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/66f0d5ea-6d38-42f5-8554-33bd2b91a319_multerr.png"
+            }
+        ]
+    },
+    {
+        Id: 3,
+        calendarId: "5",
+        enroll: "2023/04/27",
+        userName: "testman3",
+        userId: "test3",
+        title: "test title3",
+        files: [
+            {
+                fileName: "img.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/add65151-3037-468c-bb99-21f3bd132d52_img.png"
+            },
+            {
+                fileName: "multerr.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/66f0d5ea-6d38-42f5-8554-33bd2b91a319_multerr.png"
+            }
+        ]
     },
 ];
 
-exports.TeamMenberResultSchema = [
+exports.TeamResultSchema = [
     {
-        eventId: 1,
-        userName: "test1",
-        title: "test title",
-        file: "http://asd.png",
-        enrollDay: "2023-04-05",
-        fileName: "asd.png",
+        Id: 1,
+        calendarId: "6",
+        enroll: "2023/04/27",
+        userName: "testman2",
+        userId: "test2",
+        title: "test title1",
+        files: [
+            {
+                fileName: "img.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/add65151-3037-468c-bb99-21f3bd132d52_img.png"
+            },
+            {
+                fileName: "multerr.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/66f0d5ea-6d38-42f5-8554-33bd2b91a319_multerr.png"
+            }
+        ]
     },
     {
-        eventId: 2,
-        userName: "test2",
-        title: "test title",
-        file: "http://asd.png",
-        enrollDay: "2023-04-05",
-        fileName: "asd.png",
+        Id: 2,
+        calendarId: "6",
+        enroll: "2023/04/27",
+        userName: "testman3",
+        userId: "test3",
+        title: "test title2",
+        files: [
+            {
+                fileName: "img.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/add65151-3037-468c-bb99-21f3bd132d52_img.png"
+            },
+            {
+                fileName: "multerr.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/66f0d5ea-6d38-42f5-8554-33bd2b91a319_multerr.png"
+            }
+        ]
     },
     {
-        eventId: 3,
-        userName: "test3",
-        title: "test title",
-        file: "http://asd.png",
-        enrollDay: "2023-04-05",
-        fileName: "asd.png",
+        Id: 3,
+        calendarId: "6",
+        enroll: "2023/04/27",
+        userName: "testman3",
+        userId: "test3",
+        title: "test title3",
+        files: [
+            {
+                fileName: "img.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/add65151-3037-468c-bb99-21f3bd132d52_img.png"
+            },
+            {
+                fileName: "multerr.png",
+                fileLocation: "https://meer2.s3.ap-northeast-2.amazonaws.com/66f0d5ea-6d38-42f5-8554-33bd2b91a319_multerr.png"
+            }
+        ]
     },
 ];
+
+exports.updateMentionInsertSchema = {
+    existMention: {
+        mentionId: 1,
+        userId: "test1",
+        eventId: 4,
+        isChecked: false,
+        createdAt: "2023-04-08",
+        updatedAt: "2023-04-08",
+    },
+    mentionId: 1
+}
+
+exports.DetailEvnetTypeResultSchema = {
+    Id: 1,
+    calendarId: "5"
+}
+
+exports.IdInsertSchema = {Id : 1}
+
+exports.DetailMeetingReportResultSchema = {
+    "Id": 1,
+    "start": "2023/05/09",
+    "end": "2023/05/09",
+    "userName": "testman",
+    "title": "test title",
+    "body": "test content",
+    "attendees": [
+        "other test man"
+    ],
+    "files": [
+        {
+            "fileName": "img.png",
+            "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/add65151-3037-468c-bb99-21f3bd132d52_img.png"
+        },
+        {
+            "fileName": "multerr.png",
+            "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/66f0d5ea-6d38-42f5-8554-33bd2b91a319_multerr.png"
+        }
+    ]
+}
+
+exports.weeklyScheduleInsertSchema = {
+    teamId : 1,
+    year : 2023,
+    month : 4,
+    day : 20
+}
+
+exports.WeeklyMeetingResultSchema = [
+    {
+        "Id": 1,
+        "userName": "testman1",
+        "userId": "test1",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "0"
+    },
+    {
+        "Id": 2,
+        "userName": "testman2",
+        "userId": "test2",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "0"
+    },
+]
+
+exports.WeeklyOtherResultSchema = [
+    {
+        "Id": 3,
+        "userName": "testman1",
+        "userId": "test1",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "1"
+    },
+    {
+        "Id": 4,
+        "userName": "testman2",
+        "userId": "test2",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "1"
+    },
+]
+
+exports.WeeklyScheduleResultSchema = [
+    {
+        "Id": 5,
+        "userName": "testman1",
+        "userId": "test1",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "2"
+    },
+    {
+        "Id": 6,
+        "userName": "testman2",
+        "userId": "test2",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "2"
+    },
+]
+
+exports.WeeklyIssueResultSchema = [
+    {
+        "Id": 7,
+        "userName": "testman1",
+        "userId": "test1",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "3"
+    },
+    {
+        "Id": 8,
+        "userName": "testman2",
+        "userId": "test2",
+        "title": "test title1",
+        "body": null,
+        "start": "2023/05/01",
+        "end": "2023/05/01",
+        "calendarId": "3"
+    },
+]
+

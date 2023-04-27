@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test:init": "NODE_ENV=test sequelize db:create --config=./config/config.js",
-    "test": "jest",
+    "test": "npx jest",
     "test:coverage": "jest --coverage --forceExit",
     "start": "npx nodemon app.js",
     "prettify": "prettier --write *.js **/*.js"
@@ -45,6 +45,7 @@
   "devDependencies": {
     "eslint": "^8.37.0",
     "jest": "^29.5.0",
+    "node-mocks-http": "^1.12.2",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "sequelize-cli": "^6.6.0"

@@ -1,8 +1,7 @@
 const CustomError = require("../../../middlewares/errorHandler");
 const MypageController = require("../../../controllers/myPage.controller");
 const {
-    MypageUserInfoSchemaByController,
-    MypageUserSchemaByController,
+    MentionEvnetResultSchema,
     MyScheduleResultSchema,
     MentionScheduleResultSchema,
     MentionMeetingResultSchema,
@@ -14,7 +13,8 @@ const {
     MentionCheckInsertSchema,
     MentionCheckResultSchema,
     MyfileAllResultSchema,
-    TeamMenberResultSchema
+    TeamMenberResultSchema,
+    TeamMeetingResultSchema
 } = require("../../fixtures/mypage.fixtures");
 
 const mockMypageService = () => ({
@@ -36,88 +36,89 @@ const mockMypageService = () => ({
 });
 let mockNext = jest.fn();
 
-describe("getUserInfo test", () => {
-    let mypagecontroller = new MypageController();
-    mypagecontroller.MypageService = mockMypageService();
-    let mockResponse = {
-        status: jest.fn(),
-        json: jest.fn(),
-        locals: {
-            user: {
-                userId: "test1",
-            },
-        },
-    };
-    let mockRequest = {
-        body: {},
-    };
+//userInfo 파일로 이동
+// describe("getUserInfo test", () => {
+//     let mypagecontroller = new MypageController();
+//     mypagecontroller.MypageService = mockMypageService();
+//     let mockResponse = {
+//         status: jest.fn(),
+//         json: jest.fn(),
+//         locals: {
+//             user: {
+//                 userId: "test1",
+//             },
+//         },
+//     };
+//     let mockRequest = {
+//         body: {},
+//     };
 
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
-    afterEach(() => {
-        jest.resetAllMocks();
-    });
+//     beforeEach(() => {
+//         jest.clearAllMocks();
+//     });
+//     afterEach(() => {
+//         jest.resetAllMocks();
+//     });
 
-    test("성공 시 userInfo 반환", async () => {
-        mypagecontroller.MypageService.checkUserById = jest.fn(() => {
-            return MypageUserSchemaByController;
-        });
-        mypagecontroller.MypageService.getUserInfo = jest.fn(() => {
-            return MypageUserInfoSchemaByController;
-        });
-        mockResponse.status = jest.fn(() => {
-            return mockResponse;
-        });
-        await mypagecontroller.getUserInfo(mockRequest, mockResponse, mockNext);
+//     test("성공 시 userInfo 반환", async () => {
+//         mypagecontroller.MypageService.checkUserById = jest.fn(() => {
+//             return MypageUserSchemaByController;
+//         });
+//         mypagecontroller.MypageService.getUserInfo = jest.fn(() => {
+//             return MypageUserInfoSchemaByController;
+//         });
+//         mockResponse.status = jest.fn(() => {
+//             return mockResponse;
+//         });
+//         await mypagecontroller.getUserInfo(mockRequest, mockResponse, mockNext);
 
-        expect(
-            mypagecontroller.MypageService.checkUserById
-        ).toHaveBeenCalledTimes(1);
-        expect(
-            mypagecontroller.MypageService.checkUserById
-        ).toHaveBeenCalledWith(mockResponse.locals.user);
+//         expect(
+//             mypagecontroller.MypageService.checkUserById
+//         ).toHaveBeenCalledTimes(1);
+//         expect(
+//             mypagecontroller.MypageService.checkUserById
+//         ).toHaveBeenCalledWith(mockResponse.locals.user);
 
-        expect(
-            mypagecontroller.MypageService.getUserInfo
-        ).toHaveBeenCalledTimes(1);
-        expect(mypagecontroller.MypageService.getUserInfo).toHaveBeenCalledWith(
-            { user: MypageUserSchemaByController }
-        );
+//         expect(
+//             mypagecontroller.MypageService.getUserInfo
+//         ).toHaveBeenCalledTimes(1);
+//         expect(mypagecontroller.MypageService.getUserInfo).toHaveBeenCalledWith(
+//             { user: MypageUserSchemaByController }
+//         );
 
-        expect(mockResponse.status).toHaveBeenCalledTimes(1);
-        expect(mockResponse.status).toHaveBeenCalledWith(200);
-        expect(mockResponse.json).toHaveBeenCalledTimes(1);
-        expect(mockResponse.json).toHaveBeenCalledWith({
-            user: MypageUserInfoSchemaByController,
-        });
-        expect(mockNext).not.toHaveBeenCalled();
-    });
+//         expect(mockResponse.status).toHaveBeenCalledTimes(1);
+//         expect(mockResponse.status).toHaveBeenCalledWith(200);
+//         expect(mockResponse.json).toHaveBeenCalledTimes(1);
+//         expect(mockResponse.json).toHaveBeenCalledWith({
+//             user: MypageUserInfoSchemaByController,
+//         });
+//         expect(mockNext).not.toHaveBeenCalled();
+//     });
 
-    test("checkUserById 실패시 에러 반환", async () => {
-        const checkUserByIdErrorMessage = "강제로 발생시킨 에러입니다.";
-        mypagecontroller.MypageService.checkUserById = jest.fn(() => {
-            throw Error(checkUserByIdErrorMessage);
-        });
-        // Error가 발생합니다.
-        await mypagecontroller.getUserInfo(mockRequest, mockResponse, mockNext);
-        expect(mockNext).toHaveBeenCalledWith(
-            new CustomError(checkUserByIdErrorMessage)
-        );
-    });
+//     test("checkUserById 실패시 에러 반환", async () => {
+//         const checkUserByIdErrorMessage = "강제로 발생시킨 에러입니다.";
+//         mypagecontroller.MypageService.checkUserById = jest.fn(() => {
+//             throw Error(checkUserByIdErrorMessage);
+//         });
+//         // Error가 발생합니다.
+//         await mypagecontroller.getUserInfo(mockRequest, mockResponse, mockNext);
+//         expect(mockNext).toHaveBeenCalledWith(
+//             new CustomError(checkUserByIdErrorMessage)
+//         );
+//     });
 
-    test("getUserInfo 실패시 에러 반환", async () => {
-        const getUserInfoErrorMessage = "강제로 발생시킨 에러입니다.";
-        mypagecontroller.MypageService.getUserInfo = jest.fn(() => {
-            throw Error(getUserInfoErrorMessage);
-        });
-        // Error가 발생합니다.
-        await mypagecontroller.getUserInfo(mockRequest, mockResponse, mockNext);
-        expect(mockNext).toHaveBeenCalledWith(
-            new CustomError(getUserInfoErrorMessage)
-        );
-    });
-});
+//     test("getUserInfo 실패시 에러 반환", async () => {
+//         const getUserInfoErrorMessage = "강제로 발생시킨 에러입니다.";
+//         mypagecontroller.MypageService.getUserInfo = jest.fn(() => {
+//             throw Error(getUserInfoErrorMessage);
+//         });
+//         // Error가 발생합니다.
+//         await mypagecontroller.getUserInfo(mockRequest, mockResponse, mockNext);
+//         expect(mockNext).toHaveBeenCalledWith(
+//             new CustomError(getUserInfoErrorMessage)
+//         );
+//     });
+// });
 
 describe("getSchedules test", () => {
     let mypagecontroller = new MypageController();
@@ -229,6 +230,9 @@ describe("getMentionedSchedules test", () => {
         mypagecontroller.MypageService.getMentionedIssue = jest.fn(() => {
             return MentionIssueResultSchema;
         });
+        mypagecontroller.MypageService.getMentionedEvent = jest.fn(() => {
+            return MentionEvnetResultSchema;
+        });
         mypagecontroller.MypageService.getMentionedReport = jest.fn(() => {
             return MentionReportResultSchema;
         });
@@ -267,6 +271,13 @@ describe("getMentionedSchedules test", () => {
         ).toHaveBeenCalledWith(mockResponse.locals.user);
 
         expect(
+            mypagecontroller.MypageService.getMentionedEvent
+        ).toHaveBeenCalledTimes(1);
+        expect(
+            mypagecontroller.MypageService.getMentionedEvent
+        ).toHaveBeenCalledWith(mockResponse.locals.user);
+
+        expect(
             mypagecontroller.MypageService.getMentionedIssue
         ).toHaveBeenCalledTimes(1);
         expect(
@@ -301,6 +312,7 @@ describe("getMentionedSchedules test", () => {
             {
                 schedule: MentionScheduleResultSchema,
                 meeting: MentionMeetingResultSchema,
+                event : MentionEvnetResultSchema,
                 issues: MentionIssueResultSchema,
                 report: MentionReportResultSchema,
                 meetingReport: MentionMeetingReportsResultSchema,
@@ -450,7 +462,7 @@ describe("getMyFiles test",() => {
         body: {},
         query: {
             pageNum: 1,
-            pageSize: 5,
+            pageSize: 8,
         },
     };
 
@@ -484,9 +496,7 @@ describe("getMyFiles test",() => {
         expect(mockResponse.status).toHaveBeenCalledTimes(1);
         expect(mockResponse.status).toHaveBeenCalledWith(200);
         expect(mockResponse.json).toHaveBeenCalledTimes(1);
-        expect(mockResponse.json).toHaveBeenCalledWith({
-            myfiles : MyfileAllResultSchema,
-        });
+        expect(mockResponse.json).toHaveBeenCalledWith({myfiles : MyfileAllResultSchema});
         expect(mockNext).not.toHaveBeenCalled();
     })  
     
@@ -515,7 +525,7 @@ describe ("getMeetingFiles test" ,() => {
         json: jest.fn(),
         locals: {
             user: {
-                teamId: "testteam",
+                teamId: 2,
             },
         },
     };
@@ -523,7 +533,7 @@ describe ("getMeetingFiles test" ,() => {
         body: {},
         query: {
             pageNum: 1,
-            pageSize: 3,
+            pageSize: 7,
         },
     };
 
@@ -536,7 +546,7 @@ describe ("getMeetingFiles test" ,() => {
 
     test("getMeetingFiles 성공 시 meetingfiles 반환", async () => {
         mypagecontroller.MypageService.TeamMeetingReport = jest.fn(() => {
-            return TeamMenberResultSchema;
+            return TeamMeetingResultSchema;
         });
         mockResponse.status = jest.fn(() => {
             return mockResponse;
@@ -558,7 +568,7 @@ describe ("getMeetingFiles test" ,() => {
         expect(mockResponse.status).toHaveBeenCalledTimes(1);
         expect(mockResponse.status).toHaveBeenCalledWith(200);
         expect(mockResponse.json).toHaveBeenCalledTimes(1);
-        expect(mockResponse.json).toHaveBeenCalledWith({meetingfiles :TeamMenberResultSchema});
+        expect(mockResponse.json).toHaveBeenCalledWith({meetingfiles :TeamMeetingResultSchema});
         expect(mockNext).not.toHaveBeenCalled();
     })
 

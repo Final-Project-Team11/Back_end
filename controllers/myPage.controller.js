@@ -173,7 +173,7 @@ class MypageController {
             const { Id } = req.params;
             const { userId } = res.locals.user;
             //권한 체크
-            await this.MypageService.checkSchedule({ userId, Id })
+            await this.MypageService.checkSchedule({ Id })
             const detail = await this.MypageService.getDatailMyfile({ Id })
             res.status(200).json({ detail })
         } catch (err) {
@@ -184,10 +184,9 @@ class MypageController {
     getDetailMeetingFile = async (req, res, next) => {
         try {
             const { Id } = req.params;
-            const { userId } = res.locals.user;
             //권한 체크
             const eventType = "5"
-            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
+            await this.MypageService.checkdetailSchedule({Id,eventType })
             const detail = await this.MypageService.getDetailMeetingFile({
                 Id,
             });
@@ -203,7 +202,7 @@ class MypageController {
             const { Id } = req.params;
             const { userId } = res.locals.user;
             //권한 체크
-            const eventType = "5"
+            const eventType = "6"
             await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailReportFile({
                 Id,
@@ -218,8 +217,8 @@ class MypageController {
     getVacationProgress = async (req, res, next) => {
         try {
             const { userId } = res.locals.user
-            const status = await this.MypageService.getVacationProgress({ userId })
-            res.status(200).json(status)
+            const {status} = await this.MypageService.getVacationProgress({ userId })
+            res.status(200).json({status})
         } catch (err) {
             next(err)
         }
