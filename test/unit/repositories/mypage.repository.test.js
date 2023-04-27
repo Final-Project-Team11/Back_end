@@ -1,44 +1,30 @@
-// const MypageRepository = require("../../../repositories/myPage.repository");
-// const {
-//     MypageUserInfoSchemaByController,
-//     MypageUserIdInsertSchema,
-//     MyScheduleResultSchema,
-//     MentionScheduleResultSchema,
-//     MyMentionInsertSchema,
-//     MentionCheckInsertSchema,
-//     MentionCheckResultSchema,
-//     MentionUpdateResultSchema,
-//     MentionUpdateInsertSchema,
-//     MyfileInsertSchema,
-//     MyfileResultSchema,
-//     MyfileAllResultSchema,
-//     TeamMemberInsertSchema,
-//     TeamMenberResultSchema,
-// } = require("../../fixtures/mypage.fixtures");
-// const { beforeEach } = require("node:test");
+const MypageRepository = require("../../../repositories/myPage.repository");
+const {
+    MypageonlyUserIdInsertSchema,
+    MyScheduleResultSchema
+} = require("../../fixtures/mypage.fixtures");
 
-// const mockMypageModel = () => ({
-//     findOne: jest.fn(),
-//     findAll: jest.fn(),
-//     update: jest.fn(),
-// });
+const mockMypageModel = () => ({
+    findOne: jest.fn(),
+    findAll: jest.fn(),
+    update: jest.fn(),
+});
 
-// describe("mypage repository test ", () => {
-//     let mypagerepository = new MypageRepository();
-//     mypagerepository.Users = mockMypageModel();
-//     mypagerepository.Schedules = mockMypageModel();
-//     mypagerepository.Meetings = mockMypageModel();
-//     mypagerepository.Reports = mockMypageModel();
-//     mypagerepository.Mentions = mockMypageModel();
-//     mypagerepository.Events = mockMypageModel();
+describe("mypage repository test ", () => {
+    let mypagerepository = new MypageRepository();
+    mypagerepository.Users = mockMypageModel();
+    mypagerepository.Schedules = mockMypageModel();
+    mypagerepository.Meetings = mockMypageModel();
+    mypagerepository.Reports = mockMypageModel();
+    mypagerepository.Mentions = mockMypageModel();
+    mypagerepository.Events = mockMypageModel();
 
-//     beforeEach(() => {
-//         jest.resetAllMocks();
-//     });
-    // afterEach(() => {
-    //     jest.resetAllMocks();
-    // });
+    beforeEach(() => {
+        jest.resetAllMocks();
+    });
 
+
+    //userInfo 파일로 이동
     // test("findUserById test", async () => {
     //     mypagerepository.Users.findOne = jest.fn(() => {
     //         return MypageUserInfoSchemaByController;
@@ -56,23 +42,20 @@
     //     expect(Users).toBe(MypageUserInfoSchemaByController);
     // });
 
-    // test("getUserSchedule test", async () => {
-    //     mypagerepository.Schedules.findAll = jest.fn(() => {
-    //         return MyScheduleResultSchema;
-    //     });
-    //     const schedules = await mypagerepository.Schedules.findAll(
-    //         MypageUserIdInsertSchema
-    //     );
+    test("getUserSchedule test", async () => {
+        const schedules = await mypagerepository.getUserSchedule(
+            MypageonlyUserIdInsertSchema
+        );
 
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Schedules.findAll).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Schedules.findAll).toHaveBeenCalledWith(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     //findAll 메소드의 return 값이 일치하는지
-    //     expect(schedules).toBe(MyScheduleResultSchema);
-    // });
+        //findAll 메소드는 몇번 호출되는지
+        expect(mypagerepository.Schedules.findAll).toHaveBeenCalledTimes(1);
+        //findAll 메소드는 어떤 인자와 함께 호출되는지
+        expect(mypagerepository.Schedules.findAll).toHaveBeenCalledWith(
+            MypageonlyUserIdInsertSchema
+        );
+        //findAll 메소드의 return 값이 일치하는지
+        // expect(schedules).toBe(MyScheduleResultSchema);
+    });
 
     // test("returns an array of event IDs if mentions found and event types match", async () => {
     //     mypagerepository.Mentions.findAll.mockResolvedValue([
@@ -284,4 +267,4 @@
     //     );
     //     expect(result).toEqual(TeamMenberResultSchema);
     // });
-// });
+});
