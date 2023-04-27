@@ -205,25 +205,21 @@ class MypageService {
     getUserId = async ({ userName }) => {
         return await this.MypageRepository.getUserId({ userName });
     };
-    checkSchedule = async({userId,Id}) => {
+    checkSchedule = async({Id}) => {
         const existSchedule = await this.MypageRepository.findEvent({
             Id,
         });
         if (!existSchedule) {
             throw new CustomError("존재하지 않는 일정입니다.", 401);
-        } else if (existSchedule.userId !== userId) {
-            throw new CustomError("해당 일정에 권한이 존재하지 않습니다.", 401);
-        }
+        } 
     }
 
-    checkdetailSchedule = async({userId,Id,eventType}) => {
+    checkdetailSchedule = async({Id,eventType}) => {
         const existSchedule = await this.MypageRepository.findEventdetail({
             Id,eventType
         });
         if (!existSchedule) {
             throw new CustomError("존재하지 않는 일정입니다.", 401);
-        } else if (existSchedule.userId !== userId) {
-            throw new CustomError("해당 일정에 권한이 존재하지 않습니다.", 401);
         }
     }
 
@@ -242,7 +238,9 @@ class MypageService {
     };
 
     getVacationProgress = async({userId}) => {
-        return await this.MypageRepository.getVacationProgress({userId})
+        const vacations =  await this.MypageRepository.getVacationProgress({userId})
+        return vacations[0]
+
     }
     
     getWeeklySchedule = async({teamId,year,month,day}) => {

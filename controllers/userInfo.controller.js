@@ -24,8 +24,8 @@ class UserInfoController {
             let fileLocation;
             if (req.file) {
                 fileLocation = req.file.transforms[0].location
-                //users 테이블에 올라가있는 파일이 있으면 지우기
-                // await this.UserInfoService.getUserProfile({ userId })
+                // users 테이블에 올라가있는 파일이 있으면 지우기
+                await this.UserInfoService.getUserProfile({ userId })
             }
             //프로필 정보 업데이트
             await this.UserInfoService.updateProfile({ userId, birthDay, phoneNum, fileLocation })
