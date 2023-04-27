@@ -80,7 +80,7 @@ class MypageRepository {
         return schedules
     };
 
-    getUserOther = async({ userId }) => { 
+    getUserOther = async ({ userId }) => {
         const others = await Others.findAll({
             raw: true,
             where: { userId },
@@ -559,6 +559,21 @@ class MypageRepository {
             where: { Id },
         });
     };
+    findEvent = async ({ Id}) => {
+        return await Events.findOne({
+            where: {
+                Id,
+            }
+        })
+    }
+    findEventdetail = async ({ Id, eventType }) => {
+        return await Events.findOne({
+            where: {
+                Id,
+                calendarId : eventType
+            }
+        })
+    }
     getDetailMyfile = async ({
         Id,
         event,
@@ -619,10 +634,11 @@ class MypageRepository {
                 },
             ],
         });
-
-        meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
-            return JSON.parse(item)
-        })
+        if (meetingReport.files) {
+            meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
+                return JSON.parse(item)
+            })
+        }
         meetingReport.attendees = (meetingReport.attendees ?? "").split(",");
         return meetingReport;
     };
@@ -676,7 +692,7 @@ class MypageRepository {
                 },
             ],
         });
-        if(Report.files){
+        if (Report.files) {
             Report.files = Report.files.split("|").map((item) => {
                 return JSON.parse(item)
             })
