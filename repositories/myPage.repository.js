@@ -17,6 +17,7 @@ class MypageRepository {
     constructor() { }
 
     getUserSchedule = async ({ userId }) => {
+        console.log("여기 들어오니?")
         const schedules = await Schedules.findAll({
             raw: true,
             where: { userId },
@@ -48,6 +49,7 @@ class MypageRepository {
                 },
             ],
         })
+        console.log("여기는?")
         schedules.map((schedule) => {
             if (schedule.files) {
                 schedule.files = schedule.files.split("|").map((item) => {
@@ -660,8 +662,8 @@ class MypageRepository {
     }
 
     getWeeklyMeeting = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day) + 1);
-        const endDate = new Date(year, month -1, Number(day) + 7)
+        const startDate = new Date(year, month - 1,Number(day));
+        const endDate = new Date(year, month -1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -720,8 +722,8 @@ class MypageRepository {
     }
 
     getWeeklyOther = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day) + 1);
-        const endDate = new Date(year, month -1, Number(day) + 7)
+        const startDate = new Date(year, month - 1,Number(day));
+        const endDate = new Date(year, month -1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -780,8 +782,8 @@ class MypageRepository {
     }
 
     getWeeklySchedule = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day) + 1);
-        const endDate = new Date(year, month -1, Number(day) + 7)
+        const startDate = new Date(year, month - 1,Number(day));
+        const endDate = new Date(year, month -1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -840,8 +842,8 @@ class MypageRepository {
     }
 
     getWeeklyIssue = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day) + 1);
-        const endDate = new Date(year, month -1, Number(day) + 7)
+        const startDate = new Date(year, month - 1,Number(day));
+        const endDate = new Date(year, month -1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
