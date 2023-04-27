@@ -187,7 +187,7 @@ class MypageController {
             const { userId } = res.locals.user;
             //권한 체크
             const eventType = "5"
-            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
+            await this.MypageService.checkdetailSchedule({Id,eventType })
             const detail = await this.MypageService.getDetailMeetingFile({
                 Id,
             });
@@ -203,7 +203,7 @@ class MypageController {
             const { Id } = req.params;
             const { userId } = res.locals.user;
             //권한 체크
-            const eventType = "5"
+            const eventType = "6"
             await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailReportFile({
                 Id,

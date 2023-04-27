@@ -515,6 +515,7 @@ class MypageRepository {
         })
     }
     findEventdetail = async ({ Id, eventType }) => {
+        console.log(Id,eventType)
         return await Events.findOne({
             where: {
                 Id,
