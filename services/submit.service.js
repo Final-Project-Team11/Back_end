@@ -53,7 +53,7 @@ class SubmitService {
             throw new CustomError("해당 일정이 존재하지 않습니다.", 401)
         }
         if(schedule.userId != userId) {
-            throw new CustomError("수정 권한이 존재하지 않습니다.", 401)
+            throw new CustomError("일정 수정 권한이 존재하지 않습니다.", 401)
         }
         const file = await this.submitRepository.findOneFile(Id)
 
@@ -67,7 +67,7 @@ class SubmitService {
         }
         console.log("asdfdasfdsafdsa", fileKey)
 
-        // 단일 파일 삭제
+        // 다중 파일 삭제
         const objectParams_del = {
             Bucket: bucketName,
             Delete: {
@@ -213,20 +213,36 @@ class SubmitService {
     }
 
     // 보고서 수정
-    reportModify = async({userId, eventId, teamId, title, content, ref, fileLocation, fileName}) => {
-        const report = await this.submitRepository.findOneReport(eventId)
-        const bucketName = process.env.BUCKET_NAME
-        const fileKey = report.fileLocation.split('/')[3].split('_')[0]
-        console.log('aaaaaaaaa', fileKey)
+    reportModify = async({userId, Id, teamId, title, body, attendees, fileLocation, fileName, start, end}) => {
+        const report = await this.submitRepository.findOneReport(Id)
+        if(!report) {
+            throw new CustomError("해당 보고서가 존재하지 않습니다.", 401)
+        }
+        if(report.userId != userId) {
+            throw new CustomError("보고서 수정 권한이 존재하지 않습니다.", 401)
+        }
+        const file = await this.submitRepository.findOneFile(Id)
 
-        // 단일 파일 삭제
+        const bucketName = process.env.BUCKET_NAME
+        let fileKey = [];
+        if(file) {
+            fileKey = file.map(file => {
+                const key = file.fileLocation.split('/')[3]
+                return key
+            })
+        }
+        console.log("asdfdasfdsafdsa", fileKey)
+
+        // 다중 파일 삭제
         const objectParams_del = {
             Bucket: bucketName,
-            Key: `${fileKey}`
+            Delete: {
+                Objects: fileKey.map(key => ({ Key: key }))
+            }
         }
 
         await s3
-        .deleteObject(objectParams_del)
+        .deleteObjects(objectParams_del)
         .promise()
         .then((data) => {
             console.log('Delete Success! : ', data)
@@ -238,14 +254,14 @@ class SubmitService {
 
         const isRef = await this.submitRepository.findRef(teamId)
         let REF;
-        if (ref === null) {
+        if (attendees === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
                 return item.userName;
             });
-        } else if(ref !== undefined && ref !== null) {
+        } else if(attendees !== undefined && attendees !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = ref.concat(isRef.map((item) => {
+            REF = attendees.concat(isRef.map((item) => {
                 return item.userName;
             }));
         } else {
@@ -255,7 +271,7 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.reportModify({userId, eventId, title, content, ref: REF, fileLocation, fileName})
+        await this.submitRepository.reportModify({userId, Id, title, body, attendees: REF, fileLocation, fileName, start, end})
     }
 
     // 회의록 등록
@@ -285,20 +301,36 @@ class SubmitService {
     }
 
     // 회의록 수정
-    meetingReportModify = async({userId, meetingId, teamId, title, ref, content, fileLocation, fileName}) => {
+    meetingReportModify = async({userId, Id, meetingId, teamId, title, attendees, body, fileLocation, fileName, start, end}) => {
         const meetingReport = await this.submitRepository.findOneMeetingReport(meetingId)
+        if(!meetingReport) {
+            throw new CustomError("해당 보고서가 존재하지 않습니다.", 401)
+        }
+        if(meetingReport.userId != userId) {
+            throw new CustomError("보고서 수정 권한이 존재하지 않습니다.", 401)
+        }
+        const file = await this.submitRepository.findOneFile(Id)
 
         const bucketName = process.env.BUCKET_NAME
-        const fileKey = meetingReport.fileLocation.split('/')[3].split('_')[0]
+        let fileKey = [];
+        if(file) {
+            fileKey = file.map(file => {
+                const key = file.fileLocation.split('/')[3]
+                return key
+            })
+        }
+        console.log("asdfdasfdsafdsa", fileKey)
 
-        // 단일 파일 삭제
+        // 다중 파일 삭제
         const objectParams_del = {
             Bucket: bucketName,
-            Key: `${fileKey}`
+            Delete: {
+                Objects: fileKey.map(key => ({ Key: key }))
+            }
         }
 
         await s3
-        .deleteObject(objectParams_del)
+        .deleteObjects(objectParams_del)
         .promise()
         .then((data) => {
             console.log('Delete Success! : ', data)
@@ -310,14 +342,14 @@ class SubmitService {
         const isRef = await this.submitRepository.findRef(teamId)
         
         let REF;
-        if (ref === null) {
+        if (attendees === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
                 return item.userName;
             });
-        } else if(ref !== undefined && ref !== null) {
+        } else if(attendees !== undefined && attendees !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = ref.concat(isRef.map((item) => {
+            REF = attendees.concat(isRef.map((item) => {
                 return item.userName;
             }));
         } else {
@@ -327,7 +359,7 @@ class SubmitService {
             });
         }
 
-        await this.submitRepository.meetingReportModify({userId, eventId: meetingReport.eventId, meetingId, title, content, ref: REF, fileLocation, fileName})
+        await this.submitRepository.meetingReportModify({userId, Id, meetingId, title, body, attendees: REF, fileLocation, fileName, start, end})
     } 
 
     // 팀원 목록 조회
