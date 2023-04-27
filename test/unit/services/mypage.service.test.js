@@ -29,91 +29,92 @@ const mockMypageRepository = () => ({
     findTeamReportFile: jest.fn(),
 });
 
-describe("checkUserById test", () => {
-    beforeEach(() => {
-        // restore the spy created with spyOn
-        jest.resetAllMocks();
-    });
+//userInfo 파일로 이동
+// describe("checkUserById test", () => {
+//     beforeEach(() => {
+//         // restore the spy created with spyOn
+//         jest.resetAllMocks();
+//     });
 
-    test("findUserById 성공 시 user 정보 반환", async () => {
-        let mypageservice = new MypageService();
-        mypageservice.MypageRepository = Object.assign(
-            {},
-            mockMypageRepository
-        );
+//     test("findUserById 성공 시 user 정보 반환", async () => {
+//         let mypageservice = new MypageService();
+//         mypageservice.MypageRepository = Object.assign(
+//             {},
+//             mockMypageRepository
+//         );
 
-        mypageservice.MypageRepository.findUserById = jest.fn(
-            () => MypageUserSchemaByController
-        );
-        const user = await mypageservice.checkUserById(
-            MypageonlyUserIdInsertSchema
-        );
+//         mypageservice.MypageRepository.findUserById = jest.fn(
+//             () => MypageUserSchemaByController
+//         );
+//         const user = await mypageservice.checkUserById(
+//             MypageonlyUserIdInsertSchema
+//         );
 
-        expect(
-            mypageservice.MypageRepository.findUserById
-        ).toHaveBeenCalledWith(MypageonlyUserIdInsertSchema);
-        expect(
-            mypageservice.MypageRepository.findUserById
-        ).toHaveBeenCalledTimes(1);
-        expect(user).toBe(MypageUserSchemaByController);
-    });
-    test("해당 유저가 존재하지 않습니다", async () => {
-        let mypageservice = new MypageService();
-        mypageservice.MypageRepository = Object.assign(
-            {},
-            mockMypageRepository
-        );
-        try {
-            mypageservice.MypageRepository.findUserById = jest.fn(
-                () => undefined
-            );
-            const user = await mypageservice.checkUserById(
-                MypageonlyUserIdInsertSchema
-            );
-        } catch (err) {
-            expect(
-                mypageservice.MypageRepository.findUserById
-            ).toHaveBeenCalledWith(MypageonlyUserIdInsertSchema);
-            expect(
-                mypageservice.MypageRepository.findUserById
-            ).toHaveBeenCalledTimes(1);
-            expect(err).toBeInstanceOf(CustomError);
-            expect(err.message).toEqual("해당 유저가 존재하지 않습니다.");
-        }
-    });
-    test("유저정보에 대한 권한이 존재하지 않습니다", async () => {
-        const ErrorByNotexistIdSchema = {
-            userId: "test111",
-            userName: "testman11",
-            team: "dev",
-            remainDay: 15,
-            salaryDay: 4,
-        };
-        let mypageservice = new MypageService();
-        mypageservice.MypageRepository = Object.assign(
-            {},
-            mockMypageRepository
-        );
-        try {
-            mypageservice.MypageRepository.findUserById = jest.fn(
-                () => ErrorByNotexistIdSchema
-            );
-            const user = await mypageservice.checkUserById(
-                MypageonlyUserIdInsertSchema
-            );
-        } catch (err) {
-            expect(
-                mypageservice.MypageRepository.findUserById
-            ).toHaveBeenCalledWith(MypageonlyUserIdInsertSchema);
-            expect(
-                mypageservice.MypageRepository.findUserById
-            ).toHaveBeenCalledTimes(1);
-            expect(err).toBeInstanceOf(CustomError);
-            expect(err.message).toEqual("유저 정보에 대한 권한이 존재하지 않습니다.");
-        }
+//         expect(
+//             mypageservice.MypageRepository.findUserById
+//         ).toHaveBeenCalledWith(MypageonlyUserIdInsertSchema);
+//         expect(
+//             mypageservice.MypageRepository.findUserById
+//         ).toHaveBeenCalledTimes(1);
+//         expect(user).toBe(MypageUserSchemaByController);
+//     });
+//     test("해당 유저가 존재하지 않습니다", async () => {
+//         let mypageservice = new MypageService();
+//         mypageservice.MypageRepository = Object.assign(
+//             {},
+//             mockMypageRepository
+//         );
+//         try {
+//             mypageservice.MypageRepository.findUserById = jest.fn(
+//                 () => undefined
+//             );
+//             const user = await mypageservice.checkUserById(
+//                 MypageonlyUserIdInsertSchema
+//             );
+//         } catch (err) {
+//             expect(
+//                 mypageservice.MypageRepository.findUserById
+//             ).toHaveBeenCalledWith(MypageonlyUserIdInsertSchema);
+//             expect(
+//                 mypageservice.MypageRepository.findUserById
+//             ).toHaveBeenCalledTimes(1);
+//             expect(err).toBeInstanceOf(CustomError);
+//             expect(err.message).toEqual("해당 유저가 존재하지 않습니다.");
+//         }
+//     });
+//     test("유저정보에 대한 권한이 존재하지 않습니다", async () => {
+//         const ErrorByNotexistIdSchema = {
+//             userId: "test111",
+//             userName: "testman11",
+//             team: "dev",
+//             remainDay: 15,
+//             salaryDay: 4,
+//         };
+//         let mypageservice = new MypageService();
+//         mypageservice.MypageRepository = Object.assign(
+//             {},
+//             mockMypageRepository
+//         );
+//         try {
+//             mypageservice.MypageRepository.findUserById = jest.fn(
+//                 () => ErrorByNotexistIdSchema
+//             );
+//             const user = await mypageservice.checkUserById(
+//                 MypageonlyUserIdInsertSchema
+//             );
+//         } catch (err) {
+//             expect(
+//                 mypageservice.MypageRepository.findUserById
+//             ).toHaveBeenCalledWith(MypageonlyUserIdInsertSchema);
+//             expect(
+//                 mypageservice.MypageRepository.findUserById
+//             ).toHaveBeenCalledTimes(1);
+//             expect(err).toBeInstanceOf(CustomError);
+//             expect(err.message).toEqual("유저 정보에 대한 권한이 존재하지 않습니다.");
+//         }
 
-    })
-});
+//     })
+// });
 
 describe("getUserSchedule test", () => {
     beforeEach(() => {

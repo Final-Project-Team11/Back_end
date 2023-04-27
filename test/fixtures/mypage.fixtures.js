@@ -160,6 +160,25 @@ exports.MentionOtherResultSchema = [
     },
 ];
 
+exports.MentionEvnetResultSchema = [
+    {
+        eventId: 5,
+        mentionId: 5,
+        userName: "test1",
+        title: "test title",
+        eventType: "Issues",
+        isChecked: false,
+    },
+    {
+        eventId: 5,
+        mentionId: 5,
+        userName: "test2",
+        title: "test title",
+        eventType: "Issues",
+        isChecked: false,
+    },
+];
+
 exports.TotalMentionResultSchema = [
     {
         eventId: 1,
