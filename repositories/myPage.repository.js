@@ -650,9 +650,11 @@ class MypageRepository {
     };
 
     getVacationProgress = async ({ userId }) => {
-        return await Vacations.findOne({
-            attributes: ["status"],
-            where: { userId }
+        return await Vacations.findAll({
+            raw:true,
+            attributes: ["Id","status"],
+            where: { userId },
+            order : [["Id", "DESC"]]
         })
     }
 

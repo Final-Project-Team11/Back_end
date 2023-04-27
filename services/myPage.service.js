@@ -237,7 +237,9 @@ class MypageService {
     };
 
     getVacationProgress = async({userId}) => {
-        return await this.MypageRepository.getVacationProgress({userId})
+        const vacations =  await this.MypageRepository.getVacationProgress({userId})
+        return vacations[0]
+
     }
     
     getWeeklySchedule = async({teamId,year,month,day}) => {
