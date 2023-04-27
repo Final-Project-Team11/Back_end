@@ -204,7 +204,7 @@ class MypageService {
     getUserId = async ({ userName }) => {
         return await this.MypageRepository.getUserId({ userName });
     };
-    checkSchedule = async({userId,Id}) => {
+    checkSchedule = async({Id}) => {
         const existSchedule = await this.MypageRepository.findEvent({
             Id,
         });
@@ -213,7 +213,7 @@ class MypageService {
         } 
     }
 
-    checkdetailSchedule = async({userId,Id,eventType}) => {
+    checkdetailSchedule = async({Id,eventType}) => {
         const existSchedule = await this.MypageRepository.findEventdetail({
             Id,eventType
         });
