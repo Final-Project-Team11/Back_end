@@ -50,31 +50,29 @@ class UserInfoService {
         return userInfo;
     };
 
-    // getUserProfile = async ({ userId }) => {
-    //     //users 테이블에 profileImg가 존재하는지 확인하기
-    //     const userImg = await this.UserInfoRepository.findProfileImgById({ userId })
-    //     console.log(userImg.profileImg)
-    //     //존재한다면 삭제
-    //     if (userImg !== null) {
-    //         // 단일 파일 삭제
-    //         const fileKey = userImg.profileImg.split('/')[3]
-    //         const objectParams_del = {
-    //             Bucket: env.BUCKET_NAME,
-    //             Delete: {
-    //                 Objects: { Key: fileKey }
-    //             }
-    //         }
-    //         await s3
-    //             .deleteObject(objectParams_del)
-    //             .promise()
-    //             .then((data) => {
-    //                 console.log('Delete Success! : ', data)
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error)
-    //             })
-    //     }
-    // }
+    getUserProfile = async ({ userId }) => {
+        //users 테이블에 profileImg가 존재하는지 확인하기
+        const userImg = await this.UserInfoRepository.findProfileImgById({ userId })
+        console.log(userImg.profileImg)
+        //존재한다면 삭제
+        if (userImg !== null) {
+            // 단일 파일 삭제
+            const fileKey = userImg.profileImg.split('/')[3]
+            const objectParams_del = {
+                Bucket: env.BUCKET_NAME,
+                Key : fileKey
+            }
+            await s3
+                .deleteObject(objectParams_del)
+                .promise()
+                .then((data) => {
+                    console.log('Delete Success!')
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
 
     updateProfile = async ({ userId, birthDay, phoneNum, fileLocation }) => {
         await this.UserInfoRepository.updateProfile({ userId, birthDay, phoneNum, fileLocation })
