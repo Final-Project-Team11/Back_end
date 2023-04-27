@@ -23,14 +23,11 @@ module.exports = async (req, res, next) => {
         }
         const user = await Users.findOne({ where: { userId, companyId } });
         if (!user) {
-            console.log(userId, companyId);
             throw new CustomError("해당 유저가 존재하지 않습니다", 401);
         }
-        console.log(user);
         res.locals.user = user;
         next();
     } catch (err) {
-        console.error(err);
         err.message = err.expect
             ? err.message
             : "전달된 토큰에서 오류가 발생하였습니다."
