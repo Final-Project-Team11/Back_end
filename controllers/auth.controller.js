@@ -10,7 +10,7 @@ class AuthController {
         const { companyId, password } = req.body;
         try {
             await adminLoginSchema
-            .validateAsync(req.body)
+            .validateAsync(req.body,{ abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -34,7 +34,7 @@ class AuthController {
         const { companyId, userId, password } = req.body;
         try {
             await userLoginSchema
-            .validateAsync(req.body)
+            .validateAsync(req.body,{ abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
@@ -62,7 +62,7 @@ class AuthController {
         const { password } = req.body;
         try {
             await modifySchema
-            .validateAsync(req.body)
+            .validateAsync(req.body,{ abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
