@@ -83,4 +83,14 @@ describe('MainPageService Test', () => {
             event: eventData
         })
     })
+
+    test('findTotalSchedule 사용자 권한이 존재하지 않을 때', async() => {
+        mainPageService.mainPageRepository.findCompanyId.mockResolvedValue({companyId: 4})
+
+        // rejects.toThrow() 메소드를 사용하여 해당 메소드가 에러를 throw하는지 검증합니다.
+        expect(mainPageService.findTotalSchedule(mockData)).rejects.toThrow(CustomError);
+        expect(mainPageService.findTotalSchedule(mockData)).rejects.toMatchObject(expectedError);
+
+        expect(mainPageService.mainPageRepository.findCompanyId).toHaveBeenCalledWith(mockData.teamId);
+    })
 })
