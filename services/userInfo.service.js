@@ -55,7 +55,7 @@ class UserInfoService {
         const userImg = await this.UserInfoRepository.findProfileImgById({ userId })
         console.log(userImg.profileImg)
         //존재한다면 삭제
-        if (userImg !== null) {
+        if (userImg.profileImg !== null) {
             // 단일 파일 삭제
             const fileKey = userImg.profileImg.split('/')[3]
             const objectParams_del = {
