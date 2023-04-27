@@ -58,7 +58,15 @@ class UserInfoRepository {
                     ),
                     "birthDay",
                 ],
-                "phoneNum"
+                "phoneNum",
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("joinDay"),
+                        "%Y/%m/%d"
+                    ),
+                    "joinDay",
+                ],
             ]
         })
     }
