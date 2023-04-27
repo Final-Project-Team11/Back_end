@@ -182,6 +182,9 @@ class MypageController {
     getDetailMyfile = async (req, res, next) => {
         try {
             const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            await this.MypageService.checkSchedule({ userId, Id })
             const detail = await this.MypageService.getDatailMyfile({ Id })
             res.status(200).json({ detail })
         } catch (err) {
@@ -192,6 +195,10 @@ class MypageController {
     getDetailMeetingFile = async (req, res, next) => {
         try {
             const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            const eventType = "5"
+            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailMeetingFile({
                 Id,
             });
@@ -205,6 +212,10 @@ class MypageController {
     getDetailReportFile = async (req, res, next) => {
         try {
             const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            const eventType = "5"
+            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailReportFile({
                 Id,
             });
