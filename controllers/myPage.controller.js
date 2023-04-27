@@ -5,17 +5,6 @@ class MypageController {
         this.MypageService = new MypageService();
     }
 
-    getUserInfo = async (req, res, next) => {
-        try {
-            const { userId } = res.locals.user;
-            const user = await this.MypageService.checkUserById({ userId });
-            const userInfo = await this.MypageService.getUserInfo({ user });
-            res.status(200).json({ user: userInfo });
-        } catch (err) {
-            next(err);
-        }
-    };
-
     getSchedules = async (req, res, next) => {
         const pageInfo = req.query;
         try {
