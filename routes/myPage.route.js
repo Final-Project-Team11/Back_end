@@ -5,10 +5,6 @@ const mypagecontroller = new MypageController();
 const authmiddleware = require("../middlewares/auth-middleware.js");
 const router = express.Router();
 
-//유저정보조회
-//localhost:3003/usersInfo
-router.get("/usersInfo", authmiddleware, mypagecontroller.getUserInfo);
-
 //내 결재 조회
 //localhost:3003/mySchedule
 router.get("/mySchedule", authmiddleware, mypagecontroller.getSchedules);
@@ -64,4 +60,9 @@ router.get(
 //휴가 진행 상황조회
 //localhost:3003/vacationProgress
 router.get("/vacationProgress",authmiddleware,mypagecontroller.getVacationProgress)
+
+//일주일 팀 일정 조회
+//localhost:3003/weeklySchedule
+router.get("/weeklySchedule",authmiddleware,mypagecontroller.getWeeklySchedule)
+
 module.exports = router;

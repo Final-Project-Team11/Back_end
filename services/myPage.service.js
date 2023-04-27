@@ -1,52 +1,9 @@
 const MypageRepository = require("../repositories/myPage.repository.js");
 const CustomError = require("../middlewares/errorHandler");
-const moment = require("moment");
 class MypageService {
     constructor() {
         this.MypageRepository = new MypageRepository();
     }
-
-    checkUserById = async ({ userId }) => {
-        const user = await this.MypageRepository.findUserById({ userId });
-        if (!user) {
-            throw new CustomError("해당 유저가 존재하지 않습니다.", 401);
-        } else if (user.userId !== userId) {
-            throw new CustomError(
-                "유저 정보에 대한 권한이 존재하지 않습니다.",
-                401
-            );
-        }
-        return user;
-    };
-    getUserInfo = async ({ user }) => {
-        const userSalaryDay = user.salaryDay;
-        const date = moment();
-        let month, year;
-        month = moment().format("MM");
-        year = moment().format("YYYY");
-
-        if (Number(date.format("MM")) === 12) {
-            year = moment().add(1, "year").format("YYYY");
-        }
-        if (Number(date.format("DD")) > userSalaryDay) {
-            month = moment().add(1, "month").format("MM");
-        }
-
-        const Dday = `${year}-${month}-${userSalaryDay}`;
-        const Ddate = moment(Dday);
-
-        const payDay = Ddate.diff(date, "days");
-
-        const userInfo = {
-            userName: user.userName,
-            team: user.teamName,
-            remainDay: user.remainDay,
-            salaryDay: payDay,
-            profileImg : user.profileImg
-        };
-        return userInfo;
-    };
-
     getUserSchedule = async ({ userId }) => {
         //출장조회
         const schedule = await this.MypageRepository.getUserSchedule({
@@ -247,10 +204,30 @@ class MypageService {
     getUserId = async ({ userName }) => {
         return await this.MypageRepository.getUserId({ userName });
     };
+    checkSchedule = async({userId,Id}) => {
+        const existSchedule = await this.MypageRepository.findEvent({
+            Id,
+        });
+        if (!existSchedule) {
+            throw new CustomError("존재하지 않는 일정입니다.", 401);
+        } else if (existSchedule.userId !== userId) {
+            throw new CustomError("해당 일정에 권한이 존재하지 않습니다.", 401);
+        }
+    }
+
+    checkdetailSchedule = async({userId,Id,eventType}) => {
+        const existSchedule = await this.MypageRepository.findEventdetail({
+            Id,eventType
+        });
+        if (!existSchedule) {
+            throw new CustomError("존재하지 않는 일정입니다.", 401);
+        } else if (existSchedule.userId !== userId) {
+            throw new CustomError("해당 일정에 권한이 존재하지 않습니다.", 401);
+        }
+    }
 
     getDatailMyfile = async ({ Id }) => {
         const event = await this.MypageRepository.getcalendarId({ Id });
-        
         return await this.MypageRepository.getDetailMyfile({
             Id,
             event,
@@ -267,6 +244,20 @@ class MypageService {
         return await this.MypageRepository.getVacationProgress({userId})
     }
     
+    getWeeklySchedule = async({teamId,year,month,day}) => {
+        //팀에 해당하는 회의(0)
+        const meeting = await this.MypageRepository.getWeeklyMeeting({teamId,year,month,day})
+        //팀에 해당하는 기타일정(1)
+        const other = await this.MypageRepository.getWeeklyOther({teamId,year,month,day})
+        //팀에 해당하는 출장(2)
+        const schedule = await this.MypageRepository.getWeeklySchedule({teamId,year,month,day})
+        //팀에 해당하는 미팅(3)
+        const issue = await this.MypageRepository.getWeeklyIssue({teamId,year,month,day})
+        let result = []
+        //스케쥴하나로 합쳐서 리턴
+        const data = Object.assign({}, {meeting}, {other}, {schedule}, {issue});
+        return data
+    }
 }
 
 module.exports = MypageService;

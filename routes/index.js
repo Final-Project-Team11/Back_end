@@ -11,6 +11,7 @@ const myPageRputer = require("./myPage.route.js")
 const commentRouter = require('./comment.route')
 const mainPageRouter = require('./mainPage.route')
 const todoRouter = require("../routes/todo.route");
+const userInfoRouter = require("../routes/userInfo.route")
 
 router.use("/", [authRouter,submitRouter,myPageRputer,commentRouter,mainPageRouter]);
 router.use("/members", userRouter);
@@ -19,5 +20,6 @@ router.use("/schedule", scheduleManageRouter);
 router.use("/vacation", vacationManageRouter);
 router.use("/other",otherManageRouter)
 router.use("/feed", todoRouter);
+router.use("/usersInfo", userInfoRouter);
 
 module.exports = router;

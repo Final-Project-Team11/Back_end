@@ -5,17 +5,6 @@ class MypageController {
         this.MypageService = new MypageService();
     }
 
-    getUserInfo = async (req, res, next) => {
-        try {
-            const { userId } = res.locals.user;
-            const user = await this.MypageService.checkUserById({ userId });
-            const userInfo = await this.MypageService.getUserInfo({ user });
-            res.status(200).json({ user: userInfo });
-        } catch (err) {
-            next(err);
-        }
-    };
-
     getSchedules = async (req, res, next) => {
         const pageInfo = req.query;
         try {
@@ -182,6 +171,9 @@ class MypageController {
     getDetailMyfile = async (req, res, next) => {
         try {
             const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            await this.MypageService.checkSchedule({ userId, Id })
             const detail = await this.MypageService.getDatailMyfile({ Id })
             res.status(200).json({ detail })
         } catch (err) {
@@ -192,6 +184,10 @@ class MypageController {
     getDetailMeetingFile = async (req, res, next) => {
         try {
             const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            const eventType = "5"
+            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailMeetingFile({
                 Id,
             });
@@ -205,6 +201,10 @@ class MypageController {
     getDetailReportFile = async (req, res, next) => {
         try {
             const { Id } = req.params;
+            const { userId } = res.locals.user;
+            //권한 체크
+            const eventType = "5"
+            await this.MypageService.checkdetailSchedule({ userId, Id,eventType })
             const detail = await this.MypageService.getDetailReportFile({
                 Id,
             });
@@ -221,6 +221,18 @@ class MypageController {
             const status = await this.MypageService.getVacationProgress({ userId })
             res.status(200).json(status)
         } catch (err) {
+            next(err)
+        }
+    }
+
+    getWeeklySchedule = async(req,res,next) => {
+        try{
+            const {year,month,day} = req.query;
+            const {teamId} = res.locals.user;
+
+            const data = await this.MypageService.getWeeklySchedule({teamId,year,month,day})
+            res.status(200).json(data)
+        }catch(err){
             next(err)
         }
     }

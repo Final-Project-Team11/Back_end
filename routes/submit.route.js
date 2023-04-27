@@ -25,13 +25,13 @@ router.post('/meeting', authMiddleware, upload.array('file'), submitController.m
 router.post('/report', authMiddleware, upload.array('file'), submitController.reportSubmit)
 
 // 보고서 수정
-router.patch('/report/:eventId', authMiddleware, upload.array('file'), submitController.reportModify)
+router.patch('/report/:Id', authMiddleware, upload.array('file'), submitController.reportModify)
 
 // 회의록 등록
 router.post('/meeting/:Id', authMiddleware, upload.array('file'), submitController.meetingReportSubmit)
 
 // 회의록 수정
-router.patch('/report/:meetingReport', authMiddleware, upload.array('file'), submitController.meetingReportModify)
+router.patch('/meeting/:meetingId/:Id', authMiddleware, upload.array('file'), submitController.meetingReportModify)
 
 // 팀원 목록 조회
 router.get('/teamUsers', authMiddleware, submitController.teamUsersList)

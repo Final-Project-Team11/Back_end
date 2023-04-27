@@ -6,6 +6,7 @@ class UserManageService {
     constructor() {
         this.userManageRepository = new UserManageRepository();
     }
+
     // 팀 목록
     findTeamsList = async ({ companyId }) => {
         const teams = await this.userManageRepository.findTeamsByCompanyId({
@@ -17,7 +18,7 @@ class UserManageService {
     // 유저 수정
     updateUser = async ({ userId, team, authLevel, rank, job, companyId }) => {
         console.log(companyId);
-        const existUser = this.userManageRepository.findUserById(userId);
+        const existUser = await this.userManageRepository.findUserById(userId);
         if (!existUser) {
             throw new CustomError("해당 유저가 존재하지 않습니다.", 401);
         }
@@ -95,12 +96,9 @@ class UserManageService {
         salaryDay,
         userInfo,
     }) => {
-        if (!team | !authLevel | !rank | !userName | !userId | !job | !salaryDay) {
-            throw new CustomError("입력 형식을 채워주세요");
-        }
         // 아이디 중복체크
         const existUser = await this.userManageRepository.findUserById(userId);
-        console.log("유저 존재 유무", existUser);
+
         if (existUser) {
             throw new CustomError("중복된 아이디입니다.", 401);
         }
@@ -109,36 +107,48 @@ class UserManageService {
                 "존재하지 않는 권한입니다.",
                 401
                 );
-            }
+        }
+        
         // 팀 존재 유무 확인
         const companyId = userInfo.companyId;
         const existTeam = await this.userManageRepository.findTeamId({
             team,
             companyId,
         });
-
-        const teamInfo = existTeam
-            ? existTeam
-            : await this.userManageRepository.createTeam({
-                  team,
-                  companyId,
-              });
-
+        
         const salt = await bcrypt.genSalt();
         const encryptPwd = await bcrypt.hash(userId, salt);
 
-        await this.userManageRepository.createUser({
-            teamId: teamInfo.teamId,
-            authLevel,
-            rank,
-            userName,
-            userId,
-            joinDay,
-            job,
-            salaryDay,
-            companyId,
-            encryptPwd,
-        });
+            // console.log(t)
+        const teamInfo = existTeam
+        if (!existTeam) {
+            await this.userManageRepository.createTeamAndUser({
+                team,
+                companyId,
+                authLevel,
+                rank,
+                userName,
+                userId,
+                joinDay,
+                job,
+                salaryDay,
+                encryptPwd,
+            });
+        } else {
+            await this.userManageRepository.createUser({
+                teamId: teamInfo.teamId,
+                authLevel,
+                rank,
+                userName,
+                userId,
+                joinDay,
+                job,
+                salaryDay,
+                companyId,
+                encryptPwd,
+            });
+        }
+        
     };
 }
 
