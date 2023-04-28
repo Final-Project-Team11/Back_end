@@ -366,12 +366,11 @@ class SubmitService {
     teamUsersList = async(teamId) => {
         const findTeamUsers = await this.submitRepository.teamUsersList(teamId)
         console.log("-----------------",findTeamUsers)
-        const findTeamUsersName = findTeamUsers.map((item) => {
-            return item.userName
-        })
+        // const findTeamUsersName = findTeamUsers.map((item) => {
+        //     return item.userName
+        // })
 
-
-        return findTeamUsersName
+        return findTeamUsers
     }
 }
 
