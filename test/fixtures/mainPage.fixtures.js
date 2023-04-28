@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 exports.mockData = {
     teamId: 2,
     year: 2023,
@@ -7,11 +9,13 @@ exports.mockData = {
 
 exports.vacationData = [
     {
-        "eventId": 8,
-        "userName": "ju3",
-        "startDay": "2023-05-13T00:00:00.000Z",
-        "endDay": "2023-05-13T00:00:00.000Z",
-        "typeDetail": "반차"
+        "Id": 5,
+        "userName": "juuuuu2",
+        "userId": "juuuuu2",
+        "start": "2023-05-22T00:00:00.000Z",
+        "end": "2023-05-24T00:00:00.000Z",
+        "typeDetail": "0",
+        "isReadOnly": 1
     }
 ]
 
