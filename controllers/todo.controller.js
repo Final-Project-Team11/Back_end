@@ -23,7 +23,7 @@ class TodoController {
         const { category } = req.body;
         try {
             const { userId } = res.locals.user;
-            await createCategorySchema.validateAsync(req.body).catch((err) => {
+            await createCategorySchema.validateAsync(req.body,{ abortEarly: false }).catch((err) => {
                 throw new CustomError(err.message, 401);
             });
             //카테고리 생성
@@ -39,7 +39,7 @@ class TodoController {
         const { content } = req.body;
         try {
             const { userId } = res.locals.user;
-            await createTodoSchema.validateAsync(req.body).catch((err) => {
+            await createTodoSchema.validateAsync(req.body,{ abortEarly: false }).catch((err) => {
                 throw new CustomError(err.message, 401);
             });
             //카테고리에 대한 권한 체크
