@@ -174,9 +174,10 @@ class MypageService {
         return existMention;
     };
     completeMentioned = async ({ existMention, mentionId }) => {
+        // console.log(existMention.isChecked);
         if (existMention.isChecked == false) {
             const check = true;
-            return await this.MypageRepository.updateMention({
+            await this.MypageRepository.updateMention({
                 mentionId,
                 check,
             });
@@ -201,9 +202,11 @@ class MypageService {
         const team = await this.MypageRepository.findTeam({ teamId });
         return await this.MypageRepository.findTeamReportFile({ team });
     };
-    getUserId = async ({ userName }) => {
-        return await this.MypageRepository.getUserId({ userName });
-    };
+    
+    // getUserId = async ({ userName }) => {
+    //     return await this.MypageRepository.getUserId({ userName });
+    // };
+
     checkSchedule = async({Id}) => {
         const existSchedule = await this.MypageRepository.findEvent({
             Id,

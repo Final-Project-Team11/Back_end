@@ -21,6 +21,11 @@ let req = {
 let res = {
     status: jest.fn(),
     json: jest.fn(),
+    locals: {
+        user: {
+            companyId : 2,
+        },
+    },
 };
 
 let next = jest.fn()
@@ -55,6 +60,7 @@ describe("MainPageController Test", () => {
         expect(
             mainPageController.mainPageService.findTotalVacation
         ).toHaveBeenCalledWith({
+            companyId: 2,
             teamId: 2, 
             year: 2023, 
             month: 4
@@ -78,6 +84,57 @@ describe("MainPageController Test", () => {
 
         // Error가 발생합니다.
         await mainPageController.findTotalVacation(req, res, next);
+
+        expect(next).toHaveBeenCalledWith(new CustomError(findTotalVacationErrorMessage))
+    })
+
+    // 전체 일정 조회
+    test('findTotalSchedule이 성공하였을 때', async() => {
+        res.status = jest.fn(() => {
+            return res;
+        });
+
+        let findTotalScheduleReturnValue
+        mainPageController.mainPageService.findTotalSchedule = jest.fn(() => {
+            return findTotalScheduleReturnValue
+        })
+
+        await mainPageController.findTotalSchedule(req, res, next)
+
+        // findTotalSchedule이 몇번 호출 되었는지
+        expect(
+            mainPageController.mainPageService.findTotalSchedule
+        ).toHaveBeenCalledTimes(1)
+
+        // findTotalSchedule의 반환값
+        expect(
+            mainPageController.mainPageService.findTotalSchedule
+        ).toHaveBeenCalledWith({
+            companyId : 2,
+            year: 2023,
+            month: 4,
+            teamId: 2,
+        })
+
+        // status의 반환값
+        expect(
+            res.status
+        ).toHaveBeenCalledWith(200)
+
+        // res.json의 반환값
+        expect(
+            res.json
+        ).toHaveBeenCalledWith({main: findTotalScheduleReturnValue})
+    })
+
+    test('findTotalSchedule이 실패했을 때', async() => {
+        const findTotalVacationErrorMessage = 'Error : 예상치 못한 에러가 발생했습니다.'
+
+        mainPageController.mainPageService.findTotalSchedule = jest.fn(() => {
+            throw Error(findTotalVacationErrorMessage)
+        })
+
+        await mainPageController.findTotalSchedule(req, res, next)
 
         expect(next).toHaveBeenCalledWith(new CustomError(findTotalVacationErrorMessage))
     })
