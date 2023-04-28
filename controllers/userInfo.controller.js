@@ -1,6 +1,6 @@
-
-const { userInfo } = require("os");
+const {userInfoSchema} = require("../schemas/userInfo.schema")
 const UserInfoService = require("../services/userInfo.service")
+const CustomError = require("../middlewares/errorHandler");
 class UserInfoController {
     constructor() {
         this.UserInfoService = new UserInfoService();
@@ -21,6 +21,11 @@ class UserInfoController {
         try {
             const { userId } = res.locals.user;
             const { birthDay, phoneNum } = req.body; //joi 
+            await userInfoSchema
+            .validateAsync(req.body,{ abortEarly: false })
+            .catch((err) => {
+                throw new CustomError(err.message, 401)
+            })
             let fileLocation;
             if (req.file) {
                 fileLocation = req.file.transforms[0].location
