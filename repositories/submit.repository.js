@@ -486,7 +486,11 @@ class SubmitRepository {
     teamUsersList = async(teamId) => {
         const findTeamUsers = await Users.findAll({
             raw: true,
-            where: {teamId, authLevel: 3}
+            where: {teamId, authLevel: 3},
+            attributes: [
+                "userName",
+                "userId"
+            ]
         })
 
         return findTeamUsers
