@@ -17,7 +17,6 @@ class MypageRepository {
     constructor() { }
 
     getUserSchedule = async ({ userId }) => {
-        console.log("여기 들어오니?")
         const schedules = await Schedules.findAll({
             raw: true,
             where: { userId },
@@ -49,7 +48,6 @@ class MypageRepository {
                 },
             ],
         })
-        console.log("여기는?")
         schedules.map((schedule) => {
             if (schedule.files) {
                 schedule.files = schedule.files.split("|").map((item) => {
