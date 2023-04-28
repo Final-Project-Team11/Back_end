@@ -54,7 +54,7 @@ class SignupController {
         const { companyId } = req.body;
         try {
             await checkIdSchema
-            .validateAsync(req.body)
+            .validateAsync(req.body,{ abortEarly: false })
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
