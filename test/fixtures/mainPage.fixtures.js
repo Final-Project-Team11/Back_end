@@ -1,7 +1,8 @@
 exports.mockData = {
     teamId: 2,
     year: 2023,
-    month: 4
+    month: 4,
+    companyId: 2,
 }
 
 exports.vacationData = [
@@ -110,6 +111,25 @@ exports.issueData = [
 ]
 
 exports.meetingData = [
+    {
+        "eventId": 13,
+        "userName": "ju3",
+        "userId": "juuuu3",
+        "title": "test",
+        "content": "test",
+        "file": null,
+        "location": "test",
+        "startDay": "2023-04-23T00:00:00.000Z",
+        "startTime": "09:30:00",
+        "eventType": "Meetings",
+        "mentions": [
+            "ju1",
+            "ju2",
+            "kim122"
+        ]
+    }
+]
+exports.eventData = [
     {
         "eventId": 13,
         "userName": "ju3",
