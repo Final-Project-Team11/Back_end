@@ -36,7 +36,7 @@ const upload = multer({
             {
                 id : "resized",
                 key(req, file, cb) {
-                    cb(null, `${v4()}_${path.basename(file.originalname)}`); // original 폴더안에다 파일을 저장
+                    cb(null, `${v4()}`); // original 폴더안에다 파일을 저장
                 },
                 transform: function (req, file, cb) {
                     cb(null, sharp().resize(100, 100)); // 이미지를 100x100 으로 리사이징
