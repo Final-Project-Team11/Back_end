@@ -13,7 +13,6 @@ const {
     MentionCheckInsertSchema,
     MentionCheckResultSchema,
     MyfileAllResultSchema,
-    TeamMenberResultSchema,
     TeamMeetingResultSchema
 } = require("../../fixtures/mypage.fixtures");
 
