@@ -45,21 +45,21 @@ exports.UserTokenResultSchema = {
 }
 
 exports.AdminAuthinvalidData = {
-    companyId: "test1",
+    companyId: "sparta",
     password: 1234,
 };
 exports.AdminAuthvalidData = {
-    companyId: "test1",
+    companyId: "sparta",
     password: "1234aaaa!!",
 };
 
 exports.UserAuthinvalidData = {
-    companyId: "testcompany",
+    companyId: "sparta",
     userId : "test1",
     password: 1234,
 };
 exports.UserAuthvalidData = {
-    companyId: "testcompany",
+    companyId: "sparta",
     userId : "test1",
     password: "1234aaaa!!",
 };
