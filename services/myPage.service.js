@@ -241,6 +241,10 @@ class MypageService {
 
     getVacationProgress = async({userId}) => {
         const vacations =  await this.MypageRepository.getVacationProgress({userId})
+        if (vacations.length === 0){
+            const vacation = {Id : 0, status:"deny"}
+            return vacation
+        }
         return vacations[0]
 
     }
