@@ -51,12 +51,12 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',item)
 
                 await Mentions.create({
                     Id : Id,
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {transaction : t});
             }))
@@ -119,11 +119,11 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
                 // console.log('aaaaaaaaaaaaaaa',userId)
 
                 await Mentions.update({
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {
                     where : {Id}
@@ -207,11 +207,11 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
                     Id : Id,
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {transaction : t})
             }))
@@ -260,11 +260,11 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
                     Id : Id,
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {transaction : t})
             }))
@@ -310,11 +310,11 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
                     Id : Id,
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {transaction : t})
             }))
@@ -361,10 +361,10 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.update({
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {
                     where: {Id}
@@ -413,11 +413,11 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
                 
                 await Mentions.create({
                     Id : Id,
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {transaction : t})
             }))
@@ -464,10 +464,10 @@ class SubmitRepository {
             }))
 
             await Promise.all(attendees.map(async(item) => {
-                const {userId} = await Users.findOne({where : {userName : item}})
+                // const {userId} = await Users.findOne({where : {userName : item}})
 
                 await Mentions.update({
-                    userId : userId,
+                    userId : item,
                     isChecked : false
                 }, {
                     where: {Id}
