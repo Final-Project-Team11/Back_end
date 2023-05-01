@@ -22,70 +22,137 @@ exports.MypageUserIdInsertSchema = {
     type: "2",
     userId: "test1",
 };
-
+exports.mapMyScheduleResultSchema = [
+    {
+        Id: 1,
+        userName: "testman",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+        enroll: "04/25",
+        status: "accept"
+    },
+    {
+        Id: 2,
+        userName: "testman",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+        enroll: "04/25",
+        status: "accept"
+    },
+    {
+        Id: 3,
+        userName: "testman",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+        enroll: "04/25",
+        status: "accept"
+    },
+];
 exports.MyScheduleResultSchema = [
     {
-        eventId: 1,
-        userName: "test1",
+        Id: 1,
+        userName: "testman",
         title: "test title",
-        file: "http://asd.png",
-        startDay: "2023-04-04",
-        endDay: "2024-04-05",
-        status: "submit",
-        fileName: "asd.png",
+        files: [
+            {
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
+            }
+        ],
+        enroll: "04/25",
+        status: "accept"
     },
     {
-        eventId: 2,
-        userName: "test2",
+        Id: 2,
+        userName: "testman",
         title: "test title",
-        file: "http://asd.png",
-        startDay: "2023-04-04",
-        endDay: "2024-04-05",
-        status: "submit",
-        fileName: "asd.png",
+        files: [
+            {
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
+            }
+        ],
+        enroll: "04/25",
+        status: "accept"
     },
     {
-        eventId: 3,
-        userName: "test3",
+        Id: 3,
+        userName: "testman",
         title: "test title",
-        file: "http://asd.png",
-        startDay: "2023-04-04",
-        endDay: "2024-04-05",
-        status: "submit",
-        fileName: "asd.png",
+        files: [
+            {
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
+            }
+        ],
+        enroll: "04/25",
+        status: "accept"
     },
 ];
 
 exports.MyOtherResultSchema = [
     {
-        eventId: 4,
-        userName: "test1",
+        Id: 4,
+        userName: "testman",
         title: "test title",
-        file: "http://asd.png",
-        startDay: "2023-04-04",
-        endDay: "2024-04-05",
-        status: "submit",
-        fileName: "asd.png",
+        files: [
+            {
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
+            }
+        ],
+        enroll: "04/25",
+        status: "accept"
     },
     {
-        eventId: 5,
-        userName: "test2",
+        Id: 5,
+        userName: "testman",
         title: "test title",
-        file: "http://asd.png",
-        startDay: "2023-04-04",
-        endDay: "2024-04-05",
-        status: "submit",
-        fileName: "asd.png",
+        files: [
+            {
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
+            }
+        ],
+        enroll: "04/25",
+        status: "accept"
     },
     {
-        eventId: 6,
-        userName: "test3",
+        Id: 6,
+        userName: "testman",
         title: "test title",
-        file: "http://asd.png",
-        startDay: "2023-04-04",
-        endDay: "2024-04-05",
-        status: "submit",
-        fileName: "asd.png",
+        files: [
+            {
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
+            }
+        ],
+        enroll: "04/25",
+        status: "accept"
     },
 ];
 
@@ -305,7 +372,7 @@ exports.MentionCheckInsertSchema = {
 exports.MentionCheckResultSchema = {
     mentionId: 1,
     userId: "test1",
-    eventId: 4,
+    Id: 4,
     isChecked: false,
     createdAt: "2023-04-08",
     updatedAt: "2023-04-08",
