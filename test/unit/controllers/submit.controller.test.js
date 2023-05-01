@@ -1,11 +1,11 @@
 const SubmitController = require('../../../controllers/submit.controller')
+const CustomError = require('../../../middlewares/errorHandler')
 const sinon = require('sinon')
 
-const {scheduleSchema} = require("../../../schemas")
+const {scheduleSchema} = require("../../../schemas/submit.schema")
 
 const {
     mockFiles,
-    locals,
     scheduleData,
 } = require('../../fixtures/submit.fixtures')
 
@@ -73,5 +73,27 @@ describe("scheduleSubmit Test", () => {
         // 함수가 호출되지 않았는지 검증합니다.
         sinon.assert.notCalled(next);
 
+    })
+
+    test("scheduleSubmit Joi 실패시", async() => {
+        const req = {
+            body: {
+                start: "aaaaa",
+                end: scheduleData.end,
+                title: scheduleData.title,
+                location: scheduleData.location,
+                attendees: scheduleData.attendees,
+                body: scheduleData.body
+            },
+            files: mockFiles
+        }
+
+        try {
+            const result = await scheduleSchema.validateAsync(req.body, { abortEarly: false })
+        } catch (error) {
+            expect(error).toBeInstanceOf(Error)
+            // expect(error.status).toBe(401);
+            expect(error.message).toMatch(/start 필드는 날짜로 이루어져야 합니다./);
+        }
     })
 })
