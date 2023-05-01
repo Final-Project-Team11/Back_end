@@ -70,3 +70,22 @@ exports.ModifyinvalidData = {
 exports.ModifyvalidData = {
     password: "1234aaaa!!",
 };
+
+exports.TeamResultSchema = {
+    teamId : 1,
+    teamName : "개발팀",
+    companyId : "sparta",
+    createdAt : "2020-20-20",
+    updatedAt : "2020-20-20"
+}
+ exports.CheckCompanyResultSchema = {
+    companyId : "sparta",
+    companyName : "스파르타본진",
+    companyNum : "1234123412",
+    address : "서울시 어쩌고",
+    ceoName : "이범규",
+    ceoNum : "01012341234",
+    createdAt : "2020-20-20",
+    updatedAt : "2020-20-20"
+ }
+

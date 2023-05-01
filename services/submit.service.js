@@ -164,6 +164,7 @@ class SubmitService {
     meetingSubmit = async({userId, teamId, calendarId, start, end, title, attendees, location, body, fileLocation, fileName}) => {
         // console.log("service",typeof userId)
         const isRef = await this.submitRepository.findRef(teamId)
+        console.log("aaaaaaaaaaaaaa",attendees)
         let REF;
         if (attendees === null) {
             // ref가 null인 경우
@@ -181,7 +182,7 @@ class SubmitService {
                 return item.userName;
             });
         }
-
+        console.log("11111111111111111",REF)
         const createMeetingSubmit = await this.submitRepository.meetingSubmit({userId, calendarId, start, end, title, attendees:REF, location, body, fileLocation, fileName})
 
         return createMeetingSubmit
