@@ -10,21 +10,25 @@ class SubmitService {
     // 출장 신청
     scheduleSubmit =  async({userId, teamId, start, end, title, attendees, location, body, fileLocation, fileName}) => {
         const isRef = await this.submitRepository.findRef(teamId)
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
         // console.log(REF)
@@ -86,22 +90,25 @@ class SubmitService {
         })
 
         const isRef = await this.submitRepository.findRef(teamId)
-        
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
 
@@ -136,22 +143,25 @@ class SubmitService {
     // 기타 신청
     otherSubmit = async({userId, teamId, start, end, title, attendees, body, fileLocation, fileName}) => {
         const isRef = await this.submitRepository.findRef(teamId)
-        
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
 
@@ -164,21 +174,25 @@ class SubmitService {
     meetingSubmit = async({userId, teamId, calendarId, start, end, title, attendees, location, body, fileLocation, fileName}) => {
         // console.log("service",typeof userId)
         const isRef = await this.submitRepository.findRef(teamId)
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
 
@@ -190,22 +204,25 @@ class SubmitService {
     // 보고서 등록
     reportSubmit = async({userId, teamId, title, body, attendees, fileLocation, fileName, start, end}) => {
         const isRef = await this.submitRepository.findRef(teamId)
-        
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
 
@@ -253,21 +270,25 @@ class SubmitService {
 
 
         const isRef = await this.submitRepository.findRef(teamId)
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
 
@@ -278,22 +299,25 @@ class SubmitService {
     meetingReportSubmit = async({userId, meetingId, teamId, title, attendees, body, fileLocation, fileName, start, end}) => {
         
         const isRef = await this.submitRepository.findRef(teamId)
-        
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
 
@@ -340,22 +364,25 @@ class SubmitService {
         })
 
         const isRef = await this.submitRepository.findRef(teamId)
-        
+        const attendeesId = attendees.map((item) => {
+            return item.split('-')[1]
+        })
+        console.log('###########attendeesId##########', attendeesId)
         let REF;
-        if (attendees === null) {
+        if (attendeesId === null) {
             // ref가 null인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
-        } else if(attendees !== undefined && attendees !== null) {
+        } else if(attendeesId !== undefined && attendeesId !== null) {
             // ref가 undefined가 아니고, null이 아닌 경우.
-            REF = attendees.concat(isRef.map((item) => {
-                return item.userName;
+            REF = attendeesId.concat(isRef.map((item) => {
+                return item.userId;
             }));
         } else {
             // ref가 undefined인 경우
             REF = isRef.map((item) => {
-                return item.userName;
+                return item.userId;
             });
         }
 
