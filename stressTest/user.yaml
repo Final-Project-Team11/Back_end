@@ -3,9 +3,6 @@ config:
   phases:
     - duration: 30
       arrivalRate: 10
-  variables:
-    # uuid 패키지를 사용하여 UUID 생성
-    userId: "{{ Math.floor(Math.random() * 6) + 5 }}"
   defaults:
     headers:
       User-Agent: Artillery
@@ -35,8 +32,8 @@ scenarios:
             team : "개발팀"
             authLevel : 3
             rank : "사원"
-            userName : "{{ userId }}"
-            userId : "{{ userId }}"
+            userName : "{{ $randomString()}}"
+            userId : "{{ $randomString()}}"
             joinDay : "2023-05-01"
             salaryDay : 20
             job : "BE"
