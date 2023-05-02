@@ -411,78 +411,156 @@ exports.MyfileMeetingReportResultSchema = [
         calendarId: "5",
         enroll: "2023-04-05",
         title: "test title",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
     },
     {
         Id: 2,
-        userName: "testman2",
+        userName: "testman",
         calendarId: "5",
         enroll: "2023-04-05",
         title: "test title",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
     },
     {
         Id: 3,
-        userName: "testman3",
+        userName: "testman",
         calendarId: "5",
         enroll: "2023-04-05",
         title: "test title",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
+    },
+];
+
+exports.mapMyfileMeetingReportResultSchema = [
+    {
+        Id: 1,
+        userName: "testman",
+        calendarId: "5",
+        enroll: "2023-04-05",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+    },
+    {
+        Id: 2,
+        userName: "testman",
+        calendarId: "5",
+        enroll: "2023-04-05",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+    },
+    {
+        Id: 3,
+        userName: "testman",
+        calendarId: "5",
+        enroll: "2023-04-05",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+    },
+];
+
+exports.mapMyfileReportResultSchema = [
+    {
+        Id: 4,
+        userName: "testman",
+        calendarId: "6",
+        enroll: "2023-04-05",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+    },
+    {
+        Id: 5,
+        userName: "testman",
+        calendarId: "6",
+        enroll: "2023-04-05",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+    },
+    {
+        Id: 6,
+        userName: "testman",
+        calendarId: "6",
+        enroll: "2023-04-05",
+        title: "test title",
+        files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
     },
 ];
 
 exports.MyfileReportResultSchema = [
     {
         Id: 4,
-        userName: "testman4",
+        userName: "testman",
         calendarId: "6",
         enroll: "2023-04-05",
         title: "test title",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
     },
     {
         Id: 5,
-        userName: "testman5",
+        userName: "testman",
         calendarId: "6",
         enroll: "2023-04-05",
         title: "test title",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
     },
     {
         Id: 6,
-        userName: "testman6",
+        userName: "testman",
         calendarId: "6",
         enroll: "2023-04-05",
         title: "test title",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
     },
@@ -493,10 +571,14 @@ exports.MyfileAllResultSchema = [
         Id: 6,
         calendarId: "6",
         enroll: "2023-04-05",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
         title: "test title",
@@ -506,10 +588,14 @@ exports.MyfileAllResultSchema = [
         Id: 5,
         calendarId: "6",
         enroll: "2023-04-05",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
         title: "test title",
@@ -519,10 +605,14 @@ exports.MyfileAllResultSchema = [
         Id: 4,
         calendarId: "6",
         enroll: "2023-04-05",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
         title: "test title",
@@ -532,10 +622,14 @@ exports.MyfileAllResultSchema = [
         Id: 3,
         calendarId: "5",
         enroll: "2023-04-05",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
         title: "test title",
@@ -545,10 +639,14 @@ exports.MyfileAllResultSchema = [
         Id: 2,
         calendarId: "5",
         enroll: "2023-04-05",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
         title: "test title",
@@ -558,10 +656,14 @@ exports.MyfileAllResultSchema = [
         Id: 1,
         calendarId: "5",
         enroll: "2023-04-05",
-        file: [
+        files: [
             {
-                fileLocation: "http://asd.png",
-                fileName: "asd.png"
+                "fileName": "gitactons.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"
+            },
+            {
+                "fileName": "image.png",
+                "fileLocation": "https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"
             }
         ],
         title: "test title",
@@ -627,6 +729,17 @@ exports.TeamMemberInsertSchema = [
         userName: "testman3"
     }
 ]
+
+exports.teamMeetingOneResultSchema = {
+    Id: 1,
+    calendarId: "5",
+    enroll: "2023/04/27",
+    userName: "testman2",
+    userId: "test2",
+    title: "test title1",
+    files: '{"fileName":"gitactons.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/c3719689-9b1b-440c-952c-e6e15d78909d_gitactons.png"}|{"fileName":"image.png","fileLocation":"https://meer2.s3.ap-northeast-2.amazonaws.com/77126bd1-3fbb-4159-a1ec-342826391308_image.png"}',
+
+}
 
 exports.TeamMeetingResultSchema = [
     {
