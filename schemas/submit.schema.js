@@ -21,9 +21,11 @@ const scheduleSchema = Joi.object({
     }),
     location: Joi.string().messages({
         "string.base": "location 필드는 문자열로 이루어져야 합니다.",
+        "string.empty": "location을 입력해 주세요.",
     }),
     body: Joi.string().messages({
         "string.base": "body 필드는 문자열로 이루어져야 합니다.",
+        "string.empty": "내용을 입력해 주세요.",
     }),
 });
 
@@ -66,6 +68,7 @@ const otherSchema = Joi.object({
     }),
     body: Joi.string().messages({
         'string.base' : 'body 필드는 문자열로 이루어져야 합니다.',
+        "string.empty": "내용을 입력해 주세요.",
     }),
 })
 
@@ -95,9 +98,11 @@ const meetingSchema = Joi.object({
     }),
     location: Joi.string().messages({
         'string.base' : 'location 필드는 문자열로 이루어져야 합니다.',
+        "string.empty": "location을 입력해 주세요.",
     }),
     body: Joi.string().messages({
         'string.base' : 'body 필드는 문자열로 이루어져야 합니다.',
+        "string.empty": "내용을 입력해 주세요.",
     }),
 })
 
@@ -122,6 +127,7 @@ const reportSchema = Joi.object({
     }),
     body: Joi.string().messages({
         'string.base' : 'body 필드는 문자열로 이루어져야 합니다.',
+        "string.empty": "내용을 입력해 주세요.",
     }),
 })
 
@@ -146,6 +152,7 @@ const meetingReportSchema = Joi.object({
     }),
     body: Joi.string().messages({
         'string.base' : 'content 필드는 문자열로 이루어져야 합니다.',
+        "string.empty": "내용을 입력해 주세요.",
     }),
 })
 
