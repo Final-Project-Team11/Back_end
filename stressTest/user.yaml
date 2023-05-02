@@ -1,0 +1,45 @@
+config:
+  target: http://localhost:3003
+  phases:
+    - duration: 30
+      arrivalRate: 10
+  variables:
+    # uuid 패키지를 사용하여 UUID 생성
+    userId: "{{ Math.floor(Math.random() * 6) + 5 }}"
+  defaults:
+    headers:
+      User-Agent: Artillery
+
+scenarios:
+  - name: "대표로그인후 유저조회"
+    flow:
+      - post:
+          headers:
+            Content-Type: application/json
+          url: "/auth/admin"
+          json:
+            companyId: "testtest"
+            password: "aaaa1111!!"
+          capture:
+            json: "$.token"
+            as: "token"
+      - get: 
+          url: "/users"
+          headers:
+            authorization: "{{token}}"
+      - post:
+          url: "/users"
+          headers:
+            authorization: "{{token}}"
+          json:
+            team : "개발팀"
+            authLevel : 3
+            rank : "사원"
+            userName : "{{ userId }}"
+            userId : "{{ userId }}"
+            joinDay : "2023-05-01"
+            salaryDay : 20
+            job : "BE"
+
+
+
