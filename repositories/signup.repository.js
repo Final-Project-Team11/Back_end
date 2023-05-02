@@ -74,7 +74,6 @@ class SignupRepository {
                 { transaction: t }
             );
             //유저생성
-            const day = new Date()
             await Users.create(
                 {
                     userId,
@@ -83,10 +82,7 @@ class SignupRepository {
                     password,
                     companyId,
                     remainDay,
-                    salaryDay : 1,
-                    rank : "CEO",
                     authLevel,
-                    joinDay : day,
                     job,
                 },
                 { transaction: t }

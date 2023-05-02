@@ -121,19 +121,18 @@ class MainPageRepository {
             ],
         })
 
-        findTotalSchedule.map((item) => {
-            if(item.files) {
-                item.files = item.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
+        console.log("###########findTotalSchedule##########", findTotalSchedule)
+        const result = (findTotalSchedule || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.files) {
+                newItem.files = newItem.files.split("|").map(JSON.parse);
             }
-            return;
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
         })
-        const result = findTotalSchedule.map((item) => ({
-            ...item,
-            attendees: item.attendees.split(", "),
-        }));
-        // console.log("=====================",result);
+        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
 
         return result
     }
@@ -332,20 +331,17 @@ class MainPageRepository {
                 },
             ],
         })
-        findTotalIssue.map((item) => {
-            if(item.files) {
-                item.files = item.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
-            }
-            return;
-        })
 
-        const result = findTotalIssue.map((item) => ({
-            ...item,
-            attendees: item.attendees.split(", "),
-        }));
-        // console.log("=====================",result);
+        const result = (findTotalIssue || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.files) {
+                newItem.files = newItem.files.split("|").map(JSON.parse);
+            }
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
+        })
 
         return result
     }
@@ -414,20 +410,16 @@ class MainPageRepository {
                 },
             ],
         })
-        findTotalMeeting.map((item) => {
-            if(item.files) {
-                item.files = item.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
+        const result = (findTotalMeeting || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.files) {
+                newItem.files = newItem.files.split("|").map(JSON.parse);
             }
-            return;
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
         })
-
-        const result = findTotalMeeting.map((item) => ({
-            ...item,
-            attendees: item.attendees.split(", "),
-        }));
-        // console.log("=====================",result);
 
         return result
     }
@@ -496,20 +488,17 @@ class MainPageRepository {
                 },
             ],
         })
-        findTotalEvent.map((item) => {
-            if(item.files) {
-                item.files = item.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
+        
+        const result = (findTotalEvent || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.files) {
+                newItem.files = newItem.files.split("|").map(JSON.parse);
             }
-            return;
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
         })
-
-        const result = findTotalEvent.map((item) => ({
-            ...item,
-            attendees: item.attendees.split(", "),
-        }));
-        // console.log("=====================",result);
 
         return result
     }
