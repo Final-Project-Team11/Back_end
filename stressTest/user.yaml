@@ -1,0 +1,38 @@
+config:
+  target: http://localhost:3003
+  phases:
+    - duration: 30
+      arrivalRate: 10
+  defaults:
+    headers:
+      User-Agent: Artillery
+  payload:
+    skipHeader: true
+    path: "../data/user.csv"
+    fields:
+      - companyId
+      - userId
+      - password
+      - teamId
+
+scenarios:
+  - name: "일반 유저 로그인후 달력조회"
+    flow:
+      - post:
+          headers:
+            Content-Type: application/json
+          url: "/auth/user"
+          json:
+            companyId: "{{companyId}}"
+            userId: "{{userId}}"
+            password: "{{password}}"
+          capture:
+            json: "$.token"
+            as: "token"
+      - get: 
+          url: "/totalSchedule/{{teamId}}"
+          qs:
+            year: 2023
+            month: 4
+          headers:
+            authorization: "{{token}}"
