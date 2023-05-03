@@ -21,5 +21,7 @@ router.use("/vacation", vacationManageRouter);
 router.use("/other",otherManageRouter)
 router.use("/feed", todoRouter);
 router.use("/usersInfo", userInfoRouter);
-
+router.get("/health", (req, res) => {
+    res.status(200).json("health Check")
+})
 module.exports = router;
