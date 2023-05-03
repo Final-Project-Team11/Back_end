@@ -3,10 +3,6 @@ config:
   phases:
     - duration: 30
       arrivalRate: 10
-  variables:
-    attendees:
-      - test13
-      - test14
   defaults:
     headers:
       User-Agent: Artillery
@@ -20,7 +16,7 @@ config:
       - teamId
 
 scenarios:
-  - name: "일반 유저 로그인후 일정작성"
+  - name: "마이페이지 조회"
     flow:
       - post:
           url: "/auth/user"
@@ -31,21 +27,25 @@ scenarios:
           capture:
             json: "$.token"
             as: "token"
-      - post:
+      - get:
+          url: "/myfiles"
+          qs:
+            pageNum: 1
+            pageSize: 5
           headers:
             authorization: "{{token}}"
-          url: "/schedule"
-          formData:
-            start: "2023-12-20"
-            end: "2023-12-23"
-            title: "test title"
-            location: "부산"
-            body: "test body"
       - get:
-          url: "/totalSchedule/{{teamId}}"
+          url: "/meetingfiles"
           qs:
-            year: 2023
-            month: 4
+            pageNum: 1
+            pageSize: 5
+          headers:
+            authorization: "{{token}}"
+      - get:
+          url: "/reportfiles"
+          qs:
+            pageNum: 1
+            pageSize: 5
           headers:
             authorization: "{{token}}"
       
