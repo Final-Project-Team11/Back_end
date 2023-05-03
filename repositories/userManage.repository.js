@@ -25,7 +25,6 @@ class UserManageRepository {
     
     // 유저 검색
     findUserByName = async ({ userName, companyId }) => {
-        console.log("레포", userName);
         const users = await Users.findAll({
             attributes: [
                 "userId",
@@ -33,7 +32,9 @@ class UserManageRepository {
                 "rank",
                 [Sequelize.fn("date_format",Sequelize.col("joinDay"),"%Y/%m/%d"),"joinDay"],
                 "job",
+                "authLevel",
                 [Sequelize.col("Team.teamName"), "team"],
+                "salaryDay"
             ],
             where: {
                 companyId,
@@ -81,13 +82,7 @@ class UserManageRepository {
                 [Sequelize.fn("date_format",Sequelize.col("joinDay"),"%Y/%m/%d"),"joinDay"],
                 "job",
                 [Sequelize.col("Team.teamName"), "team"],
-                [Sequelize.literal(`
-                CASE
-                    WHEN authLevel = 1 THEN '대표'
-                    WHEN authLevel = 2 THEN '관리자'
-                    WHEN authLevel = 3 THEN '직원'
-                END
-                `), "authLevel"],
+                "authLevel",
                 'salaryDay'
 
             ],
