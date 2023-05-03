@@ -65,7 +65,7 @@ class MainPageRepository {
         // 종료일은 해당 년도와 달의 마지막 일
         const endDate = new Date(year, month, 0)
 
-        console.log("=======================",start, end)
+        console.log("=======================",startDate, endDate)
         const findTotalSchedule = await Events.findAll({
             raw: true,
             where: {
