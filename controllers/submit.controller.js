@@ -16,7 +16,7 @@ class SubmitController {
         // 파일이 있을때와 없을때
         const fileLocation = req.files ? await req.files.map(file => file.transforms[0].location) : null
         const fileName = req.files ? await req.files.map(file => file.originalname) : null
-
+        console.log(attendees)
         // console.log("aaaaaaaaaaaaa", fileLocation, fileName)
         try{
             await scheduleSchema

@@ -1,9 +1,12 @@
--- Active: 1678195960353@@express-database.cczpvl46r6wt.ap-northeast-2.rds.amazonaws.com@3306@final_project_database
 config:
   target: http://localhost:3003
   phases:
     - duration: 30
       arrivalRate: 10
+  variables:
+    attendees:
+      - test13
+      - test14
   defaults:
     headers:
       User-Agent: Artillery
@@ -17,11 +20,9 @@ config:
       - teamId
 
 scenarios:
-  - name: "일반 유저 로그인후 달력조회"
+  - name: "일반 유저 로그인후 일정작성"
     flow:
       - post:
-          headers:
-            Content-Type: application/json
           url: "/auth/user"
           json:
             companyId: "{{companyId}}"
@@ -30,10 +31,15 @@ scenarios:
           capture:
             json: "$.token"
             as: "token"
-      - get: 
-          url: "/totalSchedule/{{teamId}}"
-          qs:
-            year: 2023
-            month: 4
+      - post:
           headers:
             authorization: "{{token}}"
+          url: "/schedule"
+          formData:
+            start: "2023-12-20"
+            end: "2023-12-23"
+            title: "test title"
+            location: "부산"
+            body: "test body"
+      
+
