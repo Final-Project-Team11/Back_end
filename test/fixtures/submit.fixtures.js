@@ -10,3 +10,8 @@ exports.scheduleData = {
     attendees: ["test1","test2"],
     body: "testBody",
 }
+exports.vacationData = {
+    start: "2023-04-12",
+    end: "2023-04-13",
+    typeDetail: "2"
+}
