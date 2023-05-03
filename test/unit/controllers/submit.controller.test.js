@@ -5,17 +5,20 @@ const sinon = require('sinon')
 const {
     scheduleSchema,
     vacationSchema,
+    otherSchema,
 } = require("../../../schemas/submit.schema")
 
 const {
     mockFiles,
     scheduleData,
     vacationData,
+    otherData,
 } = require('../../fixtures/submit.fixtures')
 
 const mockSubmitService = () => ({
     scheduleSubmit : jest.fn(),
     vacationSubmit : jest.fn(),
+    otherSubmit: jest.fn(),
 })
 
 describe("scheduleSubmit Test", () => {
@@ -152,6 +155,73 @@ describe("scheduleSubmit Test", () => {
 
         try {
             const result = await vacationSchema.validateAsync(req.body, { abortEarly: false })
+        } catch (error) {
+            expect(error).toBeInstanceOf(Error)
+            expect(error.message).toMatch(/start 필드는 날짜로 이루어져야 합니다./);
+        }
+    })
+
+    test("otherSubmit", async() => {
+        const req = {
+            body: {
+                start: otherData.start,
+                end: otherData.end,
+                title: otherData.title,
+                body: otherData.body,
+                attendees: otherData.attendees
+            },
+            files: mockFiles
+        }
+
+        const res = {
+            locals : {
+                user: {
+                    userId: "test1",
+                    teamId: "team1"
+                }
+            },
+            status: sinon.stub().returnsThis(),
+            send: sinon.stub()
+        }
+        const next = sinon.stub()
+
+        const otherSubmitSpy = sinon.spy(submtiController.submitService, 'otherSubmit')
+        await submtiController.otherSubmit(req, res, next)
+
+        sinon.assert.calledWith(otherSubmitSpy, {
+            userId: res.locals.user.userId,
+            teamId: res.locals.user.teamId,
+            start: otherData.start,
+            end: otherData.end,
+            title: otherData.title,
+            attendees: otherData.attendees,
+            body: otherData.body,
+            fileLocation: ['fake-location-1', 'fake-location-2'],
+            fileName: ['fake-name-1', 'fake-name-2']
+        })
+        // 함수가 한 번 호출되었는지 검증합니다.
+        sinon.assert.calledOnce(res.status);
+        // 함수가 200이라는 인자로 호출되었는지 검증합니다.
+        sinon.assert.calledWith(res.status, 200);
+        sinon.assert.calledOnce(res.send);
+        sinon.assert.calledWith(res.send, { message: '기타 신청이 성공적으로 완료되었습니다.' });
+        // 함수가 호출되지 않았는지 검증합니다.
+        sinon.assert.notCalled(next);
+    })
+
+    test("otherSubmit Joi 실패시", async() => {
+        const req = {
+            body: {
+                start: "aaaaaa",
+                end: otherData.end,
+                title: otherData.title,
+                body: otherData.body,
+                attendees: otherData.attendees
+            },
+        }
+
+        try {
+            const result = await otherSchema.validateAsync(req.body, { abortEarly: false })
         } catch (error) {
             expect(error).toBeInstanceOf(Error)
             expect(error.message).toMatch(/start 필드는 날짜로 이루어져야 합니다./);
