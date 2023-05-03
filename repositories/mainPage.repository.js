@@ -5,12 +5,13 @@ const { Op } = require('sequelize')
 class MainPageRepository {
     // 휴가 전체 조회
     findTotalVacation = async({teamId, year, month}) => {
+        console.log("111111111111111111111111",year, month)
         // 시작일은 해당 년도와 달의 1일
         const startDate = new Date(year, month - 1, 1);
         // 종료일은 해당 년도와 달의 마지막 일
         const endDate = new Date(year, month, 0)
 
-        // console.log("=================",startDate, endDate)
+        console.log("===========================",startDate, endDate)
         const findTotalVacation = await Events.findAll({
             raw: true,
             where: {
@@ -58,12 +59,13 @@ class MainPageRepository {
 
     // 출장 전체 조회
     findTotalSchedule = async({teamId, year, month}) => {
+        console.log("=======================", year, month)
         // 시작일은 해당 년도와 달의 1일
         const startDate = new Date(year, month - 1, 1);
         // 종료일은 해당 년도와 달의 마지막 일
         const endDate = new Date(year, month, 0)
 
-        // console.log("=================",start, end)
+        console.log("=======================",startDate, endDate)
         const findTotalSchedule = await Events.findAll({
             raw: true,
             where: {
