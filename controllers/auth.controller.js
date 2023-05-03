@@ -47,7 +47,6 @@ class AuthController {
             await this.AuthService.checkCompanyId({ companyId });
 
             const token = await this.AuthService.userLogin({ user, userId });
-            // res.cookie("authorization", `Bearer ${token}`); //개발단계에서 확인용
             res.status(200).json({
                 message: "로그인에 성공했습니다",
                 token: `Bearer ${token}`,
