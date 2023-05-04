@@ -1,0 +1,50 @@
+config:
+  target: http://localhost:3003
+  phases:
+    - duration: 60
+      arrivalRate: 30
+  variables:
+    attendees:
+      - test13
+      - test14
+  defaults:
+    headers:
+      User-Agent: Artillery
+  payload:
+    skipHeader: true
+    path: "../data/user.csv"
+    fields:
+      - companyId
+      - userId
+      - password
+      - teamId
+
+scenarios:
+  - name: "일반 유저 로그인후 일정작성"
+    flow:
+      - post:
+          url: "/auth/user"
+          json:
+            companyId: "{{companyId}}"
+            userId: "{{userId}}"
+            password: "{{password}}"
+          capture:
+            json: "$.token"
+            as: "token"
+      - post:
+          headers:
+            authorization: "{{token}}"
+          url: "/vacation"
+          json:
+            typeDetail: "휴가"
+            start: "2023-12-20"
+            end: "2023-12-23"
+      - get:
+          url: "/totalVacation/{{teamId}}"
+          qs:
+            year: 2023
+            month: 4
+          headers:
+            authorization: "{{token}}"
+      
+
