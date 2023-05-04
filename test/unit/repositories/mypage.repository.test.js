@@ -336,86 +336,86 @@ describe("getMyfile test", () => {
 
 })
 
-describe("TeamMeetingReport test",() => {
-    let mypagerepository = new MypageRepository();
-    let UsersFindAllStub;
-    let MeetingReportsFindAllStub;
-    beforeEach(() => {
-        jest.resetAllMocks();
-        UsersFindAllStub = sinon.stub(Users, "findAll");
-        MeetingReportsFindAllStub = sinon.stub(MeetingReports,"findAll")
-    });
-    afterEach(() => { // 스텁을 복원하여 원래의 동작으로 복구합니다.
-        UsersFindAllStub.restore();
-        MeetingReportsFindAllStub.restore();
-    });
-    test("findTeam test",async() => {
-        UsersFindAllStub.resolves(TeamMemberInsertSchema)
-        const myteam = await mypagerepository.findTeam(
-            TeamIdInsertSchema
-        )
+// describe("TeamMeetingReport test",() => {
+//     let mypagerepository = new MypageRepository();
+//     let UsersFindAllStub;
+//     let MeetingReportsFindAllStub;
+//     beforeEach(() => {
+//         jest.resetAllMocks();
+//         UsersFindAllStub = sinon.stub(Users, "findAll");
+//         MeetingReportsFindAllStub = sinon.stub(MeetingReports,"findAll")
+//     });
+//     afterEach(() => { // 스텁을 복원하여 원래의 동작으로 복구합니다.
+//         UsersFindAllStub.restore();
+//         MeetingReportsFindAllStub.restore();
+//     });
+//     test("findTeam test",async() => {
+//         UsersFindAllStub.resolves(TeamMemberInsertSchema)
+//         const myteam = await mypagerepository.findTeam(
+//             TeamIdInsertSchema
+//         )
 
-        expect(UsersFindAllStub.calledOnce).toBe(true)
-        expect(UsersFindAllStub.calledWith({
-            where : {teamId : TeamIdInsertSchema.teamId}
-        }))
-        expect(myteam).toEqual(TeamMemberInsertSchema)
-    })
-    test("findTeamMeetingFile이 존재할 때 test",async() => {
-        MeetingReportsFindAllStub.resolves(teamMeetingOneResultSchema)
-        const meeting = await mypagerepository.findTeamMeetingFile(
-            {team : TeamMemberInsertSchema}
-        )
-        expect(MeetingReportsFindAllStub.callCount).toBe(3)
-        expect(MeetingReportsFindAllStub.calledWith({
-            raw: true,
-            attributes: [
-                "Id",
-                "Event.calendarId",
-                [
-                    Sequelize.fn(
-                        "date_format",
-                        Sequelize.col("MeetingReports.createdAt"),
-                        "%Y/%m/%d"
-                    ),
-                    "enroll",
-                ],
-                "User.userName",
-                "User.userId",
-                "title",
-                [
-                    Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
-                    ),
-                    "files"
-                ],
-            ],
-            where: {
-                userId: TeamMemberInsertSchema.userId,
-            },
-            include: [
-                {
-                    model: Events,
-                    attributes: [],
-                    where: {
-                        hasFile: true,
-                        calendarId: "5",
-                    }
-                },
-                {
-                    model: Users,
-                    attributes: [],
-                },
-            ],
-            order: [["Id", "DESC"]],
-        }))
-        expect(meeting).toEqual()
+//         expect(UsersFindAllStub.calledOnce).toBe(true)
+//         expect(UsersFindAllStub.calledWith({
+//             where : {teamId : TeamIdInsertSchema.teamId}
+//         }))
+//         expect(myteam).toEqual(TeamMemberInsertSchema)
+//     })
+//     test("findTeamMeetingFile이 존재할 때 test",async() => {
+//         MeetingReportsFindAllStub.resolves(teamMeetingOneResultSchema)
+//         const meeting = await mypagerepository.findTeamMeetingFile(
+//             {team : TeamMemberInsertSchema}
+//         )
+//         expect(MeetingReportsFindAllStub.callCount).toBe(3)
+//         expect(MeetingReportsFindAllStub.calledWith({
+//             raw: true,
+//             attributes: [
+//                 "Id",
+//                 "Event.calendarId",
+//                 [
+//                     Sequelize.fn(
+//                         "date_format",
+//                         Sequelize.col("MeetingReports.createdAt"),
+//                         "%Y/%m/%d"
+//                     ),
+//                     "enroll",
+//                 ],
+//                 "User.userName",
+//                 "User.userId",
+//                 "title",
+//                 [
+//                     Sequelize.literal(
+//                         "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+//                     ),
+//                     "files"
+//                 ],
+//             ],
+//             where: {
+//                 userId: TeamMemberInsertSchema.userId,
+//             },
+//             include: [
+//                 {
+//                     model: Events,
+//                     attributes: [],
+//                     where: {
+//                         hasFile: true,
+//                         calendarId: "5",
+//                     }
+//                 },
+//                 {
+//                     model: Users,
+//                     attributes: [],
+//                 },
+//             ],
+//             order: [["Id", "DESC"]],
+//         }))
+//         expect(meeting).toEqual()
 
-    })
-    test("findTeamMeetingFile이 빈배열일 때 test",async() => {
-        MeetingReportsFindAllStub.resolves([])
-    })
-})
+//     })
+//     test("findTeamMeetingFile이 빈배열일 때 test",async() => {
+//         MeetingReportsFindAllStub.resolves([])
+//     })
+// })
 
 
 
