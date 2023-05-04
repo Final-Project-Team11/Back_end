@@ -38,6 +38,13 @@ class AuthController {
             .catch((err) => {
                 throw new CustomError(err.message, 401)
             })
+
+            let isFirst;
+            if (userId === password){
+                isFirst = true
+            }else {
+                isFirst = false
+            }
             //아이디 비밀번호 확인
             const user = await this.AuthService.checkUserIdPassword({
                 userId,
@@ -50,6 +57,7 @@ class AuthController {
             res.status(200).json({
                 message: "로그인에 성공했습니다",
                 token: `Bearer ${token}`,
+                isFirst : isFirst
             });
         } catch (err) {
             next(err);
