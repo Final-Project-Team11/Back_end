@@ -1,8 +1,8 @@
 config:
   target: http://localhost:3003
   phases:
-    - duration: 30
-      arrivalRate: 10
+    - duration: 60
+      arrivalRate: 30
   defaults:
     headers:
       User-Agent: Artillery
@@ -35,31 +35,10 @@ scenarios:
           headers:
             authorization: "{{token}}"
       - get:
-          url: "/other"
-          qs:
-            size: 1
-            page: 5
-          headers:
-            authorization: "{{token}}"
-      - get:
           url: "/vacation"
           qs:
             size: 1
             page: 5
-          headers:
-            authorization: "{{token}}"
-      - get:
-          url: "/meetingfiles"
-          qs:
-            pageNum: 1
-            pageSize: 5
-          headers:
-            authorization: "{{token}}"
-      - get:
-          url: "/reportfiles"
-          qs:
-            pageNum: 1
-            pageSize: 5
           headers:
             authorization: "{{token}}"
       

@@ -1,7 +1,7 @@
 config:
   target: http://localhost:3003
   phases:
-    - duration: 30
+    - duration: 60
       arrivalRate: 10
   defaults:
     headers:
@@ -27,6 +27,7 @@ scenarios:
           capture:
             json: "$.token"
             as: "token"
+      - think: 5
       - get:
           url: "/myfiles"
           qs:
@@ -34,6 +35,7 @@ scenarios:
             pageSize: 5
           headers:
             authorization: "{{token}}"
+      - think: 5
       - get:
           url: "/meetingfiles"
           qs:
@@ -41,12 +43,6 @@ scenarios:
             pageSize: 5
           headers:
             authorization: "{{token}}"
-      - get:
-          url: "/reportfiles"
-          qs:
-            pageNum: 1
-            pageSize: 5
-          headers:
-            authorization: "{{token}}"
+
       
 

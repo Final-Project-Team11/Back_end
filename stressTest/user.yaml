@@ -2,8 +2,8 @@
 config:
   target: http://localhost:3003
   phases:
-    - duration: 30
-      arrivalRate: 10
+    - duration: 60
+      arrivalRate: 30
   defaults:
     headers:
       User-Agent: Artillery
