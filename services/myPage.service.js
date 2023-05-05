@@ -189,6 +189,7 @@ class MypageService {
             userId,
         });
         const report = await this.MypageRepository.findMyReportfile({ userId });
+        console.log(meeting,report)
         let result = [];
         return result.concat(meeting, report).sort((a, b) => b.Id - a.Id);
     };

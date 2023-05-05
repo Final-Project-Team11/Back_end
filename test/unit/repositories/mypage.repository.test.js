@@ -1,270 +1,422 @@
 const MypageRepository = require("../../../repositories/myPage.repository");
 const {
     MypageonlyUserIdInsertSchema,
-    MyScheduleResultSchema
+    MyScheduleResultSchema,
+    mapMyScheduleResultSchema,
+    MypageUserIdInsertSchema,
+    MentionFindAllResultSchema,
+    MentionScheduleResultSchema,
+    MyMentionInsertSchema,
+    MentionCheckInsertSchema,
+    MentionCheckResultSchema,
+    MentionUpdateInsertSchema,
+    mapMyfileMeetingReportResultSchema,
+    MyfileMeetingReportResultSchema,
+    mapMyfileReportResultSchema,
+    MyfileReportResultSchema,
+    TeamIdInsertSchema,
+    TeamMemberInsertSchema,
+    TeamMeetingResultSchema,
+    teamMeetingOneResultSchema
 } = require("../../fixtures/mypage.fixtures");
+const {
+    Users,
+    Teams,
+    Schedules,
+    Mentions,
+    Events,
+    Meetings,
+    Reports,
+    Others,
+    Vacations,
+    MeetingReports,
+    Sequelize,
+} = require("../../../models");
+const sinon = require('sinon')
+const { Op } = require('sequelize')
 
-const mockMypageModel = () => ({
-    findOne: jest.fn(),
-    findAll: jest.fn(),
-    update: jest.fn(),
-});
 
-describe("mypage repository test ", () => {
+describe("getUserSchedule test ", () => {
     let mypagerepository = new MypageRepository();
-    mypagerepository.Users = mockMypageModel();
-    mypagerepository.Schedules = mockMypageModel();
-    mypagerepository.Meetings = mockMypageModel();
-    mypagerepository.Reports = mockMypageModel();
-    mypagerepository.Mentions = mockMypageModel();
-    mypagerepository.Events = mockMypageModel();
-
+    let SchedulesFindAllStub;
     beforeEach(() => {
         jest.resetAllMocks();
+        SchedulesFindAllStub = sinon.stub(Schedules, "findAll");
+    });
+    afterEach(() => { // 스텁을 복원하여 원래의 동작으로 복구합니다.
+        SchedulesFindAllStub.restore();
     });
 
-
-    //userInfo 파일로 이동
-    // test("findUserById test", async () => {
-    //     mypagerepository.Users.findOne = jest.fn(() => {
-    //         return MypageUserInfoSchemaByController;
-    //     });
-    //     const Users = await mypagerepository.findUserById(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     //findOne 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Users.findOne).toHaveBeenCalledTimes(1);
-    //     //findOne 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Users.findOne).toHaveBeenCalledWith(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     //findOne 메소드의 return 값이 일치하는지
-    //     expect(Users).toBe(MypageUserInfoSchemaByController);
-    // });
-
     test("getUserSchedule test", async () => {
+        //schedulefindall이 어떤 값을 반환할지 정해줌
+        SchedulesFindAllStub.resolves(mapMyScheduleResultSchema);
         const schedules = await mypagerepository.getUserSchedule(
             MypageonlyUserIdInsertSchema
         );
 
         //findAll 메소드는 몇번 호출되는지
-        expect(mypagerepository.Schedules.findAll).toHaveBeenCalledTimes(1);
+        expect(SchedulesFindAllStub.calledOnce).toBe(true);
         //findAll 메소드는 어떤 인자와 함께 호출되는지
-        expect(mypagerepository.Schedules.findAll).toHaveBeenCalledWith(
-            MypageonlyUserIdInsertSchema
-        );
+        expect(SchedulesFindAllStub.calledWith({
+            raw: true,
+            where: MypageonlyUserIdInsertSchema,
+            attributes: [
+                "Id",
+                "User.userName",
+                "title",
+                [
+                    Sequelize.literal(
+                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Schedules.Id)"
+                    ),
+                    "files"
+                ],
+                [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("Schedules.createdAt"),
+                        "%m/%d"
+                    ),
+                    "enroll",
+                ],
+                "status",
+            ],
+            order: [["createdAt", "DESC"]],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                },
+            ],
+        })).toBe(true);
+
         //findAll 메소드의 return 값이 일치하는지
-        // expect(schedules).toBe(MyScheduleResultSchema);
+        expect(schedules).toEqual(MyScheduleResultSchema);
     });
-
-    // test("returns an array of event IDs if mentions found and event types match", async () => {
-    //     mypagerepository.Mentions.findAll.mockResolvedValue([
-    //         { eventId: 1, eventType: "test1" },
-    //         { eventId: 2, eventType: "test2" },
-    //         { eventId: 3, eventType: "test1" },
-    //     ]);
-    //     const mentions = await await mypagerepository.Mentions.findAll(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     let result = [];
-    //     mentions.map((mention) => {
-    //         if (mention.eventType === "test1") {
-    //             result.push(mention.eventId);
-    //         }
-    //     });
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Mentions.findAll).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Mentions.findAll).toHaveBeenCalledWith(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     expect(result).toEqual([1, 3]);
-    // });
-
-    // test("returns an empty array if mentions found but event types do not match", async () => {
-    //     mypagerepository.Mentions.findAll.mockResolvedValue([
-    //         { eventId: 1, eventType: "test1" },
-    //         { eventId: 2, eventType: "test2" },
-    //         { eventId: 3, eventType: "test1" },
-    //     ]);
-    //     const mentions = await await mypagerepository.Mentions.findAll(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     let result = [];
-    //     mentions.map((mention) => {
-    //         if (mention.eventType === "test3") {
-    //             result.push(mention.eventId);
-    //         }
-    //     });
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Mentions.findAll).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Mentions.findAll).toHaveBeenCalledWith(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     expect(result).toEqual([]);
-    // });
-
-    // test("returns an empty array if no mentions found", async () => {
-    //     mypagerepository.Mentions.findAll.mockResolvedValue([]);
-    //     const result = await mypagerepository.Mentions.findAll(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Mentions.findAll).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Mentions.findAll).toHaveBeenCalledWith(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     expect(result).toEqual([]);
-    // });
-
-    // test("getScheduleById test", async () => {
-    //     mypagerepository.Events.findOne = jest.fn(() => {
-    //         return MentionScheduleResultSchema;
-    //     });
-    //     const schedules = await mypagerepository.Events.findOne(
-    //         MyMentionInsertSchema
-    //     );
-
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Events.findOne).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Events.findOne).toHaveBeenCalledWith(
-    //         MyMentionInsertSchema
-    //     );
-    //     //findAll 메소드의 return 값이 일치하는지
-    //     expect(schedules).toBe(MentionScheduleResultSchema);
-    // });
-
-    // //스케줄과 비슷한 로직을 갖고있는 나머지 테이블들 테스트 생략
-    // //-> 추후 시간되면 추가
-
-    // test("findMention test", async () => {
-    //     mypagerepository.Mentions.findOne = jest.fn(() => {
-    //         return MentionCheckResultSchema;
-    //     });
-    //     const mention = await mypagerepository.Mentions.findOne(
-    //         MentionCheckInsertSchema
-    //     );
-
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Mentions.findOne).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Mentions.findOne).toHaveBeenCalledWith(
-    //         MentionCheckInsertSchema
-    //     );
-    //     //findAll 메소드의 return 값이 일치하는지
-    //     expect(mention).toBe(MentionCheckResultSchema);
-    // });
-
-    // test("updateMantion test", async () => {
-    //     mypagerepository.Mentions.update = jest.fn(() => {
-    //         return MentionUpdateResultSchema;
-    //     });
-    //     const mention = await mypagerepository.Mentions.update(
-    //         MentionUpdateInsertSchema
-    //     );
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Mentions.update).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Mentions.update).toHaveBeenCalledWith(
-    //         MentionUpdateInsertSchema
-    //     );
-    //     //findAll 메소드의 return 값이 일치하는지
-    //     expect(mention).toBe(MentionUpdateResultSchema);
-    // });
-
-    // test("returns an array of file if Events found and event types match", async () => {
-    //     mypagerepository.Events.findAll.mockResolvedValue([
-    //         { eventId: 1, userName: "testman", eventType: "Schedules" },
-    //         { eventId: 2, userName: "testman", eventType: "Meetings" },
-    //         { eventId: 3, userName: "testman", eventType: "Reports" },
-    //     ]);
-    //     mypagerepository.Schedules.findOne.mockResolvedValue(
-    //         MyfileResultSchema
-    //     );
-    //     mypagerepository.Meetings.findOne.mockResolvedValue(MyfileResultSchema);
-    //     mypagerepository.Reports.findOne.mockResolvedValue(MyfileResultSchema);
-    //     const result = await mypagerepository.Events.findAll(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     const results = await Promise.all(
-    //         result.map(async (event) => {
-    //             if (event.eventType === "Schedules") {
-    //                 const schedule = await mypagerepository.Schedules.findOne(
-    //                     MyfileInsertSchema
-    //                 );
-    //                 return Object.assign(event, schedule);
-    //             } else if (event.eventType === "Meetings") {
-    //                 const schedule = await mypagerepository.Meetings.findOne(
-    //                     MyfileInsertSchema
-    //                 );
-    //                 return Object.assign(event, schedule);
-    //             } else if (event.eventType === "Reports") {
-    //                 const schedule = await mypagerepository.Reports.findOne(
-    //                     MyfileInsertSchema
-    //                 );
-    //                 return Object.assign(event, schedule);
-    //             }
-    //         })
-    //     );
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Events.findAll).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Events.findAll).toHaveBeenCalledWith(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     //findOne 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Schedules.findOne).toHaveBeenCalledTimes(1);
-    //     //findAOne 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Schedules.findOne).toHaveBeenCalledWith(
-    //         MyfileInsertSchema
-    //     );
-    //     //findOne 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Meetings.findOne).toHaveBeenCalledTimes(1);
-    //     //findAOne 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Meetings.findOne).toHaveBeenCalledWith(
-    //         MyfileInsertSchema
-    //     );
-    //     //findOne 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Reports.findOne).toHaveBeenCalledTimes(1);
-    //     //findAOne 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Reports.findOne).toHaveBeenCalledWith(
-    //         MyfileInsertSchema
-    //     );
-    //     expect(results).toStrictEqual(MyfileAllResultSchema);
-    // });
-
-    // test("returns an empty array if Events not found", async () => {
-    //     mypagerepository.Events.findAll.mockResolvedValue([]);
-    //     const result = await mypagerepository.Events.findAll(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Events.findAll).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Events.findAll).toHaveBeenCalledWith(
-    //         MypageUserIdInsertSchema
-    //     );
-    //     expect(result).toEqual([]);
-    // });
-    // //팀원 찾기랑 보고서 찾기는 생략
-    // //-> 추후에 시간되면 할것
-    // test("findTeamMeetingFile test", async () => {
-    //     mypagerepository.Events.findAll = jest.fn(() => {
-    //         return TeamMenberResultSchema;
-    //     });
-    //     const result = await mypagerepository.Events.findAll(
-    //         TeamMemberInsertSchema
-    //     );
-
-    //     //findAll 메소드는 몇번 호출되는지
-    //     expect(mypagerepository.Events.findAll).toHaveBeenCalledTimes(1);
-    //     //findAll 메소드는 어떤 인자와 함께 호출되는지
-    //     expect(mypagerepository.Events.findAll).toHaveBeenCalledWith(
-    //         TeamMemberInsertSchema
-    //     );
-    //     expect(result).toEqual(TeamMenberResultSchema);
-    // });
 });
+describe("내가 언급된 스케줄 가져오기", () => {
+    let mypagerepository = new MypageRepository();
+    let MentionsFindAllStub;
+    let EventsfindOneStub;
+    beforeEach(() => {
+        jest.resetAllMocks();
+        MentionsFindAllStub = sinon.stub(Mentions, "findAll");
+        EventsfindOneStub = sinon.stub(Events, "findOne");
+    });
+    afterEach(() => { // 스텁을 복원하여 원래의 동작으로 복구합니다.
+        MentionsFindAllStub.restore();
+        EventsfindOneStub.restore();
+    });
+    test("getMention 성공시 Id 배열 반환", async () => {
+        //MentionsFindAllStub 어떤 값을 반환할지 정해줌
+        MentionsFindAllStub.resolves([
+            { Id: 1, eventType: "1" },
+            { Id: 2, eventType: "1" },
+        ]);
+        const mentions = await mypagerepository.getMention(
+            MypageUserIdInsertSchema
+        );
+
+        expect(MentionsFindAllStub.calledOnce).toBe(true);
+        expect(MentionsFindAllStub.calledWith({
+            raw: true,
+            where: { userId: MypageUserIdInsertSchema.userId },
+            attributes: ["Id"],
+            include: [
+                {
+                    model: Events,
+                    attributes: [],
+                    where: { calendarId: MypageUserIdInsertSchema.type }
+                },
+            ],
+        }))
+        expect(mentions).toEqual(MentionFindAllResultSchema);
+    })
+    test("getMentiont실패 시 빈 배열 반환", async () => {
+        MentionsFindAllStub.resolves([]);
+        const mentions = await mypagerepository.getMention(
+            MypageUserIdInsertSchema
+        );
+        expect(MentionsFindAllStub.calledOnce).toBe(true);
+        expect(MentionsFindAllStub.calledWith({
+            raw: true,
+            where: { userId: MypageUserIdInsertSchema.userId },
+            attributes: ["Id"],
+            include: [
+                {
+                    model: Events,
+                    attributes: [],
+                    where: { calendarId: MypageUserIdInsertSchema.type }
+                },
+            ],
+        }))
+        expect(mentions).toEqual([]);
+    });
+    test("getScheduleById 성공시 스케줄 반환", async () => {
+        EventsfindOneStub.resolves(MentionScheduleResultSchema)
+        const schedule = await mypagerepository.getScheduleById(
+            MyMentionInsertSchema
+        )
+
+        expect(EventsfindOneStub.calledOnce).toBe(true);
+        expect(EventsfindOneStub.calledWith({
+            raw: true,
+            where: { Id: MyMentionInsertSchema.Id },
+            attributes: [
+                "Id",
+                "Mentions.mentionId",
+                "User.userName",
+                "Schedule.title",
+                "calendarId",
+                "Mentions.isChecked",
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                },
+                {
+                    model: Schedules,
+                    attributes: [],
+                },
+                {
+                    model: Mentions,
+                    attributes: [],
+                    where: { userId: MyMentionInsertSchema.userId },
+                },
+            ],
+        }))
+        expect(schedule).toEqual(MentionScheduleResultSchema);
+    })
+})
+
+describe("멘션 체크 test", () => {
+    let mypagerepository = new MypageRepository();
+    let MentionsFindOneStub;
+    beforeEach(() => {
+        jest.resetAllMocks();
+        MentionsFindOneStub = sinon.stub(Mentions, "findOne");
+        MentionsUpdateStub = sinon.stub(Mentions, "update");
+    });
+    afterEach(() => { // 스텁을 복원하여 원래의 동작으로 복구합니다.
+        MentionsFindOneStub.restore();
+        MentionsUpdateStub.restore();
+    });
+    test("findMention 성공시 해당 mention 반환", async () => {
+        MentionsFindOneStub.resolves(MentionCheckResultSchema)
+        const mention = await mypagerepository.findMention(
+            { mentionId: MentionCheckInsertSchema.mentionId }
+        )
+
+        expect(MentionsFindOneStub.calledOnce).toBe(true);
+        expect(MentionsFindOneStub.calledWith({ where: { mentionId: MentionCheckInsertSchema.mentionId } }))
+        expect(mention).toEqual(MentionCheckResultSchema);
+    })
+    test("updateMantion test", async () => {
+        MentionsUpdateStub.resolves()
+        const mention = await mypagerepository.updateMention(
+            MentionUpdateInsertSchema
+        )
+        expect(MentionsUpdateStub.calledOnce).toBe(true);
+        expect(MentionsUpdateStub.calledWith(
+            {
+                isChecked: MentionUpdateInsertSchema.check,
+            },
+            {
+                where: { mentionId: MentionUpdateInsertSchema.mentionId },
+            }
+        ))
+    });
+})
+
+describe("getMyfile test", () => {
+    let mypagerepository = new MypageRepository();
+    let MeetingReportsFindAllStub;
+    let MyReportfilefindAllStub;
+    beforeEach(() => {
+        jest.resetAllMocks();
+        MeetingReportsFindAllStub = sinon.stub(MeetingReports, "findAll");
+        MyReportfilefindAllStub = sinon.stub(Reports,"findAll")
+    });
+    afterEach(() => { // 스텁을 복원하여 원래의 동작으로 복구합니다.
+        MeetingReportsFindAllStub.restore();
+        MyReportfilefindAllStub.restore();
+    });
+    test("findMyMeetingfile test", async () => {
+        MeetingReportsFindAllStub.resolves(mapMyfileMeetingReportResultSchema)
+        const myfiles = await mypagerepository.findMyMeetingfile(
+            MypageonlyUserIdInsertSchema
+        )
+        expect(MeetingReportsFindAllStub.calledOnce).toBe(true);
+        expect(MeetingReportsFindAllStub.calledWith(
+            {
+                raw: true,
+                attributes: [
+                    "Id",
+                    [
+                        Sequelize.fn(
+                            "date_format",
+                            Sequelize.col("MeetingReports.createdAt"),
+                            "%Y/%m/%d"
+                        ),
+                        "enroll",
+                    ],
+                    "User.userName",
+                    "title",
+                    [
+                        Sequelize.literal(
+                            "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+                        ),
+                        "files"
+                    ],
+                    "Event.calendarId",
+                ],
+                where: { userId: MypageonlyUserIdInsertSchema.userId },
+                include: [
+                    {
+                        model: Users,
+                        attributes: [],
+                    },
+                    {
+                        model: Events,
+                        attributes: [],
+                        where: { calendarId: "5", hasFile: true }
+                    },
+                ],
+                order: [["Id", "DESC"]],
+            }
+        ))
+        expect(myfiles).toEqual(MyfileMeetingReportResultSchema);
+    })
+    test("findMyReportfile test", async () => {
+        MyReportfilefindAllStub.resolves(mapMyfileReportResultSchema)
+        const myfiles = await mypagerepository.findMyReportfile(
+            MypageonlyUserIdInsertSchema
+        )
+        expect(MyReportfilefindAllStub.calledOnce).toBe(true);
+        expect(MyReportfilefindAllStub.calledWith(
+            {
+                raw: true,
+                attributes: [
+                    "Id",
+                    "Event.calendarId",
+                    [
+                        Sequelize.fn(
+                            "date_format",
+                            Sequelize.col("Reports.createdAt"),
+                            "%Y/%m/%d"
+                        ),
+                        "enroll",
+                    ],
+                    "User.userName",
+                    "title",
+                    [
+                        Sequelize.literal(
+                            "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
+                        ),
+                        "files"
+                    ],
+                ],
+                where: { userId : MypageonlyUserIdInsertSchema.userId },
+                include: [
+                    {
+                        model: Users,
+                        attributes: [],
+                    },
+                    {
+                        model: Events,
+                        attributes: [],
+                        where: { calendarId: "6", hasFile: true }
+                    },
+                ],
+                order: [["Id", "DESC"]],
+            }
+        ))
+        expect(myfiles).toEqual(MyfileReportResultSchema);
+    })
+
+})
+
+// describe("TeamMeetingReport test",() => {
+//     let mypagerepository = new MypageRepository();
+//     let UsersFindAllStub;
+//     let MeetingReportsFindAllStub;
+//     beforeEach(() => {
+//         jest.resetAllMocks();
+//         UsersFindAllStub = sinon.stub(Users, "findAll");
+//         MeetingReportsFindAllStub = sinon.stub(MeetingReports,"findAll")
+//     });
+//     afterEach(() => { // 스텁을 복원하여 원래의 동작으로 복구합니다.
+//         UsersFindAllStub.restore();
+//         MeetingReportsFindAllStub.restore();
+//     });
+//     test("findTeam test",async() => {
+//         UsersFindAllStub.resolves(TeamMemberInsertSchema)
+//         const myteam = await mypagerepository.findTeam(
+//             TeamIdInsertSchema
+//         )
+
+//         expect(UsersFindAllStub.calledOnce).toBe(true)
+//         expect(UsersFindAllStub.calledWith({
+//             where : {teamId : TeamIdInsertSchema.teamId}
+//         }))
+//         expect(myteam).toEqual(TeamMemberInsertSchema)
+//     })
+//     test("findTeamMeetingFile이 존재할 때 test",async() => {
+//         MeetingReportsFindAllStub.resolves(teamMeetingOneResultSchema)
+//         const meeting = await mypagerepository.findTeamMeetingFile(
+//             {team : TeamMemberInsertSchema}
+//         )
+//         expect(MeetingReportsFindAllStub.callCount).toBe(3)
+//         expect(MeetingReportsFindAllStub.calledWith({
+//             raw: true,
+//             attributes: [
+//                 "Id",
+//                 "Event.calendarId",
+//                 [
+//                     Sequelize.fn(
+//                         "date_format",
+//                         Sequelize.col("MeetingReports.createdAt"),
+//                         "%Y/%m/%d"
+//                     ),
+//                     "enroll",
+//                 ],
+//                 "User.userName",
+//                 "User.userId",
+//                 "title",
+//                 [
+//                     Sequelize.literal(
+//                         "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+//                     ),
+//                     "files"
+//                 ],
+//             ],
+//             where: {
+//                 userId: TeamMemberInsertSchema.userId,
+//             },
+//             include: [
+//                 {
+//                     model: Events,
+//                     attributes: [],
+//                     where: {
+//                         hasFile: true,
+//                         calendarId: "5",
+//                     }
+//                 },
+//                 {
+//                     model: Users,
+//                     attributes: [],
+//                 },
+//             ],
+//             order: [["Id", "DESC"]],
+//         }))
+//         expect(meeting).toEqual()
+
+//     })
+//     test("findTeamMeetingFile이 빈배열일 때 test",async() => {
+//         MeetingReportsFindAllStub.resolves([])
+//     })
+// })
+
+
+
+

@@ -430,12 +430,15 @@ class MypageRepository {
             })
         );
         const lists = list.flat()
-        lists.map((event) => {
-            event.files = (event.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
+        return lists.map((event) => {
+            console.log(event)
+            if (event.files) {
+                event.files = event.files.split("|").map((item) => {
+                    return JSON.parse(item)
+                })
+            }
+            return event;
         })
-        return lists
     };
 
     findTeamReportFile = async ({ team }) => {
@@ -507,7 +510,7 @@ class MypageRepository {
             where: { Id },
         });
     };
-    findEvent = async ({Id}) => {
+    findEvent = async ({ Id }) => {
         return await Events.findOne({
             where: {
                 Id,
@@ -515,11 +518,11 @@ class MypageRepository {
         })
     }
     findEventdetail = async ({ Id, eventType }) => {
-        console.log(Id,eventType)
+        console.log(Id, eventType)
         return await Events.findOne({
             where: {
                 Id,
-                calendarId : eventType
+                calendarId: eventType
             }
         })
     }
@@ -652,16 +655,16 @@ class MypageRepository {
 
     getVacationProgress = async ({ userId }) => {
         return await Vacations.findAll({
-            raw:true,
-            attributes: ["Id","status"],
+            raw: true,
+            attributes: ["Id", "status"],
             where: { userId },
-            order : [["Id", "DESC"]]
+            order: [["Id", "DESC"]]
         })
     }
 
-    getWeeklyMeeting = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklyMeeting = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -719,9 +722,9 @@ class MypageRepository {
         })
     }
 
-    getWeeklyOther = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklyOther = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -779,9 +782,9 @@ class MypageRepository {
         })
     }
 
-    getWeeklySchedule = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklySchedule = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -839,9 +842,9 @@ class MypageRepository {
         })
     }
 
-    getWeeklyIssue = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklyIssue = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
