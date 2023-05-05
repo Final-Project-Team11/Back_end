@@ -412,8 +412,10 @@ class MainPageRepository {
                 },
             ],
         })
+        console.log("11111111111111",newItem.files)
         const result = (findTotalMeeting || []).map((item) => {
             const newItem = {...item};
+            console.log("222222222222222222",newItem.files)
             if(newItem.files) {
                 newItem.files = newItem.files.split("|").map(JSON.parse);
             }
