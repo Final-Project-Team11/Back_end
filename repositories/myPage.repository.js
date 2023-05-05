@@ -3,6 +3,7 @@ const { Op } = require('sequelize')
 const {
     Users,
     Teams,
+    Files,
     Schedules,
     Mentions,
     Events,
@@ -17,6 +18,7 @@ class MypageRepository {
     constructor() { }
 
     getUserSchedule = async ({ userId }) => {
+
         const schedules = await Schedules.findAll({
             raw: true,
             where: { userId },
@@ -26,7 +28,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Schedules.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Schedules.Id)"
                     ),
                     "files"
                 ],
@@ -48,14 +50,6 @@ class MypageRepository {
                 },
             ],
         })
-        schedules.map((schedule) => {
-            if (schedule.files) {
-                schedule.files = schedule.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
-            }
-            return;
-        })
         return schedules
     };
 
@@ -69,7 +63,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Others.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Others.Id)"
                     ),
                     "files"
                 ],
@@ -90,14 +84,6 @@ class MypageRepository {
                     attributes: [],
                 },
             ],
-        })
-        others.map((other) => {
-            if (other.files) {
-                other.files = other.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
-            }
-            return;
         })
         return others
     }
@@ -305,7 +291,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
                     ),
                     "files"
                 ],
@@ -325,11 +311,6 @@ class MypageRepository {
             ],
             order: [["Id", "DESC"]],
         });
-        meetingReports.map((meetingReport) => {
-            meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        })
         return meetingReports
     };
 
@@ -351,7 +332,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
                     ),
                     "files"
                 ],
@@ -370,11 +351,6 @@ class MypageRepository {
             ],
             order: [["Id", "DESC"]],
         });
-        reports.map((report) => {
-            report.files = (report.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        })
         return reports
     };
 
@@ -403,7 +379,7 @@ class MypageRepository {
                         "title",
                         [
                             Sequelize.literal(
-                                "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+                                "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
                             ),
                             "files"
                         ],
@@ -430,15 +406,7 @@ class MypageRepository {
             })
         );
         const lists = list.flat()
-        return lists.map((event) => {
-            console.log(event)
-            if (event.files) {
-                event.files = event.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
-            }
-            return event;
-        })
+        return lists
     };
 
     findTeamReportFile = async ({ team }) => {
@@ -462,7 +430,7 @@ class MypageRepository {
                         "title",
                         [
                             Sequelize.literal(
-                                "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
+                                "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
                             ),
                             "files"
                         ],
@@ -489,11 +457,6 @@ class MypageRepository {
             })
         );
         const lists = list.flat()
-        lists.map((event) => {
-            event.files = (event.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        })
         return lists
     };
 
@@ -570,7 +533,7 @@ class MypageRepository {
                 ],
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
                     ),
                     "files"
                 ],
@@ -586,11 +549,6 @@ class MypageRepository {
                 },
             ],
         });
-        if (meetingReport.files) {
-            meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        }
         meetingReport.attendees = (meetingReport.attendees ?? "").split(",");
         return meetingReport;
     };
@@ -628,7 +586,7 @@ class MypageRepository {
                 ],
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
                     ),
                     "files"
                 ],
@@ -644,11 +602,6 @@ class MypageRepository {
                 },
             ],
         });
-        if (Report.files) {
-            Report.files = Report.files.split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        }
         Report.attendees = (Report.attendees ?? "").split(",");
         return Report;
     };
