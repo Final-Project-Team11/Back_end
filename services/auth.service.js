@@ -21,7 +21,6 @@ class AuthService {
     };
     checkUserIdPassword = async ({ userId, password }) => {
         const user = await this.AuthRepository.findByUserId({ userId });
-        console.log(user)
         if (!user || user.userId !== userId) {
             throw new CustomError("아이디 혹은 비밀번호를 확인해주세요.", 401);
         }
