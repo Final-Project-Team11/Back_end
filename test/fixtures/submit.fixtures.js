@@ -22,3 +22,12 @@ exports.otherData = {
     attendees: ["test1","test2"],
     body: "testBody",
 }
+exports.meetingData = {
+    start: "2023-04-12",
+    end: "2023-04-13",
+    calendarId: "1",
+    title: "testTitle",
+    location: "testLocation",
+    attendees: ["test1","test2"],
+    body: "testBody",
+}

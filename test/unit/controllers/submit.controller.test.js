@@ -6,6 +6,7 @@ const {
     scheduleSchema,
     vacationSchema,
     otherSchema,
+    meetingSchema,
 } = require("../../../schemas/submit.schema")
 
 const {
@@ -13,12 +14,14 @@ const {
     scheduleData,
     vacationData,
     otherData,
+    meetingData,
 } = require('../../fixtures/submit.fixtures')
 
 const mockSubmitService = () => ({
     scheduleSubmit : jest.fn(),
     vacationSubmit : jest.fn(),
     otherSubmit: jest.fn(),
+    meetingSubmit: jest.fn(),
 })
 
 describe("scheduleSubmit Test", () => {
@@ -225,6 +228,31 @@ describe("scheduleSubmit Test", () => {
         } catch (error) {
             expect(error).toBeInstanceOf(Error)
             expect(error.message).toMatch(/start 필드는 날짜로 이루어져야 합니다./);
+        }
+    })
+
+    test('meetingSubmit이 성공했을 때', async() => {
+        const req = {
+            body: {
+                start: meetingData.start,
+                end: meetingData.end,
+                calendarId: meetingData.calendarId,
+                title: meetingData.title,
+                location: meetingData.location,
+                attendees: meetingData.attendees,
+                body: meetingData.body
+            },
+            files: mockFiles
+        }
+        const res = {
+            locals: {
+                user: {
+                    userId: "test1",
+                    teamId: "test2"
+                }
+            },
+            status: sinon.stub.returnsThis(),
+            send: sinon.stub()
         }
     })
 })
