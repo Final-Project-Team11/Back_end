@@ -50,17 +50,18 @@ class AuthService {
         const company = await this.AuthRepository.findCompanyById({
             companyId,
         });
+        console.log(company)
         if (!company) {
             throw new CustomError("회사코드를 확인해주세요.", 401);
         }
     };
-    userLogin = async ({ user, userId }) => {
+    userLogin = async ({ user, userId,companyId }) => {
         const team = await this.AuthRepository.findTeamById({ user });
         const token = jwt.sign(
             {
                 userId,
                 userName : user.userName,
-                companyId: user.companyId,
+                companyId: companyId,
                 teamName: team.teamName,
                 teamId : user.teamId,
                 authLevel: user.authLevel,
@@ -69,6 +70,21 @@ class AuthService {
         );
         return token;
     };
+    newToken = async({ userId, teamId, userName, companyId, authLevel }) => {
+        const teamName = await this.AuthRepository.findTeam({ teamId });
+        const token = jwt.sign(
+            {
+                userId,
+                userName : userName,
+                companyId: companyId,
+                teamName: teamName.teamName,
+                teamId : teamId,
+                authLevel: authLevel,
+            },
+            env.SECRET_KEY
+        );
+        return token;
+    }
     updateUser = async ({ userId, password }) => {
         bcrypt.hash(password, 10, async (err, encryptedPW) => {
             if (err) {
