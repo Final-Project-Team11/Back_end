@@ -7,9 +7,9 @@ class MainPageRepository {
     findTotalVacation = async({teamId, year, month}) => {
         console.log("111111111111111111111111",year, month)
         // 시작일은 해당 년도와 달의 1일
-        const startDate = new Date(year, month - 1, 1);
+        const startDate = new Date(year, month - 2, 15);
         // 종료일은 해당 년도와 달의 마지막 일
-        const endDate = new Date(year, month, 0)
+        const endDate = new Date(year, Number(month) + 1, -15)
 
         console.log("===========================",startDate, endDate)
         const findTotalVacation = await Events.findAll({
@@ -60,9 +60,9 @@ class MainPageRepository {
     findTotalSchedule = async({teamId, year, month}) => {
         console.log("=======================", year, month)
         // 시작일은 해당 년도와 달의 1일
-        const startDate = new Date(year, month - 1, 1);
+        const startDate = new Date(year, month - 2, 15);
         // 종료일은 해당 년도와 달의 마지막 일
-        const endDate = new Date(year, month, 0)
+        const endDate = new Date(year, Number(month) + 1, -15)
 
         console.log("=======================",startDate, endDate)
         const findTotalSchedule = await Events.findAll({
@@ -121,7 +121,7 @@ class MainPageRepository {
                 },
             ],
         })
-        console.log("###########findTotalSchedule##########", findTotalSchedule)
+        // console.log("###########findTotalSchedule##########", findTotalSchedule)
         const result = (findTotalSchedule || []).map((item) => {
             const newItem = {...item};
             if(newItem.attendees) {
@@ -137,9 +137,9 @@ class MainPageRepository {
     // Issue 조회
     findTotalIssue = async({teamId, year, month}) => {
         // 시작일은 해당 년도와 달의 1일
-        const startDate = new Date(year, month - 1, 1);
+        const startDate = new Date(year, month - 2, 15);
         // 종료일은 해당 년도와 달의 마지막 일
-        const endDate = new Date(year, month, 0)
+        const endDate = new Date(year, Number(month) + 1, -15)
 
         // console.log("=================",startDate, endDate)
         const findTotalIssue = await Events.findAll({
@@ -205,7 +205,7 @@ class MainPageRepository {
             }
             return newItem
         })
-        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
+        // console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
 
         return result
     }
@@ -213,9 +213,9 @@ class MainPageRepository {
     // Meeting 조회
     findTotalMeeting = async({teamId, year, month}) => {
         // 시작일은 해당 년도와 달의 1일
-        const startDate = new Date(year, month - 1, 1);
+        const startDate = new Date(year, month - 2, 15);
         // 종료일은 해당 년도와 달의 마지막 일
-        const endDate = new Date(year, month, 0)
+        const endDate = new Date(year, Number(month) + 1, -15)
 
         // console.log("=================",startDate, endDate)
         const findTotalMeeting = await Events.findAll({
@@ -281,7 +281,7 @@ class MainPageRepository {
             }
             return newItem
         })
-        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
+        // console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
 
         return result
     }
@@ -289,9 +289,9 @@ class MainPageRepository {
     // 기타일정
     findTotalEvent = async({teamId, year, month}) => {
         // 시작일은 해당 년도와 달의 1일
-        const startDate = new Date(year, month - 1, 1);
+        const startDate = new Date(year, month - 2, 15);
         // 종료일은 해당 년도와 달의 마지막 일
-        const endDate = new Date(year, month, 0)
+        const endDate = new Date(year, Number(month) + 1, -15)
 
         // console.log("=================",startDate, endDate)
         const findTotalEvent = await Events.findAll({
@@ -358,7 +358,7 @@ class MainPageRepository {
             }
             return newItem
         })
-        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
+        // console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
 
         return result
     }
