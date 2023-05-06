@@ -121,9 +121,17 @@ class MainPageRepository {
                 },
             ],
         })
-        // console.log("@@@@@@@@@@@findTotalSchedule@@@@@@@@@@", findTotalSchedule)
+        console.log("###########findTotalSchedule##########", findTotalSchedule)
+        const result = (findTotalSchedule || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
+        })
+        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
 
-        return findTotalSchedule
+        return result
     }
 
     // Issue 조회
@@ -190,8 +198,16 @@ class MainPageRepository {
                 },
             ],
         })
+        const result = (findTotalIssue || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
+        })
+        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
 
-        return findTotalIssue
+        return result
     }
 
     // Meeting 조회
@@ -258,8 +274,16 @@ class MainPageRepository {
                 },
             ],
         })
+        const result = (findTotalMeeting || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
+        })
+        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
 
-        return findTotalMeeting
+        return result
     }
 
     // 기타일정
@@ -326,8 +350,17 @@ class MainPageRepository {
                 },
             ],
         })
- 
-        return findTotalEvent
+
+        const result = (findTotalEvent || []).map((item) => {
+            const newItem = {...item};
+            if(newItem.attendees) {
+                newItem.attendees = newItem.attendees.split(', ')
+            }
+            return newItem
+        })
+        console.log("@@@@@@@@@@@result@@@@@@@@@@", result)
+
+        return result
     }
 
     findTeamName = async(teamId) => {
