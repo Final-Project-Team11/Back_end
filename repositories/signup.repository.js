@@ -82,7 +82,10 @@ class SignupRepository {
                     password,
                     companyId,
                     remainDay,
+                    salaryDay : 1,
+                    rank : "CEO",
                     authLevel,
+                    joinDay : day,
                     job,
                 },
                 { transaction: t }
