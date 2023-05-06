@@ -74,6 +74,7 @@ class SignupRepository {
                 { transaction: t }
             );
             //유저생성
+            const day = new Date()
             await Users.create(
                 {
                     userId,
