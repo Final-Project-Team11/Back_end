@@ -66,7 +66,8 @@ class AuthController {
     };
 
     modifyPassword = async (req, res, next) => {
-        const { userId, teamId, userName, companyId, authLevel } = res.locals.user;
+        // const { userId, teamId, userName, companyId, authLevel } = res.locals.user;
+        const { userId } = req.params
         const { password } = req.body;
         try {
             await modifySchema
@@ -74,12 +75,12 @@ class AuthController {
                 .catch((err) => {
                     throw new CustomError(err.message, 401)
                 })
+
             await this.AuthService.updateUser({ userId, password });
-            const token = await this.AuthService.newToken({ userId, teamId, userName, companyId,authLevel })
+            // const token = await this.AuthService.newToken({ userId, teamId, userName, companyId, authLevel })
             res.status(200).json({
-                 message: "비밀번호 변경에 성공했습니다" ,
-                 token: `Bearer ${token}`,
-                });
+                message: "비밀번호 변경에 성공했습니다",
+            });
         } catch (err) {
             next(err);
         }
