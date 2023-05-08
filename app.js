@@ -48,6 +48,7 @@ app.use((err, req, res, next) => {
             }
          ]
     }
+    //슬랙
     slackMiddleware(message)
 
     return res.status(err.status || 400).json({

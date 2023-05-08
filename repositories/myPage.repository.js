@@ -3,6 +3,7 @@ const { Op } = require('sequelize')
 const {
     Users,
     Teams,
+    Files,
     Schedules,
     Mentions,
     Events,
@@ -17,6 +18,7 @@ class MypageRepository {
     constructor() { }
 
     getUserSchedule = async ({ userId }) => {
+
         const schedules = await Schedules.findAll({
             raw: true,
             where: { userId },
@@ -26,7 +28,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Schedules.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Schedules.Id)"
                     ),
                     "files"
                 ],
@@ -48,14 +50,6 @@ class MypageRepository {
                 },
             ],
         })
-        schedules.map((schedule) => {
-            if (schedule.files) {
-                schedule.files = schedule.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
-            }
-            return;
-        })
         return schedules
     };
 
@@ -69,7 +63,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Others.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Others.Id)"
                     ),
                     "files"
                 ],
@@ -90,14 +84,6 @@ class MypageRepository {
                     attributes: [],
                 },
             ],
-        })
-        others.map((other) => {
-            if (other.files) {
-                other.files = other.files.split("|").map((item) => {
-                    return JSON.parse(item)
-                })
-            }
-            return;
         })
         return others
     }
@@ -305,7 +291,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
                     ),
                     "files"
                 ],
@@ -325,11 +311,6 @@ class MypageRepository {
             ],
             order: [["Id", "DESC"]],
         });
-        meetingReports.map((meetingReport) => {
-            meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        })
         return meetingReports
     };
 
@@ -351,7 +332,7 @@ class MypageRepository {
                 "title",
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
                     ),
                     "files"
                 ],
@@ -370,11 +351,6 @@ class MypageRepository {
             ],
             order: [["Id", "DESC"]],
         });
-        reports.map((report) => {
-            report.files = (report.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        })
         return reports
     };
 
@@ -403,7 +379,7 @@ class MypageRepository {
                         "title",
                         [
                             Sequelize.literal(
-                                "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+                                "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
                             ),
                             "files"
                         ],
@@ -430,11 +406,6 @@ class MypageRepository {
             })
         );
         const lists = list.flat()
-        lists.map((event) => {
-            event.files = (event.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        })
         return lists
     };
 
@@ -459,7 +430,7 @@ class MypageRepository {
                         "title",
                         [
                             Sequelize.literal(
-                                "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
+                                "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
                             ),
                             "files"
                         ],
@@ -486,11 +457,6 @@ class MypageRepository {
             })
         );
         const lists = list.flat()
-        lists.map((event) => {
-            event.files = (event.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        })
         return lists
     };
 
@@ -507,7 +473,7 @@ class MypageRepository {
             where: { Id },
         });
     };
-    findEvent = async ({Id}) => {
+    findEvent = async ({ Id }) => {
         return await Events.findOne({
             where: {
                 Id,
@@ -515,11 +481,11 @@ class MypageRepository {
         })
     }
     findEventdetail = async ({ Id, eventType }) => {
-        console.log(Id,eventType)
+        console.log(Id, eventType)
         return await Events.findOne({
             where: {
                 Id,
-                calendarId : eventType
+                calendarId: eventType
             }
         })
     }
@@ -567,7 +533,7 @@ class MypageRepository {
                 ],
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = MeetingReports.Id)"
                     ),
                     "files"
                 ],
@@ -583,11 +549,6 @@ class MypageRepository {
                 },
             ],
         });
-        if (meetingReport.files) {
-            meetingReport.files = (meetingReport.files ?? "").split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        }
         meetingReport.attendees = (meetingReport.attendees ?? "").split(",");
         return meetingReport;
     };
@@ -625,7 +586,7 @@ class MypageRepository {
                 ],
                 [
                     Sequelize.literal(
-                        "(SELECT GROUP_CONCAT('{\"fileName\":\"', Files.fileName, '\",\"fileLocation\":\"', Files.fileLocation, '\"}'SEPARATOR '|') FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
+                        "(SELECT JSON_ARRAYAGG(JSON_OBJECT('fileName', Files.fileName, 'fileLocation', Files.fileLocation)) AS files FROM Events JOIN Files ON Events.Id = Files.Id WHERE Files.Id = Reports.Id)"
                     ),
                     "files"
                 ],
@@ -641,27 +602,22 @@ class MypageRepository {
                 },
             ],
         });
-        if (Report.files) {
-            Report.files = Report.files.split("|").map((item) => {
-                return JSON.parse(item)
-            })
-        }
         Report.attendees = (Report.attendees ?? "").split(",");
         return Report;
     };
 
     getVacationProgress = async ({ userId }) => {
         return await Vacations.findAll({
-            raw:true,
-            attributes: ["Id","status"],
+            raw: true,
+            attributes: ["Id", "status"],
             where: { userId },
-            order : [["Id", "DESC"]]
+            order: [["Id", "DESC"]]
         })
     }
 
-    getWeeklyMeeting = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklyMeeting = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -719,9 +675,9 @@ class MypageRepository {
         })
     }
 
-    getWeeklyOther = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklyOther = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -779,9 +735,9 @@ class MypageRepository {
         })
     }
 
-    getWeeklySchedule = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklySchedule = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
@@ -839,9 +795,9 @@ class MypageRepository {
         })
     }
 
-    getWeeklyIssue = async({teamId,year,month,day}) => {
-        const startDate = new Date(year, month - 1,Number(day));
-        const endDate = new Date(year, month -1, Number(day) + 6)
+    getWeeklyIssue = async ({ teamId, year, month, day }) => {
+        const startDate = new Date(year, month - 1, Number(day));
+        const endDate = new Date(year, month - 1, Number(day) + 6)
         return await Events.findAll({
             raw: true,
             where: {
