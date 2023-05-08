@@ -616,8 +616,9 @@ class MypageRepository {
     }
 
     getWeeklyMeeting = async ({ teamId, year, month, day }) => {
-        const startDate = new Date(year, month - 1, Number(day));
-        const endDate = new Date(year, month - 1, Number(day) + 6)
+        const startDate = new Date(year, month - 1, Number(day) - 1, 9);
+        const endDate = new Date(year, month - 1, Number(day) + 5, 9)
+        console.log(startDate,endDate)
         return await Events.findAll({
             raw: true,
             where: {
