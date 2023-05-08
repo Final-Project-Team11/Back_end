@@ -1,6 +1,7 @@
 const SignupService = require("../services/signup.service.js");
 const CustomError = require("../middlewares/errorHandler");
-const {checkIdSchema , ResisterSchema} = require("../schemas/signup.schema.js")
+const { checkIdSchema, ResisterSchema } = require("../schemas/signup.schema.js")
+const { smtpTransport } = require('../config/email');
 
 class SignupController {
     constructor() {
@@ -18,10 +19,10 @@ class SignupController {
         } = req.body;
         try {
             await ResisterSchema
-            .validateAsync(req.body,{ abortEarly: false })
-            .catch((err) => {
-                throw new CustomError(err.message, 401)
-            })
+                .validateAsync(req.body, { abortEarly: false })
+                .catch((err) => {
+                    throw new CustomError(err.message, 401)
+                })
             //회사, 회사아이디 중복검사
             await this.SignupService.existCompanyName({ companyName });
             await this.SignupService.existCompanyId({ companyId });
@@ -54,10 +55,10 @@ class SignupController {
         const { companyId } = req.body;
         try {
             await checkIdSchema
-            .validateAsync(req.body,{ abortEarly: false })
-            .catch((err) => {
-                throw new CustomError(err.message, 401)
-            })
+                .validateAsync(req.body, { abortEarly: false })
+                .catch((err) => {
+                    throw new CustomError(err.message, 401)
+                })
             await this.SignupService.existCompanyId({
                 companyId,
             });
@@ -70,10 +71,32 @@ class SignupController {
         }
     };
 
-    authEmail = async(req,res,next) => {
-        try{
+    authEmail = async (req, res, next) => {
+        const generateRandom = function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        try {
+            const { email } = req.body;
 
-        }catch(err){
+            const number = generateRandom(111111, 999999)
+            const mailOptions = {
+                from: "meercatlendar@naver.com",
+                to: email,
+                subject: "회원가입 인증 관련 이메일 입니다",
+                text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
+            };
+
+            smtpTransport.sendMail(mailOptions, (error, responses) => {
+                if (error) {
+                    console.log(error)
+                    throw new CustomError("이메일 전송을 실패했습니다.",401)
+                } else {
+                    res.status(200).json({number})
+                }
+                smtpTransport.close();
+            });
+
+        } catch (err) {
             next(err)
         }
     }
