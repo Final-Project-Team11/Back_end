@@ -245,14 +245,41 @@ describe("scheduleSubmit Test", () => {
             files: mockFiles
         }
         const res = {
-            locals: {
+            locals : {
                 user: {
                     userId: "test1",
-                    teamId: "test2"
+                    teamId: "team1"
                 }
             },
-            status: sinon.stub.returnsThis(),
+            status: sinon.stub().returnsThis(),
             send: sinon.stub()
         }
+        const next = sinon.stub()
+
+        const meetingSubmitSpy = sinon.spy(submtiController.submitService, 'meetingSubmit')
+        await submtiController.meetingSubmit(req, res, next)
+
+        sinon.assert.calledWith(meetingSubmitSpy, {
+            userId: res.locals.user.userId,
+            teamId: res.locals.user.teamId,
+            start: meetingData.start,
+            end: meetingData.end,
+            calendarId: meetingData.calendarId,
+            title: meetingData.title,
+            location: meetingData.location,
+            attendees: meetingData.attendees,
+            body: meetingData.body,
+            fileLocation: ['fake-location-1', 'fake-location-2'],
+            fileName: ['fake-name-1', 'fake-name-2']
+        })
+
+        // 함수가 한 번 호출되었는지 검증합니다.
+        sinon.assert.calledOnce(res.status);
+        // 함수가 200이라는 인자로 호출되었는지 검증합니다.
+        sinon.assert.calledWith(res.status, 200);
+        sinon.assert.calledOnce(res.send);
+        sinon.assert.calledWith(res.send, { message : '회의 신청이 성공적으로 완료되었습니다.'});
+        // 함수가 호출되지 않았는지 검증합니다.
+        sinon.assert.notCalled(next);
     })
 })
