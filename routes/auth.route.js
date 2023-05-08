@@ -1,7 +1,6 @@
 const express = require("express");
 const AuthController = require("../controllers/auth.controller.js");
 const authcontroller = new AuthController();
-const authMiddleware = require("../middlewares/auth-middleware.js");
 
 const router = express.Router();
 
@@ -14,7 +13,7 @@ router.post("/auth/admin", authcontroller.adminLogin);
 router.post("/auth/user", authcontroller.userLogin);
 
 //초기 비밀번호 변경
-//localhost:3003/users/password
-router.patch("/users/password", authMiddleware, authcontroller.modifyPassword);
+//localhost:3003/users/password/:userId
+router.patch("/users/password/:userId", authcontroller.modifyPassword);
 
 module.exports = router;
