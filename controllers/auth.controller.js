@@ -72,6 +72,7 @@ class AuthController {
             await modifySchema
                 .validateAsync(req.body, { abortEarly: false })
                 .catch((err) => {
+                    console.log(err)
                     throw new CustomError(err.message, 401)
                 })
 

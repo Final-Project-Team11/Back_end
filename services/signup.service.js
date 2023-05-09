@@ -38,6 +38,7 @@ class SignupService {
         remainDay,
         authLevel,
         job,
+        email,
     }) => {
         //사업자비밀번호 암호화
         bcrypt.hash(password, 10, async (err, encryptedPW) => {
@@ -58,6 +59,7 @@ class SignupService {
                     remainDay,
                     authLevel,
                     job,
+                    email,
                 });
             }
         });

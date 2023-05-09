@@ -135,6 +135,9 @@ module.exports = (sequelize, DataTypes) => {
             profileImg :{
                 type: DataTypes.STRING,
             },
+            email :{
+                type: DataTypes.STRING,
+            },
             createdAt: {
                 allowNull: false,
                 type: DataTypes.DATE,
