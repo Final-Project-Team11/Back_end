@@ -21,12 +21,10 @@ class AuthController {
             });
             //토근생성
             const token = await this.AuthService.adminLogin({ user });
-            console.log("여기 에러 왜생김??????????")
             res.status(200).json({
                 message: "로그인에 성공했습니다",
                 token: `Bearer ${token}`,
             });
-            console.log("여기 에러 왜생김?")
         } catch (err) {
             next(err);
         }
@@ -34,7 +32,6 @@ class AuthController {
 
     userLogin = async (req, res, next) => {
         const { companyId, userId, password } = req.body;
-        console.log("11111111111111",userId, password)
         try {
             await userLoginSchema
                 .validateAsync(req.body, { abortEarly: false })
@@ -69,21 +66,16 @@ class AuthController {
     };
 
     modifyPassword = async (req, res, next) => {
-        // const { userId, teamId, userName, companyId, authLevel } = res.locals.user;
         const { userId } = req.params
         const { password } = req.body;
-        console.log(req.body)
-        console.log("password",password)
         try {
             await modifySchema
                 .validateAsync(req.body, { abortEarly: false })
                 .catch((err) => {
-                    console.log("비밀번호 변경 에러~~~",err)
                     throw new CustomError(err.message, 401)
                 })
 
             await this.AuthService.updateUser({ userId, password });
-            // const token = await this.AuthService.newToken({ userId, teamId, userName, companyId, authLevel })
             res.status(200).json({
                 message: "비밀번호 변경에 성공했습니다",
             });
