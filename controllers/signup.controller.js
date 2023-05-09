@@ -3,6 +3,7 @@ const CustomError = require("../middlewares/errorHandler");
 const authEmail = require("../authEmail/authEmail.js")
 const { checkIdSchema, ResisterSchema } = require("../schemas/signup.schema.js")
 const { smtpTransport } = require('../config/email');
+const env = process.env;
 
 class SignupController {
     constructor() {
@@ -83,7 +84,7 @@ class SignupController {
             const { email } = req.body;
             const number = generateRandom(111111, 999999)
             const mailOptions = {
-                from: "meercatlendar@naver.com",
+                from: env.EMAIL_ID,
                 to: email,
                 subject: "[Meer:캣린더]회원가입 인증 이메일 입니다",
                 html: authEmail(number)
