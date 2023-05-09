@@ -11,4 +11,8 @@ router.post("/", usercontroller.companySignup);
 //localhost:3003/members/exists
 router.post("/exists", usercontroller.checkId);
 
+//이메일 인증
+//localhost:3003/members/email
+router.post("/email",usercontroller.authEmail);
+
 module.exports = router;

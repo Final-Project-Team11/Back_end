@@ -1,6 +1,9 @@
 const SignupService = require("../services/signup.service.js");
 const CustomError = require("../middlewares/errorHandler");
-const {checkIdSchema , ResisterSchema} = require("../schemas/signup.schema.js")
+const authEmail = require("../authEmail/authEmail.js")
+const { checkIdSchema, ResisterSchema } = require("../schemas/signup.schema.js")
+const { smtpTransport } = require('../config/email');
+const env = process.env;
 
 class SignupController {
     constructor() {
@@ -15,13 +18,14 @@ class SignupController {
             ceoNum,
             companyId,
             password,
+            email
         } = req.body;
         try {
             await ResisterSchema
-            .validateAsync(req.body,{ abortEarly: false })
-            .catch((err) => {
-                throw new CustomError(err.message, 401)
-            })
+                .validateAsync(req.body, { abortEarly: false })
+                .catch((err) => {
+                    throw new CustomError(err.message, 401)
+                })
             //회사, 회사아이디 중복검사
             await this.SignupService.existCompanyName({ companyName });
             await this.SignupService.existCompanyId({ companyId });
@@ -41,6 +45,7 @@ class SignupController {
                 remainDay: 15,
                 authLevel: 1,
                 job: "CEO",
+                email,
             });
             return res
                 .status(200)
@@ -54,10 +59,10 @@ class SignupController {
         const { companyId } = req.body;
         try {
             await checkIdSchema
-            .validateAsync(req.body,{ abortEarly: false })
-            .catch((err) => {
-                throw new CustomError(err.message, 401)
-            })
+                .validateAsync(req.body, { abortEarly: false })
+                .catch((err) => {
+                    throw new CustomError(err.message, 401)
+                })
             await this.SignupService.existCompanyId({
                 companyId,
             });
@@ -69,6 +74,35 @@ class SignupController {
             next(err);
         }
     };
+
+    authEmail = async (req, res, next) => {
+        const generateRandom = function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        try {
+            const { email } = req.body;
+            const number = generateRandom(111111, 999999)
+            const mailOptions = {
+                from: env.EMAIL_ID,
+                to: email,
+                subject: "[Meer:캣린더]회원가입 인증 이메일 입니다",
+                html: authEmail(number)
+            };
+
+            smtpTransport.sendMail(mailOptions, (error, responses) => {
+                if (error) {
+                    throw new CustomError("이메일 전송을 실패했습니다.", 401)
+                } else {
+                    res.status(200).json({ number })
+                }
+                smtpTransport.close();
+            });
+
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 module.exports = SignupController;
