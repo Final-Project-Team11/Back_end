@@ -34,6 +34,7 @@ class AuthController {
 
     userLogin = async (req, res, next) => {
         const { companyId, userId, password } = req.body;
+        console.log("11111111111111",userId, password)
         try {
             await userLoginSchema
                 .validateAsync(req.body, { abortEarly: false })
