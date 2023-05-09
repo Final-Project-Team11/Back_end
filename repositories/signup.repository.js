@@ -1,6 +1,7 @@
 const { Companys, Users, Teams } = require("../models/index.js");
 const { sequelize } = require("../models/index.js");
 const { Transaction } = require("sequelize");
+const logger = require("../config/logger");
 const CustomError = require("../middlewares/errorHandler");
 
 class SignupRepository {
@@ -46,6 +47,7 @@ class SignupRepository {
         remainDay,
         authLevel,
         job,
+        email,
     }) => {
         const t = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED, // 트랜잭션 격리 수준을 설정합니다.
@@ -88,6 +90,7 @@ class SignupRepository {
                     authLevel,
                     joinDay : day,
                     job,
+                    email,
                 },
                 { transaction: t }
             );

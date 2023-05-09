@@ -17,6 +17,7 @@ class SignupController {
             ceoNum,
             companyId,
             password,
+            email
         } = req.body;
         try {
             await ResisterSchema
@@ -43,6 +44,7 @@ class SignupController {
                 remainDay: 15,
                 authLevel: 1,
                 job: "CEO",
+                email,
             });
             return res
                 .status(200)
