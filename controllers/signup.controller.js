@@ -92,6 +92,7 @@ class SignupController {
 
             smtpTransport.sendMail(mailOptions, (error, responses) => {
                 if (error) {
+                    console.log(error)
                     throw new CustomError("이메일 전송을 실패했습니다.", 401)
                 } else {
                     res.status(200).json({ number })
