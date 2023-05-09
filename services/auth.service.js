@@ -50,7 +50,6 @@ class AuthService {
         const company = await this.AuthRepository.findCompanyById({
             companyId,
         });
-        console.log(company)
         if (!company) {
             throw new CustomError("회사코드를 확인해주세요.", 401);
         }
