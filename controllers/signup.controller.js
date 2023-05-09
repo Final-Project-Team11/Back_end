@@ -1,5 +1,6 @@
 const SignupService = require("../services/signup.service.js");
 const CustomError = require("../middlewares/errorHandler");
+const authEmail = require("../authEmail/authEmail.js")
 const { checkIdSchema, ResisterSchema } = require("../schemas/signup.schema.js")
 const { smtpTransport } = require('../config/email');
 
@@ -75,23 +76,22 @@ class SignupController {
         const generateRandom = function (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
+
         try {
             const { email } = req.body;
-
             const number = generateRandom(111111, 999999)
             const mailOptions = {
                 from: "meercatlendar@naver.com",
                 to: email,
-                subject: "회원가입 인증 관련 이메일 입니다",
-                text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
+                subject: "[Meer:캣린더]회원가입 인증 이메일 입니다",
+                html: authEmail(number)
             };
 
             smtpTransport.sendMail(mailOptions, (error, responses) => {
                 if (error) {
-                    console.log(error)
-                    throw new CustomError("이메일 전송을 실패했습니다.",401)
+                    throw new CustomError("이메일 전송을 실패했습니다.", 401)
                 } else {
-                    res.status(200).json({number})
+                    res.status(200).json({ number })
                 }
                 smtpTransport.close();
             });
