@@ -39,7 +39,7 @@ const modifySchema = Joi.object({
         "string.min": "비밀번호는 최소 5글자여야 합니다.",
         "string.max": "비밀번호는 최대 15글자여야 합니다.",
         "string.empty": "비밀번호를 입력해 주세요.",
-        "any.required": "필수입력값을 입력해주세요",
+        "any.required": "비밀번호 필수입력값을 입력해주세요",
     }),
 });
 
