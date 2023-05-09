@@ -71,6 +71,8 @@ class AuthController {
         // const { userId, teamId, userName, companyId, authLevel } = res.locals.user;
         const { userId } = req.params
         const { password } = req.body;
+        console.log(req.body)
+        console.log("password",password)
         try {
             await modifySchema
                 .validateAsync(req.body, { abortEarly: false })
