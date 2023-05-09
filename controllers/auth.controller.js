@@ -21,10 +21,12 @@ class AuthController {
             });
             //토근생성
             const token = await this.AuthService.adminLogin({ user });
+            console.log("여기 에러 왜생김??????????")
             res.status(200).json({
                 message: "로그인에 성공했습니다",
                 token: `Bearer ${token}`,
             });
+            console.log("여기 에러 왜생김?")
         } catch (err) {
             next(err);
         }
@@ -73,6 +75,7 @@ class AuthController {
             await modifySchema
                 .validateAsync(req.body, { abortEarly: false })
                 .catch((err) => {
+                    console.log("비밀번호 변경 에러~~~",err)
                     throw new CustomError(err.message, 401)
                 })
 
