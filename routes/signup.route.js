@@ -15,4 +15,8 @@ router.post("/exists", usercontroller.checkId);
 //localhost:3003/members/email
 router.post("/email",usercontroller.authEmail);
 
+//이메일 인증 확인
+//localhost:3003/members/email/check
+router.post("/email/check",usercontroller.checkEmail)
+
 module.exports = router;
