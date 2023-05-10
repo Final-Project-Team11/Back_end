@@ -66,6 +66,7 @@ class SignupService {
     };
 
     checkEmail = async({authNumber,checkNumber}) =>{
+        console.log("인증번호확인~~~~~~~~~~~~~","authNumber",authNumber,"checkNumber",checkNumber)
         const check = await bcrypt.compare(checkNumber,authNumber);
         if(!check){
             throw new CustomError("인증번호를 다시 확인해주세요", 401);
