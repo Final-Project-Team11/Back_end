@@ -64,6 +64,14 @@ class SignupService {
             }
         });
     };
+
+    checkEmail = async({authNumber,checkNumber}) =>{
+        const check = await bcrypt.compare(checkNumber,authNumber);
+        if(!check){
+            throw new CustomError("인증번호를 다시 확인해주세요", 401);
+        }
+    }
+
 }
 
 module.exports = SignupService;
