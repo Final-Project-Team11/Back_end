@@ -38,6 +38,7 @@ class SignupService {
         remainDay,
         authLevel,
         job,
+        email,
     }) => {
         //사업자비밀번호 암호화
         bcrypt.hash(password, 10, async (err, encryptedPW) => {
@@ -58,10 +59,19 @@ class SignupService {
                     remainDay,
                     authLevel,
                     job,
+                    email,
                 });
             }
         });
     };
+
+    checkEmail = async({authNumber,checkNumber}) =>{
+        const check = await bcrypt.compare(checkNumber,authNumber);
+        if(!check){
+            throw new CustomError("인증번호를 다시 확인해주세요", 401);
+        }
+    }
+
 }
 
 module.exports = SignupService;

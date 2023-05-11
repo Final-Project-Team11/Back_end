@@ -66,18 +66,17 @@ class AuthController {
     };
 
     modifyPassword = async (req, res, next) => {
-        // const { userId, teamId, userName, companyId, authLevel } = res.locals.user;
         const { userId } = req.params
         const { password } = req.body;
         try {
             await modifySchema
                 .validateAsync(req.body, { abortEarly: false })
                 .catch((err) => {
+                    console.log(err)
                     throw new CustomError(err.message, 401)
                 })
 
             await this.AuthService.updateUser({ userId, password });
-            // const token = await this.AuthService.newToken({ userId, teamId, userName, companyId, authLevel })
             res.status(200).json({
                 message: "비밀번호 변경에 성공했습니다",
             });

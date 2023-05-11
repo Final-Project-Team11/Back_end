@@ -53,6 +53,11 @@ const ResisterSchema = Joi.object({
         "string.empty": "비밀번호를 입력해 주세요.",
         "any.required": "필수입력값을 입력해주세요",
     }),
+    email: Joi.string().required().messages({
+        "string.base": "email 필드는 문자열로 이루어져야 합니다.",
+        "string.empty": "email을 입력해 주세요.",
+        "any.required": "필수입력값을 입력해주세요",
+    }),
 });
 
 module.exports = {
