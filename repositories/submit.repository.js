@@ -45,7 +45,7 @@ class SubmitRepository {
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.create({
                     Id : Id,
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {transaction : t});
             }))

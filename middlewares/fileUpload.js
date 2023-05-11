@@ -41,14 +41,6 @@ const upload = multer({
                 transform: function (req, file, cb) {
                     cb(null, sharp().resize(100, 100)); // 이미지를 100x100 으로 리사이징
                 },
-                body: function (req, file, cb) {
-                    fs.readFile(file.path, 'utf-8', function (err, data) {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb(null, data);
-                    });
-                }
             }
         ]
     }),
