@@ -1,18 +1,18 @@
 ![bottom](https://github.com/Final-Project-Team11/Meer_catlender_FE/assets/124993422/c7aac152-34cd-40f2-ac32-2528b76f06c5)
 
 ---
-# Meer : 캣린더
+# 🗓️ Meer : 캣린더
 ![image](https://github.com/Final-Project-Team11/Meer_catlender_FE/assets/124577334/eb462824-687b-485c-9223-0399ef3c82a4)
 
 ### Together : 2023.03.31 ~ 2023.05.12
 
 ---
-## Link
+## 🔗 Link
 
 ### Meer : [캣린더 Notion](https://magical-puppy-b7f.notion.site/Final_Project_Team11-Meer-71cb657348d24b188150a5e12df42b86)
 ### Meer : [캣린더 Domain](https://meercatlendar.store)
 ---
-## Github
+## 🔗  Github
 
 > FE : https://github.com/Final-Project-Team11/Meer_catlender_FE 
 
@@ -20,7 +20,7 @@
 
 ---
 
-## 팀원 소개 
+## 🙋🏼‍♀️🙋🏼 팀원 소개 
 
 
 | 역할 | 이름   | 기술 스택 |  Github 링크              |
@@ -33,8 +33,19 @@
 | 팀원 | 민수현 | Node      |  https://github.com/SuHyeon-Eleven |
 | 귀하신 분 | 이미현 | Designer   | -                        |
 
+| 이름 | 맡은 파트 |
+| --- | --------- |
+| 최다현 | 로그인, 회원가입, 유저 조회, 유저 생성, 공용 컴포넌트 제작 |
+| 박찬우 | 메인페이지, DropDown hooks 구현, 미니 캘린더 제작 |
+| 송철환 | 업로드된 파일 조회, 메니저페이지, 투두리스트, 프로필 카드 |
+| 류현주 | 로그인, 회원가입, 마이페이지, 개인 투두리스트, 서버 부하 테스트, 테스트 코드 작성, 에러로깅 시스템 구축 |
+| 주영성 | 신청서 파트, 전체 휴가 조회, 전체 일정 조회, 댓글, 테스트 코드 작성 |
+| 민수현 | 유저 관리, 휴가 관리, 출장 관리, 기타 결제 관리, CI/CD, HTTPS적용 |
+| 이미현 | 웹페이지 전체적인 디자인 |
 
-## 프로젝트 소개 
+---
+
+## 💡 프로젝트 소개 
 Meer : 캣린더는 팀원들이 회사를 다니며 겪었던 불편했던 경험들에 시작되었습니다.
 
 - 여러 상급자에게 결제를 받아야하는 결재 프로세스
@@ -44,7 +55,7 @@ Meer : 캣린더는 팀원들이 회사를 다니며 겪었던 불편했던 경�
 
 ---
 
-## 기능 소개
+## ⚙️ 기능 소개
 
 <details>
 <summary>회원가입&로그인</summary>
@@ -125,17 +136,15 @@ Meer : 캣린더는 팀원들이 회사를 다니며 겪었던 불편했던 경�
   
 ---
   
-## 서비스 아키택쳐
+## 🧩 서비스 아키택쳐
 
 ![Service-Architecture (1)](https://github.com/Final-Project-Team11/Meer_catlender_FE/assets/124577334/2d549489-3aaf-40d2-902e-ecc28485db05)
-
-![11조_2차 아키텍처](https://github.com/Final-Project-Team11/Meer_catlender_BE/assets/124577620/f99a2439-4c8b-44b9-9e99-deea8b0e47b9)
 
 ---
 
 
-<div align=center><h1>📚 Front-End STACKS</h1></div>
-<div align=center> 
+<div align=left><h1>📚 Front-End STACKS</h1></div>
+<div align=left> 
   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
   <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
@@ -152,8 +161,8 @@ Meer : 캣린더는 팀원들이 회사를 다니며 겪었던 불편했던 경�
   <img src="https://img.shields.io/badge/toast ui calendar-FF6618?style=for-the-badge&logo=toast ui calendar&logoColor=white">
 </div>
 
-<div align=center><h1>📚 Back-End STACKS</h1></div>
-<div align=center> 
+<div align=left><h1>📚 Back-End STACKS</h1></div>
+<div align=left> 
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white">
   <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white">
   <img src="https://img.shields.io/badge/amazon ec2-FF9900?style=for-the-badge&logo=amazon ec2&logoColor=white">
