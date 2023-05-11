@@ -129,6 +129,8 @@ Meer : 캣린더는 팀원들이 회사를 다니며 겪었던 불편했던 경�
 
 ![Service-Architecture (1)](https://github.com/Final-Project-Team11/Meer_catlender_FE/assets/124577334/2d549489-3aaf-40d2-902e-ecc28485db05)
 
+![11조_2차 아키텍처](https://github.com/Final-Project-Team11/Meer_catlender_BE/assets/124577620/f99a2439-4c8b-44b9-9e99-deea8b0e47b9)
+
 ---
 
 
