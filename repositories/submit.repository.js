@@ -111,7 +111,7 @@ class SubmitRepository {
 
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.update({
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {
                     where: {Id}
@@ -201,7 +201,7 @@ class SubmitRepository {
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.create({
                     Id : Id,
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {transaction : t});
             }))
@@ -254,7 +254,7 @@ class SubmitRepository {
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.create({
                     Id : Id,
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {transaction : t});
             }))
@@ -304,7 +304,7 @@ class SubmitRepository {
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.create({
                     Id : Id,
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {transaction : t});
             }))
@@ -353,7 +353,7 @@ class SubmitRepository {
 
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.update({
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {
                     where: {Id}
@@ -407,7 +407,7 @@ class SubmitRepository {
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.create({
                     Id : Id,
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {transaction : t});
             }))
@@ -456,7 +456,7 @@ class SubmitRepository {
 
             await Promise.all(fileName.map(async(item, index) => {
                 await Files.update({
-                    fileName : item,
+                    fileName : decodeURIComponent(escape(item)),
                     fileLocation : fileLocation[index]
                 }, {
                     where: {Id}
