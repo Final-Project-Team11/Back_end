@@ -197,7 +197,7 @@ Meer : 캣린더는 팀원들이 회사를 다니며 겪었던 불편했던 경�
 
 ---
 
-# 🔫 TroubleShooting
+# 🧠 기술적 의사 결정
  <details>
 <summary>FE</summary> 
   
@@ -363,9 +363,1025 @@ Meer : 캣린더는 팀원들이 회사를 다니며 겪었던 불편했던 경�
 4. React-Hook_Form를 사용함으로서 **비제어 컴포넌트**를 다루게 되는데 이때 입력 필드의 상태를 State에 저장하지 않고
        React-Hook-Form이 내부적으로 유지함으로 입력필드가 변경되어도, State가 업데이트 되지 않아 **리렌더링을 줄일 수 있습니다.**
  </details>
-  
 </details>
 
+
+<details>
+<summary>BE</summary>	
+
+<details>
+<summary>express</summary>	
+	
+- 정해진 기간안에 기능 개발을 위해 빠르고 유연성이 높은 express를 사용하게 되었습니다.
+- 미들웨어 구조를 사용하여 필요한 기능만 선택적으로 사용할 수 있어 가볍고 유연한 특징을 갖고 있습니다. 
+	이를 통해 개발자는 웹 애플리케이션을 더욱 쉽게 개발하고, 필요한 기능을 자유롭게 조합하여 사용할 수 있습니다. 
+	또한 Express는 간단하고 빠른 개발을 위해 필요한 다양한 기능과 구조를 제공하며, 이를 활용하여 생산성을 높일 수 있습니다.
+</details>
+
+<details>
+<summary>Sequelize</summary>
+	
+- Sequelize는 Node.js에서 사용할 수 있는 ORM(Object-Relational Mapping) 중 하나입니다. 
+	Sequelize를 사용하면 SQL 데이터베이스와 JavaScript 객체 간의 변환을 자동화할 수 있으며, PostgreSQL, MySQL, SQLite, MSSQL 등 다양한 데이터베이스를 지원합니다. 
+	Sequelize는 강력한 기능과 높은 수준의 유연성을 제공하며 Promise와 async/await 패턴을 지원하여 비동기 처리를 간편하게 할 수 있습니다. 
+	Sequelize는 대규모 개발자 커뮤니티가 존재하며, 많은 사용자들이 지속적으로 업데이트하고 개선하고 있습니다.
+    	이를 통해 데이터베이스 쿼리 작성을 간소화하고, 코드의 가독성과 유지보수성을 높일 수 있습니다. 
+</details>
+
+	
+<details>
+<summary>EC2</summary>
+	
+- EC2는 가상 머신 인스턴스를 제공하여 다양한 운영 체제와 애플리케이션을 지원하며, 
+	보안 기능, 스케일링 기능, 통합 기능 등을 제공하여 유연하고 확장성 있는 클라우드 서비스를 제공합니다. 
+	특히, AWS의 다양한 서비스와 통합되어 있어 다양한 어플리케이션 아키텍처를 구축할 수 있으며, 에코시스템과 커뮤니티가 성숙하여 지원과 협업이 용이합니다.
+</details>
+
+<details>
+<summary>RDS</summary>
+	
+- EC2로 데이터베이스 서버를 직접 관리시 설정, 패치, 백업 등의 관리 작업이 번거롭고 안정성을 보장하기 어렵습니다. 
+	반면, RDS는 콘솔이나 API를 통해 쉽게 백업과 복구를 할 수 있으며 인스턴스 크기를 쉽게 조정하며 클릭 한 번으로 높은 가용성 확보할 수 있습니다.
+	이러한 장점들을 통해 데이터베이스 도입 및 관리 시간과 노력을 줄여줍니다.
+</details>
+	
+
+<details>
+<summary>S3 / S3-bucket</summary>
+	
+- S3 (Simple Storage Service)은 AWS에서 제공하는 객체 스토리지 서비스로, 안정성, 확장성, 비용 효율성, 보안성, 유연성 등 다양한 용도를 제공합니다.
+	S3는 데이터를 안전하게 저장하고 필요한 만큼 데이터를 저장할 수 있으며, 비용을 절감할 수 있습니다. 또한, 다양한 용도로 사용할 수 있어 유연성이 높으며,
+	업계 최고 수준의 내구성을 제공하여 데이터 손실의 위험이 거의 없습니다.
+</details>
+
+<details>
+<summary>MySQL</summary>
+	
+- MySQL은 관계형 데이터베이스로 복잡한 데이터 구조를 가진 프로젝트에 접합합니다. 
+	저희의 프로젝트는 데이터 구조가 복잡하고 테이블간의 관계성이 중요해서 MySQL을 선택하게 되었습니다. 
+	MySQL은 테이블 간의 관계를 효율적으로 나타내어 데이터 조작을 용이하게 하며 SQL 언어를 사용하여 데이터를 쉽게 검색하고 관리할 수 있습니다. 
+</details>    
+
+<details>
+<summary>Jest</summary>
+	
+- Jest는 자바스크립트 코드를 테스트하기 위한 강력한 프레임워크로, 다양한 장점을 가지고 있습니다. 
+	첫째, 간단한 설정만으로도 쉽게 테스트 환경을 구성할 수 있습니다. 
+	둘째, 코드 커버리지 측정, 스냅샷 테스트, 모킹, 비동기 코드 테스트 등 다양한 기능을 제공합니다. 
+	셋째, Facebook에서 개발하고 관리하는 프로젝트로 널리 사용되며, 다양한 커뮤니티에서 지원하고 있어서 문제 발생 시 대처하기가 쉽습니다. 
+	** 넷째, 병렬로 테스트를 실행하여 실행 속도가 빠르며, 코드 변경에 대한 피드백을 빠르게 받을 수 있습니다.
+	** 다섯째, 테스트 결과를 직관적으로 파악할 수 있는 기능을 제공하여 사용성이 좋습니다. 
+	이전에는 여러 테스트 라이브러리를 조합해서 사용하는 번거로움이 있었지만, Jest를 사용하면 이러한 문제점을 간편하게 해결할 수 있습니다.
+</details> 
+	
+<details>
+<summary>GitHub Action</summary>
+	
+- 깃허브액션은 깃허브와 긴밀하게 통합되어 있어 깃허브 리포지토리에서 CI/CD 파이프라인을 구성하고 실행할 수 있으며, 
+	다양한 빌드 및 배포 옵션을 제공하고 높은 확장성을 가지며 무료로 제공됩니다. 
+	또한, 많은 개발자들이 사용하고 있어 다양한 템플릿 및 예제 코드가 공유되어 있어 새로운 프로젝트를 시작할 때 편리하게 활용할 수 있습니다.
+
+</details> 
+
+<details>
+<summary>Slack Webhook</summary>	
+	
+- 에러 로그 확인의 불편함이 있었습니다. 
+	기존 사용하던 pm2 log, winston 은 로그를 실시간으로 확인하기 어려웠고, 팀원들이 수동으로 로그를 확인해야 했기 때문에 불편하고 시간이 많이 소요되었습니다.
+	이러한 기존 방식의 불편함을 개선하고자 Slack Webhook으로 알림 기능을 도입하였습니다. 
+	팀원들이 실시간으로 에러 알림을 받을 수 있게 함으로써, 문제 상황을 즉시 인지하고 빠르게 원인을 파악할 수 있게되었고. 
+	발생한 이슈에 대해 신속하게 대응할 수 있어 개발 및 유지보수 과정에서 시간과 노력을 절약할 수 있게 되었습니다.
+	
+</details> 	
+</details>
+
+---
+
+# 🔫  TroubleShooting
+
+<details>
+<summary>FE</summary>	
+
+<details>
+<summary>이벤트 버블링</summary>		
+	
+<aside>
+	    
+## 💡 문제 인식
+    
+- 모달을 띄운 뒤, 모달 내부의 닫기 버튼이나 모달의 백그라운드를 누르면 모달이 닫히게 closeModal 함수를 등록해주었는데, 모달이 닫히지 않음.
+- 아래는 문제의 코드. closeModal 함수가 modal을 닫게하는 기능을 하고, 백그라운드와 닫기 버튼에 함수를 등록하였지만 동작안함.
+- code(문제가 발생한 곳)
+            
+```tsx
+    return (
+       <UI.StUploadedFileBlock key={file.eventId} onClick={modalOpenHandler}> // modal 내에서 click 이벤트 발생시, 해당위치의 click 이벤트도 발생
+            {modalOpen && (
+            	<Modal closeModal={closeModal}>
+            	<UploadedDetail
+            		 data={data}
+            		 isLoading={isLoading}
+            		 type={type}
+            		 closeModal={closeModal}
+            	/>
+            	</Modal>
+            	)}
+                <UI.StNameDateBlock>
+                    <UI.StContentSpan>😵‍💫 | {file.userName}</UI.StContentSpan>
+                    UI.StDateSpan className="date"> {file.enrollDay}</UI.StDateSpan>
+                    </UI.StNameDateBlock>
+                    <UI.StContentSpan>📎 | {file.fileName}</UI.StContentSpan>
+               </UI.StUploadedFileBlock>
+    );
+```
+            
+- Modal Open/Close 관련 코드
+	1. `closeModal`, `Modal` 나오는 조건
+                
+ ```tsx
+    const closeModal = () => {
+    setModalOpen(false);
+    console.log('test');
+    };
+                
+    {modalOpen && (
+          <Modal closeModal={closeModal}>
+          <UploadedDetail
+                data={data}
+                isLoading={isLoading}
+                type={type}
+                closeModal={closeModal}
+           />
+           </Modal>
+    )}
+ ```
+                
+            
+ 2. `Modal` 컴포넌트내에서  백그라운드 클릭 시 `closeModal()` 호출
+            
+ ```tsx
+    <StModalBackground
+          background={background}
+          onClick={() => closeModal()}
+    ></StModalBackground>
+ ```
+            
+ - `Modal` 은 `UploadedDetail` 을 `children`으로 받아서 모달에서 보여준다.
+ - `UploadedDetail`에서 `props`로 `closeModal`을 받아서 `button` 의 `onClick`에 넣어주었다.
+	    
+ </aside>
+    
+---	
+	
+ <aside>  
+	 
+ ## 🚫 문제 분석
+    
+ - Modal의 Open/Close 관련된 내용에 Log를 찍어 전반적인 흐름 파악
+	 - **closeModal**에 **console.log**(’test’) 를 넣어줘서, closeModal이 실행된다면 콘솔에서 확인할 수 있게 세팅했다.
+ - 문제가 되는 부분 분석
+	 - `onMouseClick()`(백그라운트 클릭)으로 인한 `closeModal` 시 정상 작동 확인
+	 - `button` 으로 인한 `closeModal()` 시, `modalOpen` `State` 값이 변경되지 않아, `Modal`이 `Close` 되지 않는 현상 파악
+	 - 실제적으로 `button`으로 `Click`으로 `closeModal()`을 해서 `State`의 변화를 일으켰지만, **부모**에 있는 `onClick()`이 실행되서
+	 `closeModal()`이 재호출되 `State` 값이 안바뀐것처럼 보이는 문제 발견
+ </aside>
+    
+---
+	
+ <aside>
+	 
+ ## ⚙ 시도
+    
+ - closeModal을 실행시키는 이벤트를 onClick이 아닌 onMouseDown 으로 바꿔봄
+	 - closeModal이 실행되고, setModalOpen(false)도 실행되며 모달이 정상적으로 닫힘.
+        
+ - onClick 시, 왜 부모에 있는 Click 이벤트가 작동하는지에 대한 원인파악
+	 - 이벤트 버블링 분석
+ </aside>
+   
+---
+	
+<aside>
+	
+## 🛠 해결
+	
+이벤트 버블링 - Event Bubbling
+   
+이벤트 버블링은 특정 화면 요소에서 이벤트가 발생했을 때 해당 이벤트가 더 상위의 화면 요소들로 전달되어 가는 특성을 의미한다.
+    
+![https://user-images.githubusercontent.com/122278657/233428841-b58f5dc6-1aa2-4fce-9b70-4a3e3cbb3c4f.png](https://user-images.githubusercontent.com/122278657/233428841-b58f5dc6-1aa2-4fce-9b70-4a3e3cbb3c4f.png)
+    
+해결 코드 1
+    
+    - `stopPropagation()` 메서드로 이벤트의 전파를 방지한다.
+    
+    ```jsx
+    const closeModal = (event) => {
+    event.stopPropagation(); //stopPropagation()을 사용해 버블링 방지 
+    setModalOpen(false);
+    };
+    ```
+    
+    해결 코드 2
+    
+    - `Modal` 은 `StUploadedFileBlock` 안에 들어가 있을 필요가 없으니 따로 빼준다.
+    - 더이상 `StUploadedFileBlock`는 `Modal`의 상위태그가 아니기 때문에 이벤트 전파가 일어나지 않는다.
+    
+    ```tsx
+    return (
+          <UI.StUploadedFileBlock key={file.eventId} onClick={modalOpenHandler}>
+            <UI.StNameDateBlock>
+              <UI.StContentSpan>😵‍💫 | {file.userName}</UI.StContentSpan>
+              <UI.StDateSpan className="date"> {file.enrollDay}</UI.StDateSpan>
+            </UI.StNameDateBlock>
+            <UI.StContentSpan>📎 | {file.fileName}</UI.StContentSpan>
+          </UI.StUploadedFileBlock>
+    		{modalOpen && (
+            <Modal closeModal={closeModal}>
+              <UploadedDetail
+                data={data}
+                isLoading={isLoading}
+                type={type}
+                closeModal={closeModal}
+    	        />
+            </Modal>
+          )}
+      );
+    ```
+    
+    </aside>
+    
+---	
+	    
+## ❓ 궁금했던 부분
+<aside>
+'useEffect`로 `modalOpen state`가 바뀔 시 상태값을 `Log`로 찍었는데,  상태변화 (false→true→false) 가 찍혀야 되지않나?
+    
+    답 :
+     `setState`는 비동기 함수이기 때문에 `state`의 변화는 렌더링이 일어난 이후에 바뀌게 된다. 현재 상황은 렌더링 되기전에 일어나는 상황이기 때문에, `state`상태 변화는 버블링의 마지막 부분인
+    `true` 값이 되는것이고 `useEffect`는 상태값이 변화가 일어나지 않아 `Log`가 남지 않았다. 
+    
+    `button 에서 onClick 이벤트 발생` → `콘솔에 ‘test’ 출력` → `상위 div로 onClick 이벤트 전달, 동작` → 
+    `button의 onClick이벤트인 closeModal이 비동기로 동작` → `상위 div의 openModal도 비동기로 동작` → `비동기로 실행된 결과값인 true만 돌아오게됨.`
+    
+    - modalOpen 의 상태 업데이트가 일어나기 전에 비동기로 false로 만들고 다시 true로 만들어서 내보냈으니 true인 결과만 보게 된다.
+</aside>
+
+</details>
+   
+	
+<details>
+<summary>onClick이벤트와 onMouseDown이벤트, onBlur이벤트</summary>	
+	
+<aside>
+	
+## 💡 문제 인식
+    
+- **조건**
+	- `todo 탭`에서 `category`, `todo` 를 추가하기 위해서 `+` 버튼을 누르면 `input`이 생긴다.
+        - `input`에 내용물이 있을 때 `+` 버튼을 누르면 `input`의 내용이 `category` 또는 `todo`에 저장된다.
+        - `input`에서 `focus`가 사라질 시 `input`은 사라져야 한다.
+- **문제**
+        - `input`이 열려있을 때 `+` 버튼을 누르면 `input`이 닫혔다가 곧바로 다시 열린다.
+- 코드
+
+ ```tsx
+       const categoryPlusHandler = () => {
+        // input이 닫혀있다면 열림
+        if (openCategoryInput === false) {
+             setOpenCategoryInput(true);
+             console.log('열렸다');
+           }
+       // 인풋이 열려있고, input이 비어있지 않다면 post 동작, input 비움
+        else if (openCategoryInput && categoryState.length !== 0) {
+            setCategoryState('');
+            setOpenCategoryInput(false);
+            console.log('닫히냐?');
+          }
+       // 인풋이 열려있지만, 비어있다면 인풋 닫음
+       else {
+      setOpenCategoryInput(false);
+      console.log('닫혀라');
+    }
+   };
+ ```
+        
+```tsx
+// 인풋에서 포커스 사라지면 input 닫힘
+    const blurHandler = () => {
+      setValue('');
+      console.log('블러');
+      inputHandler(false);
+   };
+        
+    return (
+     <UI.StCategoryInputBlock>
+     <UI.StCircleBlock />
+     <UI.StCategoryInput
+          ref={inputRef}
+          type="text"
+          maxLength={10}
+          value={value}
+          onChange={onChange}
+          onKeyPress={handleKeyPress}
+          onBlur={blurHandler}
+     />
+     </UI.StCategoryInputBlock>
+  );
+ ```
+        
+</aside>
+
+---
+	
+<aside>
+	
+## 🚫 시도, 문제 원인
+    
+- 시도
+        - `input`을 열고 닫는 `state`를 콘솔로 찍어보니, `input`이 열려있을 때 `+` 버튼을 누르면 `false`가 되며 `‘블러’` 가 찍히고, 곧바로 다시 `true`가 되며 `'열렸다'`가 찍히는걸 볼 수 있었다.
+- 문제 원인
+        - 콘솔을 찍힌걸 보면 `blurHandler`가 먼저 발동해서 `input`을 닫고, 그 뒤 `onClick`이 발동하며 `input`이 닫혀있으니 다시 열어버린 걸 볼 수 있다.
+</aside>
+
+---
+	
+<aside>
+	
+## 🛠 해결
+    
+- `onClick`으로 등록되어있던 `+` 버튼의 기능을 `onMouseDown` 으로 바꿔주었다.
+        
+`<UI.StPlusSpan *onMouseDown*={clickFn}>+</UI.StPlusSpan>`
+        
+</aside>
+
+---
+	
+<aside>
+	
+## ❗ 알게 된 점
+    
+ ### `onBlur` 이벤트와 `onClick`이벤트, `mousedown`, `mouseup` 이벤트
+    
+- **onBlur**
+	- `onBlur` 이벤트는 어떠한 요소가 `focus` 를 잃을 때 발동한다. 마우스를 클릭하든 탭을 누르든 `focus`만 잃으면 그 순간 바로 발동한다.
+- **onClick**
+        - `onClick` 이벤트는 `mousedown` 이벤트와 `mouseup` 이벤트를 합친 이벤트의 형태로, `onClick` 이벤트가 적용된 요소의 위에서 마우스를 누르는 것과 떼는 것이 이루어 져야 발동하는 이벤트이다.
+- **mousedown**
+        - `mousedown` 이벤트가 등록된 요소의 위에서 마우스를 누르면 발동하는 이벤트. 드래그 앤 드롭, 마우스 상호작용 추적 기능을 위해 이용되는 경우가 많으며, 마우스를 떼는것에 대한 조건은 없다.
+- **mouseup**
+        - `mouseup` 이벤트가 등록된 요소 위에서 커서를 떼기만 하면 될 것 같지만, 아니다.
+        - `onClick`과 같이 요소 위에서 마우스를 누르고, 떼는 동작을 해야한다.
+        - 다른 위치에서 클릭을 하고, 클릭을 유지한 상태에서 `mouseup` 이벤트가 등록된 요소에 커서를 위치시키고 마우스를 떼도 `mouseup` 이벤트는 발생하지 않는다.
+        - 드래그 앤 드롭 기능등을 이용할 때 `mousedown` 이벤트와 함께 사용한다.
+</aside>
+
+---
+	
+<aside>
+	
+## 👍 배운 점
+    
+## `mousedown` 이벤트는 `onBlur` 이벤트보다 우선순위를 가진다.
+    
+- `onBlur` 이벤트는 `focus`가 사라지는 순간에 동작한다.
+- `focus`가 사라지는 이유는 마우스가 클릭되었기 때문이다.
+- 위와 같은 인과관계를 볼 때 `mousedown` 이벤트는 `onBlur` 이벤트보다 우선순위를 가지게된다.
+    
+## `onClick` 이벤트의 발생 시점
+    
+- `onClick` 이벤트는 `mousedown` 과 `mouseup` 이벤트의 조합이다.
+- 따라서 한 요소에 세 개의 이벤트가 모두 등록되어 있다면 `mousedown` → `mouseup` → `onClick` 순으로 이벤트가 동작한다.
+	
+</aside>
+</details>
+
+<details>
+<summary>DropDown hooks 구현하기</summary>
+   
+## DropDown hooks 만들기
+
+---
+	
+<aside>
+	
+## 💡 문제 인식
+    
+- DropDown hooks 사용시 발생하는 문제
+	
+1. DropDown 사용 중, 화면을 움직이면 DropDown 위치가 변경된다.
+
+2. DropDown 사용 중, 화면을 확대 축소하게 되면 DropDown 위치가 변경된다.
+
+3. scroll에 따른 DropDown 위치 변경
+
+4. Modal 창에서 DropDown, 사용 시, DropDown이 보이지 않는다.
+
+5. DropDown이 브라우저 범위를 벗어나게 된다면 list가 보이지 않는다.
+
+6. DropDown position값은 어떻게 설정할것인가?
+	
+</aside>
+ 
+---
+	
+<aside>
+	
+## 🚫 문제 분석
+	
+- 브라우저의 변경에 따라 DropDown이 왜 변경되는지 확인
+        - DropDown은 `position`을 `absolute` 로 사용중이기 때문에 브라우저가 변경될 때 마다 position 정보를 update 해줘야됨.
+	
+- Modal 창에서 DropDown 안뜨는 이유 확인
+        - Modal 생성 방식 분석
+        - 현재 Modal은 `position` 을 `fixed` 로 사용하고 있고 `z-index`를 `1500`을 주고 있는 상태
+        - DropDown은 `position` 을 `absolute` 를 쓰고 있지만, `z-index` 값이 없기 때문에 현재는 Modal 창 뒤쪽으로 나타나고 있는 상황
+        
+- DropDown이 브라우저 범위를 벗어나는 문제
+        - DropDown에게 position 정보를 넘겨 줄때, 브라우저의 높이값을 고려하지 않고 주었기 때문에 브라우저 범위를 벗어나게 됨
+        - DropDown이 브라우저 범위를 벗어나게 될 상황에 대한 예외처리 필요
+	
+- DropDown position 문제
+        - useRef를 사용해 내가 DropDown으로 사용할 Dom 요소에 접근해서 해당 요소의 position 값을 불러온다.
+        - 값은 2가지를 가져올 것이고, input창을 감싸고있는 div 태그와 li 태그를 감싸고 있는 ul태그를 가져온다.
+	
+</aside>
+    
+---
+	
+<aside>
+	
+## ⚙ 시도한 것
+    
+- 브라우저의 상대좌표 / 절대좌표 구하는 방법 알아보기
+	- 상대좌표 / 절대좌표
+            > **screent 객체 화면 크기 구하기**
+            > 
+            
+            screen.width : 화면(모니터 해상도)의 너비
+            
+            screen.availWidth : 모니터 화면의 작업 표시줄을 제외한 너비
+            
+            screen.height : 화면(모니터 해상도)의 높이
+            
+            screen.availHeight : 모니터 화면의 작업 표시줄을 제외한 높이
+            
+            > **브라우저 크기 구하기**
+            > 
+            
+            브라우저 크기를 구하고 싶은 경우
+            
+            //실제 사용하는 브라우저 안쪽 너비
+            
+            document.body.offsetWidth: 이속성은 요소의 가장 바깥쪽 경계를 포함한 크기를 나타내며, 즉, 요소의 테두리(border), 패딩(padding), 스크롤바 등의 크기를 모두 포함.
+            
+            document.body.scrollWidth : 스크롤바를 포함한 콘텐츠의 실제 가로 크기. 즉, 화면에 보이지 않는 부분까지 모두 포함한 전체 너비
+            
+            document.body.clientWidth : 내부 콘텐츠의 영역의 너비를 나타내는 속성입니다. 이 속성은, 요소의 내부 콘텐츠 영역에서 스크롤바와 패딩을 제외한 실제 가로 길이를 나타내며, 즉, 스크롤바를 제외한 너비
+            
+            > **HTML5 표준**
+            > 
+            
+            window.outerWidth  : 브라우저 창의 너비
+            
+            window.innerWidth  : 브라우저 두께를 제외한 너비
+            
+            window.outerHeight  *:* 브라우저 창의 높이
+            
+            window.innerHeight : **브라우저 두께를 제외한 높이
+            
+    
+- 코드 분석 & 문제 접근
+    
+```tsx
+    useEffect(() => {
+        //input 태그를 감싸는 div
+        const { current } = divRef;
+    
+        //팀목록을 li를 감싸고 있는 UI
+        const ulCurrent = ulRef.current;
+    
+        if (current !== null && ulCurrent !== null) {
+          const { top, left, height, width } = current.getBoundingClientRect();
+          const absoluteTop = window.pageYOffset + current.getBoundingClientRect().top;
+          const absoluteLeft = window.pageXOffset + current.getBoundingClientRect().left;
+    
+          //브라우저 전체 높이값보다 input을 감싸고 있는 div 태그 + UI 높이값보다 클때, UL 태그를 위로 올리기
+          if (top + height + ulCurrent.getBoundingClientRect().height > window.innerHeight) {
+            const ulHeight = ulCurrent.getBoundingClientRect().height;
+            const newTop = absoluteTop - height - ulHeight;
+            setInputPosition({ top: newTop, left: absoluteLeft, height, width });
+          } else {
+            setInputPosition({ top: absoluteTop, left: absoluteLeft, height, width });
+          }
+        }
+      }, [isOpen, width]);
+ ```
+    
+ 1. 화면에 넘어갔냐 안넘어갔냐를 판별할 조건 필요.
+ 2. 화면이 넘어갔다면, DropList를 위로 펼쳐야됨.(가로로 펼치는경우는 못봤음)
+ 3. 넘어가지 않는다면, 그대로 아래로 내려오게 해야된다.
+ 4. 화면에서 좌측 스크롤이 있을 경우도 있으니, 좌측 스크롤을 고려해서 left를 설정한다.
+ </aside>
+ 
+---
+	
+ <aside>
+	 
+ ## 🛠 해결
+    
+### 1️⃣ 브라우저 크기 변경에 따른 DropDown position 값 reset 
+    
+### 해결 코드 
+    
+```tsx
+    const [width, setWidth] = useState(window.innerWidth);
+    
+      const resizeHandler = () => {
+        setWidth(window.innerWidth);
+      };
+    
+      useEffect(() => {
+        window.addEventListener('resize', resizeHandler);
+    
+        return () => {
+          //cleanUp
+          window.removeEventListener('resize', resizeHandler);
+        };
+      }, []);
+    
+    useEffect(() => {
+    ...
+    }, [isOpen, width]);
+ ```
+    
+ 1. addEventListener()를 통해서 ‘resize’ 크기 변화를 감지한다. 
+ 2. 변화값을 useState에 넣는다.
+ 3. useState값을 position 값을 세팅해주는 useEffect dependency array에 넣어서
+ 값 변경에 따라 position 값을 reset 해주도록 한다. 
+    
+ ### 2️⃣ scroll을 고려한 DropDown position 값 설정하기 
+    
+ ```tsx
+    const { top, left, height, width } = current.getBoundingClientRect();
+    const absoluteTop = window.pageYOffset + current.getBoundingClientRect().top;
+    const absoluteLeft = window.pageXOffset + current.getBoundingClientRect().left;
+ ```
+    
+ 1. 스크롤 x, y 로 2가지 경우가 생길 수 있다는 것을 인지한다.
+ 2. 스크롤 변화값에 따른 좌표값을 `window.pageYOffset` 로 불러온다.
+ 3. 내가 기준이 잡은 좌표 top 값과 left 값에 scroll에 따른 offset값을 더해준다. 
+    
+ ### 3️⃣ Modal 창에서 DropDown, 사용 시, DropDown이 보이지 않는다.
+	 DropDown에서 Ul태그의 z-index 값을 2000 으로 설정함으로써, Modal 보다 높게 설정한다.
+    
+ ### 4️⃣ DropDown이 브라우저 범위를 벗어나게 된다면 list가 보이지 않는다. 
+    1. 브라우저의 범위를 벗어났을 때 예외처리를 생각한다.
+    - 브라우저의 범위를 벗어나게 되면 DropDown 된 List를 기준 div의 아래가 아닌 위로 나타나게 한다.
+    - 계산 방식은, 현재 브라우저의 높이값을 구한 뒤, 기준 div의 top + height 값에 list의 height 값을 
+    더 했을 때, 브라우저의 높이값보다 큰지를 확인하는 조건을 형성한다.
+    
+ ```tsx
+    if (top + height + ulCurrent.getBoundingClientRect().height > window.innerHeight
+ ```
+    
+ - 조건이 true 일 경우
+    
+ ```tsx
+     const ulHeight = ulCurrent.getBoundingClientRect().height;
+     const newTop = absoluteTop - height - ulHeight;
+     setInputPosition({ top: newTop, left: absoluteLeft, height, width });
+ ```
+    
+    조건이 true가 된다면, list가 기준 div의 아래가 아닌 위로 나타나게 해야되기 때문에 기준 top 값에서
+    높이값과 list의 높이값을 빼줌으로써  위로 나타나게 한다.
+    
+ - 조건이 false 일 경우
+    
+ ```tsx
+    setInputPosition({ top: absoluteTop, left: absoluteLeft, height, width });
+ ```
+    
+ ### 5️⃣ DropDown position값은 어떻게 설정할것인가
+    
+ ```tsx
+    const [divRef, ulRef, setIsOpen, isOpen, inputPosition] = useDropDown();
+    
+    ... 
+    
+    <styles.StInputBlock ref={divRef}>
+            {tagList?.map(item => {
+              return (
+                <styles.StTagBlock key={item}>
+                  <styles.StProfileBlock>
+                    <styles.StImageBlock />
+                    {item}
+                  </styles.StProfileBlock>
+                  {props.disable === false && (
+                    <styles.StDeleteBlock id={item} onClick={deleteClickHandler}>
+                      x
+                    </styles.StDeleteBlock>
+                  )}
+                </styles.StTagBlock>
+              );
+            })}
+            <styles.StInput
+              onMouseDown={mouseDownHandler}
+              onKeyPress={onInputKeyDownHandler}
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              disabled={props.disable}
+            />
+          </styles.StInputBlock>
+  ```
+    
+  기준이 되는 div태그의 DOM 요소에 접근할 수 있게 Ref값을 설정해 주고, 
+    
+  list가 되는 ul태그도 ref값을 설정해준다. 
+    
+  ```tsx
+    //item list 값이 바뀔때마다, 위치를 재확인한다.
+      //포탈은 position을 이용하기 때문에 위치 정보값이 필요하다.
+      // getBoundingClientRect은 해당 요소의 상태좌표값을 가져오고,
+      // 절대 좌표를 얻기 위해서는 window.pageYOffset을 더해주어야 한다.
+      useEffect(() => {
+        //input 태그를 감싸는 div
+        const { current } = divRef;
+    
+        //팀목록을 li를 감싸고 있는 UI
+        const ulCurrent = ulRef.current;
+    
+        if (current !== null && ulCurrent !== null) {
+          const { top, left, height, width } = current.getBoundingClientRect();
+          const absoluteTop = window.pageYOffset + current.getBoundingClientRect().top;
+          const absoluteLeft = window.pageXOffset + current.getBoundingClientRect().left;
+    
+          //브라우저 전체 높이값보다 input을 감싸고 있는 div 태그 + UI 높이값보다 클때, UL 태그를 위로 올리기
+          if (top + height + ulCurrent.getBoundingClientRect().height > window.innerHeight) {
+            const ulHeight = ulCurrent.getBoundingClientRect().height;
+            const newTop = absoluteTop - height - ulHeight;
+            setInputPosition({ top: newTop, left: absoluteLeft, height, width });
+          } else {
+            setInputPosition({ top: absoluteTop, left: absoluteLeft, height, width });
+          }
+        }
+      }, [isOpen, width]);
+  ```
+    
+  그다음 Ref로 설정한 요소들의 `top`,`left`,`width`,`height` 값을 가져와 `position` 값을 setting 해준 뒤 그 값을 `return` 해준다.
+    
+  </aside>
+	 
+ ---
+	 
+<aside>
+	    
+## ❓ 궁금했던 부분 
+    
+     ****현재 문제가 되고 있는 것이, `ul`태그의 `dom` 요소에 접근해서 `getBoundingClientRect()` 메서드를 통해 `ul` 태그의 높이값을 불러오고 있는데,  ****초기 태그의 높이값과 그 이후의 높이값이 다른 문제가 생겼다. 초기값의 높이값이 ul태그의 높이값만을 포함하고있는 것이 아닌, div태그와의 거리값도 포함이 되어 있어서, 
+    
+     list가 브라우저를 벗어났을때, 즉 위로 열리게 되면 문제가 생긴다.
+    
+    문제는 해결방안을 찾고 있고, 해결하는 즉시 내용을 공유할 예정이다.
+    
+    </aside>
+	    
+ </details>
+
+<details>
+<summary>비밀번호 입력에 따른 비밀번호 확인의 유효성</summary>
+
+---
+	
+### ❗ 문제 인식
+    
+![image](https://github.com/Final-Project-Team11/Meer_catlender_FE/assets/124577334/d7af8a02-d70e-4bf2-badf-99757f2753ca)
+    
+비밀번호 확인을 먼저 입력하고, 비밀번호 입력 시
+일치하는 값을 비밀번호에 입력했음에도,
+비밀번호 확인의 유효성 메세지가 사라지지 않는 문제가 발생함
+    
+---
+	
+### ❓ 원인
+    
+```tsx
+    const password = watch('password');
+    
+    ****(...)****
+    
+    <CustomLabel>
+            <Wrapper_Row>
+              비밀번호 확인&nbsp;<span style={{ color: `${COLOR.POINT_C}` }}>*</span>
+            </Wrapper_Row>
+            <CustomInput
+              inputType="signup"
+              type="password"
+              placeholder="비밀번호를 한 번 더 입력해주세요."
+              {...register('confirmPassword', {
+                required: '비밀번호 확인을 진행해주세요',
+                validate: value => value === password || '비밀번호가 일치하지 않습니다',
+              })}
+            />
+          </CustomLabel>
+          {errors.confirmPassword && <ErrorP>{errors.confirmPassword.message}</ErrorP>}
+ ```
+    
+[**React-Hook-Form 라이브러리를 사용중]**
+순서대로 비밀번호 > 비밀번호 확인 입력 시는 문제가 없지만,
+비밀번호 확인을 먼저 입력 시 해당 칸의 `입력된 값의 유효성 검사가 진행`되는데
+이때는 비밀번호 입력란이 비어 있음으로 `false로 종결`된다.
+그 후 비밀번호 입력란을 기입해도, 이미 유효성 검사는 종결되었기에,
+동일한 값을 입력해도 에러 메세지는 사라지지 않는 것
+
+---
+	    
+### 🔧 해결방안
+    
+비밀번호의 값의 변경에 따라 액션을 취해,
+비밀번호 확인의 유효성 검사를 재진행 하도록 로직 수정이 필요
+    
+---
+    
+1. 비밀번호 Input이 변경되면 비밀번호 확인 Input 초기화
+    
+```tsx
+    const password = watch('password');
+    
+    const resetPasswordCheck = () => {
+          setValue('confirmPassword', '')
+    }
+     useEffect(()=> {
+          resetPasswordCheck()
+    },[password])
+```
+    
+    추적하고 있던 비밀번호 값을, useEffect의 의존성 배열에 넣어,
+    값이 변동될 때마다, 비밀번호 확인 Input을 초기화 한다.
+    이때, 한 번의 타자마다, 리셋 함수를 계속 호출함으로 디바운싱을 사용하여,
+    
+```tsx
+    const useDebouncedEffect = (effect: () => void, delay: number, deps: string[]) => {
+        const callback = React.useRef<() => void>();
+        useEffect(() => {
+          callback.current = effect;
+        }, [effect]);
+    
+        useEffect(() => {
+          const handler = setTimeout(() => {
+            callback.current && callback.current();
+          }, delay);
+    
+          return () => {
+            clearTimeout(handler);
+          };
+        }, [...deps, delay]);
+      };
+    
+      useDebouncedEffect(resetPasswordCheck , 300, [password]);
+ ```
+    
+ 비밀번호 Input의 입력이 종료 되었을 때 설정 딜레이 후
+ 비밀번호 확인 Input을 리셋한다.
+ 하지만 비밀번호 확인 Input을 리셋하는 것이 UX를 저하시킨다고 판단되었다.
+    
+ ---
+    
+ 1. focus 상태에 따라 유효성 검사 재실행 하도록 구현
+    
+ ```tsx
+    const passwordBlur: React.FocusEventHandler<HTMLInputElement> = () => {
+        trigger('confirmPassword');
+    
+    const useDebouncedEffect = (effect: () => void, delay: number, deps: string[]) => {
+        const callback = React.useRef<() => void>();
+        useEffect(() => {
+          callback.current = effect;
+        }, [effect]);
+    
+        useEffect(() => {
+          const handler = setTimeout(() => {
+            callback.current && callback.current();
+          }, delay);
+    
+          return () => {
+            clearTimeout(handler);
+          };
+        }, [...deps, delay]);
+      };
+    
+      useDebouncedEffect(passwordBlur, 300, [password]);
+ ```
+    
+ Input을 리셋 시키는 것이 아닌 자연스러운 UX 형성을 위해
+ 비밀번호 칸의 포커스(커서가 있는 상태)가 해제 되면(다른 영역 클릭 or tab 버튼 등)
+ 비밀번호 확인의 Input 유효성 검사를 재실행해,
+ 에러 메세지가 지워지는 것은 확인 했으나, 이 또한 매끄럽지 않은 느낌을 받았다.
+    
+ ---
+    
+ 1. trigger 함수 사용
+    
+ ```tsx
+    const password = watch('password');
+    
+      const reValidPasswordCheck = () => {
+        trigger('confirmPassword');
+      };
+    
+      const useDebouncedEffect = (effect: () => void, delay: number, deps: string[]) => {
+        const callback = React.useRef<() => void>();
+        useEffect(() => {
+          callback.current = effect;
+        }, [effect]);
+    
+        useEffect(() => {
+          const handler = setTimeout(() => {
+            callback.current && callback.current();
+          }, delay);
+    
+          return () => {
+            clearTimeout(handler);
+          };
+        }, [...deps, delay]);
+      };
+    
+      useDebouncedEffect(reValidPasswordCheck, 300, [password]);
+ ```
+    
+    어떤 것이 더 자연스러운 경험일까를 고민하다가 문득,
+    유효성 검사만 한 번 더 실행시키면 되는 것을
+    너무 어렵게 접근하고 있다는 생각이 들었다.
+    
+    React-Hook-Form 공식 문서를 참고해, 유효성 검사를 수동으로 호출하는
+    내장 함수 `trigger` 를 사용하여, 간단하게 해결할 수 있던 문제였다.
+    
+    위 로직에서는 비밀번호 Input 값에 변화가 생기고, 값 변동을 마치면
+    0.3초 후 비밀번호 확인 Input의 유효성 검사를 재진행한다. 
+
+ ---
+ ### 🌈 종합
+    
+    - 문제에 대해서 가볍게 접근하는 시선 역시 필요하다고 느껴짐
+    - React-Hook-Form에는 아직 경험하지 못한 수많은 유용한 기능이 더 남아있어
+    한 번 손을 댄 이상 더 깊은 탐구가 필요하다고 느껴짐
+
+</details>
+	  
+<details>
+<summary>onClick이벤트와 onMouseDown이벤트, onBlur이벤트</summary>	
+	
+- Type별 디자인 지정
+    
+    ### ❗ 문제 인식
+    
+    ```tsx
+    export interface InputStyle {
+      [key: string]: {
+        width: string;
+        height?: string;
+        fontSize?: string;
+        boxShadow?: string;
+        border?: string;
+        padding?: string;
+        margin?: string;
+      };
+    }
+    
+    const inputStyle: InputStyle = {
+      login: {
+        width: '430px',
+        height: '50px',
+        boxShadow: '0 4px 4px rgba(201, 201, 201, 0.25)',
+        fontSize: '15px',
+        border: 'none',
+        padding: '15px',
+      },
+      signup: {
+        width: '595px',
+        height: '50px',
+        boxShadow: '0 4px 4px rgba(201, 201, 201, 0.25)',
+        fontSize: '15px',
+        border: 'none',
+        padding: '15px',
+        margin: '15px 165px 25px 0',
+      }
+    };
+    ```
+    
+    기존 type별 스타일 지정을 위해서는 필요한 props를
+    InputStyle에 하나하나 지정해주어야 하는 번거로움이 발생하기에,
+    
+    ```tsx
+    type InputStyle = {
+      [key in InputProps['types']]: React.CSSProperties;
+    };
+    
+    const inputStyle: InputStyle = {
+      login: {
+         width: '430px',
+         height: '50px',
+         boxShadow: '0 4px 4px rgba(201, 201, 201, 0.25)',
+         fontSize: '15px',
+         border: 'none',
+         padding: '15px',
+      },
+      signup: {
+         width: '595px',
+         height: '50px',
+         boxShadow: '0 4px 4px rgba(201, 201, 201, 0.25)',
+         fontSize: '15px',
+         border: 'none',
+         padding: '15px',
+         margin: '15px 165px 25px 0',
+      },
+    };
+    ```
+    
+    코드를 위와 같이 수정했다.
+    
+    interface > type으로 변경된 이유는 interface의 경우 `맵핑된 타입`을 생성할 수 없기에,
+    이미 InputProps에 ‘login’ | ‘sign’으로 매핑된 키에 새로운 타입을 지정하기 위해서는
+    type으로의 변경이 필수적이다.
+    
+    ```tsx
+    export const StColumnInput = styled.input<InputProps>`
+      ${({ types }) =>
+        types &&
+        css`
+          ${inputStyle[types]} // 오버로드 미일치 오류 발생
+        `};
+    
+      box-sizing: border-box;
+      outline: none;
+    `;
+    ```
+    
+    이후 스타일을 지정하는 부분에서 계속 타입 에러가 발생했다.
+    
+	
+    ---
+	
+    ### ❓ 원인
+    
+    styled-component를 깊이 분석하다가 발견한 점은, 해당 문제가 발생한 부분은
+    types에 따른 스타일을 지정할 때 types && css 부분에서
+    css 함수가 문자열이나 스타일 객체를 직접 받지 않고 `css구문(문자열)`을 입력받도록 설계된 함수이기 때문입니다.
+    
+    따라서 `스타일 객체`를 전달하면 타입 에러가 발생하게 됩니다.
+    
+	
+    ---
+	
+    ### 🔧 해결방안
+    
+    해결책으로는 `attrs 메서드`를 사용하는 것입니다.
+    attrs 메서드는 styled-component에서 제공하는 메서드로,
+    컴포넌트에 동적이나 정적인 `속성을 할당` 할 수 있게 해줍니다.
+    
+    따라서 attrs 메서드를 활용하면 스타일 객체를 전달할 수 있게 되며,
+    인터페이스에 스타일 속성을 추가하는 수고를 덜 수 있습니다.
+    
+    ```tsx
+    export const StInput = styled.input.attrs<InputProps>(props => ({
+    style: inputStyle[props.types],
+    }))<InputProps>`box-sizing: border-box`;
+    ```
+    
+    styled-component에 적용할 때 `attrs` 메서드를 사용해 속성을 정의하고,
+    props => ({ style: inputStyle[props.types] }) 부분에서 함수를 전달하는데,
+    `InputProps` 타입의 `props`를 인수로 받고,
+    `props.types`에 따라 `inputStyle`객체에서 스타일을 선택하고,
+    이를 `style`속성으로 지정합니다.
+    
+    ```tsx
+    export const StInput = styled.input.attrs<InputProps>(props => ({
+      style: { ...inputTypes[props.inputType], ...props.style },
+    }))<InputProps>`
+      box-sizing: border-box;
+    `;
+    ```
+    
+    추가적으로 타입별로 지정한 스타일만 사용할 경우,
+    디자인이 조금만 달라져도, 타입을 매번 만들어줘야해 `재사용성`이 저하되기에,
+    사용하는 컴포넌트에서 입력한 스타일이 최종적으로 덮어쓰게 하면서,
+    오류를 해결하였습니다.
+
+    ---
+    
+    ### 🌈 종합
+    
+    - TypeScript를 사용하기에 위와 같은 문제가 타입에러라는 것을 바로 알 수 있었습니다.
+    - 라이브러리마다 내장하고 있는 기능들에 대해서 다시 생각해보는 계기가 되었고
+    styled-component를 더 탐구하는 계기가 되었습니다.
+    - 재사용성과 코드 간소화에 대해서 고민해보는 계기가 되었습니다.
+	
+</details>
+	
+<summary>성능개선</summary>	
+</details>	
+	    
 <details>
   <summary style="font-size: 20px;">BE</summary>
   <details>
@@ -549,7 +1565,5 @@ schedules.map((schedule) => {
 
 ![mypage-3 PNG (1)](https://github.com/Final-Project-Team11/Meer_catlender_FE/assets/70690690/a75403d7-3b02-4e16-8489-d093fd501e6c)
 
-
-  </details>
-
+</details>
 </details>
